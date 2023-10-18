@@ -1,10 +1,10 @@
 # Enhanced Traceability System
 
-# Client Needs:
+## Client Needs:
 From the brief:
-"For the system to be workable we will require a lot of background systems which will include:
-Recipe system\n
-Approved supplier system\n
+>For the system to be workable we will require a lot of background systems which will include:
+>Recipe system\n
+>Approved supplier system\n
 Stock control system
 Production planning system
 Raw material specification system.
@@ -16,4 +16,4 @@ Line throughput standards
 Give away at every stage of production.
 Losses at every stage of the product
 We will also require a deviation report
-At the end of the project, we would the solution to be closed source."
+At the end of the project, we would the solution to be closed source.
