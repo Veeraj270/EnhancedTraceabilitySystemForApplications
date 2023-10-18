@@ -3,7 +3,7 @@
 ## Client Needs:
 From the brief:
 >For the system to be workable we will require a lot of background systems which will include:
-Recipe system\n
+Recipe system<br>
 Approved supplier system\n
 Stock control system
 Production planning system
