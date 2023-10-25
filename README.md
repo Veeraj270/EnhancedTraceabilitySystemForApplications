@@ -17,3 +17,13 @@ Give away at every stage of production.<br>
 Losses at every stage of the product<br>
 We will also require a deviation report<br>
 At the end of the project, we would the solution to be closed source.
+
+## MVP
+A simple stock control system that stores information about a product at every stage of it's production. Can be database initially without a UI for now. Some statistics for direcgors.
+
+## User Stories
+### Employee
+
+### Manager
+
+### Directors
