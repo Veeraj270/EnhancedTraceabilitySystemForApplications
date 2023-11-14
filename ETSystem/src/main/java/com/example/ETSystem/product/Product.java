@@ -39,13 +39,19 @@ public class Product {
     )
     private Integer maxQuantity;
 
+    @Column(name="intermediaries_id")
     @ElementCollection(targetClass = Long.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "intermediaries", joinColumns = @JoinColumn(name = "product_id"))
-    private List<Long> intermediaries = new ArrayList<>();
+    @CollectionTable(name = "intermediaries_id", joinColumns = @JoinColumn(name = "product_id"))
+    private List<Long> intermediariesId = new ArrayList<>();
 
-    public Product(String label, List<Long> intermediaries) {
+
+    @Transient
+    private List<Product>  intermediaries = new ArrayList<>();
+
+    public Product(String label, Integer maxQuantity, List<Long> intermediariesId) {
         this.label = label;
-        this.intermediaries = intermediaries;
+        this.maxQuantity = maxQuantity;
+        this.intermediariesId = intermediariesId;
     }
 
     public Product(String label, Integer maxQuantity) {
@@ -66,8 +72,8 @@ public class Product {
         return label;
     }
 
-    public List<Long> getIntermediaries() {
-        return intermediaries;
+    public List<Long> getIntermediariesId() {
+        return intermediariesId;
     }
 
     public Integer getMaxQuantity() {
@@ -80,7 +86,7 @@ public class Product {
     }
 
     public void setIntermediaries(List<Long> intermediaries) {
-        this.intermediaries = intermediaries;
+        this.intermediariesId = intermediariesId;
     }
 
     public void setMaxQuantity(Integer maxQuantity) {

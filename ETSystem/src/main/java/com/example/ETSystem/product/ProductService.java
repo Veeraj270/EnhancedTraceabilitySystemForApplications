@@ -1,5 +1,6 @@
 package com.example.ETSystem.product;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +13,21 @@ public class ProductService {
     @Autowired
     public ProductService(ProductRepository productRepository){
         this.productRepository = productRepository;
+
     }
 
-    public List<Product> getStudents(){
-        return productRepository.findAll();
+    public List<Product> getProducts(){
+        List<Product> products =  productRepository.findAll();
+
+        return products;
+    }
+
+    public void addNewProduct(Product product) {
+        for (Long productId : product.getIntermediariesId()){
+            if (!productRepository.existsById(productId)){
+                throw new IllegalArgumentException("At least one of the intermediaries of the new product does not exist");
+            }
+        }
+        this.productRepository.save(product);
     }
 }

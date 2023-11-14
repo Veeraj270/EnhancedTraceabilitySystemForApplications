@@ -1,14 +1,12 @@
 package com.example.ETSystem.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/product")
+@RequestMapping(path = "api/products")
 public class ProductAPI {
     private final ProductService productService;
 
@@ -19,6 +17,12 @@ public class ProductAPI {
 
     @GetMapping
     public List<Product> getProducts(){
-        return productService.getStudents();
+        return productService.getProducts();
+    }
+
+    @PostMapping(path = "/add")
+    public Product addProduct(@RequestBody Product newProduct){
+        productService.addNewProduct(newProduct);
+        return newProduct;
     }
 }
