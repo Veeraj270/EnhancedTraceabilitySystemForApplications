@@ -1,9 +1,6 @@
 package com.example.ETSystem.timeline;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -15,6 +12,8 @@ public non-sealed class MoveEvent implements TimelineEvent{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private long timestamp;
+	@ManyToOne
+	private TimelineOwner owner;
 	
 	public long getId(){
 		return id;
@@ -32,7 +31,15 @@ public non-sealed class MoveEvent implements TimelineEvent{
 		this.timestamp = timestamp;
 	}
 	
-	public static interface Repository extends JpaRepository<MoveEvent, Long>{
+	public TimelineOwner getOwner(){
+		return owner;
+	}
+	
+	public void setOwner(TimelineOwner owner){
+		this.owner = owner;
+	}
+	
+	public interface Repository extends JpaRepository<MoveEvent, Long>{
 		
 		List<MoveEvent> findAllByOrderByTimestampAsc();
 	}
