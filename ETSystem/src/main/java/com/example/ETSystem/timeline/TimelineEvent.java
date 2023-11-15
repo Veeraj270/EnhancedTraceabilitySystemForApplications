@@ -1,6 +1,6 @@
 package com.example.ETSystem.timeline;
 
-public interface TimelineEvent{
+public sealed interface TimelineEvent permits CreateEvent, MoveEvent, UseEvent{
 
 	public long getTimestamp();
 }

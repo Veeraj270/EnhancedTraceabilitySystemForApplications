@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 @Entity
-public class MoveEvent implements TimelineEvent{
+public non-sealed class MoveEvent implements TimelineEvent{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
