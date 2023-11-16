@@ -1,0 +1,25 @@
+name: Bug Report
+description: Report a bug
+projects: ["spe-uob/141"]
+body:
+  - type: textarea
+    attributes:
+      label: Observed Behaviour
+      description: The unexpected or buggy behaviour you've found.
+  - type: textarea
+    attributes:
+      label: Expected Behaviour
+      description: The behaviour you expect to see.
+  - type: textarea
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce this behaviour.
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+  - type: textarea
+    attributes:
+      label: Other Comments
+    validations:
+      required: false
