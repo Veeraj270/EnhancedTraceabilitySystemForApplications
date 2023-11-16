@@ -1,6 +1,9 @@
 name: Feature
 description: Plan a feature
-projects: ["spe-uob/141"]
+projects:
+  - "spe-uob/141"
+labels:
+  - enhancement
 body:
   - type: textarea
     attributes:

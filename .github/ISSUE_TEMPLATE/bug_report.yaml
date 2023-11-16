@@ -1,6 +1,9 @@
 name: Bug Report
 description: Report a bug
-projects: ["spe-uob/141"]
+projects:
+  - "spe-uob/141"
+labels:
+  - bug
 body:
   - type: textarea
     attributes:
