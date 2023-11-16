@@ -1,5 +1,6 @@
 name: Feature
 description: Plan a feature
+projects: ["spe-uob/141"]
 body:
   - type: textarea
     attributes:
