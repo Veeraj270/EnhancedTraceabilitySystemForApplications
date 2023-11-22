@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public non-sealed class MoveEvent implements TimelineEvent{
@@ -11,9 +12,18 @@ public non-sealed class MoveEvent implements TimelineEvent{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	@Column(name = "timestamp", nullable = false)
 	private long timestamp;
 	@ManyToOne
+	@JoinColumn(name = "owner", nullable = false)
 	private TimelineOwner owner;
+	
+	public MoveEvent(){}
+	
+	public MoveEvent(long timestamp, TimelineOwner owner){
+		this.timestamp = timestamp;
+		this.owner = owner;
+	}
 	
 	public long getId(){
 		return id;
@@ -39,8 +49,16 @@ public non-sealed class MoveEvent implements TimelineEvent{
 		this.owner = owner;
 	}
 	
-	public interface Repository extends JpaRepository<MoveEvent, Long>{
-		
-		List<MoveEvent> findAllByOrderByTimestampAsc();
+	public String toString(){
+		return "MoveEvent[id=" + id + ", ownerId=" + owner.getId() + ", timestamp=" + timestamp + "]";
+	}
+	
+	public boolean equals(Object o){
+		return this == o ||
+			o instanceof MoveEvent event && id == event.id && timestamp == event.timestamp && Objects.equals(owner, event.owner);
+	}
+	
+	public int hashCode(){
+		return Objects.hash(id, timestamp, owner);
 	}
 }

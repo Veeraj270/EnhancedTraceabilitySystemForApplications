@@ -1,20 +1,23 @@
 package com.example.ETSystem.timeline;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
+import java.util.Comparator;
 import java.util.stream.Stream;
 
-@Service
+@Component
 public class TimelineService{
 	
-	private final CreateEvent.Repository createRepo;
-	private final MoveEvent.Repository moveRepo;
-	private final UseEvent.Repository useRepo;
+	public final CreateEventRepository createRepo;
+	public final MoveEventRepository moveRepo;
+	public final UseEventRepository useRepo;
+	public final TimelineOwnerRepository ownerRepo;
 	
-	public TimelineService(CreateEvent.Repository createRepo, MoveEvent.Repository moveRepo, UseEvent.Repository useRepo){
+	public TimelineService(CreateEventRepository createRepo, MoveEventRepository moveRepo, UseEventRepository useRepo, TimelineOwnerRepository ownerRepo){
 		this.createRepo = createRepo;
 		this.moveRepo = moveRepo;
 		this.useRepo = useRepo;
+		this.ownerRepo = ownerRepo;
 	}
 	
 	public Stream<TimelineEvent> findAll(){
@@ -23,5 +26,20 @@ public class TimelineService{
 				moveRepo.findAll().stream()),
 				useRepo.findAll().stream()
 		);
+	}
+	
+	public Stream<TimelineEvent> findAllSorted(){
+		return findAll().sorted(Comparator.comparingLong(TimelineEvent::getTimestamp));
+	}
+	
+	public TimelineEvent save(TimelineEvent in){
+		// JDK 21 when
+		if(in instanceof CreateEvent ce)
+			return createRepo.save(ce);
+		else if(in instanceof UseEvent ue)
+			return useRepo.save(ue);
+		else if(in instanceof MoveEvent me)
+			return moveRepo.save(me);
+		throw new IncompatibleClassChangeError("Unsupported new subclass of sealed interface " + in.getClass().getName());
 	}
 }
