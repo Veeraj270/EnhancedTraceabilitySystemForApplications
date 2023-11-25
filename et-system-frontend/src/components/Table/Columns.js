@@ -5,15 +5,20 @@ const Columns = [
     },
     {
         Header: 'Product',
-        accessor: 'product_name'
+        accessor: 'label'
     },
     {
-        Header: 'Quantity',
-        accessor: 'quantity'
-
+        Header: 'Current Quantity',
+        accessor: 'currentQuantity'
     },
     {
-        Header: 'Date of Production',
-        accessor: 'date_produced',
-    }
+        Header: 'Max Quantity',
+        accessor: 'maxQuantity'
+    },
+    {
+        Header: 'Intermediaries',
+        accessor: 'intermediariesId'
+    },
 ]
+
+export default Columns

@@ -1,7 +1,10 @@
+import BasicTable from '../components/Table/BasicTable'
+
 const ProductsPage = () => {
     return (
         <div className='page'>
             <h1>Products</h1>
+            <BasicTable/>
         </div>
     )
 }

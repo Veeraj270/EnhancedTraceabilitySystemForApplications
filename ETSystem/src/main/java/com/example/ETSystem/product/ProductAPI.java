@@ -5,8 +5,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping(path = "api/products")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ProductAPI {
     private final ProductService productService;
 
@@ -15,7 +17,7 @@ public class ProductAPI {
         this.productService = productService;
     }
 
-    @GetMapping
+    @GetMapping(path = "/fetch-products")
     public List<Product> getProducts(){
         return productService.getProducts();
     }
