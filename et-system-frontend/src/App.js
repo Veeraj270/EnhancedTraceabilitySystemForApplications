@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+
+import './index.css';
+import Sidebar from './components/Sidebar'
+import HomePage from './Pages/HomePage'
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
+import ProductsPage from "./Pages/ProductsPage";
+import TraceabilityPage from "./Pages/TraceabilityPage";
+import HelpPage from "./Pages/HelpPage";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <Router>
+            <div className="container">
+                <Sidebar/>
+                <Routes>
+                    <Route path={"/"} element={<HomePage/>}>
+
+                    </Route>
+                    <Route path={"/products"} element={<ProductsPage/>} >
+
+                    </Route>
+                    <Route path={"/traceability"} element={<TraceabilityPage/>}>
+
+                    </Route>
+                    <Route path={"/help"} element={<HelpPage/>}>
+
+                    </Route>
+                </Routes>
+
+            </div>
+        </Router>
+    )
 }
 
-export default App;
+export default App
