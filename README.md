@@ -16,7 +16,7 @@ A simple stock control system that stores information about a product at every s
 - As a warehouse worker, I want a delivery database, so I can track deliveries. <br>
 - As a manager, I want an approved supplier system, so I can insert suppliers and incoming deliveries.
 
-## Development Instructions
+## Developer Instructions
 ### Starting Database
 
 **Prerequisites**
