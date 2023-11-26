@@ -15,3 +15,6 @@ A simple stock control system that stores information about a product at every s
 - As a baker, I want a recipe system, so I can enhance my baking process. <br>
 - As a warehouse worker, I want a delivery database, so I can track deliveries. <br>
 - As a manager, I want an approved supplier system, so I can insert suppliers and incoming deliveries.
+
+## Development Instructions
+```code```
