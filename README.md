@@ -17,4 +17,49 @@ A simple stock control system that stores information about a product at every s
 - As a manager, I want an approved supplier system, so I can insert suppliers and incoming deliveries.
 
 ## Development Instructions
-```code```
+### Starting Database
+
+**Prerequisites**
+
+- Docker Engine: <a name="docker-engine">https://docs.docker.com/engine/install/</a>
+  
+**Instructions**
+
+Pull the postgres image:
+
+```docker pull postgres```
+
+Create docker network to attatch containers to:
+
+```docker network create --subnet=172.18.0.0/16 mynet```
+
+Create postgres container with the relevant environment variables that is attatched to the mynet network:
+
+```docker run -d --ip 172.18.0.2 -p 5432:5432 -e POSTGRES_PASSWORD=admin -e POSTGRES_USER=admin -e POSTGRES_DB=etsystemdatabase --name=postgres_con postgres```
+
+**Useful docker commands**
+
+Inspect a container:
+
+```docker inspect <container>```
+
+Remove all containers from docker:
+
+``` docker rm -f $(docker ps -aq)```
+
+Remove a network from docker:
+
+```docker network remove <name of network>```
+
+### Starting Backend
+
+- Navigate to /ETSystem
+- Clean the build directory and then build the project from scratch:  ```./gradlew clean build```
+- Run ETSystem via: ```./gradlew bootRun```
+- The back end should now be running
+
+### Starting the Front-End
+- Navigate to /et-system-front-end.
+- Run ``` npm install``` to install required dependencies.
+- Run ``` npm start``` to launch graphical user interface.
+
