@@ -18,7 +18,6 @@ public class ProductService {
 
     public List<Product> getProducts(){
         List<Product> products =  productRepository.findAll();
-
         return products;
     }
 
