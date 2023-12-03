@@ -1,9 +1,14 @@
-version: '2'
+version: '3.8'
 
 services:
-  app:
+  frontend:
+    build: ../et-system-frontend/
+    container_name: frontend
+    depends_on:
+      - backend
+  backend:
     build: ../ETSystem/
-    container_name: app
+    container_name: backend
     depends_on:
       - db
     environment:
