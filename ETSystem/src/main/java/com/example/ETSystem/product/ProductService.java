@@ -2,11 +2,11 @@ package com.example.ETSystem.product;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Service //Marks this class as service provider
+@Component //Marks this class as service provider
 public class ProductService {
     private final ProductRepository productRepository;
 

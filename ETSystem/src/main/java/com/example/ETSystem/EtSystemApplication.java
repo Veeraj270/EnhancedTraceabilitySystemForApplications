@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.List;
 
 @SpringBootApplication
-@EnableJpaRepositories("com.example.ETSystem.timeline")
 public class EtSystemApplication {
 
 	public static void main(String[] args) {
