@@ -40,3 +40,32 @@ code {
   padding-right: 50px;
   overflow: auto;
 }
+
+/*Styling related to traceability page*/
+.traceability-page{
+  background-color: whitesmoke;
+  width: auto;
+  height: auto;
+  padding-left:  50px;
+  padding-right: 50px;
+  overflow: auto;
+}
+
+.search-bar-container{
+  padding-top: 20vh;
+  width: 40%;
+  margin: 0px;
+  padding-bottom: 10px;
+  padding-top:  10px;
+}
+
+.data-container{
+  display: flex;
+  flex-direction: column;
+  background-color: lightblue;
+  width: 400px;
+  height: 85%;
+  border-radius: .5rem;
+  padding: 10px;
+
+}

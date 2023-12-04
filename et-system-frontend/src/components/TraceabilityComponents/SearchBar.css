@@ -1,0 +1,22 @@
+.input-wrapper {
+    display: flex;
+    background-color: snow;
+    width: 500px;
+    height: 40px;
+    border-radius: 2.5rem;
+    padding: 0 15px;
+    align-items: center;
+}
+
+.search-bar-input{
+    background-color: transparent;
+    height: 70%;
+    width: 100%;
+    border: none;
+    font-size: 1.25rem;
+}
+
+.search-bar-input:focus{
+    outline: none
+;
+}

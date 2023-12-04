@@ -22,6 +22,18 @@ public class ProductAPI {
         return productService.getProducts();
     }
 
+
+    @GetMapping(path = "/fetch-product-intermediaries/{id}")
+    public List<Product> getProductIntermediaries(@PathVariable("id") String id){
+        //NEEDS WORK
+        System.out.println("getProductIntermediaries request received");
+        System.out.println(id);
+
+        Long ID_long = Long.parseLong(id);
+        return productService.getProductIntermediaries(ID_long);
+    }
+
+
     @PostMapping(path = "/add")
     public Product addProduct(@RequestBody Product newProduct){
         productService.addNewProduct(newProduct);
