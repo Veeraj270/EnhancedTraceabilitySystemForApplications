@@ -1,10 +1,16 @@
 import SearchBar from "../components/TraceabilityComponents/SearchBar";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Product from "../components/TraceabilityComponents/Product.tsx";
 
 const TraceabilityPage = () => {
     const [ data, setData ] = useState([])
     const [ root, setRoot] = useState(null)
+    const [ selectedProduct, setSelectedProduct ] = useState(null)
+    const [ selectedProductLabel, setSelectedProductLabel ] = useState(null)
+
+    useEffect(() => {
+
+    }, [selectedProduct])
 
     const getData = (data) => {
         setData(data);
@@ -15,10 +21,15 @@ const TraceabilityPage = () => {
         }
     }
 
+    const clickHandler =  (event, data) => {
+        console.log("divClicked()" + data.label)
+        setSelectedProduct(data)
+        event.stopPropagation()
+    }
+
     const buildGraph = (data) => {
         let nodes = new Array()
         data.reverse().forEach((product, counter) => {
-            // const parentID = product.parentID
             const currentNode = new Node(product)
 
             //Add to nodes array
@@ -47,12 +58,11 @@ const TraceabilityPage = () => {
     }
 
     const RecursiveBuild = (node, depth) => {
-        console.log("RecursiveBuild - depth: " + depth + ` ${node.data.label}`)
         ///Base case
         if (node.children.length === 0){
             //Return html for label
             return(
-                <div style={{ marginLeft: depth * 20 + "px"}} className={`depth-${depth}`}>
+                <div id={node.data.id} style={{ marginLeft: depth * 20 + "px"}} className={`depth-${depth}`} onClick={(e) => clickHandler(e, node.data)}>
                     <p>{`Label: ${node.data.label}`}</p>
                 </div>
             )
@@ -61,7 +71,7 @@ const TraceabilityPage = () => {
             //Recursive case
             depth ++
             return(
-                <div style={{ marginLeft: (depth-1) * 20 + "px"}} className={`depth-${depth-1}`} >
+                <div id={node.data.id} style={{ marginLeft: (depth-1) * 20 + "px"}} className={`depth-${depth-1}`} onClick={(e) => clickHandler(e, node.data)}>
                     <p>{`Label: ${node.data.label}`}</p>
                     {node.children.map((child) => (RecursiveBuild(child, depth))).reverse()}
                 </div>
@@ -84,7 +94,7 @@ const TraceabilityPage = () => {
                     }
                 </div>
                 <div className='product-history-container'>
-                    <h3>Product History</h3>
+                    <h3>{`Product History of ${selectedProduct ? selectedProduct.label + " UID: " + selectedProduct.id: " "}`}</h3>
                 </div>
             </div>
 
