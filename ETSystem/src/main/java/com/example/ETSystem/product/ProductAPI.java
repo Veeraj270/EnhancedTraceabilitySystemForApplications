@@ -30,7 +30,11 @@ public class ProductAPI {
         System.out.println(id);
 
         Long ID_long = Long.parseLong(id);
-        return productService.getProductIntermediaries(ID_long);
+        List<Product> list =  productService.getProductIntermediaries(ID_long);
+        for (Product product : list){
+            System.out.println(product.getParentID());
+        }
+        return list;
     }
 
 

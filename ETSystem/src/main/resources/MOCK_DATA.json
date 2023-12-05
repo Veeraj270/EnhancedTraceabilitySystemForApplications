@@ -3,7 +3,7 @@
     "label": "Chocolate Cake",
     "maxQuantity": 5,
     "currentQuantity": 2,
-    "intermediariesId": [1, 2, 3, 11]
+    "intermediariesId": [5, 3, 4,6 , 11]
   },
   {
     "label": "Vanilla Cake",

@@ -39,26 +39,24 @@ public class ProductService {
         Product root = productRepository.findById(id).get();
         List<Product> intermediaries = new ArrayList<>();
 
-        recursiveSearch(root, intermediaries);
+        recursiveSearch(root, intermediaries, null);
 
         return intermediaries;
     }
 
-    public void recursiveSearch(Product product, List<Product> intermediaries){
+    public void recursiveSearch(Product product, List<Product> intermediaries, Product parent){
         List<Long> I = product.getIntermediariesId();
 
-        //Base case
-        if (I.isEmpty()){
-            //Add itself to intermediaries
-            intermediaries.add(product);
-        }
         //Recursive case
-        else{
+        if(!I.isEmpty()){
             for (Long id : I){
                 Product p = productRepository.findById(id).get();
-                recursiveSearch(p, intermediaries);
+                recursiveSearch(p, intermediaries, product);
             }
-            intermediaries.add(product);
+        }
+        intermediaries.add(product);
+        if (parent != null){
+            product.setParentID(parent.getId());
         }
     }
 }
