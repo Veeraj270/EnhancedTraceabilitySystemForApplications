@@ -31,6 +31,14 @@ public class Ingredient{
     )
     private String label;
 
+    public Ingredient(String label) {
+        this.label = label;
+    }
+
+    public Ingredient() {
+
+    }
+
     public Long getId() {
         return id;
     }

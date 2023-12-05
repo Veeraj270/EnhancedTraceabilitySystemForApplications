@@ -2,12 +2,10 @@ package com.example.ETSystem.recipe;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
-@SuppressWarnings("JpaAttributeTypeInspection")
 @Table(
         name = "recipes"
 )
@@ -37,8 +35,20 @@ public class Recipe {
     )
     private String label;
 
+    // IngredientQuantity contains the quantity and the Ingredient
+    // cascade = CascadeType.ALL makes sure when making a Recipe object,
+    // the appropriate IngredientQuantity objects are made as well
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<IngredientQuantity> ingredients;
+
+    public Recipe(String label, List<IngredientQuantity> ingredients) {
+        this.label = label;
+        this.ingredients = ingredients;
+    }
+
+    public Recipe() {
+
+    }
 
     public Long getId() {
         return id;
