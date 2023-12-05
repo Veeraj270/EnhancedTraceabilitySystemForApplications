@@ -1,5 +1,6 @@
 package com.example.ETSystem.timeline;
 
+import com.example.ETSystem.product.Product;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +17,7 @@ class TimelineServiceTest{
 	
 	@Test
 	void testRoundtrip(){
-		TimelineOwner owner = service.ownerRepo.save(new TimelineOwner());
+		Product owner = service.ownerRepo.save(new Product("", 1, 1));
 		var e2 = service.save(new CreateEvent(1, owner));
 		var e3 = service.save(new MoveEvent(2, owner));
 		var e1 = service.save(new CreateEvent(0, owner));

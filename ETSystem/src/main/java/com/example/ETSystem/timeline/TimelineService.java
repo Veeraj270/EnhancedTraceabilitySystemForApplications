@@ -1,5 +1,6 @@
 package com.example.ETSystem.timeline;
 
+import com.example.ETSystem.product.ProductRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
@@ -11,9 +12,9 @@ public class TimelineService{
 	public final CreateEventRepository createRepo;
 	public final MoveEventRepository moveRepo;
 	public final UseEventRepository useRepo;
-	public final TimelineOwnerRepository ownerRepo;
+	public final ProductRepository ownerRepo;
 	
-	public TimelineService(CreateEventRepository createRepo, MoveEventRepository moveRepo, UseEventRepository useRepo, TimelineOwnerRepository ownerRepo){
+	public TimelineService(CreateEventRepository createRepo, MoveEventRepository moveRepo, UseEventRepository useRepo, ProductRepository ownerRepo){
 		this.createRepo = createRepo;
 		this.moveRepo = moveRepo;
 		this.useRepo = useRepo;
