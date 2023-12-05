@@ -51,6 +51,9 @@ public class Product {
     @CollectionTable(name = "intermediaries_id", joinColumns = @JoinColumn(name = "product_id"))
     private List<Long> intermediariesId = new ArrayList<>();
 
+    @Transient
+    private Long parentID;
+
 
     public Product(String label, Integer maxQuantity, List<Long> intermediariesId) {
         this.label = label;
@@ -89,6 +92,10 @@ public class Product {
         return currentQuantity;
     }
 
+    public Long getParentID() {
+        return this.parentID;
+    }
+
     //Setters
     public void setLabel(String label) {
         this.label = label;
@@ -104,6 +111,10 @@ public class Product {
 
     public void setCurrentQuantity(Integer currentQuantity) {
         this.currentQuantity = currentQuantity;
+    }
+  
+    public void setParentID(Long id){
+        this.parentID = id;
     }
     
     public boolean equals(Object obj){
