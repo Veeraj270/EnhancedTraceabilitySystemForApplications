@@ -1,9 +1,8 @@
 package com.example.ETSystem.timeline;
 
+import com.example.ETSystem.product.Product;
 import jakarta.persistence.*;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -16,11 +15,11 @@ public non-sealed class CreateEvent implements TimelineEvent{
 	private long timestamp;
 	@ManyToOne
 	@JoinColumn(name = "owner", nullable = false)
-	private TimelineOwner owner;
+	private Product owner;
 	
 	public CreateEvent(){}
 	
-	public CreateEvent(long timestamp, TimelineOwner owner){
+	public CreateEvent(long timestamp, Product owner){
 		this.timestamp = timestamp;
 		this.owner = owner;
 	}
@@ -41,11 +40,11 @@ public non-sealed class CreateEvent implements TimelineEvent{
 		this.timestamp = timestamp;
 	}
 	
-	public TimelineOwner getOwner(){
+	public Product getOwner(){
 		return owner;
 	}
 	
-	public void setOwner(TimelineOwner owner){
+	public void setOwner(Product owner){
 		this.owner = owner;
 	}
 	

@@ -4,8 +4,9 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-import static jakarta.persistence.GenerationType.*;
+import static jakarta.persistence.GenerationType.SEQUENCE;
 @Table(
         name = "product"
 )
@@ -111,9 +112,17 @@ public class Product {
     public void setCurrentQuantity(Integer currentQuantity) {
         this.currentQuantity = currentQuantity;
     }
+  
     public void setParentID(Long id){
         this.parentID = id;
     }
-
+    
+    public boolean equals(Object obj){
+        return obj instanceof Product other && Objects.equals(other.id, id);
+    }
+    
+    public int hashCode(){
+        return id.hashCode();
+    }
 }
 
