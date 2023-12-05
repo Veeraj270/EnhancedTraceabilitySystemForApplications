@@ -31,8 +31,8 @@ public class EtSystemApplication {
 		return args -> {
 			ObjectMapper objectMapper = new ObjectMapper();
 
-			Resource mock_data = new ClassPathResource("MOCK_DATA.json");
-			byte[] bytes = FileCopyUtils.copyToByteArray(mock_data.getInputStream());
+
+			byte[] bytes = EtSystemApplication.class.getClassLoader().getResourceAsStream("MOCK_DATA.json").readAllBytes();
 			String string = new String(bytes, StandardCharsets.UTF_8);
 			List<Product> products = objectMapper.readValue(string, new TypeReference<List<Product>>() {});
 

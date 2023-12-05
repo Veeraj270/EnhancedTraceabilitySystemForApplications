@@ -59,13 +59,57 @@ code {
   padding-top:  10px;
 }
 
+.grid{
+  display: grid;
+  grid-template-columns: 500px 1fr;
+  grid-column-gap: 40px;
+  height: 100%;
+}
+
+.grid h3{
+  font-weight: bold;
+  font-size: 20px;
+  margin: 10px 0px 10px 0px;
+}
+.product-history-container{
+  grid-column: 2;
+  background-color: powderblue;
+  padding: 10px;
+  border-radius: .5rem;
+}
 .data-container{
+  grid-column: 1;
   display: flex;
   flex-direction: column;
-  background-color: lightblue;
-  width: 400px;
+  background-color: powderblue;
+  width: 500px;
   height: 85%;
   border-radius: .5rem;
   padding: 10px;
-
 }
+
+.depth-0{
+  font-size: 20px;
+}
+
+.depth-0 p{
+  background-color: aliceblue;
+  padding: 10px;
+  border-radius: 0.5rem;
+}
+
+
+.depth-1 p{
+  background-color: aliceblue;
+  border-radius: .5rem;
+  padding: 10px;
+}
+
+.depth-1 p:hover{
+  background-color: whitesmoke;
+}
+.depth-1{
+  font-size: 20px;
+  font-weight: normal;
+}
+
