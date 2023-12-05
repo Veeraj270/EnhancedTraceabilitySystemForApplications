@@ -1,3 +1,5 @@
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
 plugins {
 	java
 	id("org.springframework.boot") version "3.1.5"
@@ -26,15 +28,6 @@ tasks.withType<Test> {
 	useJUnitPlatform()
 }
 
-tasks.register<Jar>("fatJar") {
-	archiveBaseName = "ETSystemFull"
-	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-	from(configurations.runtimeClasspath.get().map {if(it.isDirectory) it else zipTree(it)})
-	with(tasks.jar.get() as CopySpec)
-}
-
-tasks.withType<Jar> {
-	manifest {
-		attributes("Main-Class" to "com.example.ETSystem.EtSystemApplication")
-	}
+tasks.named<BootJar>("bootJar") {
+	archiveClassifier.set("boot")
 }
