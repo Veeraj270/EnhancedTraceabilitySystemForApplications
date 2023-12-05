@@ -61,7 +61,7 @@ code {
 
 .grid{
   display: grid;
-  grid-template-columns: 500px 1fr;
+  grid-template-columns: 450px 1fr;
   grid-column-gap: 40px;
   height: 100%;
 }
@@ -83,7 +83,7 @@ code {
   display: flex;
   flex-direction: column;
   background-color: powderblue;
-  width: 500px;
+  width: 450px;
   height: 85%;
   border-radius: .5rem;
   padding: 10px;

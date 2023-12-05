@@ -68,7 +68,7 @@ const TraceabilityPage = () => {
             //Return html for label
             return(
                 <div
-                     style={{ marginLeft: 20 + "px"}}
+                     style={(depth == 0) ? {marginLeft: 0 + "px"} :{marginLeft: 20 + "px"}}
                      className={(node.data.id === selectedProduct.id) ? `depth-${depth}-selected` :`depth-${depth}`}
                      onClick={(e) => clickHandler(e, node.data)}>
                     <p>{`Label: ${node.data.label}`}</p>
@@ -80,7 +80,7 @@ const TraceabilityPage = () => {
             depth ++
             console.log("node.data.id : " + node.data.id)
             return(
-                <div style={{ marginLeft: 20 + "px"}}
+                <div style={(depth == 1) ? {marginLeft: 0 + "px"} :{marginLeft: 20 + "px"}}
                      className={(node.data.id === selectedProduct.id) ? `depth-${depth-1}-selected` :`depth-${depth}`}
                      onClick={(e) => clickHandler(e, node.data)}>
                     <p>{`Label: ${node.data.label}`}</p>

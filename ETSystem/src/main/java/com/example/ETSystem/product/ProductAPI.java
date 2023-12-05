@@ -1,5 +1,6 @@
 package com.example.ETSystem.product;
 
+import com.example.ETSystem.timeline.TimelineEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,6 @@ public class ProductAPI {
         return productService.getProducts();
     }
 
-
     @GetMapping(path = "/fetch-product-intermediaries/{id}")
     public List<Product> getProductIntermediaries(@PathVariable("id") String id){
         //NEEDS WORK
@@ -37,6 +37,11 @@ public class ProductAPI {
         return list;
     }
 
+    @GetMapping(path = "/fetch-product-history/{id}")
+    public List<TimelineEvent> getProductHistory(@PathVariable("id") String id){
+        Long ID_long = Long.parseLong(id);
+        return productService.getProductHistory(ID_long);
+    }
 
     @PostMapping(path = "/add")
     public Product addProduct(@RequestBody Product newProduct){
