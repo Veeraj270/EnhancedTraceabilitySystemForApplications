@@ -1,9 +1,11 @@
 package com.example.ETSystem.timeline;
 
+import com.example.ETSystem.product.Product;
 import com.example.ETSystem.product.ProductRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 @Component
@@ -31,6 +33,14 @@ public class TimelineService{
 	
 	public Stream<TimelineEvent> findAllSorted(){
 		return findAll().sorted(Comparator.comparingLong(TimelineEvent::getTimestamp));
+	}
+	
+	public Stream<TimelineEvent> findAllByProduct(Product p){
+		return findAll().filter(x -> Objects.equals(x.getOwner(), p));
+	}
+	
+	public Stream<TimelineEvent> findAllByProductSorted(Product p){
+		return findAllByProduct(p).sorted(Comparator.comparingLong(TimelineEvent::getTimestamp));
 	}
 	
 	public TimelineEvent save(TimelineEvent in){
