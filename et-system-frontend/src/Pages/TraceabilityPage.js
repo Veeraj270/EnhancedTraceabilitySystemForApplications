@@ -24,7 +24,11 @@ const TraceabilityPage = () => {
     }
 
     const clickHandler =  (event, data, ) => {
-        setSelectedProduct(data)
+        if (selectedProduct === data){
+            setSelectedProduct(defaultProduct)
+        }else{
+            setSelectedProduct(data)
+        }
         event.stopPropagation()
     }
 
@@ -65,7 +69,7 @@ const TraceabilityPage = () => {
             return(
                 <div
                      style={{ marginLeft: 20 + "px"}}
-                     className={(node.data.id === selectedProduct.id) ? `depth-${depth-1}-selected` :`depth-${depth-1}`}
+                     className={(node.data.id === selectedProduct.id) ? `depth-${depth}-selected` :`depth-${depth}`}
                      onClick={(e) => clickHandler(e, node.data)}>
                     <p>{`Label: ${node.data.label}`}</p>
                 </div>
@@ -77,7 +81,7 @@ const TraceabilityPage = () => {
             console.log("node.data.id : " + node.data.id)
             return(
                 <div style={{ marginLeft: 20 + "px"}}
-                     className={(node.data.id === selectedProduct.id) ? `depth-${depth-1}-selected` :`depth-${depth-1}`}
+                     className={(node.data.id === selectedProduct.id) ? `depth-${depth-1}-selected` :`depth-${depth}`}
                      onClick={(e) => clickHandler(e, node.data)}>
                     <p>{`Label: ${node.data.label}`}</p>
                     {node.children.map((child) => (RecursiveBuild(child, depth))).reverse()}
@@ -95,7 +99,7 @@ const TraceabilityPage = () => {
             </div>
             <div className={'grid'}>
                 <div className='data-container'>
-                    <h3>Search Results</h3>
+                    <h3>Product Intermediaries Tree</h3>
                     {
                         root ? buildGraphDisplay(root) : <p> No data available</p>
                     }

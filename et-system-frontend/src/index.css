@@ -70,6 +70,7 @@ code {
   font-weight: bold;
   font-size: 20px;
   margin: 10px 0px 10px 0px;
+  color: black;
 }
 .product-history-container{
   grid-column: 2;
@@ -90,38 +91,53 @@ code {
 }
 
 
-
+/*Some unexplained effects occurring here*/
 .depth-0 p{
-  background-color: aliceblue;
+  background-color: ghostwhite;
   padding: 10px;
   border-radius: 0.5rem;
 }
 
 .depth-1 p{
-  background-color: aliceblue;
+  background-color: ghostwhite;
+  padding: 10px;
+  border-radius: 0.5rem;
+}
+.depth-2 p{
+  background-color: ghostwhite;
+  padding: 10px;
+  border-radius: 0.5rem;
+}
+.depth-3 p{
+  background-color: ghostwhite;
+  padding: 10px;
+  border-radius: 0.5rem;
+}
+.depth-4 p{
+  background-color: ghostwhite;
   padding: 10px;
   border-radius: 0.5rem;
 }
 
 .depth-0-selected > p{
-  background-color: lightgoldenrodyellow;
+  background-color: cadetblue ;
   padding: 10px;
   font-size: 20px;
   border-radius: 0.5rem;
 }
 
 .depth-1-selected > p{
-  background-color: lightgoldenrodyellow;
+  background-color: cadetblue;
 }
 
 .depth-2-selected  > p{
-  background-color: lightgoldenrodyellow;
+  background-color: cadetblue;
 }
 
 .depth-3-selected  > p{
-  background-color: lightgoldenrodyellow;
+  background-color: cadetblue;
 }
 
 .depth-4-selected  > p{
-  background-color: lightgoldenrodyellow;
+  background-color: cadetblue;
 }
