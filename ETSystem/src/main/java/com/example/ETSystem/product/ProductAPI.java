@@ -39,11 +39,12 @@ public class ProductAPI {
 
     @GetMapping(path = "/fetch-product-history/{id}")
     public List<TimelineEvent> getProductHistory(@PathVariable("id") String id){
+        System.out.println("getProductHistory request received, id:" + id);
         Long ID_long = Long.parseLong(id);
         return productService.getProductHistory(ID_long);
     }
 
-    @PostMapping(path = "/add")
+    @PostMapping(path = "/add-product")
     public Product addProduct(@RequestBody Product newProduct){
         productService.addNewProduct(newProduct);
         return newProduct;

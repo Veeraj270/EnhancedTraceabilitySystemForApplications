@@ -1,6 +1,7 @@
 import SearchBar from "../components/TraceabilityComponents/SearchBar";
 import {useEffect, useState} from "react";
 import Product from "../components/TraceabilityComponents/Product.tsx";
+import ProductHistory from "../components/TraceabilityComponents/ProductHistory";
 
 const TraceabilityPage = () => {
     //An impossible product - necessary for implementation of select
@@ -11,25 +12,37 @@ const TraceabilityPage = () => {
     const [ data, setData ] = useState([])
     const [ root, setRoot] = useState(null)
     const [ selectedProduct, setSelectedProduct ] = useState(defaultProduct)
-    const [ selectedProductLabel, setSelectedProductLabel ] = useState(null)
+    const [history, setHistory] = useState([]);
 
 
     const getData = (data) => {
-        setData(data);
-
         if(data){
             const root = buildGraph(data)
             setRoot(root)
         }
     }
 
-    const clickHandler =  (event, data, ) => {
-        if (selectedProduct === data){
+    const clickHandler = (event, product) => {
+        //If already selected then unselect
+        if (selectedProduct.id === product.id){
             setSelectedProduct(defaultProduct)
-        }else{
-            setSelectedProduct(data)
+            setHistory([])
         }
+        else {
+            setSelectedProduct(product)
+            fetchHistory(product.id)
+        }
+
+
         event.stopPropagation()
+    }
+
+    const fetchHistory = async (id) => {
+        console.log("fetchHistory()")
+        const res = await fetch(`http://localhost:8080/api/products/fetch-product-history/${id}`);
+        const history = await res.json();
+        console.log(history)
+        setHistory(history)
     }
 
     const buildGraph = (data) => {
@@ -106,6 +119,7 @@ const TraceabilityPage = () => {
                 </div>
                 <div className='product-history-container'>
                     <h3>{`Product History of ${selectedProduct ? selectedProduct.label + " UID: " + selectedProduct.id: "null"}`}</h3>
+                    <ProductHistory history={history}/>
                 </div>
             </div>
 
