@@ -12,15 +12,7 @@ import java.util.List;
 @Entity(name = "Recipe")
 public class Recipe {
     @Id
-    @SequenceGenerator(
-            name = "recipe_sequence",
-            sequenceName = "recipe_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "recipe_sequence"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(
             name = "id",
             updatable = false,
@@ -37,6 +29,5 @@ public class Recipe {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<IngredientQuantity> ingredients;
-
 
 }

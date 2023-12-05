@@ -5,10 +5,11 @@ import jakarta.persistence.*;
 @Embeddable
 public class IngredientQuantity {
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "ingredient_id", referencedColumnName = "id")
     private Ingredient ingredient;
 
-    private int quantity;
+    @Column
+    private Integer quantity;
 
 }
