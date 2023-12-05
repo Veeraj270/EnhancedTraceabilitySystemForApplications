@@ -6,7 +6,6 @@ interface Product {
     label: string;
     maxQuantity: number;
     currentQuantity: number;
-
 }
 
 export default Product;

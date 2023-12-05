@@ -86,11 +86,10 @@ code {
   height: 85%;
   border-radius: .5rem;
   padding: 10px;
-}
-
-.depth-0{
   font-size: 20px;
 }
+
+
 
 .depth-0 p{
   background-color: aliceblue;
@@ -98,18 +97,31 @@ code {
   border-radius: 0.5rem;
 }
 
-
 .depth-1 p{
   background-color: aliceblue;
-  border-radius: .5rem;
   padding: 10px;
+  border-radius: 0.5rem;
 }
 
-.depth-1 p:hover{
-  background-color: whitesmoke;
-}
-.depth-1{
+.depth-0-selected > p{
+  background-color: lightgoldenrodyellow;
+  padding: 10px;
   font-size: 20px;
-  font-weight: normal;
+  border-radius: 0.5rem;
 }
 
+.depth-1-selected > p{
+  background-color: lightgoldenrodyellow;
+}
+
+.depth-2-selected  > p{
+  background-color: lightgoldenrodyellow;
+}
+
+.depth-3-selected  > p{
+  background-color: lightgoldenrodyellow;
+}
+
+.depth-4-selected  > p{
+  background-color: lightgoldenrodyellow;
+}
