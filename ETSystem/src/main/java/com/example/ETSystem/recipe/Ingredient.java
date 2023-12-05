@@ -8,7 +8,15 @@ import static jakarta.persistence.GenerationType.SEQUENCE;
 public class Ingredient{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(
+            name = "ingredient_sequence",
+            sequenceName = "ingredient_sequence",
+            allocationSize = 1 //How much the sequence will increment by
+    )
+    @GeneratedValue(
+            strategy = SEQUENCE,
+            generator = "ingredient_sequence"
+    )
     @Column(
             name = "id",
             updatable = false,
@@ -23,4 +31,19 @@ public class Ingredient{
     )
     private String label;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
 }
