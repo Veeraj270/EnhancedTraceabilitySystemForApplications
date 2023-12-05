@@ -1,0 +1,92 @@
+[
+  {
+    "label": "Chocolate Cake",
+    "maxQuantity": 5,
+    "currentQuantity": 2,
+    "intermediariesId": [1, 2, 3, 11]
+  },
+  {
+    "label": "Vanilla Cake",
+    "maxQuantity": 5,
+    "currentQuantity": 3,
+    "intermediariesId": [4, 5, 6, 11]
+  },
+  {
+    "label": "Flour",
+    "maxQuantity": 20,
+    "currentQuantity": 15,
+    "intermediariesId": []
+  },
+  {
+    "label": "Sugar",
+    "maxQuantity": 15,
+    "currentQuantity": 10,
+    "intermediariesId": []
+  },
+  {
+    "label": "Eggs",
+    "maxQuantity": 10,
+    "currentQuantity": 8,
+    "intermediariesId": []
+  },
+  {
+    "label": "Butter",
+    "maxQuantity": 10,
+    "currentQuantity": 5,
+    "intermediariesId": []
+  },
+  {
+    "label": "Cocoa Powder",
+    "maxQuantity": 8,
+    "currentQuantity": 6,
+    "intermediariesId": []
+  },
+  {
+    "label": "Milk",
+    "maxQuantity": 12,
+    "currentQuantity": 9,
+    "intermediariesId": []
+  },
+  {
+    "label": "Baking Powder",
+    "maxQuantity": 10,
+    "currentQuantity": 7,
+    "intermediariesId": [7]
+  },
+  {
+    "label": "Vanilla Extract",
+    "maxQuantity": 8,
+    "currentQuantity": 5,
+    "intermediariesId": []
+  },
+  {
+    "label": "Icing Sugar",
+    "maxQuantity": 10,
+    "currentQuantity": 8,
+    "intermediariesId": [8, 9]
+  },
+  {
+    "label": "Blueberries",
+    "maxQuantity": 15,
+    "currentQuantity": 12,
+    "intermediariesId": []
+  },
+  {
+    "label": "Raspberry Jam",
+    "maxQuantity": 8,
+    "currentQuantity": 4,
+    "intermediariesId": []
+  },
+  {
+    "label": "Cream",
+    "maxQuantity": 10,
+    "currentQuantity": 7,
+    "intermediariesId": []
+  },
+  {
+    "label": "Caramel Sauce",
+    "maxQuantity": 8,
+    "currentQuantity": 6,
+    "intermediariesId": []
+  }
+]
