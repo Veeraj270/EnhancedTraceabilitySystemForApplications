@@ -2,11 +2,14 @@ package com.example.ETSystem.recipe;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("JpaAttributeTypeInspection")
 @Table(
-        name = "recipe"
+        name = "recipes"
 )
+@Entity(name = "Recipe")
 public class Recipe {
     @Id
     @SequenceGenerator(
@@ -19,15 +22,20 @@ public class Recipe {
             generator = "recipe_sequence"
     )
     @Column(
+            name = "id",
+            updatable = false,
+            nullable = false
+    )
+    private Long id;
+
+    @Column(
             name = "label",
             nullable = false,
             columnDefinition = "TEXT"
     )
     private String label;
 
-    @Column(name = "ingredients")
-    @ElementCollection(targetClass = Long.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "recipe_ingredients", joinColumns = @JoinColumn(name = "recipe_id"))
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<IngredientQuantity> ingredients;
 
 
