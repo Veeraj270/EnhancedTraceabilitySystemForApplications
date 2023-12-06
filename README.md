@@ -30,7 +30,7 @@ that was produced on our premises.
 and data interpretation thus reducing the risk of human error and improving overall operational efficiency.
 - As a **system administrator**, I want a robust account system with multiple levels of seniority along with robust security
 features that ensure employees are able to and only able to access features relevant to their role.
-- As a **government employee**, in the case that a batch of Cakesmiths products causes members of the public to fall ill, I
+- As a **government employee**, in the case that a batch of Cakesmiths pbitcoinroducts causes members of the public to fall ill, I
 want the Cakesmiths' directors to be able to produce traceability data that can be proven to have not been doctored. Possible
 use case of blockchain technology.
 
