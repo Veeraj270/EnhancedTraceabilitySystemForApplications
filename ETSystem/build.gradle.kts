@@ -1,3 +1,5 @@
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
 plugins {
 	java
 	id("org.springframework.boot") version "3.1.5"
@@ -25,4 +27,8 @@ dependencies {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+tasks.named<BootJar>("bootJar") {
+	archiveClassifier.set("boot")
 }
