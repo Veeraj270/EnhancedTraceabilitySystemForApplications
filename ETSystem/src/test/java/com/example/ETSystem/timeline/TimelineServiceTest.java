@@ -22,7 +22,7 @@ class TimelineServiceTest{
 		var e3 = service.save(new MoveEvent(2, owner));
 		var e1 = service.save(new CreateEvent(0, owner));
 		var e4 = service.save(new UseEvent(4, owner));
-		assertEquals(service.findAllSorted().toList(), List.of(e1, e2, e3, e4));
+		assertEquals(service.findAllByProductSorted(owner).toList(), List.of(e1, e2, e3, e4));
 		
 		Product owner2 = service.ownerRepo.save(new Product("b", 1, 1));
 		var e5 = service.save(new CreateEvent(2, owner2));
