@@ -8,7 +8,7 @@ const ProductHistory = ( {history} ) => {
             ( history.length === 0) ? (<p>No events found</p>) : (
                 history.map((event) => {
                     return(
-                        <p>Event Timestamp: {event.timestamp}</p>
+                        <p>{event.type}: Timestamp: {event.timestamp}</p>
                     )
                 })
             )

@@ -1,6 +1,7 @@
 package com.example.ETSystem.product;
 
 
+import com.example.ETSystem.timeline.TimelineData;
 import com.example.ETSystem.timeline.TimelineEvent;
 import com.example.ETSystem.timeline.TimelineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,9 +66,9 @@ public class ProductService {
         }
     }
 
-    public List<TimelineEvent> getProductHistory(Long id){
+    public List<TimelineData> getProductHistory(Long id){
         Product product = productRepository.findById(id).get();
-        Stream<TimelineEvent> timeline = timelineService.findAllByProductSorted(product);
+        Stream<TimelineData> timeline = timelineService.findAllByProductSorted(product).map(TimelineEvent::asData);
         return timeline.toList();
     }
 }
