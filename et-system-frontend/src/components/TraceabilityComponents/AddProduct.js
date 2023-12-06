@@ -7,8 +7,6 @@ const ProductEdit = () => {
 
 
     const initialFormState = {
-        id: '0',
-        parentID: '',
         intermediariesID: [],
         label: '',
         maxQuantity: 0,
@@ -17,13 +15,7 @@ const ProductEdit = () => {
     const [product, setProduct] = useState(initialFormState);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (product.id !== 'addproduct') {
-            fetch(`/api/ product/${product.id}`)
-                .then(response => response.json())
-                .then(data => setProduct(data));
-        }
-    }, [product.id, setProduct]);
+
 
     const handleChange = (event) => {
         const { name, value } = event.target
@@ -61,16 +53,7 @@ const ProductEdit = () => {
             <Container>
                 {title}
                 <Form onSubmit={handleSubmit}>
-                    <FormGroup>
-                        <Label for="id">ID</Label>
-                        <Input type="text" name="id" id="id" value={''}
-                               onChange={handleChange} />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="parentID">ParentID</Label>
-                        <Input type="text" name="parentID" id="parentID" value={product.parentID || ''}
-                               onChange={handleChange} />
-                    </FormGroup>
+                   
 
 
 
