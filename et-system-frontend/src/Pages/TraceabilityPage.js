@@ -1,6 +1,5 @@
 import SearchBar from "../components/TraceabilityComponents/SearchBar";
-import {useEffect, useState} from "react";
-import Product from "../components/TraceabilityComponents/Product.tsx";
+import { useState } from "react";
 import ProductHistory from "../components/TraceabilityComponents/ProductHistory";
 
 const TraceabilityPage = () => {
@@ -9,7 +8,6 @@ const TraceabilityPage = () => {
         id: -1,
     }
 
-    const [ data, setData ] = useState([])
     const [ root, setRoot] = useState(null)
     const [ selectedProduct, setSelectedProduct ] = useState(defaultProduct)
     const [history, setHistory] = useState([]);
@@ -46,7 +44,7 @@ const TraceabilityPage = () => {
     }
 
     const buildGraph = (data) => {
-        let nodes = new Array()
+        let nodes = []
         data.reverse().forEach((product, counter) => {
             const currentNode = new Node(product)
 
@@ -81,7 +79,7 @@ const TraceabilityPage = () => {
             //Return html for label
             return(
                 <div
-                     style={(depth == 0) ? {marginLeft: 0 + "px"} :{marginLeft: 20 + "px"}}
+                     style={(depth === 0) ? {marginLeft: 0 + "px"} :{marginLeft: 20 + "px"}}
                      className={(node.data.id === selectedProduct.id) ? `depth-${depth}-selected` :`depth-${depth}`}
                      onClick={(e) => clickHandler(e, node.data)}>
                     <p>{`Label: ${node.data.label}`}</p>
@@ -93,7 +91,7 @@ const TraceabilityPage = () => {
             depth ++
             console.log("node.data.id : " + node.data.id)
             return(
-                <div style={(depth == 1) ? {marginLeft: 0 + "px"} :{marginLeft: 20 + "px"}}
+                <div style={(depth === 1) ? {marginLeft: 0 + "px"} :{marginLeft: 20 + "px"}}
                      className={(node.data.id === selectedProduct.id) ? `depth-${depth-1}-selected` :`depth-${depth}`}
                      onClick={(e) => clickHandler(e, node.data)}>
                     <p>{`Label: ${node.data.label}`}</p>
