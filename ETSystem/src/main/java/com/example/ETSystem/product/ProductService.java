@@ -1,21 +1,26 @@
 package com.example.ETSystem.product;
 
 
+import com.example.ETSystem.timeline.TimelineEvent;
+import com.example.ETSystem.timeline.TimelineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Component //Marks this class as service provider
 public class ProductService {
     private final ProductRepository productRepository;
+    private final TimelineService timelineService;
 
     @Autowired
-    public ProductService(ProductRepository productRepository){
+    public ProductService(ProductRepository productRepository, TimelineService timelineService){
         this.productRepository = productRepository;
-
+        this.timelineService = timelineService;
     }
 
     public List<Product> getProducts(){
@@ -58,6 +63,12 @@ public class ProductService {
         if (parent != null){
             product.setParentID(parent.getId());
         }
+    }
+
+    public List<TimelineEvent> getProductHistory(Long id){
+        Product product = productRepository.findById(id).get();
+        Stream<TimelineEvent> timeline = timelineService.findAllByProductSorted(product);
+        return timeline.toList();
     }
 }
 

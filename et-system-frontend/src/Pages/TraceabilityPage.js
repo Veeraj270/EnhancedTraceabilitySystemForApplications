@@ -1,24 +1,51 @@
 import SearchBar from "../components/TraceabilityComponents/SearchBar";
-import {useState} from "react";
-import Product from "../components/TraceabilityComponents/Product.tsx";
+import { useState } from "react";
+import ProductHistory from "../components/TraceabilityComponents/ProductHistory";
 
 const TraceabilityPage = () => {
-    const [ data, setData ] = useState([])
+    //An impossible product - necessary for implementation of select
+    const defaultProduct = {
+        id: -1,
+    }
+
     const [ root, setRoot] = useState(null)
+    const [ selectedProduct, setSelectedProduct ] = useState(defaultProduct)
+    const [history, setHistory] = useState([]);
+
 
     const getData = (data) => {
-        setData(data);
-        console.log(data);
         if(data){
             const root = buildGraph(data)
             setRoot(root)
         }
     }
 
+    const clickHandler = (event, product) => {
+        //If already selected then unselect
+        if (selectedProduct.id === product.id){
+            setSelectedProduct(defaultProduct)
+            setHistory([])
+        }
+        else {
+            setSelectedProduct(product)
+            fetchHistory(product.id)
+        }
+
+
+        event.stopPropagation()
+    }
+
+    const fetchHistory = async (id) => {
+        console.log("fetchHistory()")
+        const res = await fetch(`http://localhost:8080/api/products/fetch-product-history/${id}`);
+        const history = await res.json();
+        console.log(history)
+        setHistory(history)
+    }
+
     const buildGraph = (data) => {
-        let nodes = new Array()
+        let nodes = []
         data.reverse().forEach((product, counter) => {
-            // const parentID = product.parentID
             const currentNode = new Node(product)
 
             //Add to nodes array
@@ -47,12 +74,14 @@ const TraceabilityPage = () => {
     }
 
     const RecursiveBuild = (node, depth) => {
-        console.log("RecursiveBuild - depth: " + depth + ` ${node.data.label}`)
         ///Base case
         if (node.children.length === 0){
             //Return html for label
             return(
-                <div style={{ marginLeft: depth * 20 + "px"}} className={`depth-${depth}`}>
+                <div
+                     style={(depth === 0) ? {marginLeft: 0 + "px"} :{marginLeft: 20 + "px"}}
+                     className={(node.data.id === selectedProduct.id) ? `depth-${depth}-selected` :`depth-${depth}`}
+                     onClick={(e) => clickHandler(e, node.data)}>
                     <p>{`Label: ${node.data.label}`}</p>
                 </div>
             )
@@ -60,8 +89,11 @@ const TraceabilityPage = () => {
         else {
             //Recursive case
             depth ++
+            console.log("node.data.id : " + node.data.id)
             return(
-                <div style={{ marginLeft: (depth-1) * 20 + "px"}} className={`depth-${depth-1}`} >
+                <div style={(depth === 1) ? {marginLeft: 0 + "px"} :{marginLeft: 20 + "px"}}
+                     className={(node.data.id === selectedProduct.id) ? `depth-${depth-1}-selected` :`depth-${depth}`}
+                     onClick={(e) => clickHandler(e, node.data)}>
                     <p>{`Label: ${node.data.label}`}</p>
                     {node.children.map((child) => (RecursiveBuild(child, depth))).reverse()}
                 </div>
@@ -78,13 +110,14 @@ const TraceabilityPage = () => {
             </div>
             <div className={'grid'}>
                 <div className='data-container'>
-                    <h3>Search Results</h3>
+                    <h3>Product Intermediaries Tree</h3>
                     {
                         root ? buildGraphDisplay(root) : <p> No data available</p>
                     }
                 </div>
                 <div className='product-history-container'>
-                    <h3>Product History</h3>
+                    <h3>{`Product History of ${selectedProduct ? selectedProduct.label + " UID: " + selectedProduct.id: "null"}`}</h3>
+                    <ProductHistory history={history}/>
                 </div>
             </div>
 
