@@ -38,7 +38,7 @@ public class ProductAPI {
     }
 
     @GetMapping(path = "/fetch-product-history/{id}")
-    public List<TimelineEvent> getProductHistory(@PathVariable("id") String id){
+    public List<TimelineEvent> fetchProductHistory(@PathVariable("id") String id){
         System.out.println("getProductHistory request received, id:" + id);
         Long ID_long = Long.parseLong(id);
         return productService.getProductHistory(ID_long);
