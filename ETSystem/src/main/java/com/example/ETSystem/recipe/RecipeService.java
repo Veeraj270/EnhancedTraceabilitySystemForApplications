@@ -26,7 +26,7 @@ public class RecipeService {
         return recipes;
     }
 
-    public void addNewRecipe(Recipe recipe) {
+    public Recipe addNewRecipe(Recipe recipe) {
         for (IngredientQuantity ingredientQuantity : recipe.getIngredients()){
             // Checks if the ingredients of the recipe exist, then adds the recipe
             if (!ingredientRepository.existsById(ingredientQuantity.getIngredient().getId())){
@@ -34,6 +34,7 @@ public class RecipeService {
             }
         }
         this.recipeRepository.save(recipe);
+        return recipe;
     }
 
     public List<Ingredient> getIngredients(){
@@ -41,12 +42,14 @@ public class RecipeService {
         return ingredients;
     }
 
-    public void addNewIngredient(Ingredient ingredient) {
+    public Ingredient addNewIngredient(Ingredient ingredient) {
+        ingredient.setLabel(ingredient.getLabel().toLowerCase());
         // Checks if the ingredient already exists ignoring letter case
-            if (!ingredientRepository.findByLabelIgnoreCase(ingredient.getLabel()).isPresent()) {
+            if (ingredientRepository.findByLabel(ingredient.getLabel()).isPresent()) {
                 throw new IllegalArgumentException("Ingredient already exists");
             }
         this.ingredientRepository.save(ingredient);
+            return ingredient;
     }
 }
 

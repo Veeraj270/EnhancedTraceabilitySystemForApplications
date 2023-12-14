@@ -2,6 +2,8 @@ package com.example.ETSystem.recipe;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
 @Entity
@@ -36,7 +38,17 @@ public class Ingredient{
     }
 
     public Ingredient() {
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        return this == o || Objects.equals(((Ingredient) o).getLabel(), this.label);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(label);
     }
 
     public Long getId() {
