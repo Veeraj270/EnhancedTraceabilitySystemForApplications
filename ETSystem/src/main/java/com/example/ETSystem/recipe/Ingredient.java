@@ -34,7 +34,7 @@ public class Ingredient{
     private String label;
 
     public Ingredient(String label) {
-        this.label = label;
+        this.label = label.toLowerCase();
     }
 
     public Ingredient() {

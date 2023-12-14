@@ -2,7 +2,10 @@ package com.example.ETSystem.recipe;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
@@ -48,6 +51,21 @@ public class Recipe {
 
     public Recipe() {
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Recipe that = (Recipe) o;
+        return Objects.equals(this.label, that.getLabel()) &&
+                new HashSet<>(this.ingredients).equals(new HashSet<>(that.getIngredients()));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(label, new HashSet<>(ingredients));
     }
 
     public Long getId() {

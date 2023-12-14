@@ -43,7 +43,6 @@ public class RecipeService {
     }
 
     public Ingredient addNewIngredient(Ingredient ingredient) {
-        ingredient.setLabel(ingredient.getLabel().toLowerCase());
         // Checks if the ingredient already exists ignoring letter case
             if (ingredientRepository.findByLabel(ingredient.getLabel()).isPresent()) {
                 throw new IllegalArgumentException("Ingredient already exists");
