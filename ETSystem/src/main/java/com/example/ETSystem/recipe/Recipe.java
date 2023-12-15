@@ -41,7 +41,7 @@ public class Recipe {
     // IngredientQuantity contains the quantity and the Ingredient
     // cascade = CascadeType.ALL makes sure when making a Recipe object,
     // the appropriate IngredientQuantity objects are made as well
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<IngredientQuantity> ingredients;
 
     public Recipe(String label, List<IngredientQuantity> ingredients) {
@@ -59,8 +59,8 @@ public class Recipe {
         if (o == null || getClass() != o.getClass()) return false;
 
         Recipe that = (Recipe) o;
-        return Objects.equals(this.label, that.getLabel()) &&
-                new HashSet<>(this.ingredients).equals(new HashSet<>(that.getIngredients()));
+        return Objects.equals(this.getLabel(), that.getLabel()) &&
+                new HashSet<>(this.getIngredients()).equals(new HashSet<>(that.getIngredients()));
     }
 
     @Override

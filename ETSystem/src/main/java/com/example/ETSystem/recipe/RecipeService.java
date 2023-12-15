@@ -1,9 +1,11 @@
 package com.example.ETSystem.recipe;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class RecipeService {
@@ -26,10 +28,12 @@ public class RecipeService {
         return recipes;
     }
 
+    @Transactional
     public Recipe addNewRecipe(Recipe recipe) {
         for (IngredientQuantity ingredientQuantity : recipe.getIngredients()){
             // Checks if the ingredients of the recipe exist, then adds the recipe
-            if (!ingredientRepository.existsById(ingredientQuantity.getIngredient().getId())){
+            Optional<Ingredient> optionalIngredient = ingredientRepository.findByLabel(ingredientQuantity.getIngredient().getLabel());
+            if (optionalIngredient.isEmpty()){
                 throw new IllegalArgumentException("At least one of the ingredients of the new recipe does not exist");
             }
         }
@@ -42,6 +46,7 @@ public class RecipeService {
         return ingredients;
     }
 
+    @Transactional
     public Ingredient addNewIngredient(Ingredient ingredient) {
         // Checks if the ingredient already exists ignoring letter case
             if (ingredientRepository.findByLabel(ingredient.getLabel()).isPresent()) {

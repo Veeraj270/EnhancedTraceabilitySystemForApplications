@@ -1,10 +1,9 @@
 package com.example.ETSystem.timeline;
 
-import com.example.ETSystem.recipe.Ingredient;
-import com.example.ETSystem.recipe.IngredientRepository;
-import com.example.ETSystem.recipe.RecipeRepository;
-import com.example.ETSystem.recipe.RecipeService;
+import com.example.ETSystem.recipe.*;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -13,6 +12,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest
 public class RecipeServiceTest {
     @Autowired
@@ -24,30 +24,57 @@ public class RecipeServiceTest {
     @Autowired
     private IngredientRepository ingredientRepository;
 
-    @Test
-    void testIngredient(){
-        var e1 = recipeService.addNewIngredient(new Ingredient("MILK"));
-        var e2 = recipeService.addNewIngredient(new Ingredient("flour"));
+    private Ingredient milk;
+    private Ingredient flour;
+    private Ingredient chocolate;
+    private Ingredient vanilla;
 
-        System.out.println(e1.getLabel());
-        System.out.println(e2.getLabel());
-        // Checking if its saved correctly
-        assertEquals(ingredientRepository.findAll().stream().toList(), List.of(e1, e2));
-        // Checking if it saved in lower case
-        assertEquals(e1.getLabel(), "milk");
-        // Checking if it throws an error for adding the same element
-        assertThrows(IllegalArgumentException.class, () -> {
-            var e3 = recipeService.addNewIngredient(new Ingredient("flour"));;
-        });
-        assertThrows(IllegalArgumentException.class, () -> {
-            var e3 = recipeService.addNewIngredient(new Ingredient("FLOur"));;
-        });
-
-
+    @BeforeAll
+    public void setup() {
+        // Add elements to the repository
+        milk = recipeService.addNewIngredient(new Ingredient("MILK"));
+        flour = recipeService.addNewIngredient(new Ingredient("fLoUR"));
+        chocolate = recipeService.addNewIngredient(new Ingredient("chocolate"));
+        vanilla = recipeService.addNewIngredient(new Ingredient("vanilla"));
     }
 
-//    @Test
-//    void testRecipe(){
-//
-//    }
+    @Test
+    void testIngredient(){
+        // Checking if its saved correctly
+        assertEquals(ingredientRepository.findAll().stream().toList(), List.of(milk, flour, chocolate, vanilla));
+        // Checking if it saved in lower case
+        assertEquals(milk.getLabel(), "milk");
+        assertEquals(flour.getLabel(), "flour");
+        // Checking if it throws an error for adding the same element
+        assertThrows(IllegalArgumentException.class, () -> {
+            recipeService.addNewIngredient(new Ingredient("flour"));
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            recipeService.addNewIngredient(new Ingredient("FLOur"));
+        });
+    }
+
+    @Test
+    void testRecipe(){
+        IngredientQuantity flour_500 = new IngredientQuantity();
+        flour_500.setIngredient(flour);
+        flour_500.setQuantity(500);
+
+        IngredientQuantity chocolate_300 = new IngredientQuantity();
+        chocolate_300.setIngredient(chocolate);
+        chocolate_300.setQuantity(300);
+
+        IngredientQuantity vanilla_100 = new IngredientQuantity();
+        vanilla_100.setIngredient(vanilla);
+        vanilla_100.setQuantity(100);
+
+        IngredientQuantity flour_500_2 = flour_500;
+
+
+        var rec1 = recipeService.addNewRecipe(new Recipe("Vanilla Cake", List.of(vanilla_100, flour_500)));
+        // var rec2 = recipeService.addNewRecipe(new Recipe("Chocolate Cake", List.of(chocolate_300, flour_500_2)));
+
+        assertEquals(recipeRepository.findAll().stream().toList(), List.of(rec1));
+
+    }
 }
