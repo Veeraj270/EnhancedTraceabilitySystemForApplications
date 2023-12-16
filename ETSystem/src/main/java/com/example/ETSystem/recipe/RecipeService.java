@@ -34,8 +34,11 @@ public class RecipeService {
             // Checks if the ingredients of the recipe exist, then adds the recipe
             Optional<Ingredient> optionalIngredient = ingredientRepository.findByLabel(ingredientQuantity.getIngredient().getLabel());
             if (optionalIngredient.isEmpty()){
-                throw new IllegalArgumentException("At least one of the ingredients of the new recipe does not exist");
+                throw new IllegalArgumentException("At least one of the ingredients of the new recipe does not exist.");
             }
+        }
+        if (recipeRepository.findByLabel(recipe.getLabel()).isPresent()){
+            throw new IllegalArgumentException("A recipe with an identical label already exists.");
         }
         this.recipeRepository.save(recipe);
         return recipe;
@@ -50,7 +53,7 @@ public class RecipeService {
     public Ingredient addNewIngredient(Ingredient ingredient) {
         // Checks if the ingredient already exists ignoring letter case
             if (ingredientRepository.findByLabel(ingredient.getLabel()).isPresent()) {
-                throw new IllegalArgumentException("Ingredient already exists");
+                throw new IllegalArgumentException("Ingredient already exists.");
             }
         this.ingredientRepository.save(ingredient);
             return ingredient;

@@ -31,7 +31,7 @@ public class RecipeServiceTest {
 
     @BeforeAll
     public void setup() {
-        // Add elements to the repository
+        // Adding elements to the repository
         milk = recipeService.addNewIngredient(new Ingredient("MILK"));
         flour = recipeService.addNewIngredient(new Ingredient("fLoUR"));
         chocolate = recipeService.addNewIngredient(new Ingredient("chocolate"));
@@ -40,12 +40,14 @@ public class RecipeServiceTest {
 
     @Test
     void testIngredient(){
-        // Checking if its saved correctly
-        assertEquals(ingredientRepository.findAll().stream().toList(), List.of(milk, flour, chocolate, vanilla));
-        // Checking if it saved in lower case
+        // Correctly saving label of Ingredient
         assertEquals(milk.getLabel(), "milk");
         assertEquals(flour.getLabel(), "flour");
-        // Checking if it throws an error for adding the same element
+
+        // Correctly saving ingredient in repository
+        assertEquals(ingredientRepository.findAll().stream().toList(), List.of(milk, flour, chocolate, vanilla));
+
+        // Throwing an error for adding the same element
         assertThrows(IllegalArgumentException.class, () -> {
             recipeService.addNewIngredient(new Ingredient("flour"));
         });
@@ -56,6 +58,7 @@ public class RecipeServiceTest {
 
     @Test
     void testRecipe(){
+
         IngredientQuantity flour_500 = new IngredientQuantity();
         flour_500.setIngredient(flour);
         flour_500.setQuantity(500);
@@ -68,13 +71,35 @@ public class RecipeServiceTest {
         vanilla_100.setIngredient(vanilla);
         vanilla_100.setQuantity(100);
 
-        IngredientQuantity flour_500_2 = flour_500;
-
+        // I cannot use flour_500 in rec2 because making rec1 somehow detaches it from the
+        // managed objects, and when making rec2 it doesn't recognize it
+        IngredientQuantity flour_500_2 = new IngredientQuantity();
+        flour_500_2.setIngredient(flour);
+        flour_500_2.setQuantity(500);
 
         var rec1 = recipeService.addNewRecipe(new Recipe("Vanilla Cake", List.of(vanilla_100, flour_500)));
-        // var rec2 = recipeService.addNewRecipe(new Recipe("Chocolate Cake", List.of(chocolate_300, flour_500_2)));
 
         assertEquals(recipeRepository.findAll().stream().toList(), List.of(rec1));
+
+        var rec2 = recipeService.addNewRecipe(new Recipe("Chocolate Cake", List.of(chocolate_300, flour_500_2)));
+
+        assertEquals(recipeRepository.findAll().stream().toList(), List.of(rec1, rec2));
+
+        IngredientQuantity mango_invalid = new IngredientQuantity();
+        mango_invalid.setIngredient(new Ingredient("mango"));
+
+        // Throwing an error for adding a nonexistent Ingredient
+        assertThrows(IllegalArgumentException.class, () -> {
+            recipeService.addNewRecipe(new Recipe("Mango Cake", List.of(mango_invalid)));
+        });
+
+        IngredientQuantity milk_100 = new IngredientQuantity();
+        milk_100.setIngredient(milk);
+        milk_100.setQuantity(100);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            recipeService.addNewRecipe(new Recipe("Mango Cake", List.of(milk_100, mango_invalid)));
+        });
 
     }
 }

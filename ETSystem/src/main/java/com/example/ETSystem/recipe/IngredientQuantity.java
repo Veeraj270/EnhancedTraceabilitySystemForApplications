@@ -17,8 +17,8 @@ public class IngredientQuantity {
     )
     private Long id;
 
+    // CascadeType.MERGE connects the object with the appropriate Ingredient
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-    @JoinColumn(name = "ingredient_id", referencedColumnName = "id")
     private Ingredient ingredient;
 
     @Column
