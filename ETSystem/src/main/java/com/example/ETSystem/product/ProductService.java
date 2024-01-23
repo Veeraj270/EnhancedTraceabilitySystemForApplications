@@ -2,11 +2,15 @@ package com.example.ETSystem.product;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Component //Marks this class as service provider
 public class ProductService {
@@ -42,6 +46,15 @@ public class ProductService {
         recursiveSearch(root, intermediaries, null);
 
         return intermediaries;
+    }
+
+    public Product getProductByID(Long id){
+        if(productRepository.findById(id).isPresent()){
+            return productRepository.findById(id).get();
+        }
+        else{
+            throw new ResponseStatusException(NOT_FOUND, "Unable to find product");
+        }
     }
 
     public void recursiveSearch(Product product, List<Product> intermediaries, Product parent){

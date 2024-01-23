@@ -43,6 +43,11 @@ public class ProductAPI {
         return list;
     }
 
+    @GetMapping(path = "fetch-product-by-id/{id}")
+    public Product getProductById(@PathVariable("id") String id){
+        return productService.getProductByID(Long.parseLong(id));
+    }
+
 /*
     @PostMapping(path = "/add")
     public Product addProduct(@RequestBody Product newProduct){

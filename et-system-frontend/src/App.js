@@ -8,6 +8,7 @@ import TraceabilityPage from "./Pages/TraceabilityPage";
 import HelpPage from "./Pages/HelpPage";
 import AddProduct from "./components/TraceabilityComponents/AddProduct";
 import AddProductsPage from "./Pages/AddProductsPage";
+import EditProductPage from "./Pages/EditProductPage";
 
 
 function App() {
@@ -30,6 +31,8 @@ function App() {
                     </Route>
                     <Route path={"/products/add"} element={<AddProductsPage/>}>
 
+                    </Route>
+                    <Route path={"/edit-product/:id"} element={<EditProductPage/>}>
                     </Route>
                 </Routes>
 

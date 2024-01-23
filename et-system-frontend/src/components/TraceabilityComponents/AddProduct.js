@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Container, Form, FormGroup, Input, Label } from 'reactstrap';
 
-const ProductEdit = () => {
+const ProductAdd = () => {
     const title = <h2>{'Add Product'}</h2>;
 
 
@@ -83,4 +83,4 @@ const ProductEdit = () => {
     )
 };
 
-export default ProductEdit;
+export default ProductAdd;

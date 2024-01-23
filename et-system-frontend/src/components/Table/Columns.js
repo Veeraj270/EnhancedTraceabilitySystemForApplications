@@ -1,7 +1,10 @@
+import {Link} from "react-router-dom";
+
 const Columns = [
     {
         Header: 'Id',
-        accessor: 'id'
+        accessor: 'id',
+        Cell: ({ value }) => <Link to={`/edit-product/${value}`}>{value}</Link>
     },
     {
         Header: 'Product',
