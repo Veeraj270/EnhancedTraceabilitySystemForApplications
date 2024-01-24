@@ -25,7 +25,7 @@ that we accurately tracker the inventory from the moment it arrives at our premi
 - As a **production line baker**, I want a user-friendly interface that allows us to pick from a list of previously defined 
 recipes and log exactly which ingredients were used in the production of the product. I'd like to be able to input data
 regarding loss and waste during the production process. 
-- As a **company director**(, I want a system that provides key insights into the efficiency of our production process via 
+- As a **company director**, I want a system that provides key insights into the efficiency of our production process via 
 intuitive data graphics. Also, I want the system to be able to provide in depth traceability data on any finished product
 that was produced on our premises.
 - As a **user** across all levels, I want the system to have an intuitive graphical interface that makes for easy navigation
