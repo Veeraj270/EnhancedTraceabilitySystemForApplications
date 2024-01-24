@@ -1,6 +1,3 @@
-
-import {useEffect, useState} from "react"
-
 const ProductHistory = ( {history} ) => {
     const generateJSX = (history) => {
         console.log("generateJSX() history:" + history )
@@ -21,5 +18,5 @@ const ProductHistory = ( {history} ) => {
         </div>
     )
 }
-export default ProductHistory
 
+export default ProductHistory

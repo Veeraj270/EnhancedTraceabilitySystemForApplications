@@ -7,69 +7,53 @@ import com.example.ETSystem.timeline.TimelineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
 
-@Component //Marks this class as service provider
-public class ProductService {
-    private final ProductRepository productRepository;
-    private final TimelineService timelineService;
-
-    @Autowired
-    public ProductService(ProductRepository productRepository, TimelineService timelineService){
-        this.productRepository = productRepository;
-        this.timelineService = timelineService;
-    }
-
-    public List<Product> getProducts(){
-        List<Product> products =  productRepository.findAll();
-        return products;
-    }
-
-    public void addNewProduct(Product product) {
-        for (Long productId : product.getIntermediariesId()){
-            if (!productRepository.existsById(productId)){
-                throw new IllegalArgumentException("At least one of the intermediaries of the new product does not exist");
-            }
-        }
-        this.productRepository.save(product);
-    }
-
-
-    //NEEDS WORK
-    public  List<Product> getProductIntermediaries(Long id) {
-        //Needs to return a tree datastructures containing the root product and all of its intermediaries
-        Product root = productRepository.findById(id).get();
-        List<Product> intermediaries = new ArrayList<>();
-
-        recursiveSearch(root, intermediaries, null);
-
-        return intermediaries;
-    }
-
-    public void recursiveSearch(Product product, List<Product> intermediaries, Product parent){
-        List<Long> I = product.getIntermediariesId();
-
-        //Recursive case
-        if(!I.isEmpty()){
-            for (Long id : I){
-                Product p = productRepository.findById(id).get();
-                recursiveSearch(p, intermediaries, product);
-            }
-        }
-        intermediaries.add(product);
-        if (parent != null){
-            product.setParentID(parent.getId());
-        }
-    }
-
-    public List<TimelineData> getProductHistory(Long id){
-        Product product = productRepository.findById(id).get();
-        Stream<TimelineData> timeline = timelineService.findAllByProductSorted(product).map(TimelineEvent::asData);
-        return timeline.toList();
-    }
+@Component
+public class ProductService{
+	
+	private final ProductRepository productRepository;
+	private final TimelineService timelineService;
+	
+	@Autowired
+	public ProductService(ProductRepository productRepository, TimelineService timelineService){
+		this.productRepository = productRepository;
+		this.timelineService = timelineService;
+	}
+	
+	public List<Product> getProducts(){
+		return productRepository.findAll();
+	}
+	
+	public void addNewProduct(Product product){
+		for(long productId : product.getIntermediariesId())
+			if(!productRepository.existsById(productId))
+				throw new IllegalArgumentException("At least one of the intermediaries of the new product does not exist");
+		productRepository.save(product);
+	}
+	
+	public List<Product> getProductIntermediaries(long id){
+		// Return all (transitive) intermediaries of this product
+		List<Product> intermediaries = new ArrayList<>();
+		productRepository.findById(id).ifPresent(product -> recursiveSearch(product, intermediaries, null));
+		return intermediaries;
+	}
+	
+	public void recursiveSearch(Product product, List<Product> intermediaries, Product parent){
+		List<Long> cur = product.getIntermediariesId();
+		
+		for(long id : cur)
+			productRepository.findById(id).ifPresent(value -> recursiveSearch(value, intermediaries, product));
+		
+		intermediaries.add(product);
+		if(parent != null)
+			product.setParentID(parent.getId());
+	}
+	
+	public List<TimelineData> getProductHistory(long id){
+		return productRepository.findById(id)
+				.map(value -> timelineService.findAllByProductSorted(value).map(TimelineEvent::asData).toList())
+				.orElseGet(List::of);
+	}
 }
-

@@ -54,10 +54,8 @@ public class TimelineService{
 			return moveRepo.save(me);
 		throw new IncompatibleClassChangeError("Unsupported new subclass of sealed interface " + in.getClass().getName());
 	}
-
+	
 	public void saveAll(List<TimelineEvent> events){
-		for (TimelineEvent event : events){
-			this.save(event);
-		}
+		events.forEach(this::save);
 	}
 }

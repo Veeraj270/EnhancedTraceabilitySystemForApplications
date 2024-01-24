@@ -17,6 +17,5 @@
 }
 
 .search-bar-input:focus{
-    outline: none
-;
+    outline: none;
 }

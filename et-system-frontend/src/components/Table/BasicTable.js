@@ -1,9 +1,7 @@
-
 import { useMemo } from 'react';
 import { useTable }  from 'react-table';
 import { useEffect, useState } from 'react'
 
-import MOCK_DATA from './MOCK_DATA.json';
 import  Columns  from './Columns.js';
 import './Table.css'
 

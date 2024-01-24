@@ -1,14 +1,12 @@
-
 import {FaSearch} from "react-icons/fa"
 import './SearchBar.css'
 import {useEffect, useState} from "react"
-
 
 const SearchBar = ( {onUpdate} ) => {
     const [input, setInput] = useState("");
 
     const fetchData = async (value) => {
-        if (value != "" && !(value === undefined)){
+        if (value !== "" && !(value === undefined)){
             //Needs work: Further validation require
 
             console.log("passed checks: " + value)
@@ -32,4 +30,3 @@ const SearchBar = ( {onUpdate} ) => {
 }
 
 export default SearchBar
-
