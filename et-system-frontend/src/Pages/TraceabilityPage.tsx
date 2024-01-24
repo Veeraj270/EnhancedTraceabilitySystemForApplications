@@ -1,21 +1,11 @@
-import SearchBar from "../components/TraceabilityComponents/SearchBar";
-import React, { useState } from "react";
-import ProductHistory from "../components/TraceabilityComponents/ProductHistory";
-
-interface Product{
-    id: number;
-    label: string;
-    maxQuantity: number;
-    currentQuantity: number;
-    intermediariesID: [number];
-    parentID: number | null;
-}
+import SearchBar from "./TracePageComponents/SearchBar";
+import React, {useState} from "react";
+import ProductHistory from "./TracePageComponents/ProductHistory";
+import {Product} from "./Product";
 
 type Event = {
 
 }
-
-
 
 class Node{
     children: Node[];
@@ -37,8 +27,8 @@ const TraceabilityPage = () => {
     const [history, setHistory] = useState([]);
 
 
-    const getData = (products : [Product]) : void => {
-        if(products.length > 0){
+    const getData = (products : Product[] | null) : void => {
+        if (products !== null){
             const root : Node | null = buildGraph(products);
             setRoot(root);
         }
@@ -55,6 +45,10 @@ const TraceabilityPage = () => {
             setSelectedProduct(null);
             setHistory([]);
         }
+        //Allows switching which item is selected
+        else{
+            setSelectedProduct(product)
+        }
 
         event.stopPropagation();
     }
@@ -66,7 +60,7 @@ const TraceabilityPage = () => {
         setHistory(history);
     }
 
-    const buildGraph = (data: [Product]) : Node | null => {
+    const buildGraph = (data: Product[]) : Node | null => {
         let nodes: Node[] = [];
         data.reverse().forEach((product: Product) => {
             //Creates a new Node object
