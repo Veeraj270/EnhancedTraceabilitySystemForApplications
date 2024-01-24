@@ -1,7 +1,7 @@
 import SearchBar from "./TracePageComponents/SearchBar";
 import React, {useState} from "react";
 import ProductHistory from "./TracePageComponents/ProductHistory";
-import {Product} from "./Product";
+import {Product} from "./Interfaces/Product";
 
 type Event = {
 
@@ -65,6 +65,7 @@ const TraceabilityPage = () => {
         data.reverse().forEach((product: Product) => {
             //Creates a new Node object
             const currentNode = new Node(product);
+
             //Add newNode object to nodes array
             nodes.push(currentNode);
 
@@ -113,8 +114,8 @@ const TraceabilityPage = () => {
                 </div>
             )
         }
+        //Recursive case
         else {
-            //Recursive case
             depth ++
             console.log("node.data.id : " + node.product.id)
             return(

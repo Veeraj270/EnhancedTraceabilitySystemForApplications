@@ -1,4 +1,4 @@
-import BasicTable from '../components/Table/BasicTable'
+import BasicTable from './ProductPageComponents/Table/BasicTable'
 
 const ProductsPage = () => {
     return (
