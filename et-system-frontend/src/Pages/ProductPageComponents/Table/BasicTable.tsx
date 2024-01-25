@@ -11,8 +11,10 @@ const BasicTable = () => {
     const columns = useMemo(() => Columns, [])
     const [ data, setData ] = useState([])
 
+
+    //Needs work
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchData = async () : Promise<void> => {
             const res = await fetch("http://localhost:8080/api/products/fetch-products");
             const data = await res.json();
 
