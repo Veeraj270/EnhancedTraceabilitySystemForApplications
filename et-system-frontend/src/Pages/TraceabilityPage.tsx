@@ -114,6 +114,7 @@ const TraceabilityPage = () => {
                 </div>
             )
         }
+
         //Recursive case
         else {
             depth ++
