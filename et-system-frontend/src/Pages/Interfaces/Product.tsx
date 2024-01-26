@@ -3,6 +3,6 @@ export interface Product {
     label: string;
     maxQuantity: number;
     currentQuantity: number;
-    intermediariesID: [number];
+    intermediariesID: number[];
     parentID: number | null;
 }
