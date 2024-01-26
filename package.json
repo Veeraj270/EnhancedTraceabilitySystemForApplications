@@ -1,6 +1,8 @@
 {
   "devDependencies": {
-    "@types/react-table": "^7.7.19",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@tanstack/react-table": "^8.11.7"
   }
 }
