@@ -50,11 +50,14 @@ const TanTable = () => {
     const fetchData = async () : Promise<void> => {
         try {
             const res = await fetch("http://localhost:8080/api/products/fetch-products")
+            console.log("Fetch request!!")
             if (!res.ok){
+                //setData([])
                 throw new Error("fetch-products response was not ok")
             }
             const products = await res.json();
             setData(products)
+            console.log(products)
         }
         catch(error){
             console.log("Error occurred within fetchData(): ", error)
@@ -63,15 +66,14 @@ const TanTable = () => {
 
     useEffect(() => {
         fetchData().then()
-    }, [fetchData()]) //Empty dependency array therefore runs at least once when component mounts
+    }, []) //Empty dependency array therefore runs at least once when component mounts
 
     //Here table is the core table object that contains the table state and APIs
+    //This is the bare minimum for table initialisation
     const table = useReactTable({
         data ,
         columns ,
         getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
-        getSortedRowModel: getSortedRowModel(),
     })
 
 
