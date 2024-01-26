@@ -2,28 +2,16 @@ import {
     getCoreRowModel,
     flexRender,
     useReactTable,
-    Column,
-    createColumnHelper,
-    getPaginationRowModel, getSortedRowModel
+    getPaginationRowModel,
+    getSortedRowModel,
+
 } from '@tanstack/react-table'
 import {useEffect, useMemo, useState} from "react";
+import './Table.css'
 
 function TanTable(){
-
-    //This is our createTable function
-    /*Here table is the core table object that contains the table state and APIs
-    *
-    * Two options are required: columns & data
-    *
-    * 'data' is an array of object that will be turned ito the rows of your table
-    * each object in the array represent a row of data
-    * */
-
-    /**/
-
-
     //Update for TanStack v8
-    const columns = [
+    const columns = useMemo( () => [
         {
             header: 'Id',
             accessorKey: 'id'
@@ -44,7 +32,7 @@ function TanTable(){
             header: 'Intermediaries',
             accessorKey: 'intermediariesId'
         },
-    ]
+    ], [])
 
     type Product = {
         id: number;
@@ -72,10 +60,9 @@ function TanTable(){
 
     useEffect(() => {
         fetchData().then()
-    })
+    }, [])
 
-
-
+    //Here table is the core table object that contains the table state and APIs
     const table = useReactTable({
         data ,
         columns ,
@@ -85,7 +72,7 @@ function TanTable(){
     })
 
 
-    //Render table
+    //Rendering of table
     return (
         <div>
             <table>
@@ -96,6 +83,15 @@ function TanTable(){
                         </th>)}
                     </tr>
                 ))}
+                <tbody>
+                {table.getRowModel().rows.map(row => (<tr key={row.id}>
+                    {row.getVisibleCells().map(cell => (
+                        <td>
+                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </td>
+                    ))}
+                </tr>))}
+                </tbody>
             </table>
         </div>
     )
