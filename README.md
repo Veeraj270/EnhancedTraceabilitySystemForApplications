@@ -1,5 +1,7 @@
 # Enhanced Traceability System
 
+By Izzeldeen Abumatar, Veeraj Bhagwat, Matthew Cudby, and Josif Trenchovski, under mentorship of Tom Burt-Gray.
+
 ## Summary
 
 The goal of the project is to develop a comprehensive system for the tracking of the production of Cakesmiths baked goods from their beginnings as raw ingredients, to their point of sale. 
@@ -23,7 +25,7 @@ that we accurately tracker the inventory from the moment it arrives at our premi
 - As a **production line baker**, I want a user-friendly interface that allows us to pick from a list of previously defined 
 recipes and log exactly which ingredients were used in the production of the product. I'd like to be able to input data
 regarding loss and waste during the production process. 
-- As a **company director**(, I want a system that provides key insights into the efficiency of our production process via 
+- As a **company director**, I want a system that provides key insights into the efficiency of our production process via 
 intuitive data graphics. Also, I want the system to be able to provide in depth traceability data on any finished product
 that was produced on our premises.
 - As a **user** across all levels, I want the system to have an intuitive graphical interface that makes for easy navigation
@@ -46,10 +48,29 @@ use case of blockchain technology.
 
 ### Dev Tools
 - Docker
-- Github (Git)
+- Git
+- Gradle
+- NPM
+- GitHub, GH Actions and GH Projects
 
 ## Developer Instructions
-### Starting Database
+
+### Via Docker Compose
+
+The database, frontend, and backend can be started in tandem using Docker Compose.
+
+**Prerequisites**
+
+- Docker Engine: <a name="docker-engine">https://docs.docker.com/engine/install/</a>
+
+**Instructions**
+
+- In the `./ETSystem` directory, run `./gradlew bootJar` to build the backend.
+- Start Docker (e.g. via Docker Desktop).
+- In the `./docker/` directory, run `docker compose up`.
+- After initialization, access the website through `localhost:3000`.
+
+### Manually Starting Database
 
 **Prerequisites**
 
@@ -59,39 +80,51 @@ use case of blockchain technology.
 
 Pull the postgres image:
 
-```docker pull postgres```
+```
+docker pull postgres
+```
 
 Create docker network to attatch containers to:
 
-```docker network create --subnet=172.18.0.0/16 mynet```
+```
+docker network create --subnet=172.18.0.0/16 mynet
+```
 
 Create postgres container with the relevant environment variables that is attatched to the mynet network:
 
-```docker run -d --ip 172.18.0.2 -p 5432:5432 -e POSTGRES_PASSWORD=admin -e POSTGRES_USER=admin -e POSTGRES_DB=etsystemdatabase --name=postgres_con postgres```
+```
+docker run -d --ip 172.18.0.2 -p 5432:5432 -e POSTGRES_PASSWORD=admin -e POSTGRES_USER=admin -e POSTGRES_DB=etsystemdatabase --name=postgres_con postgres
+```
 
 **Useful docker commands**
 
 Inspect a container:
 
-```docker inspect <container>```
+```
+docker inspect <container>
+```
 
 Remove all containers from docker:
 
-``` docker rm -f $(docker ps -aq)```
+```
+docker rm -f $(docker ps -aq)
+```
 
 Remove a network from docker:
 
-```docker network remove <name of network>```
+```
+docker network remove <name of network>
+```
 
-### Starting Backend
+### Manually Starting Backend
 
 - Navigate to /ETSystem
-- Clean the build directory and then build the project from scratch:  ```./gradlew clean build```
-- Run ETSystem via: ```./gradlew bootRun```
+- Clean the build directory and then build the project from scratch:  `./gradlew clean build`
+- Run ETSystem via: `./gradlew bootRun`
 - The back end should now be running
 
-### Starting the Front-End
+### Manually Starting the Front-End
 - Navigate to /et-system-front-end.
-- Run ``` npm install``` to install required dependencies.
-- Run ``` npm start``` to launch graphical user interface.
+- Run `npm install` to install required dependencies.
+- Run `npm start` to launch graphical user interface.
 
