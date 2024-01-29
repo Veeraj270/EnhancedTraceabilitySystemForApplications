@@ -1,0 +1,24 @@
+name: Feature
+description: Plan a feature
+projects:
+  - "spe-uob/141"
+labels:
+  - enhancement
+body:
+  - type: textarea
+    attributes:
+      label: What
+      description: Description of the feature in depth. Any relevant sketches or pictures go here.
+  - type: textarea
+    attributes:
+      label: Why
+      description: Why this feature is important or necessary. What it aims to achieve, or what problems it solves.
+  - type: textarea
+    attributes:
+      label: How
+      description: How this feature is to be implemented, mentioning particular frameworks or technologies where necessary.
+  - type: textarea
+    attributes:
+      label: Other Comments
+    validations:
+      required: false
