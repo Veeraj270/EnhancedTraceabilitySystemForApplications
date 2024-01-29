@@ -1,11 +1,8 @@
 import SearchBar from "./TracePageComponents/SearchBar";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import ProductHistory from "./TracePageComponents/ProductHistory";
 import {Product} from "./Interfaces/Product";
-
-type Event = {
-
-}
+import {Event} from "./Interfaces/Event";
 
 class Node{
     children: Node[];
@@ -24,7 +21,7 @@ class Node{
 const TraceabilityPage = () => {
     const [root , setRoot] = useState<Node | null>(null);
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-    const [history, setHistory] = useState([]);
+    const [history, setHistory] = useState<Event[]>([]);
 
 
     const getData = (products : Product[] | null) : void => {
@@ -38,7 +35,7 @@ const TraceabilityPage = () => {
         //If already selected then unselect
         if (selectedProduct == null){
             setSelectedProduct(product);
-
+            fetchHistory(product.id).then();
         }
         //Allows unselecting
         else if (selectedProduct.id === product.id){
@@ -48,16 +45,25 @@ const TraceabilityPage = () => {
         //Allows switching which item is selected
         else{
             setSelectedProduct(product)
+            fetchHistory(product.id).then();
         }
+
 
         event.stopPropagation();
     }
 
     const fetchHistory = async (id: number) : Promise<void> => {
-        const res = await fetch(`http://localhost:8080/api/products/fetch-product-history/${id}`);
-        const history = await res.json();
-        console.log(history);
-        setHistory(history);
+        try {
+            const res = await fetch(`http://localhost:8080/api/products/fetch-product-history/${id}`);
+            if (!res.ok){
+                throw new Error("fetch-product-history response was not ok")
+            }
+            const updatedHistory : Event[] = await res.json();
+            setHistory(updatedHistory);
+            console.log(history);
+        } catch(error) {
+            console.log("Error occurred with fetchHistory(): ", error)
+        }
     }
 
     const buildGraph = (data: Product[]) : Node | null => {
