@@ -8,8 +8,8 @@ const TraceabilityPage = () => {
         id: -1,
     }
 
-    const [ root, setRoot] = useState(null)
-    const [ selectedProduct, setSelectedProduct ] = useState(defaultProduct)
+    const [root, setRoot] = useState(null)
+    const [selectedProduct, setSelectedProduct] = useState(defaultProduct)
     const [history, setHistory] = useState([]);
 
 
@@ -100,7 +100,6 @@ const TraceabilityPage = () => {
             )
         }
     }
-
 
     return (
         <div className='traceability-page'>

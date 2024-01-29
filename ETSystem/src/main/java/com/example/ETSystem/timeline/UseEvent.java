@@ -11,8 +11,10 @@ public non-sealed class UseEvent implements TimelineEvent{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	
 	@Column(name = "timestamp", nullable = false)
 	private long timestamp;
+	
 	@ManyToOne
 	@JoinColumn(name = "owner", nullable = false)
 	private Product owner;
@@ -54,7 +56,7 @@ public non-sealed class UseEvent implements TimelineEvent{
 	
 	public boolean equals(Object o){
 		return this == o ||
-			o instanceof UseEvent event && id == event.id && timestamp == event.timestamp && Objects.equals(owner, event.owner);
+				o instanceof UseEvent event && id == event.id && timestamp == event.timestamp && Objects.equals(owner, event.owner);
 	}
 	
 	public int hashCode(){
