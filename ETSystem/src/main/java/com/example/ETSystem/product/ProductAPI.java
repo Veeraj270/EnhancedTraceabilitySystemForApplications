@@ -4,7 +4,6 @@ import com.example.ETSystem.timeline.TimelineData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Time;
 import java.util.List;
 
 @RestController
