@@ -1,6 +1,12 @@
-const ProductHistory = ( {history} ) => {
-    const generateJSX = (history) => {
-        console.log("generateJSX() history:" + history )
+import {Event} from "../Interfaces/Event";
+
+interface Props{
+    history: Event[];
+}
+
+const ProductHistory = ( props : Props ) => {
+    const generateJSX = (history: Event[]) => {
+        console.log("history:" + history )
         return (
             ( history.length === 0) ? (<p>No events found</p>) : (
                 history.map((event) => {
@@ -14,7 +20,7 @@ const ProductHistory = ( {history} ) => {
 
     return (
         <div>
-            {generateJSX(history)}
+            {generateJSX(props.history)}
         </div>
     )
 }
