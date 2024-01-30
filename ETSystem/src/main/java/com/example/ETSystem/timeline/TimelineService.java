@@ -5,6 +5,7 @@ import com.example.ETSystem.product.ProductRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -52,5 +53,9 @@ public class TimelineService{
 		else if(in instanceof MoveEvent me)
 			return moveRepo.save(me);
 		throw new IncompatibleClassChangeError("Unsupported new subclass of sealed interface " + in.getClass().getName());
+	}
+	
+	public void saveAll(List<TimelineEvent> events){
+		events.forEach(this::save);
 	}
 }

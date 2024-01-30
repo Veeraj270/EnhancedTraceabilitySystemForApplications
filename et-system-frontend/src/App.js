@@ -1,4 +1,3 @@
-
 import './index.css';
 import Sidebar from './components/Sidebar'
 import HomePage from './Pages/HomePage'
@@ -8,7 +7,6 @@ import TraceabilityPage from "./Pages/TraceabilityPage";
 import HelpPage from "./Pages/HelpPage";
 import AddProduct from "./components/TraceabilityComponents/AddProduct";
 import AddProductsPage from "./Pages/AddProductsPage";
-
 
 function App() {
     return (
@@ -32,7 +30,6 @@ function App() {
 
                     </Route>
                 </Routes>
-
             </div>
         </Router>
     )

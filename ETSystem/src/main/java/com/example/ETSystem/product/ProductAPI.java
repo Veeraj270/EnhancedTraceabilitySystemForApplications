@@ -1,13 +1,8 @@
 package com.example.ETSystem.product;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 
@@ -16,7 +11,6 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 public class ProductAPI {
     private final ProductService productService;
-    private final Logger log = LoggerFactory.getLogger(ProductAPI.class);
 
     @Autowired
     public ProductAPI(ProductService productService){
@@ -43,21 +37,10 @@ public class ProductAPI {
         return list;
     }
 
-/*
+
     @PostMapping(path = "/add")
     public Product addProduct(@RequestBody Product newProduct){
         productService.addNewProduct(newProduct);
         return newProduct;
-    }
-
- */
-
-
-    @PostMapping("/add")
-    Product createGroup(@RequestBody Product product) {
-        log.info("Request to add new product: {}", product);
-        System.out.println(product);
-        productService.addNewProduct(product);
-        return product;
     }
 }
