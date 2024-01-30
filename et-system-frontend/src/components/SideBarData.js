@@ -1,4 +1,5 @@
 import { FaWarehouse } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 import { FaHome } from "react-icons/fa";
 import { PiTreeStructure } from "react-icons/pi";
 import { IoMdHelp } from "react-icons/io";
@@ -15,6 +16,12 @@ export const SideBarData = [
         title: ' Products ',
         path: '/products',
         icon: <FaWarehouse/>,
+        cName: 'nav-text'
+    },
+    {
+        title: ' Add Products ',
+        path: '/add',
+        icon: <FaPlus/>,
         cName: 'nav-text'
     },
     {

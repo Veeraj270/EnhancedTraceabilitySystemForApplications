@@ -28,7 +28,7 @@ function App() {
                     <Route path={"/help"} element={<HelpPage/>}>
 
                     </Route>
-                    <Route path={"/products/add"} element={<AddProductsPage/>}>
+                    <Route path={"/add"} element={<AddProductsPage/>}>
 
                     </Route>
                 </Routes>
