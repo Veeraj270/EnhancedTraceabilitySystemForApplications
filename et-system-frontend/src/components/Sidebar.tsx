@@ -1,7 +1,6 @@
-import Button from './Button'
 import {Link} from "react-router-dom";
 import SideBarData from "./SideBarData";
-import '../CSS/SideBar.css'
+import './SideBar.css'
 
 const Sidebar = () => {
     return (
@@ -21,7 +20,6 @@ const Sidebar = () => {
                     )
                 })}
             </nav>
-
         </div>
     )
 }

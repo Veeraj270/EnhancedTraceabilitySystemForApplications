@@ -1,4 +1,4 @@
-import BasicTable from '../components/Table/BasicTable'
+import TanTable from "./ProductPageComponents/TanStackTable/TanTable";
 
 
 const ProductsPage = () => {
@@ -6,7 +6,7 @@ const ProductsPage = () => {
         <div className='page'>
             <h1>Products</h1>
             <h3>All Products:</h3>
-            <BasicTable/>
+            <TanTable/>
         </div>
     )
 }
