@@ -5,7 +5,6 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import ProductsPage from "./Pages/ProductsPage";
 import TraceabilityPage from "./Pages/TraceabilityPage";
 import HelpPage from "./Pages/HelpPage";
-import AddProduct from "./components/TraceabilityComponents/AddProduct";
 import AddProductsPage from "./Pages/AddProductsPage";
 
 function App() {

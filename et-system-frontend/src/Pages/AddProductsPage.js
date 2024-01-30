@@ -1,5 +1,4 @@
-import AddProduct from "../components/TraceabilityComponents/AddProduct";
-import BasicTable from "../components/Table/BasicTable";
+import AddProduct from "../Pages/TracePageComponents/AddProduct";
 
 const AddProductsPage = () => {
     return (
