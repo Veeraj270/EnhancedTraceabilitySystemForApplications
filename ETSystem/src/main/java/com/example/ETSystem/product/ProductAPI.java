@@ -10,32 +10,32 @@ import java.util.List;
 @RequestMapping(path = "api/products")
 @CrossOrigin(origins = "http://localhost:3000")
 public class ProductAPI{
-
-    private final ProductService productService;
-
-    @Autowired
-    public ProductAPI(ProductService productService){
-        this.productService = productService;
-    }
-
-    @GetMapping(path = "/fetch-products")
-    public List<Product> getProducts(){
-        return productService.getProducts();
-    }
-
-    @GetMapping(path = "/fetch-product-intermediaries/{id}")
-    public List<Product> getProductIntermediaries(@PathVariable("id") long id){
-        return productService.getProductIntermediaries(id);
-    }
-
-    @GetMapping(path = "/fetch-product-history/{id}")
-    public List<TimelineData> fetchProductHistory(@PathVariable("id") long id){
-        return productService.getProductHistory(id);
-    }
-
-    @PostMapping(path = "/add-product")
-    public Product addProduct(@RequestBody Product newProduct){
-        productService.addNewProduct(newProduct);
-        return newProduct;
-    }
+	
+	private final ProductService productService;
+	
+	@Autowired
+	public ProductAPI(ProductService productService){
+		this.productService = productService;
+	}
+	
+	@GetMapping(path = "/fetch-products")
+	public List<Product> getProducts(){
+		return productService.getProducts();
+	}
+	
+	@GetMapping(path = "/fetch-product-intermediaries/{id}")
+	public List<Product> getProductIntermediaries(@PathVariable("id") long id){
+		return productService.getProductIntermediaries(id);
+	}
+	
+	@GetMapping(path = "/fetch-product-history/{id}")
+	public List<TimelineData> fetchProductHistory(@PathVariable("id") long id){
+		return productService.getProductHistory(id);
+	}
+	
+	@PostMapping(path = "/add-product")
+	public Product addProduct(@RequestBody Product newProduct){
+		productService.addNewProduct(newProduct);
+		return newProduct;
+	}
 }

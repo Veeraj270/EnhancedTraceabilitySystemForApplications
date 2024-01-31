@@ -3,9 +3,6 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Container, Form, FormGroup, Input, Label } from 'reactstrap';
 
 const ProductEdit = () => {
-    const title = <h2>{'Add Product'}</h2>;
-
-
     const initialFormState = {
         intermediariesID: [],
         label: '',
@@ -33,7 +30,7 @@ const ProductEdit = () => {
         //await fetch(`/api/group${product.id ? `/${product.id}` : ''}`, {
 
 
-            await fetch(`http://localhost:8080/api/products/add`, {
+            await fetch(`http://localhost:8080/api/products/add-product`, {
                 //method: (product.id) ? 'PUT' : 'POST'
             method: 'POST',
             headers: {
@@ -48,15 +45,9 @@ const ProductEdit = () => {
 
     //const title = <h2>{product.id ? 'Edit Product' : 'Add Product'}</h2>;
 
-
     return (<div>
             <Container>
-                {title}
                 <Form onSubmit={handleSubmit}>
-                   
-
-
-
                         <FormGroup>
                             <Label for="label">Label</Label>
                             <Input type="text" name="label" id="label" value={product.label || ''}
