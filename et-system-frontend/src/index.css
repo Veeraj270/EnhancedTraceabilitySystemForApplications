@@ -61,7 +61,7 @@ code {
 
 .grid{
   display: grid;
-  grid-template-columns: 500px 1fr;
+  grid-template-columns: 450px 1fr;
   grid-column-gap: 40px;
   height: 100%;
 }
@@ -70,6 +70,7 @@ code {
   font-weight: bold;
   font-size: 20px;
   margin: 10px 0px 10px 0px;
+  color: black;
 }
 .product-history-container{
   grid-column: 2;
@@ -82,34 +83,61 @@ code {
   display: flex;
   flex-direction: column;
   background-color: powderblue;
-  width: 500px;
+  width: 450px;
   height: 85%;
   border-radius: .5rem;
   padding: 10px;
-}
-
-.depth-0{
   font-size: 20px;
 }
 
+
+/*Some unexplained effects occurring here*/
 .depth-0 p{
-  background-color: aliceblue;
+  background-color: ghostwhite;
   padding: 10px;
   border-radius: 0.5rem;
 }
 
-
 .depth-1 p{
-  background-color: aliceblue;
-  border-radius: .5rem;
+  background-color: ghostwhite;
   padding: 10px;
+  border-radius: 0.5rem;
+}
+.depth-2 p{
+  background-color: ghostwhite;
+  padding: 10px;
+  border-radius: 0.5rem;
+}
+.depth-3 p{
+  background-color: ghostwhite;
+  padding: 10px;
+  border-radius: 0.5rem;
+}
+.depth-4 p{
+  background-color: ghostwhite;
+  padding: 10px;
+  border-radius: 0.5rem;
 }
 
-.depth-1 p:hover{
-  background-color: whitesmoke;
-}
-.depth-1{
+.depth-0-selected > p{
+  background-color: cadetblue ;
+  padding: 10px;
   font-size: 20px;
-  font-weight: normal;
+  border-radius: 0.5rem;
 }
 
+.depth-1-selected > p{
+  background-color: cadetblue;
+}
+
+.depth-2-selected  > p{
+  background-color: cadetblue;
+}
+
+.depth-3-selected  > p{
+  background-color: cadetblue;
+}
+
+.depth-4-selected  > p{
+  background-color: cadetblue;
+}

@@ -1,4 +1,3 @@
-
 import './index.css';
 import Sidebar from './components/Sidebar'
 import HomePage from './Pages/HomePage'
@@ -9,7 +8,6 @@ import HelpPage from "./Pages/HelpPage";
 import AddProduct from "./components/TraceabilityComponents/AddProduct";
 import AddProductsPage from "./Pages/AddProductsPage";
 import EditProductPage from "./Pages/EditProductPage";
-
 
 function App() {
     return (
@@ -35,7 +33,6 @@ function App() {
                     <Route path={"/edit-product/:id"} element={<EditProductPage/>}>
                     </Route>
                 </Routes>
-
             </div>
         </Router>
     )
