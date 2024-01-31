@@ -1,11 +1,29 @@
 import './TakeDeliveryPageComponents/TDPStyleSheet.css'
 import {useState} from "react";
+import MetaDataWindow from "./TakeDeliveryPageComponents/MetaDataWindow";
+import DeliveryName from "./TakeDeliveryPageComponents/DeliveryName";
+import BarCodeEntry from "./TakeDeliveryPageComponents/BarCodeEntry";
+import SubmitDeliveryButton from "./TakeDeliveryPageComponents/SubmitDeliveryButton";
 
+interface MetaData{
+    deliveryName: string;
+    supplier: string;
+    expectedDeliveryDate: number;
+
+}
 
 
 const TakeDelivery = () => {
+    //Default Meta Data - Likely needs removing later
+    const defaultMetaData: MetaData = {
+        deliveryName: "DeliveryName",
+        supplier: "Default",
+        expectedDeliveryDate: 1200,
+
+    }
+
     //State variables
-    const [deliveryName, setDeliveryName ] = useState("Delivery Name")
+    const [metaData, setMetaData ] = useState(defaultMetaData)
 
 
     return (
@@ -13,10 +31,10 @@ const TakeDelivery = () => {
             <h1>Take Delivery</h1>
             <div className={'content'}>
                 <div className={'section1'}>
-                    <h3 className={'delivery-name'}>{deliveryName}</h3>
-                    <div className={'meta-data'}></div>
-                    <div className={'bar-code-entry'}></div>
-                    <p>Section 1</p>
+                    <DeliveryName text={metaData.deliveryName}/>
+                    <MetaDataWindow data={metaData}/>
+                    <BarCodeEntry/>
+                    <SubmitDeliveryButton/>
                 </div>
                 <div className={'section2'}>
                     <p>Section 2</p>
