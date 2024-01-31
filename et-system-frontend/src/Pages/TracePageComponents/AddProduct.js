@@ -30,7 +30,7 @@ const ProductEdit = () => {
         //await fetch(`/api/group${product.id ? `/${product.id}` : ''}`, {
 
 
-            await fetch(`http://localhost:8080/api/products/add`, {
+            await fetch(`http://localhost:8080/api/products/add-product`, {
                 //method: (product.id) ? 'PUT' : 'POST'
             method: 'POST',
             headers: {
