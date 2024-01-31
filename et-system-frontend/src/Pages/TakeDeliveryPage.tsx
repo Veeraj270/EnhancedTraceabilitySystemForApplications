@@ -39,21 +39,25 @@ const TakeDelivery = () => {
 
     //Fetch methods
 
+    /*
+        Need to implement logic for all tables always having at least 20 rows:
+            When a real row is added, remove an empty row.
+            When a real row is removed, if there's now less than 20 rows, add empty row to end of array
+     */
+
     //Submit barcode method
     const submitBarcode = (input: string) => {
         console.log("submitBarcode(): " + input);
-        //Validate that it is a valid barcode
+        //Validate that it's a valid barcode
 
-        //Get label associated with barcode
+        //Get label associated with barcode - request to back-end??
 
-        //Add barcode and label to Scanned Items Table Data
-
+        //Update table with product
         const newData = [{
             barcode: input,
             label: "N/A"
         } ,...scannedTData]
         setScannedTData(newData);
-        console.log(scannedTData);
     }
 
     const submitDelivery = () => {
@@ -66,19 +70,26 @@ const TakeDelivery = () => {
             <div className={'content'}>
                 <div className={'section1'}>
                     <DeliveryName text={metaData.deliveryName}/>
+
                     <MetaDataWindow data={metaData}/>
+
                     <BarCodeEntry submit={submitBarcode}/>
+
                     <SubmitDeliveryButton submit={submitDelivery}/>
+
                 </div>
+
                 <div className={'section2'}>
                     <div className={'table-container'}>
                         <h3 className={'table-title'}>Expected Items</h3>
                         <Table data={expectedTData.reverse()}/>
                     </div>
+
                     <div className={'table-container'}>
                         <h3 className={'table-title'}>Scanned Items</h3>
                         <Table data={scannedTData.reverse()}/>
                     </div>
+
                     <div className={'table-container'}>
                         <h3 className={'table-title'}>Unexpected Items</h3>
                         <Table data={unexpectedTData.reverse()}/>
