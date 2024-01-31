@@ -22,10 +22,14 @@ const EditProductPage = () => {
     })
     const navigate = useNavigate()
 
+
     useEffect(() => {
         fetch(`http://localhost:8080/api/products/fetch-product-by-id/${id}`)
             .then(response => response.json())
-            .then(data => setProduct(data))
+            .then(data => {
+                console.log("Fetched data:", data);
+                setProduct(data);
+            })
             .catch(error => console.error('Error:', error));
     }, [id]);
 
@@ -44,15 +48,15 @@ const EditProductPage = () => {
         event.preventDefault();
 
 
-        await fetch(`http://localhost:8080/api/products/add`, {
+        await fetch(`http://localhost:8080/api/products/edit/${product.id}`, {
             //method: (product.id) ? 'PUT' : 'POST'
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(product)
-        });
+        })
 
         navigate('/products');
     }
@@ -63,12 +67,12 @@ const EditProductPage = () => {
                 <Form onSubmit={handleSubmit}>
                     <FormGroup>
                         <Label for="id">ID</Label>
-                        <Input type="text" name="id" id="id" value={product.id || ''} onChange={handleChange}/>
+                        <Input type="text" name="id" id="id" value={product.id} onChange={handleChange}/>
                     </FormGroup>
 
                     <FormGroup>
                         <Label for="parentID">parentID</Label>
-                        <Input type="text" name="parentID" id="parentID" value={product.parentID || ''} onChange={handleChange}/>
+                        <Input type="text" name="parentID" id="parentID" value={product.parentID} onChange={handleChange}/>
                     </FormGroup>
 
 
@@ -76,17 +80,17 @@ const EditProductPage = () => {
 
                     <FormGroup>
                         <Label for="label">Label</Label>
-                        <Input type="text" name="label" id="label" value={product.label || ''}
+                        <Input type="text" name="label" id="label" value={product.label}
                                onChange={handleChange} />
                     </FormGroup>
                     <FormGroup>
                         <Label for="maxQuantity">Max Quantity</Label>
-                        <Input type="number" name="maxQuantity" id="maxQuantity" value={product.maxQuantity || 0}
+                        <Input type="number" name="maxQuantity" id="maxQuantity" value={product.maxQuantity}
                                onChange={handleChange} />
                     </FormGroup>
                     <FormGroup>
                         <Label for="currentQuantity">Current Quantity</Label>
-                        <Input type="number" name="currentQuantity" id="currentQuantity" value={product.currentQuantity || 0}
+                        <Input type="number" name="currentQuantity" id="currentQuantity" value={product.currentQuantity}
                                onChange={handleChange} />
                     </FormGroup>
                     <FormGroup>

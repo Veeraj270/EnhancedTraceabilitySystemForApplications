@@ -72,5 +72,18 @@ public class ProductService {
             product.setParentID(parent.getId());
         }
     }
+
+    public Product editProduct(Long id, Product product){
+        Product existingProduct = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+        existingProduct.setLabel(product.getLabel());
+        existingProduct.setParentID(product.getParentID());
+        existingProduct.setIntermediaries(product.getIntermediariesId());
+        existingProduct.setMaxQuantity(product.getMaxQuantity());
+        existingProduct.setCurrentQuantity(product.getCurrentQuantity());
+
+        return productRepository.save(existingProduct);
+
+    }
 }
 

@@ -11,6 +11,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 
+
+
 @RestController
 @RequestMapping(path = "api/products")
 @CrossOrigin(origins = "http://localhost:3000")
@@ -43,7 +45,8 @@ public class ProductAPI {
         return list;
     }
 
-    @GetMapping(path = "fetch-product-by-id/{id}")
+    @GetMapping(path = "/fetch-product-by-id/{id}")
+    @CrossOrigin(origins = "http://localhost:3000")
     public Product getProductById(@PathVariable("id") String id){
         return productService.getProductByID(Long.parseLong(id));
     }
@@ -65,4 +68,15 @@ public class ProductAPI {
         productService.addNewProduct(product);
         return product;
     }
+
+    @PutMapping(path = "/edit/{id}")
+    public ResponseEntity<Product> editProduct(@PathVariable Long id, @RequestBody Product product){
+        log.info("Request to edit product : {}", product);
+        Product editedProduct = productService.editProduct(id, product);
+        return ResponseEntity.ok(editedProduct);
+    }
+
+
+
+
 }
