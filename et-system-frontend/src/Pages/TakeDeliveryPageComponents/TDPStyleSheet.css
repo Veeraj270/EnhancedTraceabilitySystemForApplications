@@ -83,16 +83,38 @@
     text-align: center;
 }
 
-
-.order-complete-button{
-
-}
-
-
 .section2{
     width: calc(100% - 340px);
     height: 100%;
     background-color: powderblue;
-    padding: 10px;
+
     border-radius: .5rem;
+    display: flex;
+    flex-direction: row;
+}
+.table-container{
+    width: 400px;
+    padding: 10px;
+}
+
+/*Table styling*/
+table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse ;
+    background-color: ghostwhite;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+thead {
+    background-color: powderblue;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+tr:hover td {
+    background-color:lightgrey;
 }

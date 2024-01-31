@@ -4,12 +4,13 @@ import MetaDataWindow from "./TakeDeliveryPageComponents/MetaDataWindow";
 import DeliveryName from "./TakeDeliveryPageComponents/DeliveryName";
 import BarCodeEntry from "./TakeDeliveryPageComponents/BarCodeEntry";
 import SubmitDeliveryButton from "./TakeDeliveryPageComponents/SubmitDeliveryButton";
+import Table from "./TakeDeliveryPageComponents/Table";
+import Item from "./TakeDeliveryPageComponents/Interfaces/Item";
 
 interface MetaData{
     deliveryName: string;
     supplier: string;
     expectedDeliveryDate: number;
-
 }
 
 
@@ -22,8 +23,16 @@ const TakeDelivery = () => {
 
     }
 
+    const defaultTableData: Item[] = []
+
+
     //State variables
     const [metaData, setMetaData ] = useState(defaultMetaData)
+    const [expectedTableData, setExpectedTableData] = useState(defaultTableData)
+    const [scannedTableData, setScannedTableData] = useState(defaultTableData)
+    const [unexpectedTableData, setUnexpectedTableData] = useState(defaultTableData)
+
+
 
     return (
         <div className='take-delivery-page'>
@@ -36,7 +45,18 @@ const TakeDelivery = () => {
                     <SubmitDeliveryButton/>
                 </div>
                 <div className={'section2'}>
-                    <p>Section 2</p>
+                    <div className={'table-container'}>
+                        <h3>Expected</h3>
+                        <Table data={expectedTableData}/>
+                    </div>
+                    <div className={'table-container'}>
+                        <h3>Scanned</h3>
+                        <Table data={scannedTableData}/>
+                    </div>
+                    <div className={'table-container'}>
+                        <h3>Unexpected</h3>
+                        <Table data={unexpectedTableData}/>
+                    </div>
                 </div>
             </div>
 
