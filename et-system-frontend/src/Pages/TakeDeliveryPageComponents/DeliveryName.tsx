@@ -6,7 +6,9 @@ interface Props{
 
 const DeliveryName : React.FC<Props> = ( { text} ) => {
     return(
-        <h3 className={'delivery-name'}>{text}</h3>
+        <div className={'d-name-container'}>
+            <h3 className={'delivery-name'}>{text}</h3>
+        </div>
     )
 }
 

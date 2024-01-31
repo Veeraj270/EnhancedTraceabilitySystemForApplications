@@ -16,7 +16,7 @@ interface MetaData{
 const TakeDelivery = () => {
     //Default Meta Data - Likely needs removing later
     const defaultMetaData: MetaData = {
-        deliveryName: "DeliveryName",
+        deliveryName: "Delivery Name",
         supplier: "Default",
         expectedDeliveryDate: 1200,
 
@@ -24,7 +24,6 @@ const TakeDelivery = () => {
 
     //State variables
     const [metaData, setMetaData ] = useState(defaultMetaData)
-
 
     return (
         <div className='take-delivery-page'>
