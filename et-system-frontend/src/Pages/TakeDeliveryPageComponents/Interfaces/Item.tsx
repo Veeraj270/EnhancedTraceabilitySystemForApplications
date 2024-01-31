@@ -1,6 +1,6 @@
 interface Item {
     label: string;
-    barcode: number;
+    barcode: string;
 }
 
 export default Item;

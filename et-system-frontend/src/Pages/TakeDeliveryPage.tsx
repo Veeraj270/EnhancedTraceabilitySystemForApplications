@@ -19,20 +19,27 @@ const TakeDelivery = () => {
     const defaultMetaData: MetaData = {
         deliveryName: "Delivery Name",
         supplier: "Default",
-        expectedDeliveryDate: 1200,
-
+        expectedDeliveryDate: 0,
     }
 
-    const defaultTableData: Item[] = []
+    //Default table data such that each table renders with 20 empty rows
+    const defaultTableData: Item[] = Array(20).fill(
+        {
+            label: "",
+            barcode: "",
+        }
+    )
 
 
     //State variables
-    const [metaData, setMetaData ] = useState(defaultMetaData)
-    const [expectedTableData, setExpectedTableData] = useState(defaultTableData)
-    const [scannedTableData, setScannedTableData] = useState(defaultTableData)
-    const [unexpectedTableData, setUnexpectedTableData] = useState(defaultTableData)
+    const [ metaData, setMetaData ] = useState(defaultMetaData)
+    const [ expectedTData, setExpectedTData] = useState(defaultTableData)
+    const [ scannedTData, setScannedTData] = useState(defaultTableData)
+    const [ unexpectedTData, setUnexpectedTData] = useState(defaultTableData)
 
+    //Fetch methods
 
+    //Submit barcode method
 
     return (
         <div className='take-delivery-page'>
@@ -46,16 +53,16 @@ const TakeDelivery = () => {
                 </div>
                 <div className={'section2'}>
                     <div className={'table-container'}>
-                        <h3>Expected</h3>
-                        <Table data={expectedTableData}/>
+                        <h3 className={'table-title'}>Expected Items</h3>
+                        <Table data={expectedTData}/>
                     </div>
                     <div className={'table-container'}>
-                        <h3>Scanned</h3>
-                        <Table data={scannedTableData}/>
+                        <h3 className={'table-title'}>Scanned Items</h3>
+                        <Table data={scannedTData}/>
                     </div>
                     <div className={'table-container'}>
-                        <h3>Unexpected</h3>
-                        <Table data={unexpectedTableData}/>
+                        <h3 className={'table-title'}>Unexpected Items</h3>
+                        <Table data={unexpectedTData}/>
                     </div>
                 </div>
             </div>

@@ -84,26 +84,35 @@
 }
 
 .section2{
-    width: calc(100% - 340px);
+    width: calc(100% - 370px);
     height: 100%;
-    background-color: powderblue;
-
     border-radius: .5rem;
     display: flex;
     flex-direction: row;
+    column-gap: 20px;
 }
 .table-container{
     width: 400px;
     padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 0px;
 }
 
 /*Table styling*/
+.table-title{
+    background-color: ghostwhite;
+    margin: 0px;
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+
+}
+
 table {
     width: 100%;
     text-align: left;
-    border-collapse: collapse ;
     background-color: ghostwhite;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
 }
 
 thead {
@@ -113,6 +122,7 @@ thead {
 th, td {
     padding: 12px;
     border-bottom: 1px solid #ddd;
+    height: 16px;
 }
 
 tr:hover td {
