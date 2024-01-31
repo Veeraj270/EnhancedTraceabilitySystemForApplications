@@ -32,14 +32,33 @@ const TakeDelivery = () => {
 
 
     //State variables
-    const [ metaData, setMetaData ] = useState(defaultMetaData)
-    const [ expectedTData, setExpectedTData] = useState(defaultTableData)
-    const [ scannedTData, setScannedTData] = useState(defaultTableData)
-    const [ unexpectedTData, setUnexpectedTData] = useState(defaultTableData)
+    const [ metaData, setMetaData ] = useState(defaultMetaData);
+    const [ expectedTData, setExpectedTData] = useState(defaultTableData);
+    const [ scannedTData, setScannedTData] = useState(defaultTableData);
+    const [ unexpectedTData, setUnexpectedTData] = useState(defaultTableData);
 
     //Fetch methods
 
     //Submit barcode method
+    const submitBarcode = (input: string) => {
+        console.log("submitBarcode(): " + input);
+        //Validate that it is a valid barcode
+
+        //Get label associated with barcode
+
+        //Add barcode and label to Scanned Items Table Data
+
+        const newData = [{
+            barcode: input,
+            label: "N/A"
+        } ,...scannedTData]
+        setScannedTData(newData);
+        console.log(scannedTData);
+    }
+
+    const submitDelivery = () => {
+        console.log("submitDelivery()");
+    }
 
     return (
         <div className='take-delivery-page'>
@@ -48,21 +67,21 @@ const TakeDelivery = () => {
                 <div className={'section1'}>
                     <DeliveryName text={metaData.deliveryName}/>
                     <MetaDataWindow data={metaData}/>
-                    <BarCodeEntry/>
-                    <SubmitDeliveryButton/>
+                    <BarCodeEntry submit={submitBarcode}/>
+                    <SubmitDeliveryButton submit={submitDelivery}/>
                 </div>
                 <div className={'section2'}>
                     <div className={'table-container'}>
                         <h3 className={'table-title'}>Expected Items</h3>
-                        <Table data={expectedTData}/>
+                        <Table data={expectedTData.reverse()}/>
                     </div>
                     <div className={'table-container'}>
                         <h3 className={'table-title'}>Scanned Items</h3>
-                        <Table data={scannedTData}/>
+                        <Table data={scannedTData.reverse()}/>
                     </div>
                     <div className={'table-container'}>
                         <h3 className={'table-title'}>Unexpected Items</h3>
-                        <Table data={unexpectedTData}/>
+                        <Table data={unexpectedTData.reverse()}/>
                     </div>
                 </div>
             </div>
