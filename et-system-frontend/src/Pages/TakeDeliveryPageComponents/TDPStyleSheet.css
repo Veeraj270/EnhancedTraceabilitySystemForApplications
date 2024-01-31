@@ -1,0 +1,68 @@
+.take-delivery-page{
+    background-color: whitesmoke;
+    width: 100%;
+    height: 100%;
+    padding-left:  50px;
+    padding-right: 50px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
+.content{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    column-gap: 40px;
+    row-gap: 40px;
+}
+
+.section1{
+    width: 300px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+.delivery-name{
+    background-color: lightgrey;
+    border-radius: .5rem;
+    padding: 0;
+    margin: 0;
+    height: 50px;
+}
+
+.meta-data{
+    background-color: powderblue;
+    width: 100%;
+    height: 200px;
+    border-radius: .5rem;
+}
+
+.bar-code-entry{
+    background-color: powderblue;
+    width: 100%;
+    height: 80px;
+    border-radius: .5rem;
+}
+
+.input-box{
+
+}
+
+.add-entry-button{
+
+}
+
+.order-complete-button{
+
+}
+
+
+.section2{
+    width: 95%;
+    height: 100%;
+    background-color: powderblue;
+    padding: 10px;
+    border-radius: .5rem;
+}
