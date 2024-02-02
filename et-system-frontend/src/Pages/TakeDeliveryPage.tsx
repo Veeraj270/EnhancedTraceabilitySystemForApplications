@@ -28,21 +28,34 @@ const TakeDelivery = () => {
 
     //Submit barcode method
     const submitBarcode = async (barcode: string) => {
-        console.log("submitBarcode(): " + barcode);
         //Validate that it's a valid barcode
 
         //Get label associated with barcode via request to openfoodfacts.org
+        const labelKeys = ['generic_name', 'product_name', 'name', 'title','label'];
         let productLabel = "Unknown"
 
         try {
             const res = await fetch(`https://world.openfoodfacts.org/api/v2/product/${barcode}.json`)
 
             if (!res.ok){
-                throw new Error(`openfoodfacts.org API query with barcode: ${input} response was not ok`)
+                throw new Error(`openfoodfacts.org API query with barcode: ${barcode} response was not ok`)
             }
 
             let resJSON = await res.json();
-            productLabel = resJSON.product["generic_name"];
+            let labelFound = false;
+
+            //Try each labelKey
+            for (const key of labelKeys){
+                if(resJSON.product && resJSON.product[key]){
+                    productLabel = resJSON.product[key];
+                    labelFound = true;
+                    break;
+                }
+            }
+
+            if (!labelFound) {
+                productLabel = "Unknown"
+            }
 
         } catch(error){
             console.log("Error occurred in submitBarcode:" , error)
