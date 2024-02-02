@@ -31,7 +31,6 @@ const Table : React.FC<Props> = ( props: Props ) => {
 
     const [tableData, setTableData] = useState<Item[]>(props.data)
 
-
     useEffect(() => {
         table.setPageSize(props.rowsPerPage)
         if (props.data.length % props.rowsPerPage > 0 || props.data.length === 0){

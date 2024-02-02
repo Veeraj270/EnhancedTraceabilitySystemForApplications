@@ -16,22 +16,17 @@ const TakeDelivery = () => {
         supplier: "Default",
         expectedDeliveryDate: 0,
     }
-    //
+
+    //Constants
     const rowsPerPage = 16;
+    const emptyData: Item[] = [];
 
     //State variables
     const [metaData, setMetaData] = useState(defaultMetadata);
-    const [expectedTData, setExpectedTData] = useState([]);
-    const [scannedTData, setScannedTData] = useState([]);
-    const [unexpectedTData, setUnexpectedTData] = useState([]);
+    const [expectedTData, setExpectedTData] = useState(emptyData);
+    const [scannedTData, setScannedTData] = useState(emptyData);
+    const [unexpectedTData, setUnexpectedTData] = useState(emptyData);
 
-    //Fetch methods
-
-    /*
-        Need to implement logic for all tables always having at least 20 rows:
-            When a real row is added, remove an empty row.
-            When a real row is removed, if there's now less than 20 rows, add empty row to end of array
-     */
 
     //Submit barcode method
     const submitBarcode = (input: string) => {
@@ -58,15 +53,10 @@ const TakeDelivery = () => {
             <div className={'content'}>
                 <div className={'section1'}>
                     <DeliveryName text={metaData.deliveryName}/>
-
                     <MetaDataWindow data={metaData}/>
-
                     <BarCodeEntry submit={submitBarcode}/>
-
                     <SubmitDeliveryButton submit={submitDelivery}/>
-
                 </div>
-
                 <div className={'section2'}>
                     <div className={'table-container'}>
                         <h3 className={'table-title'}>Expected Items</h3>
@@ -84,7 +74,6 @@ const TakeDelivery = () => {
                     </div>
                 </div>
             </div>
-
         </div>
     )
 }
