@@ -26,7 +26,6 @@ const TakeDelivery = () => {
     const [scannedTData, setScannedTData] = useState(emptyData);
     const [unexpectedTData, setUnexpectedTData] = useState(emptyData);
 
-
     //Submit barcode method
     const submitBarcode = async (barcode: string) => {
         console.log("submitBarcode(): " + barcode);
@@ -59,13 +58,12 @@ const TakeDelivery = () => {
             //Remove from expectedTData
             setExpectedTData(expectedTData.filter((item: Item) => (item.barcode !== barcode)));
             //Add to expectedTData
-            setScannedTData([item, ...scannedTData]);
+            setScannedTData((prevState) => [item, ...prevState])
         }
         else {
             //Item is unexpected
-            setUnexpectedTData([item, ...unexpectedTData]);
+            setUnexpectedTData((prevState) => [item, ...prevState]);
         }
-
     }
 
     const submitDelivery = () => {
