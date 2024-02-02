@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 
 import java.time.Period;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class PlannedDelivery{
@@ -20,7 +22,16 @@ public class PlannedDelivery{
 	private Period deliveryInterval;
 	
 	@OneToMany
-	private List<DeliveryItem> items;
+	private List<DeliveryItem> items = new ArrayList<>();
+	
+	public PlannedDelivery(){}
+	
+	public PlannedDelivery(String name, String description, ZonedDateTime deliveryTime, Period deliveryInterval){
+		this.name = name;
+		this.description = description;
+		this.deliveryTime = deliveryTime;
+		this.deliveryInterval = deliveryInterval;
+	}
 	
 	public long getId(){
 		return id;
@@ -68,5 +79,24 @@ public class PlannedDelivery{
 	
 	public void setItems(List<DeliveryItem> items){
 		this.items = items;
+	}
+	
+	public boolean equals(Object obj){
+		return obj instanceof PlannedDelivery other && other.id == id;
+	}
+	
+	public int hashCode(){
+		return Objects.hashCode(id);
+	}
+	
+	public String toString(){
+		return "PlannedDelivery{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", description='" + description + '\'' +
+				", deliveryTime=" + deliveryTime +
+				", deliveryInterval=" + deliveryInterval +
+				", items=" + items +
+				'}';
 	}
 }

@@ -4,7 +4,9 @@ import com.example.ETSystem.product.Product;
 import jakarta.persistence.*;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class RecordedDelivery{
@@ -19,7 +21,7 @@ public class RecordedDelivery{
 	private Instant startTime, endTime;
 	
 	@OneToMany
-	private List<Product> recorded;
+	private List<Product> recorded = new ArrayList<>();
 	
 	public long getId(){
 		return id;
@@ -59,5 +61,23 @@ public class RecordedDelivery{
 	
 	public void setRecorded(List<Product> recorded){
 		this.recorded = recorded;
+	}
+	
+	public boolean equals(Object obj){
+		return obj instanceof RecordedDelivery other && other.id == id;
+	}
+	
+	public int hashCode(){
+		return Objects.hashCode(id);
+	}
+	
+	public String toString(){
+		return "RecordedDelivery{" +
+				"id=" + id +
+				", plan=" + plan +
+				", startTime=" + startTime +
+				", endTime=" + endTime +
+				", recorded=" + recorded +
+				'}';
 	}
 }
