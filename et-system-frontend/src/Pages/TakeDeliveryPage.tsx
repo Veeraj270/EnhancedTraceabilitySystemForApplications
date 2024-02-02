@@ -52,6 +52,7 @@ const TakeDelivery = () => {
 
         //Get label associated with barcode - request to back-end??
 
+
         //Update table with product
         const newData = [{
             barcode: input,

@@ -1,7 +1,7 @@
 import {
     getCoreRowModel,
     flexRender,
-    useReactTable,
+    useReactTable, getPaginationRowModel,
 } from '@tanstack/react-table'
 
 import React, {useEffect, useMemo, useState} from "react";
@@ -32,34 +32,50 @@ const Table : React.FC<Props> = ( props: Props ) => {
         data ,
         columns ,
         getCoreRowModel: getCoreRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
     })
 
+    useEffect(() => {
+        table.setPageSize(16)
+    }, []);
 
+    const prevPage = () => {
+        table.previousPage()
+    }
+
+    const nextPage = () => {
+        table.nextPage()
+    }
     //Rendering of table
     return (
         <div>
-            {data.length > 0 ?
-                <table>
-                    {table.getHeaderGroups().map(headerGroup => (
-                        <tr key={headerGroup.id}>
-                            {headerGroup.headers.map(header => <th key={header.id}>
-                                {flexRender(header.column.columnDef.header, header.getContext())}
-                            </th>)}
-                        </tr>
-                    ))}
-                    <tbody>
-                    {table.getRowModel().rows.map(row => (<tr key={row.id}>
-                        {row.getVisibleCells().map(cell => (
-                            <td>
-                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                            </td>
+            <div>
+                {data.length > 0 ?
+                    <table>
+                        {table.getHeaderGroups().map(headerGroup => (
+                            <tr key={headerGroup.id}>
+                                {headerGroup.headers.map(header => <th key={header.id}>
+                                    {flexRender(header.column.columnDef.header, header.getContext())}
+                                </th>)}
+                            </tr>
                         ))}
-                    </tr>))}
-                    </tbody>
-                </table>
-                :
-                <p>no data available</p>
-            }
+                        <tbody>
+                        {table.getRowModel().rows.map(row => (<tr key={row.id}>
+                            {row.getVisibleCells().map(cell => (
+                                <td>
+                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                </td>
+                            ))}
+                        </tr>))}
+                        </tbody>
+                    </table>
+
+                    :
+                    <p>no data available</p>
+                }
+            </div>
+            <button className={'table-button'} onClick={prevPage}>Prev</button>
+            <button className={'table-button'} onClick={nextPage}>Next</button>
         </div>
     )
 }

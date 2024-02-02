@@ -94,8 +94,6 @@
 .table-container{
     width: 400px;
     height: fit-content;
-    padding: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 0px;
 }
 
@@ -113,7 +111,6 @@ table {
     width: 100%;
     text-align: left;
     background-color: ghostwhite;
-
 }
 
 thead {
@@ -124,8 +121,15 @@ th, td {
     padding: 12px;
     border-bottom: 1px solid #ddd;
     height: 16px;
+    font-size: 14px;
 }
 
 tr:hover td {
     background-color:lightgrey;
+}
+.table-button{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: lightgrey;
+    border-radius: 0.5rem;
+    width: 60px;
 }
