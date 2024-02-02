@@ -26,41 +26,33 @@ const TakeDelivery = () => {
     const [scannedTData, setScannedTData] = useState(emptyData);
     const [unexpectedTData, setUnexpectedTData] = useState(emptyData);
 
-    //Submit barcode method
-    const submitBarcode = async (barcode: string) => {
-        //Validate that it's a valid barcode
 
-        //Get label associated with barcode via request to openfoodfacts.org
-        const labelKeys = ['generic_name', 'product_name', 'name', 'title','label'];
-        let productLabel = "Unknown"
-
-        try {
-            const res = await fetch(`https://world.openfoodfacts.org/api/v2/product/${barcode}.json`)
-
-            if (!res.ok){
-                throw new Error(`openfoodfacts.org API query with barcode: ${barcode} response was not ok`)
-            }
-
-            let resJSON = await res.json();
-            let labelFound = false;
-
-            //Try each labelKey
-            for (const key of labelKeys){
-                if(resJSON.product && resJSON.product[key]){
-                    productLabel = resJSON.product[key];
-                    labelFound = true;
-                    break;
-                }
-            }
-
-            if (!labelFound) {
-                productLabel = "Unknown"
-            }
-
-        } catch(error){
-            console.log("Error occurred in submitBarcode:" , error)
+    //Fetch product data
+    const fetchProductLabel = async (barcode: string) => {
+        const labelKeys = ['generic_name', 'product_name', 'name', 'title', 'label'];
+        const res = await fetch(`https://world.openfoodfacts.org/api/v2/product/${barcode}.json`)
+        if (!res.ok){
+            throw new Error(`openfoodfacts.org API query with barcode: ${barcode} response was not ok`)
         }
+        let resJSON = await res.json();
 
+        //Try each labelKey
+        for (const key of labelKeys){
+            if(resJSON.product && resJSON.product[key]){
+                return resJSON.product[key];
+            }
+        }
+        return "Unknown"
+    }
+
+    //Triggered by pressing button to left of input field or by pressing enter on input field
+    const submitBarcode = async (barcode: string) => {
+        let productLabel = "Unknown";
+        try {
+            productLabel = await fetchProductLabel(barcode);
+        } catch(error){
+            console.log("Error occurred within fetchProductLabel(): " + erro);
+        }
         const item : Item = {
             barcode: barcode,
             label: productLabel,
