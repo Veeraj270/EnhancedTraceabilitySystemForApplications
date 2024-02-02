@@ -1,8 +1,7 @@
-interface MetaData{
+interface Metadata {
     deliveryName: string;
     supplier: string;
     expectedDeliveryDate: number;
-
 }
 
-export default MetaData;
+export default Metadata;

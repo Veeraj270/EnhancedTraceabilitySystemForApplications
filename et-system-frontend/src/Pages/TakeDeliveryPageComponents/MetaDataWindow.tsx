@@ -1,8 +1,8 @@
 import React from "react";
-import MetaData from "./Interfaces/MetaData";
+import Metadata from "./Interfaces/Metadata";
 
 interface Props{
-    data: MetaData
+    data: Metadata
 }
 
 /*Note: Could streamline use of props in the future*/

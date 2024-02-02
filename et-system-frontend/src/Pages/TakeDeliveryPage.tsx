@@ -6,36 +6,24 @@ import BarCodeEntry from "./TakeDeliveryPageComponents/BarCodeEntry";
 import SubmitDeliveryButton from "./TakeDeliveryPageComponents/SubmitDeliveryButton";
 import Table from "./TakeDeliveryPageComponents/Table";
 import Item from "./TakeDeliveryPageComponents/Interfaces/Item";
-
-interface MetaData{
-    deliveryName: string;
-    supplier: string;
-    expectedDeliveryDate: number;
-}
+import Metadata from "./TakeDeliveryPageComponents/Interfaces/Metadata";
 
 
 const TakeDelivery = () => {
-    //Default Meta Data - Likely needs removing later
-    const defaultMetaData: MetaData = {
+    //Default metadata - Likely needs removing later
+    const defaultMetadata: Metadata = {
         deliveryName: "Delivery Name",
         supplier: "Default",
         expectedDeliveryDate: 0,
     }
-
-    //Default table data such that each table renders with 20 empty rows
-    const defaultTableData: Item[] = Array(20).fill(
-        {
-            label: "",
-            barcode: "",
-        }
-    )
-
+    //
+    const rowsPerPage = 16;
 
     //State variables
-    const [ metaData, setMetaData ] = useState(defaultMetaData);
-    const [ expectedTData, setExpectedTData] = useState(defaultTableData);
-    const [ scannedTData, setScannedTData] = useState(defaultTableData);
-    const [ unexpectedTData, setUnexpectedTData] = useState(defaultTableData);
+    const [metaData, setMetaData] = useState(defaultMetadata);
+    const [expectedTData, setExpectedTData] = useState([]);
+    const [scannedTData, setScannedTData] = useState([]);
+    const [unexpectedTData, setUnexpectedTData] = useState([]);
 
     //Fetch methods
 
@@ -51,7 +39,6 @@ const TakeDelivery = () => {
         //Validate that it's a valid barcode
 
         //Get label associated with barcode - request to back-end??
-
 
         //Update table with product
         const newData = [{
@@ -83,17 +70,17 @@ const TakeDelivery = () => {
                 <div className={'section2'}>
                     <div className={'table-container'}>
                         <h3 className={'table-title'}>Expected Items</h3>
-                        <Table data={expectedTData.reverse()}/>
+                        <Table data={expectedTData.reverse()} rowsPerPage={rowsPerPage}/>
                     </div>
 
                     <div className={'table-container'}>
                         <h3 className={'table-title'}>Scanned Items</h3>
-                        <Table data={scannedTData.reverse()}/>
+                        <Table data={scannedTData.reverse()} rowsPerPage={rowsPerPage}/>
                     </div>
 
                     <div className={'table-container'}>
                         <h3 className={'table-title'}>Unexpected Items</h3>
-                        <Table data={unexpectedTData.reverse()}/>
+                        <Table data={unexpectedTData.reverse()} rowsPerPage={rowsPerPage}/>
                     </div>
                 </div>
             </div>
