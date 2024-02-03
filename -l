@@ -1,0 +1,15 @@
+  dev[m
+  feature/add-product[m
+* [32mfeature/barcode-api[m
+  feature/docker-compose[m
+  feature/edit-product[m
+  feature/take-delivery-page[m
+  feature/traceability-page[m
+  feature/traceability-page-product-history[m
+  feature/traceability-page-search[m
+  feature/traceability-search-bar[m
+  fix-node-modules[m
+  fix/product-history[m
+  fix/traceability-page-refactor[m
+  improved-read-me[m
+  recipe_system[m

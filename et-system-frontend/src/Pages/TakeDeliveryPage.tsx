@@ -45,13 +45,13 @@ const TakeDelivery = () => {
         return "Unknown"
     }
 
-    //Triggered by pressing button to left of input field or by pressing enter on input field
+    //Triggered by pressing button to right of input field or by pressing enter on input field
     const submitBarcode = async (barcode: string) => {
         let productLabel = "Unknown";
         try {
             productLabel = await fetchProductLabel(barcode);
         } catch(error){
-            console.log("Error occurred within fetchProductLabel(): " + erro);
+            console.log("Error occurred within fetchProductLabel(): " + error);
         }
         const item : Item = {
             barcode: barcode,
@@ -71,6 +71,7 @@ const TakeDelivery = () => {
         }
     }
 
+    //Triggered by pressing submit delivery button
     const submitDelivery = () => {
         console.log("submitDelivery()");
     }
