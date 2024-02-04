@@ -1,5 +1,6 @@
 import TanTable from "./ProductPageComponents/TanStackTable/TanTable";
 
+
 const ProductsPage = () => {
     return (
         <div className='page'>
