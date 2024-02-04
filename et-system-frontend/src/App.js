@@ -7,6 +7,8 @@ import TraceabilityPage from "./Pages/TraceabilityPage";
 import HelpPage from "./Pages/HelpPage";
 import AddProductsPage from "./Pages/AddProductsPage";
 
+import TakeDeliveryPage from "./Pages/TakeDeliveryPage";
+
 function App() {
     return (
         <Router>
@@ -20,6 +22,9 @@ function App() {
 
                     </Route>
                     <Route path={"/traceability"} element={<TraceabilityPage/>}>
+
+                    </Route>
+                    <Route path={"/take-delivery"} element={<TakeDeliveryPage/>}>
 
                     </Route>
                     <Route path={"/help"} element={<HelpPage/>}>

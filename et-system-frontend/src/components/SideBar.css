@@ -9,7 +9,7 @@
 .side-bar-menu{
     background-color: grey;
     width: 250px;
-    height: 100vh;
+    height: 100%;
     display: flex;
     justify-content: start;
     flex-direction: column;

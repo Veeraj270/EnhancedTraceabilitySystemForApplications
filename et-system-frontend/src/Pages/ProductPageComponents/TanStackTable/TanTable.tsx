@@ -2,9 +2,6 @@ import {
     getCoreRowModel,
     flexRender,
     useReactTable,
-    getPaginationRowModel,
-    getSortedRowModel,
-
 } from '@tanstack/react-table'
 import {useEffect, useMemo, useState} from "react";
 import './Table.css'
