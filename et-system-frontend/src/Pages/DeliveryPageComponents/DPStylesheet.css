@@ -21,8 +21,6 @@
     width: 440px;
     height: calc(100% - 100px);
     padding: 0px 25px 25px 0px;
-    border: solid grey;
-    border: none;
     border-radius: 1rem;
     display: flex;
     flex-direction: column;
@@ -32,9 +30,11 @@
 .dp-region2{
     width: 100%;
     height: 100%;
-    padding: 50px;
-    border: solid grey;
     border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+
+    row-gap: 20px;
 }
 
 .dp-input-wrapper{
@@ -82,7 +82,6 @@ label{
     border-radius: 0.5rem;
     overflow: hidden;
     box-shadow: 1px 1px 3px;
-
 }
 
 .dp-table-tr{
@@ -97,4 +96,33 @@ td{
 .dp-table-rows-div{
     height: 100%;
     overflow: scroll;
+}
+
+.dp-summary-buttons-div{
+    height: 200px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    column-gap: 20px;
+}
+
+.dp-summary-div{
+    height: 200px;
+    width: 400px;
+    border: solid grey;
+    border-radius: 1rem;
+}
+
+.dp-buttons-div{
+    height: 200px;
+    width: 200px;
+    border: solid grey;
+    border-radius: 1rem;
+}
+
+.dp-table-div-2{
+    border: solid grey;
+    border-radius: 1rem;
+    width: 100%;
+    height: 550px;
 }

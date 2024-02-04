@@ -3,7 +3,7 @@ import DPSearchBar from "./DeliveryPageComponents/DPSearchBar";
 import DPTable from "./DeliveryPageComponents/DPTable";
 
 
-const TakeDelivery = () => {
+const DeliveriesPage = () => {
     return (
         <div className='deliveries-page'>
             <h1>Deliveries</h1>
@@ -13,7 +13,11 @@ const TakeDelivery = () => {
                     <DPTable/>
                 </div>
                 <div className={"dp-region2"}>
-
+                    <div className={"dp-summary-buttons-div"}>
+                        <div className={"dp-summary-div"}>summary</div>
+                        <div className={"dp-buttons-div"}>buttons</div>
+                    </div>
+                    <div className={"dp-table-div-2"}>table</div>
                 </div>
 
             </div>
@@ -21,4 +25,4 @@ const TakeDelivery = () => {
     )
 }
 
-export default TakeDelivery
+export default DeliveriesPage
