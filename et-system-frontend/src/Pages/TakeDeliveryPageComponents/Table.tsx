@@ -6,8 +6,6 @@ import {
 
 import React, {useEffect, useMemo, useState} from "react";
 import Item from "./Interfaces/Item";
-import tanTable from "../ProductPageComponents/TanStackTable/TanTable";
-import {tab} from "@testing-library/user-event/dist/tab";
 
 
 

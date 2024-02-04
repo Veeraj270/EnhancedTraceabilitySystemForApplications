@@ -1,0 +1,92 @@
+.deliveries-page{
+    background-color: whitesmoke;
+    /*Take into account padding*/
+    width: calc(100% - 100px);
+    height: 100%;
+    padding-left:  50px;
+    padding-right: 50px;
+    display: flex;
+    flex-direction: column;
+}
+
+.dp-region{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+
+.dp-region1{
+    width: 440px;
+    height: calc(100% - 100px);
+    padding: 25px;
+    border: solid grey;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
+.dp-region2{
+    width: 100%;
+    height: 100%;
+    padding: 50px;
+    border: solid grey;
+    border-radius: 1rem;
+}
+
+.dp-input-wrapper{
+    border: solid grey 1px;
+    border-radius: 0.5rem;
+    width: 100%;
+}
+
+.dp-search-container{
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(160, 238, 192);
+    padding: 5px;
+    border-radius: 0.5rem;
+    box-shadow: 1px 1px 3px;
+}
+
+input{
+    font-family: "Helvetica Neue" ;
+    font-size: 16px;
+    font-weight: normal;
+    color: rgb(102, 107, 106);
+    padding: 8px 16px;
+    border: none;
+    box-shadow: 2px 2px 3px inset;
+    border-radius: 0.5rem;
+    width: calc(100% - 40px);
+    height: 25px;
+    outline: none;
+}
+
+input:focus{
+    box-shadow: 3px 3px 3px inset;
+}
+label{
+    font-family: "Helvetica Neue";
+    font-size: 14px;
+    color: rgb(102, 107, 106);
+    padding-bottom: 4px;
+    padding-left: 10px;
+}
+
+.dp-table-region{
+    height: calc(100% - 50px);
+    width: 100%;
+    border: solid darkgrey;
+    border-radius: 0.5rem;
+}
+
+.dp-table-tr{
+    background-color: #666B6A;
+    color: whitesmoke;
+    font-family: "Helvetica Neue";
+
+
+}
