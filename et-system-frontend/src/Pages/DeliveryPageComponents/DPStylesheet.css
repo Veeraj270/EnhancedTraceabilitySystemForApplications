@@ -20,8 +20,7 @@
 .dp-region1{
     width: 440px;
     height: calc(100% - 100px);
-    padding: 25px;
-    padding-top: 0px;
+    padding: 0px 25px 25px 0px;
     border: solid grey;
     border: none;
     border-radius: 1rem;
@@ -54,7 +53,6 @@
 }
 
 input{
-    font-family: "Helvetica Neue" ;
     font-size: 16px;
     font-weight: normal;
     color: rgb(102, 107, 106);
@@ -71,7 +69,6 @@ input:focus{
     box-shadow: 3px 3px 3px inset;
 }
 label{
-    font-family: "Helvetica Neue";
     font-size: 14px;
     color: rgb(102, 107, 106);
     padding-bottom: 4px;
@@ -81,15 +78,20 @@ label{
 .dp-table-region{
     height: 700px;
     width: 100%;
-    border: solid darkgrey;
+    border: solid #666B6A 2px;
     border-radius: 0.5rem;
     overflow: hidden;
+    box-shadow: 1px 1px 3px;
+
 }
 
 .dp-table-tr{
     background-color: #666B6A;
     color: whitesmoke;
-    font-family: "Helvetica Neue";
+}
+
+td{
+    font-weight: lighter;
 }
 
 .dp-table-rows-div{
