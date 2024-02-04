@@ -7,6 +7,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 public class PlannedDelivery{
@@ -32,6 +33,20 @@ public class PlannedDelivery{
 		this.deliveryTime = deliveryTime;
 		this.deliveryInterval = deliveryInterval;
 	}
+	
+	public Optional<ZonedDateTime> nextScheduledTimeFrom(ZonedDateTime observer){
+		if(observer.isBefore(deliveryTime))
+			return Optional.of(deliveryTime);
+		if(deliveryInterval.isZero())
+			return Optional.empty();
+		// simpl impl, "just keep waiting"
+		ZonedDateTime t = deliveryTime;
+		while(t.isBefore(observer))
+			t = t.plus(deliveryInterval);
+		return Optional.of(t);
+	}
+	
+	// getters, setters, and default methods
 	
 	public long getId(){
 		return id;

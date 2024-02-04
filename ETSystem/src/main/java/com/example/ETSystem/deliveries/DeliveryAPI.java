@@ -1,14 +1,14 @@
 package com.example.ETSystem.deliveries;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.ETSystem.util.Reordered;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/deliveries")
+@RequestMapping("api/deliveries")
 @CrossOrigin(origins = "http://localhost:3000")
 public class DeliveryAPI{
 
@@ -20,8 +20,40 @@ public class DeliveryAPI{
 		this.recordedDeliveries = recordedDeliveries;
 	}
 	
-	@GetMapping(path = "/fetch-planned-deliveries")
-	public List<PlannedDelivery> getProducts(){
+	// basic getters
+	
+	@GetMapping("/fetch-planned")
+	public List<PlannedDelivery> getPlanned(){
 		return plannedDeliveries.findAll();
+	}
+	
+	@GetMapping("/fetch-recorded")
+	public List<RecordedDelivery> getRecorded(){
+		return recordedDeliveries.findAll();
+	}
+	
+	// basic adders
+	
+	@PostMapping("/add-planned")
+	public PlannedDelivery addPlanned(@RequestBody PlannedDelivery newPlan){
+		return plannedDeliveries.save(newPlan);
+	}
+	
+	@PostMapping("/add-recorded")
+	public RecordedDelivery addRecorded(@RequestBody RecordedDelivery newRecord){
+		return recordedDeliveries.save(newRecord);
+	}
+	
+	// convenience getters
+	
+	@GetMapping("/fetch-planned-by-next")
+	public List<PlannedDelivery> getPlannedSortedByNext(){
+		ZonedDateTime now = ZonedDateTime.now();
+		List<PlannedDelivery> all = getPlanned();
+		List<Reordered<PlannedDelivery, ZonedDateTime>> sortedPlans = new ArrayList<>(all.size());
+		for(PlannedDelivery delivery : all)
+			delivery.nextScheduledTimeFrom(now).ifPresent(time -> sortedPlans.add(new Reordered<>(delivery, time)));
+		sortedPlans.sort(null);
+		return sortedPlans.stream().map(Reordered::data).toList();
 	}
 }
