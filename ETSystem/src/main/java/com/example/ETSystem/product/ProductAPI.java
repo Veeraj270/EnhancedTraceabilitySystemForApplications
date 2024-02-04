@@ -43,7 +43,6 @@ public class ProductAPI{
 
     @PutMapping(path = "/edit/{id}")
     public ResponseEntity<Product> editProduct(@PathVariable Long id, @RequestBody Product product){
-        log.info("Request to edit product : {}", product);
         Product editedProduct = productService.editProduct(id, product);
         return ResponseEntity.ok(editedProduct);
     }

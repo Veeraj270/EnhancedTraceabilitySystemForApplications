@@ -14,7 +14,7 @@ const EditProductPage = () => {
     const [product, setProduct] = useState({
         id: '',
         parentID: '',
-        intermediariesID: [],
+        intermediariesId: [],
         label: '',
         maxQuantity: 0,
         currentQuantity: 0
@@ -28,6 +28,9 @@ const EditProductPage = () => {
             .then(response => response.json())
             .then(data => {
                 console.log("Fetched data:", data);
+                if (!data.intermediariesID) {
+                    console.error("intermediariesID is missing from the fetched data", data);
+                }
                 setProduct(data);
             })
             .catch(error => console.error('Error:', error));
@@ -36,7 +39,7 @@ const EditProductPage = () => {
     const handleChange = (event) => {
         const { name, value } = event.target
 
-        if (name === 'intermediariesID') {
+        if (name === 'intermediariesId') {
             const intermediariesArray = value.split(', ').map(item => item.trim()) || [];
             setProduct({ ...product, [name]: intermediariesArray });
         } else {
@@ -65,10 +68,6 @@ const EditProductPage = () => {
             <Container>
                 {title}
                 <Form onSubmit={handleSubmit}>
-                    <FormGroup>
-                        <Label for="id">ID</Label>
-                        <Input type="text" name="id" id="id" value={product.id} onChange={handleChange}/>
-                    </FormGroup>
 
                     <FormGroup>
                         <Label for="parentID">parentID</Label>
@@ -94,12 +93,12 @@ const EditProductPage = () => {
                                onChange={handleChange} />
                     </FormGroup>
                     <FormGroup>
-                        <Label for="intermediariesID">Intermediaries ID</Label>
+                        <Label for="intermediariesId">Intermediaries ID</Label>
                         <Input
                             type="text"
-                            name="intermediariesID"
-                            id="intermediariesID"
-                            value={product.intermediariesID.join(', ')}
+                            name="intermediariesId"
+                            id="intermediariesId"
+                            value={product.intermediariesId.join(', ') ?? []}
                             onChange={handleChange}
                         />
                     </FormGroup>

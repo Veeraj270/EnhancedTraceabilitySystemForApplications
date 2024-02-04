@@ -8,6 +8,7 @@ import {
 } from '@tanstack/react-table'
 import {useEffect, useMemo, useState} from "react";
 import './Table.css'
+import {Link} from "react-router-dom";
 
 const TanTable = () => {
     //Hooks should be called at the top level in the body of a function component
@@ -17,7 +18,11 @@ const TanTable = () => {
     const columns = useMemo( () => [
         {
             header: 'Id',
-            accessorKey: 'id'
+            accessorKey: 'id',
+            cell: ({ getValue }: {value : any}) => {
+                const value = getValue();
+                return <Link to={`/edit-product/${value}`}>{value}</Link>;
+            },
         },
         {
             header: 'Product',
