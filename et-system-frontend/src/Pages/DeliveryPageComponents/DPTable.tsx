@@ -20,6 +20,10 @@ const DPTable = () => {
         {
             header: 'Date Due',
             accessorKey: 'date-due'
+        },
+        {
+            header: 'Status',
+            accessorKey: 'status'
         }
         ], [])
 
