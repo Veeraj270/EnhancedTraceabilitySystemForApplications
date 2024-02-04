@@ -4,6 +4,7 @@ import DPTable from "./DeliveryPageComponents/DPTable";
 import AuthorNewDeliveryButton from "./DeliveryPageComponents/AuthorNewDeliveryButton";
 import ButtonPanel from "./DeliveryPageComponents/ButtonPanel";
 import SummaryPanel from "./DeliveryPageComponents/SummaryPanel"
+import DPTable2 from './DeliveryPageComponents/DPTable2';
 
 
 const DeliveriesPage = () => {
@@ -22,7 +23,7 @@ const DeliveriesPage = () => {
                         <ButtonPanel/>
                         <AuthorNewDeliveryButton/>
                     </div>
-                    <div className={"dp-table-div-2"}>table</div>
+                    <DPTable2/>
                 </div>
 
             </div>

@@ -31,13 +31,14 @@ const DPTable = () => {
         data: tableData ,
         columns: columns ,
         getCoreRowModel: getCoreRowModel(),
+
     })
 
     return(
-        <div className={"dp-table-region"}>
+        <div className={"dp-table-1-div"}>
             <table>
                 {table.getHeaderGroups().map(headerGroup => (
-                    <tr key={headerGroup.id} className={"dp-table-tr"}>
+                    <tr key={headerGroup.id} className={"dp-table-1-tr"}>
                         {headerGroup.headers.map(header => <th key={header.id}>
                             {flexRender(header.column.columnDef.header, header.getContext())}
                         </th>)}
@@ -45,7 +46,7 @@ const DPTable = () => {
                 ))}
             </table>
 
-            <div className={"dp-table-rows-div"}><table>
+            <div className={"dp-table-1-rows-div"}><table>
                 <tbody>
                     {table.getRowModel().rows.map(row => (<tr key={row.id}>
                         {row.getVisibleCells().map(cell => (

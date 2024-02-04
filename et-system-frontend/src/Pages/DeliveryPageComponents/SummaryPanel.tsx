@@ -3,7 +3,6 @@ const SummaryPanel = () => {
         <div className={"dp-summary-div"}>
             <label>Summary</label>
             <div className={"dp-summary-div-inner"}>
-
             </div>
         </div>
     )

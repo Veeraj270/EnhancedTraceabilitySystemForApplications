@@ -1,5 +1,5 @@
 import './DPStylesheet.css'
-import { CiSearch } from "react-icons/ci";
+
 const DPSearchBar = () => {
     return(
         <div className={"dp-search-container"}>
