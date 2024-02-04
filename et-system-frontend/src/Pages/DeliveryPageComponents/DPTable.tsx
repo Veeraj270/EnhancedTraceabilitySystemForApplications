@@ -4,7 +4,13 @@ import {flexRender, getCoreRowModel,  useReactTable} from "@tanstack/react-table
 
 
 const DPTable = () => {
-    const [tableData, setTableData] = useState<Item[]>([])
+    const mockData = Array(40).fill(
+        {
+            "delivery-identifier": "",
+            "date-due": "",
+        }
+    )
+    const [tableData, setTableData] = useState<Item[]>(mockData)
 
     const columns = useMemo(() => [
         {
@@ -13,7 +19,7 @@ const DPTable = () => {
         },
         {
             header: 'Date Due',
-            accessorKey: 'data-due'
+            accessorKey: 'date-due'
         }
         ], [])
 
@@ -33,8 +39,10 @@ const DPTable = () => {
                         </th>)}
                     </tr>
                 ))}
-                <div>
-                    <tbody>
+            </table>
+
+            <div className={"dp-table-rows-div"}><table>
+                <tbody>
                     {table.getRowModel().rows.map(row => (<tr key={row.id}>
                         {row.getVisibleCells().map(cell => (
                             <td>
@@ -43,10 +51,11 @@ const DPTable = () => {
                         ))}
                     </tr>))
                     }
-                    </tbody>
-                </div>
+                </tbody>
+                </table>
 
-            </table>
+            </div>
+
         </div>
     )
 }

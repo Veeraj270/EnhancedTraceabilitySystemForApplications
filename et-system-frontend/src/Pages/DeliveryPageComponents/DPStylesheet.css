@@ -21,7 +21,9 @@
     width: 440px;
     height: calc(100% - 100px);
     padding: 25px;
+    padding-top: 0px;
     border: solid grey;
+    border: none;
     border-radius: 1rem;
     display: flex;
     flex-direction: column;
@@ -77,16 +79,20 @@ label{
 }
 
 .dp-table-region{
-    height: calc(100% - 50px);
+    height: 700px;
     width: 100%;
     border: solid darkgrey;
     border-radius: 0.5rem;
+    overflow: hidden;
 }
 
 .dp-table-tr{
     background-color: #666B6A;
     color: whitesmoke;
     font-family: "Helvetica Neue";
+}
 
-
+.dp-table-rows-div{
+    height: 100%;
+    overflow: scroll;
 }
