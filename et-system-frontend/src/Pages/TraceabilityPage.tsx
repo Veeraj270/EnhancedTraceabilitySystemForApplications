@@ -48,7 +48,6 @@ const TraceabilityPage = () => {
             fetchHistory(product.id).then();
         }
 
-
         event.stopPropagation();
     }
 

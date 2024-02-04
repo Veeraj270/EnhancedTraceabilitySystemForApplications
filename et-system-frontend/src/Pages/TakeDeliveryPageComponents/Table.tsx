@@ -31,17 +31,23 @@ const Table : React.FC<Props> = ( props: Props ) => {
 
     const [tableData, setTableData] = useState<Item[]>(props.data)
 
+    //Runs whenever the props.data being passed to the component changes
     useEffect(() => {
-        table.setPageSize(props.rowsPerPage)
+        let emptyRows : Item[] = []
         if (props.data.length % props.rowsPerPage > 0 || props.data.length === 0){
-            const emptyRows: Item[] = Array(props.rowsPerPage - (props.data.length % props.rowsPerPage)).fill(
+            emptyRows = Array(props.rowsPerPage - (props.data.length % props.rowsPerPage)).fill(
                 {
                     label: "",
                     barcode: "",
                 })
-            setTableData([...props.data, ...emptyRows])
         }
+        setTableData([...props.data, ...emptyRows])
     }, [props.data]);
+
+    //Runs once when component mounts
+    useEffect(() => {
+        table.setPageSize(props.rowsPerPage)
+    }, []);
 
     const table = useReactTable({
         data: tableData ,
