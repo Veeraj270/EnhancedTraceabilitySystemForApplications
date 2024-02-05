@@ -1,4 +1,5 @@
 import React, {useState, useMemo} from "react";
+import "./DPStylesheet.css"
 import Item from "../TakeDeliveryPageComponents/Interfaces/Item";
 import {flexRender, getCoreRowModel,  useReactTable} from "@tanstack/react-table";
 
@@ -38,7 +39,7 @@ const DPTable = () => {
         <div className={"dp-table-1-div"}>
             <table>
                 {table.getHeaderGroups().map(headerGroup => (
-                    <tr key={headerGroup.id} className={"dp-table-1-tr"}>
+                    <tr key={headerGroup.id} className={"dp-table-1-th"}>
                         {headerGroup.headers.map(header => <th key={header.id}>
                             {flexRender(header.column.columnDef.header, header.getContext())}
                         </th>)}

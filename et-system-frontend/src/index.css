@@ -37,9 +37,15 @@ code {
   height: 100%;
   padding-left:  50px;
   padding-right: 50px;
-
 }
 
+
+h1{
+  margin: 0;
+  padding: 20px 0px 20px 0px;
+  font-size: 40px;
+  height: 40px;
+}
 /*Styling related to traceability page*/
 .traceability-page{
   background-color: whitesmoke;
@@ -50,7 +56,6 @@ code {
 }
 
 .search-bar-container{
-  padding-top: 20vh;
   width: 40%;
   margin: 0px;
   padding-bottom: 10px;

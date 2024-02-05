@@ -1,6 +1,6 @@
 import React, {useMemo, useState} from "react";
 import Item from "../TakeDeliveryPageComponents/Interfaces/Item";
-import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
+import {ColumnSizingState, flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 
 
 const DPTable2 = () => {
@@ -20,26 +20,31 @@ const DPTable2 = () => {
         {
             header: 'Label',
             accessorKey: 'label',
+            size: 100
         },
         {
             header: 'Barcode',
             accessorKey: 'barcode',
+            size: 100
         },
         {
             header: 'Quantity',
             accessorKey: 'quantity',
-            width: 200
+            size: 100
+
 
         },
         {
             header: 'Weight',
             accessorKey: 'individual-weight',
-            width: 200
+            size: 100
+
         },
         {
             header: 'Total Weight',
             accessorKey: 'total-weight',
-            width: 200
+            size: 100
+
         }
         ], [])
 
@@ -47,7 +52,9 @@ const DPTable2 = () => {
         data: tableData ,
         columns: columns ,
         getCoreRowModel: getCoreRowModel(),
+
     })
+
 
 
 
@@ -56,7 +63,7 @@ const DPTable2 = () => {
             <table>
                 {table.getHeaderGroups().map(headerGroup => (
                     <tr key={headerGroup.id} className={"dp-table-2-tr"}>
-                        {headerGroup.headers.map(header => <th key={header.id}>
+                        {headerGroup.headers.map(header => <th key={header.id} style={{ width: header.column.columnDef.size}}>
                             {flexRender(header.column.columnDef.header, header.getContext())}
                         </th>)}
                     </tr>
@@ -67,7 +74,7 @@ const DPTable2 = () => {
                 <tbody>
                 {table.getRowModel().rows.map(row => (<tr key={row.id}>
                     {row.getAllCells().map(cell => (
-                        <td style={{width: 200}}>
+                        <td style={{width : cell.column.columnDef.size}}>
                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                         </td>
                     ))}
