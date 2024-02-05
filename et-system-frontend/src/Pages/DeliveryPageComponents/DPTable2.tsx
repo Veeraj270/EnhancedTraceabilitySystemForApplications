@@ -55,9 +55,6 @@ const DPTable2 = () => {
 
     })
 
-
-
-
     return(
         <div className={"dp-table-2-region"}>
             <table>

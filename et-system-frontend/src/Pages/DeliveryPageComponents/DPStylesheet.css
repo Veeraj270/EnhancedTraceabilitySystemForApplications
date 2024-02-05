@@ -195,6 +195,11 @@ td{
     cursor: pointer;
 }
 
+.dp-button:hover{
+    background-color: rgba(198, 241, 198, 0.5);
+
+}
+
 .dp-table-2-div{
     border: solid grey;
     border-radius: 1rem;
@@ -219,5 +224,10 @@ td{
     font-size: 16px;
 
     cursor: pointer;
+}
+
+.author-delivery-button:hover{
+    background-color: rgba(198, 241, 198, 0.5);
+
 }
 
