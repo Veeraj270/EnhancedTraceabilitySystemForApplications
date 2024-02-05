@@ -8,7 +8,6 @@ import Table from "./TakeDeliveryPageComponents/Table";
 import Item from "./TakeDeliveryPageComponents/Interfaces/Item";
 import Metadata from "./TakeDeliveryPageComponents/Interfaces/Metadata";
 
-
 const TakeDelivery = () => {
     //Default metadata - Likely needs removing later
     const defaultMetadata: Metadata = {
@@ -28,21 +27,51 @@ const TakeDelivery = () => {
     const [unexpectedTData, setUnexpectedTData] = useState(emptyData);
 
 
-    //Submit barcode method
-    const submitBarcode = (input: string) => {
-        console.log("submitBarcode(): " + input);
-        //Validate that it's a valid barcode
+    //Fetch product data
+    const fetchProductLabel = async (barcode: string) => {
+        const labelKeys = ['generic_name', 'product_name', 'name', 'title', 'label'];
+        const res = await fetch(`https://world.openfoodfacts.org/api/v2/product/${barcode}.json`)
+        if (!res.ok){
+            throw new Error(`openfoodfacts.org API query with barcode: ${barcode} response was not ok`)
+        }
+        let resJSON = await res.json();
 
-        //Get label associated with barcode - request to back-end??
-
-        //Update table with product
-        const newData = [{
-            barcode: input,
-            label: "N/A"
-        } ,...scannedTData]
-        setScannedTData(newData);
+        //Try each labelKey
+        for (const key of labelKeys){
+            if(resJSON.product && resJSON.product[key]){
+                return resJSON.product[key];
+            }
+        }
+        return "Unknown"
     }
 
+    //Triggered by pressing button to right of input field or by pressing enter on input field
+    const submitBarcode = async (barcode: string) => {
+        let productLabel = "Unknown";
+        try {
+            productLabel = await fetchProductLabel(barcode);
+        } catch(error){
+            console.log("Error occurred within fetchProductLabel(): " + error);
+        }
+        const item : Item = {
+            barcode: barcode,
+            label: productLabel,
+        }
+
+        //Search expectedTData for barcode
+        if (expectedTData.some(item => item.barcode === barcode)){
+            //Remove from expectedTData
+            setExpectedTData(expectedTData.filter((item: Item) => (item.barcode !== barcode)));
+            //Add to expectedTData
+            setScannedTData((prevState) => [item, ...prevState])
+        }
+        else {
+            //Item is unexpected
+            setUnexpectedTData((prevState) => [item, ...prevState]);
+        }
+    }
+
+    //Triggered by pressing submit delivery button
     const submitDelivery = () => {
         console.log("submitDelivery()");
     }
