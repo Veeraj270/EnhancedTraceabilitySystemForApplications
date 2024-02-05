@@ -13,7 +13,7 @@ public class Ingredient{
     @SequenceGenerator(
             name = "ingredient_sequence",
             sequenceName = "ingredient_sequence",
-            allocationSize = 1 //How much the sequence will increment by
+            allocationSize = 1
     )
     @GeneratedValue(
             strategy = SEQUENCE,

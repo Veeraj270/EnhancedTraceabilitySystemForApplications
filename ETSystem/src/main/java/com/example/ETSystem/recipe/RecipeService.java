@@ -51,7 +51,6 @@ public class RecipeService {
 
     @Transactional
     public Ingredient addNewIngredient(Ingredient ingredient) {
-        // Checks if the ingredient already exists ignoring letter case
             if (ingredientRepository.findByLabel(ingredient.getLabel()).isPresent()) {
                 throw new IllegalArgumentException("Ingredient already exists.");
             }

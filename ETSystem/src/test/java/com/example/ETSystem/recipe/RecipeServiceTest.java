@@ -1,6 +1,5 @@
 package com.example.ETSystem.recipe;
 
-import com.example.ETSystem.recipe.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -117,6 +116,15 @@ public class RecipeServiceTest {
         var rec3 = recipeService.addNewRecipe(new Recipe("Triple Chocolate", List.of(choc1_300, choc2_500, choc3_100)));
 
         assertEquals(recipeRepository.findAll().stream().toList(), List.of(rec1, rec2, rec3));
+
+        IngredientQuantity vanilla_1000 = new IngredientQuantity();
+        vanilla_1000.setIngredient(vanilla);
+        vanilla_1000.setQuantity(1000);
+
+        // // Throwing an error for adding the same element
+        assertThrows(IllegalArgumentException.class, () -> {
+            recipeService.addNewRecipe(new Recipe("Vanilla Cake", List.of(vanilla_1000)));
+        });
 
     }
 }

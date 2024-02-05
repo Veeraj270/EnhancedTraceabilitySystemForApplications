@@ -2,7 +2,6 @@ package com.example.ETSystem.recipe;
 
 import jakarta.persistence.*;
 
-import java.util.HashSet;
 import java.util.Objects;
 
 @Entity
@@ -18,6 +17,7 @@ public class IngredientQuantity {
     private Long id;
 
     // CascadeType.MERGE connects the object with the appropriate Ingredient
+    // One Ingredient object can be merged with many IngredientQuantity objects
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private Ingredient ingredient;
 

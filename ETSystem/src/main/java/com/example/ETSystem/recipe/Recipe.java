@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
@@ -18,7 +17,7 @@ public class Recipe {
     @SequenceGenerator(
             name = "recipe_sequence",
             sequenceName = "recipe_sequence",
-            allocationSize = 1 //How much the sequence will increment by
+            allocationSize = 1
     )
     @GeneratedValue(
             strategy = SEQUENCE,
@@ -38,9 +37,8 @@ public class Recipe {
     )
     private String label;
 
-    // IngredientQuantity contains the quantity and the Ingredient
-    // cascade = CascadeType.ALL makes sure when making a Recipe object,
-    // the appropriate IngredientQuantity objects are made as well
+    // cascade = CascadeType.ALL makes sure when saving/deleting/... a Recipe object into the db,
+    // the appropriate IngredientQuantity objects are saved/deleted/... as well
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<IngredientQuantity> ingredients;
 
