@@ -34,12 +34,12 @@ public class DeliveryAPI{
 	
 	// basic adders
 	
-	@GetMapping("/add-planned")
+	@PostMapping("/add-planned")
 	public PlannedDelivery addPlanned(@RequestBody PlannedDelivery newPlan){
 		return plannedDeliveries.save(newPlan);
 	}
 	
-	@GetMapping("/add-recorded")
+	@PostMapping("/add-recorded")
 	public RecordedDelivery addRecorded(@RequestBody RecordedDelivery newRecord){
 		return recordedDeliveries.save(newRecord);
 	}
