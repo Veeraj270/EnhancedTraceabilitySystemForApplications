@@ -168,7 +168,6 @@ td{
 .dp-button{
     width: 100%;
     height: calc(30%);
-    border:  solid #666B6A 2px;
     border-radius: 0.5rem;
     box-shadow: 1px 1px 3px;
     background-color: #c6f1c6;

@@ -19,23 +19,27 @@ const DPTable2 = () => {
     const columns = useMemo(() => [
         {
             header: 'Label',
-            accessorKey: 'label'
+            accessorKey: 'label',
         },
         {
             header: 'Barcode',
-            accessorKey: 'barcode'
+            accessorKey: 'barcode',
         },
         {
             header: 'Quantity',
-            accessorKey: 'quantity'
+            accessorKey: 'quantity',
+            width: 200
+
         },
         {
             header: 'Weight',
             accessorKey: 'individual-weight',
+            width: 200
         },
         {
             header: 'Total Weight',
             accessorKey: 'total-weight',
+            width: 200
         }
         ], [])
 
@@ -44,6 +48,8 @@ const DPTable2 = () => {
         columns: columns ,
         getCoreRowModel: getCoreRowModel(),
     })
+
+
 
     return(
         <div className={"dp-table-2-region"}>
@@ -60,8 +66,8 @@ const DPTable2 = () => {
             <div className={"dp-table-2-rows-div"}><table>
                 <tbody>
                 {table.getRowModel().rows.map(row => (<tr key={row.id}>
-                    {row.getVisibleCells().map(cell => (
-                        <td>
+                    {row.getAllCells().map(cell => (
+                        <td style={{width: 200}}>
                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                         </td>
                     ))}
@@ -73,10 +79,6 @@ const DPTable2 = () => {
             </div>
 
         </div>
-    )
-
-    return (
-        <div className={"dp-table-2-div"}></div>
     )
 }
 
