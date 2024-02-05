@@ -1,4 +1,4 @@
-package com.example.ETSystem.timeline;
+package com.example.ETSystem.recipe;
 
 import com.example.ETSystem.recipe.*;
 import org.junit.jupiter.api.BeforeAll;
@@ -71,8 +71,9 @@ public class RecipeServiceTest {
         vanilla_100.setIngredient(vanilla);
         vanilla_100.setQuantity(100);
 
-        // I cannot use flour_500 in rec2 because making rec1 somehow detaches it from the
-        // managed objects, and when making rec2 it doesn't recognize it
+        // flour_500 cannot be used a second time because it is
+        // already managed by some Recipe entity(rec1 in this case)
+        // For every Recipe entity should be created a new IngredientQuantity object
         IngredientQuantity flour_500_2 = new IngredientQuantity();
         flour_500_2.setIngredient(flour);
         flour_500_2.setQuantity(500);
@@ -100,6 +101,22 @@ public class RecipeServiceTest {
         assertThrows(IllegalArgumentException.class, () -> {
             recipeService.addNewRecipe(new Recipe("Mango Cake", List.of(milk_100, mango_invalid)));
         });
+
+        IngredientQuantity choc1_300 = new IngredientQuantity();
+        choc1_300.setIngredient(chocolate);
+        choc1_300.setQuantity(300);
+
+        IngredientQuantity choc2_500 = new IngredientQuantity();
+        choc2_500.setIngredient(chocolate);
+        choc2_500.setQuantity(300);
+
+        IngredientQuantity choc3_100 = new IngredientQuantity();
+        choc3_100.setIngredient(chocolate);
+        choc3_100.setQuantity(300);
+
+        var rec3 = recipeService.addNewRecipe(new Recipe("Triple Chocolate", List.of(choc1_300, choc2_500, choc3_100)));
+
+        assertEquals(recipeRepository.findAll().stream().toList(), List.of(rec1, rec2, rec3));
 
     }
 }
