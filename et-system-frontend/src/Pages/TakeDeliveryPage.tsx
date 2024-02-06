@@ -41,6 +41,7 @@ const TakeDelivery = () => {
     const fetchDeliveryData = async () => {
         try{
             const res = await fetch(`http://localhost:8080/api/deliveries/fetch-planned-by-id/${deliveryId}`)
+            //const res = await fetch(`http://localhost:8080/api/deliveries/fetch-planned`)
             if (!res.ok){
                 throw new Error("fetch-planned-by-id was not ok")
             }
