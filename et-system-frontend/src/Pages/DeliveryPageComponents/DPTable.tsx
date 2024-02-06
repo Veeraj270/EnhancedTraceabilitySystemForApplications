@@ -29,13 +29,12 @@ const DPTable = () => {
         ], [])
 
     const table = useReactTable({
-        data: tableData ,
-        columns: columns ,
+        data: tableData,
+        columns: columns,
         getCoreRowModel: getCoreRowModel(),
-
     })
 
-    return(
+    return (
         <div className={"dp-table-1-div"}>
             <table>
                 {table.getHeaderGroups().map(headerGroup => (
@@ -59,9 +58,7 @@ const DPTable = () => {
                     }
                 </tbody>
                 </table>
-
             </div>
-
         </div>
     )
 }

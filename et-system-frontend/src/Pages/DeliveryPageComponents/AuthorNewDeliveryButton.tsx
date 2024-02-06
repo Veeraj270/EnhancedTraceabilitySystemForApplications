@@ -1,5 +1,5 @@
 const AuthorNewDeliveryButton = () => {
-    return(
+    return (
         <button className={"author-delivery-button"}>AUTHOR DELIVERY</button>
     )
 }

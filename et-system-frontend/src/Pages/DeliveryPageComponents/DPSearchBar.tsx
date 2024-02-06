@@ -1,7 +1,7 @@
 import './DPStylesheet.css'
 
 const DPSearchBar = () => {
-    return(
+    return (
         <div className={"dp-search-container"}>
             <label>Search scheduled deliveries</label>
             <input placeholder={"Search... "}/>

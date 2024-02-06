@@ -31,20 +31,16 @@ const DPTable2 = () => {
             header: 'Quantity',
             accessorKey: 'quantity',
             size: 100
-
-
         },
         {
             header: 'Weight',
             accessorKey: 'individual-weight',
             size: 100
-
         },
         {
             header: 'Total Weight',
             accessorKey: 'total-weight',
             size: 100
-
         }
         ], [])
 
@@ -52,10 +48,9 @@ const DPTable2 = () => {
         data: tableData ,
         columns: columns ,
         getCoreRowModel: getCoreRowModel(),
-
     })
 
-    return(
+    return (
         <div className={"dp-table-2-region"}>
             <table>
                 {table.getHeaderGroups().map(headerGroup => (
