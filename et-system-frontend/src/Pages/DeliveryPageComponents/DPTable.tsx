@@ -1,6 +1,6 @@
 import React, {useState, useMemo} from "react";
 import "./DPStylesheet.css"
-import Item from "../TakeDeliveryPageComponents/Interfaces/Item";
+import Item from "../TakeDeliveryPageComponents/Interfaces/DeliveryItem";
 import {flexRender, getCoreRowModel,  useReactTable} from "@tanstack/react-table";
 
 

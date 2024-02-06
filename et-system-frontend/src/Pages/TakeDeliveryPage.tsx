@@ -5,50 +5,79 @@ import DeliveryName from "./TakeDeliveryPageComponents/DeliveryName";
 import BarCodeEntry from "./TakeDeliveryPageComponents/BarCodeEntry";
 import SubmitDeliveryButton from "./TakeDeliveryPageComponents/SubmitDeliveryButton";
 import Table from "./TakeDeliveryPageComponents/Table";
-import Item from "./TakeDeliveryPageComponents/Interfaces/Item";
+import DeliveryItem from "./TakeDeliveryPageComponents/Interfaces/DeliveryItem";
 import Metadata from "./TakeDeliveryPageComponents/Interfaces/Metadata";
+import metadata from "./TakeDeliveryPageComponents/Interfaces/Metadata";
 
 const TakeDelivery = () => {
-    //Default metadata - Likely needs removing later
-    const defaultMetadata: Metadata = {
-        deliveryName: "Delivery Name",
-        supplier: "Default",
-        expectedDeliveryDate: 0,
+    interface Delivery {
+        name: string,
+        deliveryInterval: string,
+        deliveryTime: string,
+        description: string,
+        id: number,
+        items: DeliveryItem[]
     }
+
 
     //Constants
     const rowsPerPage = 16;
-    const emptyData: Item[] = [];
+    const emptyData: DeliveryItem[] = []
+    const emptyMetaData: Metadata = {
+        name: "",
+        deliveryInterval: "",
+        deliveryTime: "",
+        description: "",
+    }
 
     //State variables
-    const [metaData, setMetaData] = useState(defaultMetadata);
+    const [metaData, setMetaData] = useState(emptyMetaData);
     const [expectedTData, setExpectedTData] = useState(emptyData);
     const [scannedTData, setScannedTData] = useState(emptyData);
     const [unexpectedTData, setUnexpectedTData] = useState(emptyData);
 
-    const [deliveryData, setDeliveryData] = useState();
-
-
     //Temporary planned-delivery id
     const deliveryId = 1;
 
-
     useEffect(() => {
-        //Upon initial rendering of the page, we request the planned deliveries data by id
-        fetchDeliveryData()
+        fetchDeliveryData(deliveryId).then((data: Delivery) => {
+            console.log(data)
+            setExpectedTData(data.items)
+            const newMetaData : Metadata  =  {
+                name: data.name,
+                deliveryInterval: data.deliveryInterval,
+                deliveryTime: data.deliveryTime,
+                description: data.description,
+            }
+            setMetaData(newMetaData)
+            console.log(metaData)
+        })
     }, []);
 
-    const fetchDeliveryData = async () => {
-        try{
-            const res = await fetch(`http://localhost:8080/api/deliveries/fetch-planned-by-id/${deliveryId}`)
-            //const res = await fetch(`http://localhost:8080/api/deliveries/fetch-planned`)
-            if (!res.ok){
-                throw new Error("fetch-planned-by-id was not ok")
+    //Debugging
+    useEffect(() => {
+        console.log(expectedTData)
+    }, [expectedTData]);
+
+
+    const fetchDeliveryData = async (deliveryId: number) : Promise<Delivery> => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/deliveries/fetch-planned-by-id/${deliveryId}`);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
-            const deliveryData = await res.json();
-            console.log(deliveryData)
-        }catch (error){
-            console.log("Error occurred within fetchDeliveryData(): ", error)
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error("Error occurred as a result of fetch-planned-by-id", error);
+            return {
+                name: "error",
+                deliveryInterval: "error",
+                deliveryTime: "error",
+                description: "error",
+                id: -1,
+                items: []
+            };
         }
     }
 
@@ -78,15 +107,15 @@ const TakeDelivery = () => {
         } catch(error){
             console.log("Error occurred within fetchProductLabel(): " + error);
         }
-        const item : Item = {
-            barcode: barcode,
-            label: productLabel,
+        const item : DeliveryItem = {
+            name: productLabel,
+            gtin: barcode,
         }
 
         //Search expectedTData for barcode
-        if (expectedTData.some(item => item.barcode === barcode)){
+        if (expectedTData.some(item => item.gtin === barcode)){
             //Remove from expectedTData
-            setExpectedTData(expectedTData.filter((item: Item) => (item.barcode !== barcode)));
+            setExpectedTData(expectedTData.filter((item: DeliveryItem) => (item.gtin !== barcode)));
             //Add to expectedTData
             setScannedTData((prevState) => [item, ...prevState])
         }
@@ -106,7 +135,7 @@ const TakeDelivery = () => {
             <h1>Take Delivery</h1>
             <div className={'content'}>
                 <div className={'section1'}>
-                    <DeliveryName text={metaData.deliveryName}/>
+                    <DeliveryName text={metaData.name}/>
                     <MetaDataWindow data={metaData}/>
                     <BarCodeEntry submit={submitBarcode}/>
                     <SubmitDeliveryButton submit={submitDelivery}/>

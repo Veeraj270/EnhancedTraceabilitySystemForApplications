@@ -5,7 +5,7 @@ import {
 } from '@tanstack/react-table'
 
 import React, {useEffect, useMemo, useState} from "react";
-import Item from "./Interfaces/Item";
+import Item from "./Interfaces/DeliveryItem";
 
 
 

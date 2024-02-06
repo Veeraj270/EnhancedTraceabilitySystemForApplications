@@ -1,5 +1,5 @@
 import React, {useMemo, useState} from "react";
-import Item from "../TakeDeliveryPageComponents/Interfaces/Item";
+import Item from "../TakeDeliveryPageComponents/Interfaces/DeliveryItem";
 import {ColumnSizingState, flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 
 
