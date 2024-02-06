@@ -1,5 +1,5 @@
 import './TakeDeliveryPageComponents/TDPStyleSheet.css'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import MetaDataWindow from "./TakeDeliveryPageComponents/MetaDataWindow";
 import DeliveryName from "./TakeDeliveryPageComponents/DeliveryName";
 import BarCodeEntry from "./TakeDeliveryPageComponents/BarCodeEntry";
@@ -26,6 +26,30 @@ const TakeDelivery = () => {
     const [scannedTData, setScannedTData] = useState(emptyData);
     const [unexpectedTData, setUnexpectedTData] = useState(emptyData);
 
+    const [deliveryData, setDeliveryData] = useState();
+
+
+    //Temporary planned-delivery id
+    const deliveryId = 1;
+
+
+    useEffect(() => {
+        //Upon initial rendering of the page, we request the planned deliveries data by id
+        fetchDeliveryData()
+    }, []);
+
+    const fetchDeliveryData = async () => {
+        try{
+            const res = await fetch(`http://localhost:8080/api/deliveries/fetch-planned-by-id/${deliveryId}`)
+            if (!res.ok){
+                throw new Error("fetch-planned-by-id was not ok")
+            }
+            const deliveryData = await res.json();
+            console.log(deliveryData)
+        }catch (error){
+            console.log("Error occurred within fetchDeliveryData(): ", error)
+        }
+    }
 
     //Fetch product data
     const fetchProductLabel = async (barcode: string) => {

@@ -13,8 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/deliveries")
 @CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("api/deliveries")
+
 public class DeliveryAPI{
 
 	private final PlannedDeliveryRepository plannedRepo;
