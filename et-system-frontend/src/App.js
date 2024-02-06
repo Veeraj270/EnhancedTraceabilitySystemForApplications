@@ -5,6 +5,8 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import ProductsPage from "./Pages/ProductsPage";
 import TraceabilityPage from "./Pages/TraceabilityPage";
 import HelpPage from "./Pages/HelpPage";
+import AddProductsPage from "./Pages/AddProductsPage";
+
 import TakeDeliveryPage from "./Pages/TakeDeliveryPage";
 
 function App() {
@@ -26,6 +28,9 @@ function App() {
 
                     </Route>
                     <Route path={"/help"} element={<HelpPage/>}>
+
+                    </Route>
+                    <Route path={"/add"} element={<AddProductsPage/>}>
 
                     </Route>
                 </Routes>
