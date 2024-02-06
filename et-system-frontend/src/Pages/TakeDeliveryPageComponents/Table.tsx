@@ -19,11 +19,11 @@ const Table : React.FC<Props> = ( props: Props ) => {
     const columns= useMemo(()=> [
         {
             header: 'Label',
-            accessorKey : 'label'
+            accessorKey : 'name'
         },
         {
             header: 'Barcode',
-            accessorKey : 'barcode'
+            accessorKey : 'gtin'
         }
     ],[])
 
@@ -85,7 +85,6 @@ const Table : React.FC<Props> = ( props: Props ) => {
                             ))}
                         </tr>))
                         }
-
                         </tbody>
                     </table>
 
