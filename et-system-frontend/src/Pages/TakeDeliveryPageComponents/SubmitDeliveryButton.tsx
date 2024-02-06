@@ -5,7 +5,6 @@ interface Props{
 }
 
 const SubmitDeliveryButton : React.FC<Props> = ( {submit} ) => {
-
     const handleClick = () => {
         submit()
     }

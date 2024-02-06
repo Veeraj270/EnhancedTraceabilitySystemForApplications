@@ -8,6 +8,7 @@ import HelpPage from "./Pages/HelpPage";
 import AddProductsPage from "./Pages/AddProductsPage";
 
 import TakeDeliveryPage from "./Pages/TakeDeliveryPage";
+import DeliveriesPage from "./Pages/DeliveriesPage";
 
 function App() {
     return (
@@ -25,6 +26,9 @@ function App() {
 
                     </Route>
                     <Route path={"/take-delivery"} element={<TakeDeliveryPage/>}>
+
+                    </Route>
+                    <Route path={"/deliveries"} element={<DeliveriesPage/>}>
 
                     </Route>
                     <Route path={"/help"} element={<HelpPage/>}>

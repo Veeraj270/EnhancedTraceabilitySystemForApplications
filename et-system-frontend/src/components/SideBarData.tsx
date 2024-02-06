@@ -36,6 +36,12 @@ export const SideBarData = [
         cName: 'nav-text'
     },
     {
+        title: ' Deliveries ',
+        path: '/deliveries',
+        icon: <FaWarehouse/>,
+        cName: 'nav-text'
+    },
+    {
         title: ' Help ',
         path: '/help',
         icon: <IoMdHelp/>,
