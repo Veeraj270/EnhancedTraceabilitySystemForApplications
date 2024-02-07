@@ -28,13 +28,13 @@ public class SuppliersAPITest{
 		SuppliedGood inEggsGood = new SuppliedGood("Brown Eggs", eggsType);
 		sapi.addGood(inEggsGood);
 		SuppliedGood outEggsGood = sapi.getGoodById(inEggsGood.getId());
-		assertEquals(outEggsGood.getName(), "Brown Eggs");
+		assertEquals("Brown Eggs", outEggsGood.getName());
 		
 		Supplier inA = new Supplier();
 		inA.setName("Sainbury");
 		sapi.addSupplier(inA);
 		Supplier outA = sapi.getSupplierById(inA.getId());
-		assertEquals(outA.getName(), "Sainbury");
+		assertEquals("Sainbury", outA.getName());
 		
 		Supplier inB = new Supplier();
 		inB.setName("Brown and Orange Eggs. Co");
@@ -59,8 +59,8 @@ public class SuppliersAPITest{
 				likeA2 = sapi.addGood(new SuppliedGood("A-like 2", uniqA)),
 				likeB = sapi.addGood(new SuppliedGood("B-like", uniqB));
 		
-		assertEquals(sapi.getGoodsWithType(uniqA), List.of(likeA1, likeA2));
-		assertEquals(sapi.getGoodsWithType(uniqB), List.of(likeB));
-		assertEquals(sapi.getGoodsWithType(unobtainable), List.of());
+		assertEquals(List.of(likeA1, likeA2), sapi.getGoodsWithType(uniqA));
+		assertEquals(List.of(likeB), sapi.getGoodsWithType(uniqB));
+		assertEquals(List.of(), sapi.getGoodsWithType(unobtainable));
 	}
 }
