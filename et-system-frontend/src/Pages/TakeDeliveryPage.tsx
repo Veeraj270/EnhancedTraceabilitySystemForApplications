@@ -78,7 +78,7 @@ const TakeDelivery = () => {
 
     //Triggered by pressing button to right of input field or by pressing enter on input field
     const submitBarcode = async (barcode: string) => {
-        console.log("barcode: ", barcode)
+        //Check if barcode is in expectedTData
         for (let i = 0; i < expectedTData.length; i ++){
             if (expectedTData[i].gtin == barcode){
                 console.log("barcode found in expectedTData")
@@ -89,23 +89,44 @@ const TakeDelivery = () => {
                 newExpectedTData.splice(i,1)
                 //Update expectedTData array
                 setExpectedTData(newExpectedTData)
-                break;
+                return;
             }
         }
 
-        //If barcode isn't within expectedTData query back-end API
-       /* const label = "Unknown";
-        try {
-            const response = await fetch(`http://localhost:8080/api/lookup/barcode/lookup-by-gtin/${barcode}`);
-            if (!response.ok) {
-                throw new Error('lookup/barcode/lookup-by-gtin response was not ok');
+        //Check if it's in scannedTData
+        for (let i = 0; i < scannedTData.length; i ++){
+            if (scannedTData[i].gtin == barcode){
+                console.log("barcode found in expectedTData")
+                const deliveryItem: DeliveryItem = {name: "", gtin: ""}
+                //Shallow copy the items
+                Object.assign(deliveryItem, scannedTData[i])
+                setUnexpectedTData([deliveryItem,...unexpectedTData])
+                return;
             }
-            const responseJSON = await response.json();
-            console.log(responseJSON);
+        }
 
-        } catch (error) {
-            console.log("Error: ", error);
-        }*/
+        //If barcode isn't within expectedTData or scannedTData, query back-end API for label
+        const label = await fetchLabel(barcode)
+        const deliveryItem = {name: label, gtin: barcode}
+        setUnexpectedTData([deliveryItem,...unexpectedTData])
+        return;
+    }
+
+    const fetchLabel = async (barcode: string) => {
+        const response = await fetch(`http://localhost:8080/api/lookup/barcode/lookup-by-gtin/${barcode}`);
+        if (!response.ok){
+            console.log("Error: api/lookup/barcode/lookup-by-gtin was not ok");
+            return "Error";
+        }
+        else {
+            const resJSON = await response.json();
+            if (resJSON.valid == false){
+                return "Unknown";
+            }
+            else {
+                return resJSON.name;
+            }
+        }
     }
 
     //Triggered by pressing submit delivery button
