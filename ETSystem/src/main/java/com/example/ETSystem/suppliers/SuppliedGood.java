@@ -12,6 +12,8 @@ public class SuppliedGood{
 	@GeneratedValue
 	private long id;
 	
+	private String name;
+	
 	// in pence
 	private int price, quantity;
 	
@@ -20,6 +22,10 @@ public class SuppliedGood{
 	
 	public long getId(){
 		return id;
+	}
+	
+	public String getName(){
+		return name;
 	}
 	
 	public int getPrice(){
@@ -36,6 +42,10 @@ public class SuppliedGood{
 	
 	public void setId(long id){
 		this.id = id;
+	}
+	
+	public void setName(String name){
+		this.name = name;
 	}
 	
 	public void setPrice(int price){
@@ -61,6 +71,7 @@ public class SuppliedGood{
 	public String toString(){
 		return "SuppliedGood{" +
 				"id=" + id +
+				", name=" + name +
 				", price=" + price +
 				", quantity=" + quantity +
 				", ingredientType=" + ingredientType +

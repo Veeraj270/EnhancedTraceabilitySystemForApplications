@@ -30,7 +30,7 @@ public class DeliveryAPI{
 		this.productRepo = productRepo;
 	}
 	
-	// basic getters
+	// standard getters
 	
 	@GetMapping("/fetch-planned")
 	public List<PlannedDelivery> getPlanned(){
@@ -52,7 +52,13 @@ public class DeliveryAPI{
 		return recordedRepo.findById(id).orElse(null);
 	}
 	
-	// basic adders
+	@GetMapping("/fetch-planned-by-search-query/{search}")
+	public List<PlannedDelivery> getPlannedBySearchQuery(@PathVariable String search){
+		// TODO: fuzzy search? include non-matching results last?
+		return getPlanned().stream().filter(x -> x.getName().contains(search)).toList();
+	}
+	
+	// standard adders
 	
 	@PostMapping("/add-planned")
 	public PlannedDelivery addPlanned(@RequestBody PlannedDelivery newPlan){
@@ -62,25 +68,6 @@ public class DeliveryAPI{
 	@PostMapping("/add-recorded")
 	public RecordedDelivery addRecorded(@RequestBody RecordedDelivery newRecord){
 		return recordedRepo.save(newRecord);
-	}
-	
-	// convenience getters
-	
-	@GetMapping("/fetch-planned-by-next")
-	public List<PlannedDelivery> getPlannedSortedByNext(){
-		ZonedDateTime now = ZonedDateTime.now();
-		List<PlannedDelivery> all = getPlanned();
-		List<Reordered<PlannedDelivery, ZonedDateTime>> sortedPlans = new ArrayList<>(all.size());
-		for(PlannedDelivery delivery : all)
-			delivery.nextScheduledTimeFrom(now).ifPresent(time -> sortedPlans.add(new Reordered<>(delivery, time)));
-		sortedPlans.sort(null);
-		return sortedPlans.stream().map(Reordered::data).toList();
-	}
-	
-	@GetMapping("/fetch-planned-by-search-query/{search}")
-	public List<PlannedDelivery> getPlannedBySearchQuery(@PathVariable String search){
-		// TODO: fuzzy search? include non-matching results last?
-		return getPlanned().stream().filter(x -> x.getName().contains(search)).toList();
 	}
 	
 	// convenience adders
@@ -96,5 +83,18 @@ public class DeliveryAPI{
 		}
 		newRecord.setRecorded(savedProducts);
 		return recordedRepo.save(newRecord);
+	}
+	
+	// other helpers
+	
+	@GetMapping("/fetch-planned-by-next")
+	public List<PlannedDelivery> getPlannedSortedByNext(){
+		ZonedDateTime now = ZonedDateTime.now();
+		List<PlannedDelivery> all = getPlanned();
+		List<Reordered<PlannedDelivery, ZonedDateTime>> sortedPlans = new ArrayList<>(all.size());
+		for(PlannedDelivery delivery : all)
+			delivery.nextScheduledTimeFrom(now).ifPresent(time -> sortedPlans.add(new Reordered<>(delivery, time)));
+		sortedPlans.sort(null);
+		return sortedPlans.stream().map(Reordered::data).toList();
 	}
 }
