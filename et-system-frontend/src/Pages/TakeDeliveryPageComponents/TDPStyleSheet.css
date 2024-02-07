@@ -33,8 +33,13 @@
     border-radius: .5rem;
     text-align: start;
     padding: 10px 0px 10px 10px;
-    font-size: 20px;
+    font-size: 30px;
+    background-color: #dddddd;
     margin: 0px;
+}
+
+.td-table th{
+    background-color: #dddddd;
 }
 
 .meta-data{
@@ -98,13 +103,12 @@
 }
 
 /*Table styling*/
-.table-title{
-    background-color: ghostwhite;
+.td-table-title{
+    background-color: grey;
     margin: 0px;
     padding: 10px;
     text-align: center;
     border-bottom: 1px solid #ddd;
-
 }
 
 table {

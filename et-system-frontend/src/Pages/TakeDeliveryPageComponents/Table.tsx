@@ -7,8 +7,6 @@ import {
 import React, {useEffect, useMemo, useState} from "react";
 import Item from "./Interfaces/DeliveryItem";
 
-
-
 interface Props{
     data: Item[]
     rowsPerPage: number
@@ -66,7 +64,7 @@ const Table : React.FC<Props> = ( props: Props ) => {
     //Rendering of table
     return (
         <div>
-            <div>
+            <div className={"td-table"}>
                 {tableData.length > 0 ?
                     <table>
                         {table.getHeaderGroups().map(headerGroup => (

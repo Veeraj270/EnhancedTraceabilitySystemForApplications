@@ -8,6 +8,7 @@ import Table from "./TakeDeliveryPageComponents/Table";
 import DeliveryItem from "./TakeDeliveryPageComponents/Interfaces/DeliveryItem";
 import Metadata from "./TakeDeliveryPageComponents/Interfaces/Metadata";
 import metadata from "./TakeDeliveryPageComponents/Interfaces/Metadata";
+import metaDataWindow from "./TakeDeliveryPageComponents/MetaDataWindow";
 
 const TakeDelivery = () => {
     interface Delivery {
@@ -39,6 +40,7 @@ const TakeDelivery = () => {
     //Temporary planned-delivery id
     const deliveryId = 1;
 
+    //Triggered upon initial render of the page
     useEffect(() => {
         fetchDeliveryData(deliveryId).then((data: Delivery) => {
             console.log(data)
@@ -54,6 +56,7 @@ const TakeDelivery = () => {
         })
     }, []);
 
+    //Used by submitBarcode()
     const fetchDeliveryData = async (deliveryId: number) : Promise<Delivery> => {
         try {
             const response = await fetch(`http://localhost:8080/api/deliveries/fetch-planned-by-id/${deliveryId}`);
@@ -139,24 +142,24 @@ const TakeDelivery = () => {
             <h1>Take Delivery</h1>
             <div className={'content'}>
                 <div className={'section1'}>
-                    <DeliveryName text={metaData.name}/>
+                    <DeliveryName text={metaData.name ? metaData.name : "Unknown"}/>
                     <MetaDataWindow data={metaData}/>
                     <BarCodeEntry submit={submitBarcode}/>
                     <SubmitDeliveryButton submit={submitDelivery}/>
                 </div>
                 <div className={'section2'}>
                     <div className={'table-container'}>
-                        <h3 className={'table-title'}>Expected Items</h3>
+                        <h3 className={'td-table-title'}>Expected Items</h3>
                         <Table data={expectedTData.reverse()} rowsPerPage={rowsPerPage}/>
                     </div>
 
                     <div className={'table-container'}>
-                        <h3 className={'table-title'}>Scanned Items</h3>
+                        <h3 className={'td-table-title'}>Scanned Items</h3>
                         <Table data={scannedTData.reverse()} rowsPerPage={rowsPerPage}/>
                     </div>
 
                     <div className={'table-container'}>
-                        <h3 className={'table-title'}>Unexpected Items</h3>
+                        <h3 className={'td-table-title'}>Unexpected Items</h3>
                         <Table data={unexpectedTData.reverse()} rowsPerPage={rowsPerPage}/>
                     </div>
                 </div>
