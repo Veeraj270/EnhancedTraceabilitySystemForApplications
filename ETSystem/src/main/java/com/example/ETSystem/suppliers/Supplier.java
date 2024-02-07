@@ -1,10 +1,8 @@
 package com.example.ETSystem.suppliers;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,8 +14,15 @@ public class Supplier{
 	
 	private String name;
 	
-	@OneToMany
-	private List<SuppliedGood> goods;
+	@OneToMany(fetch = FetchType.EAGER)
+	private List<SuppliedGood> goods = new ArrayList<>();
+	
+	public Supplier(){}
+	
+	public Supplier(String name, List<SuppliedGood> goods){
+		setName(name);
+		setGoods(goods);
+	}
 	
 	public long getId(){
 		return id;

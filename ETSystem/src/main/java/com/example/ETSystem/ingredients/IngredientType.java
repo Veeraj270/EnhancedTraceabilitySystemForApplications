@@ -21,6 +21,10 @@ public class IngredientType{
 	
 	public IngredientType(){}
 	
+	public IngredientType(String name){
+		setName(name);
+	}
+	
 	public long getId(){
 		return id;
 	}

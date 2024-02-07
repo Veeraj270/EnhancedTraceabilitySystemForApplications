@@ -20,6 +20,13 @@ public class SuppliedGood{
 	@ManyToOne
 	private IngredientType ingredientType;
 	
+	public SuppliedGood(){}
+	
+	public SuppliedGood(String name, IngredientType ingredientType){
+		setName(name);
+		setIngredientType(ingredientType);
+	}
+	
 	public long getId(){
 		return id;
 	}
