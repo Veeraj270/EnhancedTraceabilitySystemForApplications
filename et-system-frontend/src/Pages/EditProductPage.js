@@ -1,12 +1,11 @@
-import {Link, useParams, useNavigate} from "react-router-dom";
+import { useParams, useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 
-import {Button, Container, Form, FormGroup, Input, Label} from "reactstrap";
+import EditProductForm from "./EditProductPageComponents/EditProductForm";
 
 
 
 const EditProductPage = () => {
-    const title = <h2>{'Edit Product'}</h2>;
 
 
 
@@ -64,53 +63,10 @@ const EditProductPage = () => {
         navigate('/products');
     }
 
-    return (<div>
-            <Container>
-                {title}
-                <Form onSubmit={handleSubmit}>
-
-                    <FormGroup>
-                        <Label for="parentID">parentID</Label>
-                        <Input type="text" name="parentID" id="parentID" value={product.parentID} onChange={handleChange}/>
-                    </FormGroup>
-
-
-
-
-                    <FormGroup>
-                        <Label for="label">Label</Label>
-                        <Input type="text" name="label" id="label" value={product.label}
-                               onChange={handleChange} />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="maxQuantity">Max Quantity</Label>
-                        <Input type="number" name="maxQuantity" id="maxQuantity" value={product.maxQuantity}
-                               onChange={handleChange} />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="currentQuantity">Current Quantity</Label>
-                        <Input type="number" name="currentQuantity" id="currentQuantity" value={product.currentQuantity}
-                               onChange={handleChange} />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="intermediariesId">Intermediaries ID</Label>
-                        <Input
-                            type="text"
-                            name="intermediariesId"
-                            id="intermediariesId"
-                            value={product.intermediariesId.join(', ') ?? []}
-                            onChange={handleChange}
-                        />
-                    </FormGroup>
-
-
-
-                    <FormGroup>
-                        <Button color="primary" type="submit">Save</Button>{' '}
-                        <Button color="secondary" tag={Link} to="/products">Cancel</Button>
-                    </FormGroup>
-                </Form>
-            </Container>
+    return (
+        <div>
+            <h2>Edit Product</h2>
+            <EditProductForm>product={product} handleChange={handleChange} handleSubmit={handleSubmit}</EditProductForm>
         </div>
     )
 
