@@ -1,7 +1,6 @@
 interface DeliveryItem {
-    id?: number,
-    name: string,
     gtin: string,
+    label: string,
 }
 
 export default DeliveryItem;

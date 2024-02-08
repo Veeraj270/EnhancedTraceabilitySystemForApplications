@@ -15,7 +15,10 @@ public class Product{
 	@Id
 	@GeneratedValue(strategy = AUTO)
 	private Long id;
-	
+
+	@Column(name = "gtin")
+	private String gtin;
+
 	@Column(name = "label", nullable = false)
 	private String label;
 	

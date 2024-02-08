@@ -46,7 +46,7 @@ public class PlannedDelivery{
 			return Optional.of(deliveryTime);
 		if(deliveryInterval.isZero())
 			return Optional.empty();
-		// simpl impl, "just keep waiting"
+		// simple impl, "just keep waiting"
 		ZonedDateTime t = deliveryTime;
 		while(t.isBefore(observer))
 			t = t.plus(deliveryInterval);

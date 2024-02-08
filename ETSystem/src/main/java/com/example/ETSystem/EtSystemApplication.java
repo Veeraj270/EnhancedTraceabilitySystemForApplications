@@ -56,7 +56,7 @@ public class EtSystemApplication{
 			for (int i = 0; i < 20 ; i ++){
 				DeliveryItem deliveryItem = new DeliveryItem();
 				deliveryItem.setGtin(1000000 + i);
-				deliveryItem.setName("Item " + Integer.toString(i));
+				deliveryItem.setLabel("Item " + Integer.toString(i));
 				deliveryItemRepository.save(deliveryItem);
 				plannedItems.add(deliveryItem);
 			}

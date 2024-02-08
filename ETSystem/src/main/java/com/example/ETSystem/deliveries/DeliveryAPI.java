@@ -5,6 +5,8 @@ import com.example.ETSystem.product.ProductRepository;
 import com.example.ETSystem.timeline.CreateEvent;
 import com.example.ETSystem.timeline.TimelineService;
 import com.example.ETSystem.util.Reordered;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
@@ -18,6 +20,8 @@ import java.util.Optional;
 @RequestMapping("api/deliveries")
 
 public class DeliveryAPI{
+
+	private Logger logger = LoggerFactory.getLogger(DeliveryAPI.class);
 
 	private final PlannedDeliveryRepository plannedRepo;
 	private final RecordedDeliveryRepository recordedRepo;
@@ -54,7 +58,7 @@ public class DeliveryAPI{
 		return recordedRepo.findById(id).orElse(null);
 	}
 	
-	// basic adders
+	// basic adder
 	
 	@PostMapping("/add-planned")
 	public PlannedDelivery addPlanned(@RequestBody PlannedDelivery newPlan){
@@ -63,17 +67,20 @@ public class DeliveryAPI{
 	
 	@PostMapping("/add-recorded")
 	public RecordedDelivery addRecorded(@RequestBody RecordedDelivery newRecord){
+		//Logging
+		logger.info(newRecord.toString());
 		return recordedRepo.save(newRecord);
 	}
 
 	@PostMapping("/set-planned-status/{id}")
-	public void setPlannedStatus(@RequestBody boolean status, @PathVariable long id ){
+	public void setPlannedStatus(@RequestBody boolean status, @PathVariable long id ) throws ResourceNotFoundException {
 		Optional<PlannedDelivery> plannedDelivery = plannedRepo.findById(id);
 		if (plannedDelivery.isPresent()){
 			plannedDelivery.get().setProcessed(status);
 		}
-
-		//Require some form of error handling here
+		else {
+			throw new ResourceNotFoundException(id, "Error: delivery with given id not found");
+		}
 	}
 	// convenience getters
 	

@@ -17,10 +17,10 @@ const Table : React.FC<Props> = ( props: Props ) => {
     const columns= useMemo(()=> [
         {
             header: 'Label',
-            accessorKey : 'name'
+            accessorKey : 'label'
         },
         {
-            header: 'Barcode',
+            header: 'GTIN',
             accessorKey : 'gtin'
         }
     ],[])
@@ -67,6 +67,7 @@ const Table : React.FC<Props> = ( props: Props ) => {
             <div className={"td-table"}>
                 {tableData.length > 0 ?
                     <table>
+                        <thead>
                         {table.getHeaderGroups().map(headerGroup => (
                             <tr key={headerGroup.id}>
                                 {headerGroup.headers.map(header => <th key={header.id}>
@@ -74,6 +75,7 @@ const Table : React.FC<Props> = ( props: Props ) => {
                                 </th>)}
                             </tr>
                         ))}
+                        </thead>
                         <tbody>
                         {table.getRowModel().rows.map(row => (<tr key={row.id}>
                             {row.getVisibleCells().map(cell => (
