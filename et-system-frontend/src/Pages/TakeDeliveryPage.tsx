@@ -38,7 +38,8 @@ const TakeDelivery = () => {
     const [unexpectedTData, setUnexpectedTData] = useState(emptyData);
 
     //Temporary planned-delivery id
-    const deliveryId = 1;
+    const id = 1;
+    const [deliveryId, setDeliveryId] = useState(id)
 
     //Triggered upon initial render of the page
     useEffect(() => {
@@ -133,8 +134,31 @@ const TakeDelivery = () => {
     }
 
     //Triggered by pressing submit delivery button
-    const submitDelivery = () => {
-        console.log("submitDelivery()");
+    const submitDelivery = async () => {
+        //Create a record of the delivery and push it to the database - POST
+        const recordedDelivery = {}
+        try{
+            const response = await fetch(`http://localhost:8080/api/deliveries/add-recorded`,{
+                method: "POST",
+                body: JSON.stringify(recordedDelivery),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            })
+            if (!response.ok){
+                throw new Error("Error occurred as a result of api/deliveries/add-recorded POST request")
+            }
+
+            //Mark planned delivery status as processed
+
+        } catch (error){
+
+        }
+
+
+
+
+        //Take user back to the deliveries-overview page
     }
 
     return (

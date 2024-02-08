@@ -11,6 +11,7 @@ import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -64,7 +65,13 @@ public class DeliveryAPI{
 	public RecordedDelivery addRecorded(@RequestBody RecordedDelivery newRecord){
 		return recordedRepo.save(newRecord);
 	}
-	
+
+	@PostMapping("/set-planned-status/{id}")
+	public void setPlannedStatus(@RequestBody boolean status, @PathVariable long id ){
+		Optional<PlannedDelivery> plannedDelivery = plannedRepo.findById(id);
+
+
+	}
 	// convenience getters
 	
 	@GetMapping("/fetch-planned-by-next")

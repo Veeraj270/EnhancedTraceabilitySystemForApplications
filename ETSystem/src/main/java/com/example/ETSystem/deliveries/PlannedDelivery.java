@@ -24,6 +24,10 @@ public class PlannedDelivery{
 	
 	@OneToMany
 	private List<DeliveryItem> items = new ArrayList<>();
+
+	//True - Delivery has been processed (Delivery has been "taken")
+	//False - Delivery has not yet been processed
+	private boolean processed;
 	
 	public PlannedDelivery(){}
 	
@@ -32,6 +36,9 @@ public class PlannedDelivery{
 		this.description = description;
 		this.deliveryTime = deliveryTime;
 		this.deliveryInterval = deliveryInterval;
+
+		//Planned deliveries by default have not yet been processed
+		this.processed = false;
 	}
 	
 	public Optional<ZonedDateTime> nextScheduledTimeFrom(ZonedDateTime observer){
@@ -95,6 +102,8 @@ public class PlannedDelivery{
 	public void setItems(List<DeliveryItem> items){
 		this.items = items;
 	}
+
+	public void setProcessed(boolean status){ this.processed = status; }
 	
 	public boolean equals(Object obj){
 		return obj instanceof PlannedDelivery other && other.id == id;
