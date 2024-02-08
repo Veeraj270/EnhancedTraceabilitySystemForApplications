@@ -72,11 +72,11 @@ public class DeliveryAPI{
 		return recordedRepo.save(newRecord);
 	}
 
-	@PostMapping("/set-planned-status/{id}")
-	public void setPlannedStatus(@RequestBody boolean status, @PathVariable long id ) throws ResourceNotFoundException {
+	@PostMapping("/set-planned-as-complete/{id}")
+	public void setPlannedStatus(@PathVariable long id ) throws ResourceNotFoundException {
 		Optional<PlannedDelivery> plannedDelivery = plannedRepo.findById(id);
 		if (plannedDelivery.isPresent()){
-			plannedDelivery.get().setProcessed(status);
+			plannedDelivery.get().markAsComplete();
 		}
 		else {
 			throw new ResourceNotFoundException(id, "Error: delivery with given id not found");

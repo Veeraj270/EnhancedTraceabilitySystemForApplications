@@ -120,7 +120,7 @@ const TakeDelivery = () => {
         }
 
         //If barcode isn't within expectedTData or scannedTData, query back-end API for label
-        const label = await fetchLabel(barcode).
+        const label = await fetchLabel(barcode)
         const deliveryItem = {label: label, gtin: barcode}
         setUnexpectedTData([deliveryItem,...unexpectedTData])
         return;
@@ -134,7 +134,7 @@ const TakeDelivery = () => {
         }
         else {
             const resJSON = await response.json();
-            if (resJSON.valid == false){
+            if (resJSON.valid == false || resJSON.name == ""){
                 return "Unknown";
             }
             else {
@@ -172,15 +172,7 @@ const TakeDelivery = () => {
             console.log(response)
 
             //Mark planned delivery status as processed
-            response = await fetch(`http://localhost:8080/api/deliveries/set-planned-status/${deliveryId}`,{
-                method: "POST",
-                body: JSON.stringify({
-                    status: true
-                }),
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8"
-                }
-            })
+            response = await fetch(`http://localhost:8080/api/deliveries/set-planned-as-complete/${deliveryId}`)
             if (!response.ok){
                 throw new Error("Error occurred as a result of api/deliveries/set-planned-status/")
             }

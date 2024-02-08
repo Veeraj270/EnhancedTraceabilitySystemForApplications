@@ -27,7 +27,7 @@ public class PlannedDelivery{
 
 	//True - Delivery has been processed (Delivery has been "taken")
 	//False - Delivery has not yet been processed
-	private boolean processed;
+	private boolean complete;
 	
 	public PlannedDelivery(){}
 	
@@ -36,9 +36,7 @@ public class PlannedDelivery{
 		this.description = description;
 		this.deliveryTime = deliveryTime;
 		this.deliveryInterval = deliveryInterval;
-
-		//Planned deliveries by default have not yet been processed
-		this.processed = false;
+		this.complete = false;
 	}
 	
 	public Optional<ZonedDateTime> nextScheduledTimeFrom(ZonedDateTime observer){
@@ -103,7 +101,7 @@ public class PlannedDelivery{
 		this.items = items;
 	}
 
-	public void setProcessed(boolean status){ this.processed = status; }
+	public void markAsComplete(){ this.complete = true; }
 	
 	public boolean equals(Object obj){
 		return obj instanceof PlannedDelivery other && other.id == id;
