@@ -37,6 +37,24 @@ public class Ingredient{
         this.label = label.toLowerCase();
     }
 
+    @Column(
+            name = "label",
+            nullable = false
+    )
+    private boolean allergen;
+
+    @Column(
+            name = "label",
+            nullable = false
+    )
+    private boolean vegan;
+
+    @Column(
+            name = "label",
+            nullable = false
+    )
+    private boolean vegetarian;
+
     public Ingredient() {
     }
 
@@ -66,4 +84,19 @@ public class Ingredient{
     public void setLabel(String label) {
         this.label = label;
     }
+
+    public boolean isAllergen() { return allergen; }
+
+    public void setAllergen(boolean allergen) { this.allergen = allergen; }
+
+    public boolean isVegan() { return vegan; }
+
+    public void setVegan(boolean vegan) {
+        if(vegan){ this.vegetarian = true}
+        this.vegan = vegan;
+    }
+
+    public boolean isVegetarian() { return vegetarian; }
+
+    public void setVegetarian(boolean vegetarian) { this.vegetarian = vegetarian; }
 }
