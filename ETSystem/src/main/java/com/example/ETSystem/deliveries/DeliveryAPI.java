@@ -69,8 +69,11 @@ public class DeliveryAPI{
 	@PostMapping("/set-planned-status/{id}")
 	public void setPlannedStatus(@RequestBody boolean status, @PathVariable long id ){
 		Optional<PlannedDelivery> plannedDelivery = plannedRepo.findById(id);
+		if (plannedDelivery.isPresent()){
+			plannedDelivery.get().setProcessed(status);
+		}
 
-
+		//Require some form of error handling here
 	}
 	// convenience getters
 	

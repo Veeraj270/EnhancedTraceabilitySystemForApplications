@@ -1,5 +1,6 @@
 import './TakeDeliveryPageComponents/TDPStyleSheet.css'
 import {useEffect, useState} from "react";
+
 import MetaDataWindow from "./TakeDeliveryPageComponents/MetaDataWindow";
 import DeliveryName from "./TakeDeliveryPageComponents/DeliveryName";
 import BarCodeEntry from "./TakeDeliveryPageComponents/BarCodeEntry";
@@ -7,8 +8,7 @@ import SubmitDeliveryButton from "./TakeDeliveryPageComponents/SubmitDeliveryBut
 import Table from "./TakeDeliveryPageComponents/Table";
 import DeliveryItem from "./TakeDeliveryPageComponents/Interfaces/DeliveryItem";
 import Metadata from "./TakeDeliveryPageComponents/Interfaces/Metadata";
-import metadata from "./TakeDeliveryPageComponents/Interfaces/Metadata";
-import metaDataWindow from "./TakeDeliveryPageComponents/MetaDataWindow";
+
 
 const TakeDelivery = () => {
     interface Delivery {
@@ -138,7 +138,7 @@ const TakeDelivery = () => {
         //Create a record of the delivery and push it to the database - POST
         const recordedDelivery = {}
         try{
-            const response = await fetch(`http://localhost:8080/api/deliveries/add-recorded`,{
+            let response = await fetch(`http://localhost:8080/api/deliveries/add-recorded`,{
                 method: "POST",
                 body: JSON.stringify(recordedDelivery),
                 headers: {
@@ -150,15 +150,25 @@ const TakeDelivery = () => {
             }
 
             //Mark planned delivery status as processed
-
+            response = await fetch(`http:localhost:8080/api/deliveries/set-planned-status/${id}`,{
+                method: "POST",
+                body: JSON.stringify({
+                    status: true
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            })
+            if (!response.ok){
+                throw new Error("Error occurred as a result of api/deliveries/set-planned-status/")
+            }
         } catch (error){
+            console.log("Error")
+            //Render an error message
 
         }
-
-
-
-
         //Take user back to the deliveries-overview page
+        window.location.href = '/deliveries'
     }
 
     return (
