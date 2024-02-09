@@ -33,27 +33,28 @@ public class Ingredient{
     )
     private String label;
 
-    public Ingredient(String label) {
-        this.label = label.toLowerCase();
-    }
-
     @Column(
-            name = "label",
+            name = "allergen",
             nullable = false
     )
     private boolean allergen;
 
     @Column(
-            name = "label",
+            name = "vegan",
             nullable = false
     )
     private boolean vegan;
 
     @Column(
-            name = "label",
+            name = "vegetarian",
             nullable = false
     )
     private boolean vegetarian;
+
+    public Ingredient(String label, boolean allergen, boolean vegetarian, boolean vegan) {
+        this.label = label.toLowerCase();
+        this.allergen = allergen;
+    }
 
     public Ingredient() {
     }

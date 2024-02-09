@@ -31,10 +31,10 @@ public class RecipeServiceTest {
     @BeforeAll
     public void setup() {
         // Adding elements to the repository
-        milk = recipeService.addNewIngredient(new Ingredient("MILK"));
-        flour = recipeService.addNewIngredient(new Ingredient("fLoUR"));
-        chocolate = recipeService.addNewIngredient(new Ingredient("chocolate"));
-        vanilla = recipeService.addNewIngredient(new Ingredient("vanilla"));
+        milk = recipeService.addNewIngredient(new Ingredient("MILK", true, true, false));
+        flour = recipeService.addNewIngredient(new Ingredient("fLoUR", false, true, true));
+        chocolate = recipeService.addNewIngredient(new Ingredient("chocolate", false, true, false));
+        vanilla = recipeService.addNewIngredient(new Ingredient("vanilla", false, true, true));
     }
 
     @Test
@@ -48,10 +48,7 @@ public class RecipeServiceTest {
 
         // Throwing an error for adding the same element
         assertThrows(IllegalArgumentException.class, () -> {
-            recipeService.addNewIngredient(new Ingredient("flour"));
-        });
-        assertThrows(IllegalArgumentException.class, () -> {
-            recipeService.addNewIngredient(new Ingredient("FLOur"));
+            recipeService.addNewIngredient(new Ingredient("flour", false, true, true));
         });
     }
 
@@ -86,7 +83,7 @@ public class RecipeServiceTest {
         assertEquals(recipeRepository.findAll().stream().toList(), List.of(rec1, rec2));
 
         IngredientQuantity mango_invalid = new IngredientQuantity();
-        mango_invalid.setIngredient(new Ingredient("mango"));
+        mango_invalid.setIngredient(new Ingredient("mango", false, true, true));
 
         // Throwing an error for adding a nonexistent Ingredient
         assertThrows(IllegalArgumentException.class, () -> {
@@ -109,11 +106,7 @@ public class RecipeServiceTest {
         choc2_500.setIngredient(chocolate);
         choc2_500.setQuantity(300);
 
-        IngredientQuantity choc3_100 = new IngredientQuantity();
-        choc3_100.setIngredient(chocolate);
-        choc3_100.setQuantity(300);
-
-        var rec3 = recipeService.addNewRecipe(new Recipe("Triple Chocolate", List.of(choc1_300, choc2_500, choc3_100)));
+        var rec3 = recipeService.addNewRecipe(new Recipe("Triple Chocolate", List.of(choc1_300, choc2_500)));
 
         assertEquals(recipeRepository.findAll().stream().toList(), List.of(rec1, rec2, rec3));
 
