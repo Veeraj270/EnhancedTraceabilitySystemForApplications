@@ -92,7 +92,7 @@ public class Ingredient{
     public boolean isVegan() { return vegan; }
 
     public void setVegan(boolean vegan) {
-        if(vegan){ this.vegetarian = true}
+        if(vegan){ this.vegetarian = true; }
         this.vegan = vegan;
     }
 

@@ -5,8 +5,7 @@ import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-
-import static jakarta.persistence.GenerationType.SEQUENCE;
+import java.util.stream.Collectors;
 
 @Table(
         name = "recipes"
@@ -20,7 +19,7 @@ public class Recipe {
             allocationSize = 1
     )
     @GeneratedValue(
-            strategy = SEQUENCE,
+            strategy = GenerationType.SEQUENCE,
             generator = "recipe_sequence"
     )
     @Column(
@@ -41,6 +40,9 @@ public class Recipe {
     // the appropriate IngredientQuantity objects are saved/deleted/... as well
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<IngredientQuantity> ingredients;
+
+    @OneToMany(cascade = CascadeType.REFRESH)
+    private List<Ingredient> allergens;
 
     public Recipe(String label, List<IngredientQuantity> ingredients) {
         this.label = label;
@@ -82,11 +84,15 @@ public class Recipe {
         this.label = label;
     }
 
-    public List<IngredientQuantity> getIngredients() {
-        return ingredients;
-    }
+    public List<IngredientQuantity> getIngredients() { return ingredients; }
+
+    public List<Ingredient> getAllergens() { return allergens; }
 
     public void setIngredients(List<IngredientQuantity> ingredients) {
+        allergens = ingredients.stream().
+                map(x -> x.getIngredient())
+                .filter(x -> x.isAllergen())
+                .collect(Collectors.toList());
         this.ingredients = ingredients;
     }
 }
