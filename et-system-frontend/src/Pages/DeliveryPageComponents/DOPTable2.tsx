@@ -19,7 +19,7 @@ const DOPTable2 = () => {
             accessorKey: 'delivery-identifier'
         },
         {
-            header: 'Date Processed',
+            header: 'Delivery Date',
             accessorKey: 'date-due'
         },
     ], [])
@@ -31,29 +31,37 @@ const DOPTable2 = () => {
     })
 
     return (
-        <div className={"dp-table-1-div"}>
-            <table>
-                {table.getHeaderGroups().map(headerGroup => (
-                    <tr key={headerGroup.id} className={"dp-table-1-th"}>
-                        {headerGroup.headers.map(header => <th key={header.id}>
-                            {flexRender(header.column.columnDef.header, header.getContext())}
-                        </th>)}
-                    </tr>
-                ))}
-            </table>
+        <div className={'DOP-T-1-grid'}>
 
-            <div className={"dp-table-1-rows-div"}><table>
-                <tbody>
-                {table.getRowModel().rows.map(row => (<tr key={row.id}>
-                    {row.getVisibleCells().map(cell => (
-                        <td>
-                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </td>
+            <div className={"DOP-T-1-search-container"}>
+                <label>Search Past Deliveries</label>
+                <input placeholder={"Search... "}/>
+            </div>
+
+            <div className={'DOP-T-1-table-headers-div'}>
+                <table>
+                    {table.getHeaderGroups().map(headerGroup => (
+                        <tr key={headerGroup.id}>
+                            {headerGroup.headers.map(header => <th key={header.id}>
+                                {flexRender(header.column.columnDef.header, header.getContext())}
+                            </th>)}
+                        </tr>
                     ))}
-                </tr>))
-                }
-                </tbody>
-            </table>
+                </table>
+            </div>
+            <div className={'DOP-T-1-table-content-div'}>
+                <table>
+                    <tbody>
+                    {table.getRowModel().rows.map(row => (<tr key={row.id}>
+                        {row.getVisibleCells().map(cell => (
+                            <td>
+                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                            </td>
+                        ))}
+                    </tr>))
+                    }
+                    </tbody>
+                </table>
             </div>
         </div>
     )

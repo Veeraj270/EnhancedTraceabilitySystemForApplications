@@ -34,7 +34,6 @@ const DeliveriesOverviewPage = () => {
                     <DOPButtonPanel/>
                 </div>
                 <div className={'dop-grid-column'}>
-                    <DPSearchBar/>
                     <DOPTable2/>
                 </div>
                 <div className={'dop-grid-column'}>

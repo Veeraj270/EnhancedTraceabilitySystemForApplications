@@ -106,10 +106,8 @@ input:focus{
     box-shadow: 3px 3px 3px inset;
 }
 label{
-    font-size: 14px;
-    color: rgb(102, 107, 106);
-    padding-bottom: 4px;
-    padding-left: 10px;
+
+
 }
 
 .dp-table-1-div{
@@ -347,9 +345,14 @@ td{
 
 .DOP-T-1-search-container label{
     color: black;
+    font-weight: bold;
+    font-size: 14px;
+    color: rgb(102, 107, 106);
+    padding-bottom: 4px;
 }
 .DOP-T-1-search-container input{
     background-color: ghostwhite;
+    height: 30px;
     width: 100%;
 }
 
