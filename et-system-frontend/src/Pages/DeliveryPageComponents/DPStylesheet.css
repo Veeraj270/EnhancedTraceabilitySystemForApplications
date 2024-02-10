@@ -1,19 +1,46 @@
 
 
-.deliveries-page{
+.deliveries-overview-page{
     /*Take into account padding*/
     width: calc(100% - 100px);
     height: 100%;
     padding-left:  50px;
     padding-right: 50px;
+    padding-top: 20px;
     display: flex;
     flex-direction: column;
-    background-color: #f3f0ef;
+    background-color: whitesmoke;
+    row-gap: 10px;
+}
+
+.deliveries-overview-page h1{
+    margin: 0px;
+    padding: 0px;
 }
 
 
-.dp-region  *{
+.DOP-grid-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+
+    width: 100%;
+    height: 100%;
+
+    column-gap: 40px;
+}
+
+.DOP-grid-container * {
     box-sizing: border-box;
+
+}
+
+.dop-grid-column{
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
 }
 
 .dp-region{
@@ -146,27 +173,6 @@ td{
     position: relative;
 }
 
-.dp-summary-div{
-    box-sizing: border-box;
-    height: 100%;
-    width: 400px;
-    display: flex;
-    flex-direction: column;
-    background-color: #666B6A;
-    padding: 5px;
-    border-radius: 0.5rem;
-    box-shadow: 1px 1px 3px;
-}
-
-.dp-summary-div-inner{
-    width: 100%;
-    height: 100%;
-    border-radius: 0.5rem;
-    background-color: ghostwhite;
-    box-shadow: 2px 2px 3px inset;
-
-}
-
 .dp-summary-div label{
     color: white;
     font-weight: bold;
@@ -231,3 +237,60 @@ td{
 
 }
 
+/*Summary Panel*/
+.DOP-SP-grid{
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    row-gap: 10px;
+    padding: 10px;
+
+    width: 100%;
+    height: 200px;
+    background-color: ghostwhite;
+    box-shadow: 1px 1px 3px;
+    border-radius: 0.5rem;
+}
+
+.DOP-SP-due-date{
+    text-align: center;
+    margin: 0px;
+    padding: 10px;
+}
+
+.DOP-SP-item{
+    border-radius: 0.5rem;
+    border: solid lightgrey 1px;
+    background-color: #efeeee;
+}
+
+.DOP-SP-item p {
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+/*Button Panel 1*/
+
+.DOP-BP-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    height: 100px;
+    width: 100%;
+    gap: 10px;
+}
+
+/*Button Panel 2*/
+.DOP-BP-2-grid{
+    display: grid;
+    height: 100px;
+    width: 100%;
+    gap: 10px;
+}
+
+/*Upper Panel*/
+.DOP-upper{
+    width: 100%;
+    height: 140px;
+    background-color: ghostwhite;
+}

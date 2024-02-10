@@ -5,25 +5,34 @@ import AuthorNewDeliveryButton from "./DeliveryPageComponents/AuthorNewDeliveryB
 import ButtonPanel from "./DeliveryPageComponents/ButtonPanel";
 import SummaryPanel from "./DeliveryPageComponents/SummaryPanel"
 import DPTable2 from './DeliveryPageComponents/DPTable2';
+import DOPSummaryPanel from './DeliveryPageComponents/DOPSummaryPanel';
+import DOPButtonPanel from './DeliveryPageComponents/DOPButtonPanel';
+import DOPSummaryPanel2 from './DeliveryPageComponents/DOPSummaryPanel2';
+import DOPButtonPanel2 from './DeliveryPageComponents/DOPButtonPanel2';
 
 
 const DeliveriesPage = () => {
     // @ts-ignore
     return (
-        <div className='deliveries-page'>
-            <h1>Deliveries</h1>
-            <div className={'dp-region'}>
-                <div className={"dp-region1"}>
+        <div className='deliveries-overview-page'>
+            <h1>Deliveries Overview</h1>
+            <div className={'DOP-upper'}></div>
+            <div className={'DOP-grid-container'}>
+                <div className={'dop-grid-column'}>
                     <DPSearchBar/>
                     <DPTable/>
                 </div>
-                <div className={"dp-region2"}>
-                    <div className={"dp-summary-buttons-div"}>
-                        <SummaryPanel/>
-                        <ButtonPanel/>
-                        <AuthorNewDeliveryButton/>
-                    </div>
-                    <DPTable2/>
+                <div className={'dop-grid-column'}>
+                    <DOPSummaryPanel/>
+                    <DOPButtonPanel/>
+                </div>
+                <div className={'dop-grid-column'}>
+                    <DPSearchBar/>
+                    <DPTable/>
+                </div>
+                <div className={'dop-grid-column'}>
+                    <DOPSummaryPanel2/>
+                    <DOPButtonPanel2/>
                 </div>
 
             </div>

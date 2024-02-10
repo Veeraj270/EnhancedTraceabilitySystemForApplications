@@ -27,21 +27,6 @@ const DPTable2 = () => {
             accessorKey: 'barcode',
             size: 100
         },
-        {
-            header: 'Quantity',
-            accessorKey: 'quantity',
-            size: 100
-        },
-        {
-            header: 'Weight',
-            accessorKey: 'individual-weight',
-            size: 100
-        },
-        {
-            header: 'Total Weight',
-            accessorKey: 'total-weight',
-            size: 100
-        }
         ], [])
 
     const table = useReactTable({
