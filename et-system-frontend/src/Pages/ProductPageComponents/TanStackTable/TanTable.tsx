@@ -75,7 +75,7 @@ const TanTable = () => {
 
     //Rendering of table
     return (
-        <div>
+        <div className={'tan-table'}>
             {data.length > 0 ?
                 <table>
                     {table.getHeaderGroups().map(headerGroup => (

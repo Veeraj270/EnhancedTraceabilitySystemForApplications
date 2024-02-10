@@ -4,7 +4,7 @@ import Item from "../TakeDeliveryPageComponents/Interfaces/DeliveryItem";
 import {flexRender, getCoreRowModel,  useReactTable} from "@tanstack/react-table";
 
 
-const DPTable = () => {
+const DOPTableOld = () => {
     const mockData = Array(40).fill(
         {
             "delivery-identifier": "",
@@ -63,4 +63,4 @@ const DPTable = () => {
     )
 }
 
-export default DPTable
+export default DOPTableOld
