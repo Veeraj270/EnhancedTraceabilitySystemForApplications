@@ -1,6 +1,7 @@
 import {Button, Container, Form, FormGroup, Input, Label} from "reactstrap";
 import {Link} from "react-router-dom";
 import React from "react";
+import './EditProductForm.css'
 
 const EditProductForm = ({ product, handleChange, handleSubmit}) => {
     return(

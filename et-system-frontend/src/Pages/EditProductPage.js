@@ -27,7 +27,7 @@ const EditProductPage = () => {
             .then(response => response.json())
             .then(data => {
                 console.log("Fetched data:", data);
-                if (!data.intermediariesID) {
+                if (!data.intermediariesId) {
                     console.error("intermediariesID is missing from the fetched data", data);
                 }
                 setProduct(data);
@@ -66,7 +66,7 @@ const EditProductPage = () => {
     return (
         <div>
             <h2>Edit Product</h2>
-            <EditProductForm>product={product} handleChange={handleChange} handleSubmit={handleSubmit}</EditProductForm>
+            <EditProductForm product={product} handleChange={handleChange} handleSubmit={handleSubmit} />
         </div>
     )
 
