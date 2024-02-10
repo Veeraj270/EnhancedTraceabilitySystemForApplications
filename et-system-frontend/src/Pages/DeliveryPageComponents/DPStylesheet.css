@@ -184,7 +184,8 @@
 
 /*Stores table rows*/
 .DOP-T-table-content-div{
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .DOP-T-table-content-div td{

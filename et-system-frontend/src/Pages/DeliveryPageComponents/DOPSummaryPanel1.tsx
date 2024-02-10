@@ -1,4 +1,4 @@
-const DOPSummaryPanel = () => {
+const DOPSummaryPanel1 = () => {
     return (
         <div className={'DOP-SP-grid'}>
             <p className={'DOP-SP-due-date'}>Due: 00/00/00</p>
@@ -12,4 +12,4 @@ const DOPSummaryPanel = () => {
     )
 }
 
-export default DOPSummaryPanel;
+export default DOPSummaryPanel1;
