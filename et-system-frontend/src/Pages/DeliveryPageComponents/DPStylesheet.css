@@ -9,10 +9,13 @@
     padding-top: 20px;
     display: flex;
     flex-direction: column;
-    background-color: whitesmoke;
+    background-color: white;
     row-gap: 20px;
 }
 
+.deliveries-overview-page button {
+    border-radius: 0.5rem;
+}
 
 .deliveries-overview-page h1{
     margin: 0px;
@@ -20,222 +23,41 @@
     border-bottom: solid black 2px;
 }
 
+/*Upper Panel*/
+.DOP-upper{
+    width: 100%;
+    height: 140px;
+    background-color: ghostwhite;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 140px 140px 300px;
+    box-shadow: 1px 1px 3px;
+    padding: 10px;
+    border-radius: 0.5rem;
+    border: black solid 1px;
+}
 
 .DOP-grid-container{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-
     width: 100%;
     height: 100%;
-
     column-gap: 40px;
 }
 
 .DOP-grid-container * {
     box-sizing: border-box;
-
 }
 
-.dop-grid-column{
+.DOP-grid-column{
     height: 100%;
     width: 100%;
-
     display: flex;
     flex-direction: column;
     row-gap: 20px;
 }
 
-.dp-region{
-    width: 100%;
-    height: calc(100% - 100px);
-    display: flex;
-    flex-direction: row;
-}
 
-
-.dp-region1{
-    width: 440px;
-    height: calc(100% - 20px);
-    display: flex;
-    flex-direction: column;
-
-    padding: 0px 25px 0px 0px;
-    border-radius: 1rem;
-    row-gap: 20px;
-}
-
-.dp-region2{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-
-    border-radius: 1rem;
-    row-gap: 20px;
-}
-
-.dp-input-wrapper{
-    border: solid grey 1px;
-    border-radius: 0.5rem;
-    width: 100%;
-}
-
-.dp-search-container{
-    display: flex;
-    flex-direction: column;
-    background-color: rgb(160, 238, 192);
-    padding: 5px;
-    border-radius: 0.5rem;
-    box-shadow: 1px 1px 3px;
-}
-
-input{
-    font-size: 16px;
-    font-weight: normal;
-    color: rgb(102, 107, 106);
-    padding: 8px 16px;
-    border: none;
-    box-shadow: 2px 2px 3px inset;
-    border-radius: 0.5rem;
-    width: calc(100% - 40px);
-    height: 25px;
-    outline: none;
-}
-
-input:focus{
-    box-shadow: 3px 3px 3px inset;
-}
-label{
-
-
-}
-
-.dp-table-1-div{
-    height: 740px;
-    box-sizing: border-box;
-    width: 100%;
-    border: solid #666B6A 2px;
-    border-radius: 0.5rem;
-    overflow: hidden;
-    box-shadow: 1px 1px 3px;
-}
-
-.dp-table-1-div td{
-    height: 36px;
-}
-
-.dp-table-2-region{
-    max-height: 577px;
-    width: 100%;
-    border: solid #666B6A 2px;
-    border-radius: 0.5rem;
-    overflow: hidden;
-    box-shadow: 1px 1px 3px;
-}
-
-
-.dp-table-1-th{
-    background-color: #666B6A;
-    color: whitesmoke;
-    height: 20px;
-}
-
-.dp-table-2-tr{
-    background-color: #666B6A;
-    color: whitesmoke;
-}
-
-.dp-table-2-rows-div td{
-    padding: 4px;
-    border-right: 1px solid rgb(0,0,0,0.1);
-    border-bottom: none;
-}
-
-td{
-    font-weight: lighter;
-}
-
-.dp-table-1-rows-div{
-    height: 100%;
-    overflow: scroll;
-}
-.dp-table-2-rows-div{
-    height: 100%;
-    overflow: scroll;
-}
-
-.dp-summary-buttons-div{
-    width: 100%;
-    height: 220px;
-    display: flex;
-    flex-direction: row;
-    column-gap: 20px;
-    position: relative;
-}
-
-.dp-summary-div label{
-    color: white;
-    font-weight: bold;
-}
-
-.dp-buttons-div{
-    height: 100%;
-    width: 140px;
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-}
-
-.dp-button{
-    width: 100%;
-    height: calc(30%);
-    border-radius: 0.5rem;
-    box-shadow: 1px 1px 3px;
-    background-color: #c6f1c6;
-    border:  solid #666B6A 1px;
-
-    font-size: 16px;
-    font-weight: bold;
-    color: #266B6A;
-
-    cursor: pointer;
-}
-
-.dp-button:hover{
-    background-color: rgba(198, 241, 198, 0.5);
-
-}
-
-.dp-table-2-div{
-    border: solid grey;
-    border-radius: 1rem;
-    width: 100%;
-    height: 550px;
-}
-
-.author-delivery-button{
-    width: 300px;
-    height: calc(30%);
-
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    border:  solid #666B6A 1px;
-    border-radius: 0.5rem;
-    box-shadow: 1px 1px 3px;
-
-    background-color: #c6f1c6;
-    color: #266B6A;
-    font-weight: bold;
-    font-size: 16px;
-
-    cursor: pointer;
-}
-
-.author-delivery-button:hover{
-    background-color: rgba(198, 241, 198, 0.5);
-
-}
 
 /*Summary Panel*/
 .DOP-SP-grid{
@@ -243,12 +65,12 @@ td{
     grid-template-rows: 1fr 1fr 1fr 1fr;
     row-gap: 10px;
     padding: 10px;
-
     width: 100%;
     height: 200px;
     background-color: ghostwhite;
     box-shadow: 1px 1px 3px;
     border-radius: 0.5rem;
+    border: black solid 1px
 }
 
 .DOP-SP-due-date{
@@ -288,21 +110,9 @@ td{
     gap: 10px;
 }
 
-/*Upper Panel*/
-.DOP-upper{
-    width: 100%;
-    height: 140px;
-    background-color: ghostwhite;
-    display: grid;
-    gap: 10px;
-    grid-template-columns: 140px 140px 300px;
-    box-shadow: 1px 1px 3px;
-    padding: 10px;
-    border-radius: 0.5rem;
-}
 
 /*Table 1*/
-.DOP-T-1-grid{
+.DOP-T-grid{
     display: grid;
     grid-template-rows: 70px 60px;
     box-shadow: 1px 1px 3px;
@@ -313,60 +123,71 @@ td{
     border: solid black 2px;
 }
 
-.DOP-T-1-grid *{
+.DOP-T-grid *{
     box-sizing: border-box;
 }
 
-.DOP-T-1-grid table{
+.DOP-T-grid table{
     width: 100%;
     height: 100%;
     text-align: left;
     border-collapse: collapse;
 }
 
-.DOP-T-1-grid th, td{
+.DOP-T-grid th, td{
     padding: 12px;
 }
 
-.DOP-T-1-grid tr:hover td{
+.DOP-T-grid tr:hover td{
     background-color: lightgrey;
 }
 
 
-.DOP-T-1-search-container{
+.DOP-T-search-container{
     display: flex;
     flex-direction: column;
     padding: 10px;
     border-radius: 0.5rem;
     border-bottom: black solid 2px;
     background-color: powderblue;
-
 }
 
-.DOP-T-1-search-container label{
-    color: black;
+.DOP-T-search-container label{
     font-weight: bold;
     font-size: 14px;
     color: rgb(102, 107, 106);
     padding-bottom: 4px;
 }
-.DOP-T-1-search-container input{
+.DOP-T-search-container input{
     background-color: ghostwhite;
     height: 30px;
     width: 100%;
+
+    font-weight: normal;
+    color: rgb(102, 107, 106);
+    padding: 8px 16px;
+    border: none;
+    box-shadow: 2px 2px 3px inset;
+    border-radius: 0.5rem;
+    outline: none;
+}
+.DOP-T-search-container input:focus{
+    box-shadow: 3px 3px 3px inset;
 }
 
-.DOP-T-1-table-headers-div{
+.DOP-T-table-headers-div{
     background-color: ghostwhite;
     font-size: 16px;
     border-bottom: 1px black solid;
 }
 
-.DOP-T-1-table-content-div{
+
+/*Stores table rows*/
+.DOP-T-table-content-div{
     overflow: scroll;
 }
 
-.DOP-T-1-table-content-div td{
+.DOP-T-table-content-div td{
     padding: 12px;
     border-bottom: 1px solid #ddd;
     height: 40px;

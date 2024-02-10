@@ -29,14 +29,14 @@ const DeliveriesOverviewPage = () => {
                 <div className={'dop-grid-column'}>
                     <DOPTable1/>
                 </div>
-                <div className={'dop-grid-column'}>
+                <div className={'DOP-grid-column'}>
                     <DOPSummaryPanel/>
                     <DOPButtonPanel/>
                 </div>
-                <div className={'dop-grid-column'}>
+                <div className={'DOP-grid-column'}>
                     <DOPTable2/>
                 </div>
-                <div className={'dop-grid-column'}>
+                <div className={'DOP-grid-column'}>
                     <DOPSummaryPanel2/>
                     <DOPButtonPanel2/>
                 </div>

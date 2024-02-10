@@ -35,14 +35,14 @@ const DOPTable1 = () => {
     })
 
     return (
-        <div className={'DOP-T-1-grid'}>
+        <div className={'DOP-T-grid'}>
 
-            <div className={"DOP-T-1-search-container"}>
+            <div className={"DOP-T-search-container"}>
                 <label>Search scheduled deliveries</label>
                 <input placeholder={"Search... "}/>
             </div>
 
-            <div className={'DOP-T-1-table-headers-div'}>
+            <div className={'DOP-T-table-headers-div'}>
                 <table>
                 {table.getHeaderGroups().map(headerGroup => (
                     <tr key={headerGroup.id}>
@@ -53,7 +53,7 @@ const DOPTable1 = () => {
                 ))}
             </table>
             </div>
-            <div className={'DOP-T-1-table-content-div'}>
+            <div className={'DOP-T-table-content-div'}>
                 <table>
                 <tbody>
                 {table.getRowModel().rows.map(row => (<tr key={row.id}>
