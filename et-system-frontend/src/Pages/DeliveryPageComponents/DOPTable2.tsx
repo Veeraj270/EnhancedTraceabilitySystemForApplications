@@ -38,7 +38,7 @@ const DOPTable2 = () => {
                 <input placeholder={"Search... "}/>
             </div>
 
-            <div className={'DOP-T-table-headers-div'}>
+            <div className={'DOP-T-headers-div'}>
                 <table>
                     {table.getHeaderGroups().map(headerGroup => (
                         <tr key={headerGroup.id}>
@@ -49,7 +49,7 @@ const DOPTable2 = () => {
                     ))}
                 </table>
             </div>
-            <div className={'DOP-T-table-content-div'}>
+            <div className={'DOP-T-content-div'}>
                 <table>
                     <tbody>
                     {table.getRowModel().rows.map(row => (<tr key={row.id}>

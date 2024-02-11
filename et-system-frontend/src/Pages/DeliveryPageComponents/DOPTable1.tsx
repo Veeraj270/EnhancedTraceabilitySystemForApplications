@@ -5,16 +5,11 @@ import {PlannedDelivery} from "../Interfaces/PlannedDelivery";
 
 
 const DOPTable1 = () => {
-    const mockData = Array(40).fill(
-        {
-            "id": "",
-            "dateDue": "",
-            "type": "",
-            "status": ""
-        }
-    )
-    const [tableData, setTableData] = useState(mockData)
+    const empty: any[] = []
+    const [tableData, setTableData] = useState(empty)
+    const [filteredTableData, setFilteredTableData] = useState(empty)
     const [selectedDeliveryID, setSelectedDeliveryID] = useState(-1)
+    const [searchInput, setSearchInput] = useState("")
 
     //Used by generateTableData()
     const fetchScheduled = async () => {
@@ -42,30 +37,34 @@ const DOPTable1 = () => {
                 const dateDue : string | undefined = plannedDelivery.deliveryTime.match(regex)?.at(0)
                 formattedTableData.push({
                     id: plannedDelivery.id,
+                    name: plannedDelivery.name,
                     dateDue: dateDue ? dateDue : "error",
                     type: plannedDelivery.deliveryInterval == "P0D" ? "One-of" : "Recurring",
                     status: "Unknown", //Placeholder
                 });
             })
 
-            //Populate table with additional empty rows
-            if (formattedTableData.length < tableRowNum){
-                formattedTableData = [...formattedTableData, ...Array(tableRowNum - formattedTableData.length).fill({
-                    id: undefined,
-                    dateDue: "",
-                    type: "",
-                    status: "", //Placeholder
-                })]
-            }
             setTableData(formattedTableData)
+            setFilteredTableData(formattedTableData)
         } catch (error){
             console.log("Error with generateTableData(): ", error);
         }
     }
 
     useEffect(() => {
+        if (searchInput.length > 0){
+            setFilteredTableData(tableData.filter((row) => {
+                return row.name.match(searchInput)
+            }))
+        } else{
+            setFilteredTableData(tableData)
+        }
+        }, [searchInput]);
+
+    useEffect(() => {
         generateTableData().then()
     }, []);
+
 
     const columns = useMemo(() => [
         {
@@ -73,20 +72,24 @@ const DOPTable1 = () => {
             accessorKey: 'id'
         },
         {
-            header: 'DATE DUE',
+            header: 'Name',
+            accessorKey: 'name'
+        },
+        {
+            header: 'Date Due',
             accessorKey: 'dateDue'
         },
         {
-            header: 'TYPE',
+            header: 'Type',
             accessorKey: 'type'
         },
         {
-            header: 'STATUS',
+            header: 'Status',
             accessorKey: 'status'
         }], [])
 
     const table = useReactTable({
-        data: tableData,
+        data: filteredTableData,
         columns: columns,
         getCoreRowModel: getCoreRowModel(),
     })
@@ -101,15 +104,20 @@ const DOPTable1 = () => {
         }
     }
 
+    const handleChange = (event : any) => {
+        event.preventDefault();
+        setSearchInput(event.target.value)
+    }
+
     return (
         <div className={'DOP-T-grid'}>
 
             <div className={"DOP-T-search-container"}>
                 <label>Search scheduled deliveries</label>
-                <input placeholder={"Search... "}/>
+                <input placeholder={"Search... "} onChange={handleChange} value={searchInput}/>
             </div>
 
-            <div className={'DOP-T-table-headers-div'}>
+            <div className={'DOP-T-headers-div'}>
                 <table>
                 {table.getHeaderGroups().map(headerGroup => (
                     <tr key={headerGroup.id}>
@@ -120,10 +128,13 @@ const DOPTable1 = () => {
                 ))}
             </table>
             </div>
-            <div className={'DOP-T-table-content-div'}>
+            <div className={'DOP-T-content-div'}>
                 <table>
                 <tbody>
-                {table.getRowModel().rows.map(row => (<tr key={row.id} onClick={(event) => {handleClick(event, row.original.id)}}>
+                {table.getRowModel().rows.map(row => (<tr
+                    key={row.id}
+                    onClick={(event) => {handleClick(event, row.original.id)}}
+                    className={(row.original.id === selectedDeliveryID) ? 'DOP-selected-row' : ''}>
                     {row.getVisibleCells().map(cell => (
                         <td>
                             {flexRender(cell.column.columnDef.cell, cell.getContext())}

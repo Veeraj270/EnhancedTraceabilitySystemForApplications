@@ -21,7 +21,6 @@ const TakeDelivery = () => {
         items: DeliveryItem[]
     }
 
-
     //Constants
     const rowsPerPage = 16;
     const emptyData: DeliveryItem[] = []

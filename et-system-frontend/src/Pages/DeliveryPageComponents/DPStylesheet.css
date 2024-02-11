@@ -140,13 +140,6 @@
     box-sizing: border-box;
 }
 
-.DOP-T-grid table{
-    width: 100%;
-    height: 100%;
-    text-align: left;
-    border-collapse: collapse;
-}
-
 .DOP-T-grid th, td{
     padding: 12px;
 }
@@ -186,22 +179,61 @@
     box-shadow: 3px 3px 3px var(--shadow-color) inset;
 }
 
-.DOP-T-table-headers-div{
+/*Stores table headers*/
+.DOP-T-headers-div{
     background-color: ghostwhite;
     font-size: 16px;
     border-bottom: 1px var(--border-color)  solid;
 }
 
+.DOP-T-headers-div table{
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    border-collapse: collapse;
+    box-shadow: none !important;
+    border-bottom: 1px solid #ddd;
+}
+
 
 /*Stores table rows*/
-.DOP-T-table-content-div{
+.DOP-T-content-div{
     overflow-y: scroll;
     overflow-x: hidden;
 }
 
-.DOP-T-table-content-div td{
+.DOP-T-content-div td{
     padding: 12px;
     border-bottom: 1px solid #ddd;
     height: 40px;
+    max-height: 40px;
     font-size: 14px;
+}
+
+.DOP-T-content-div tr{
+    width: 100%;
+    max-height: 40px;
+    cursor: pointer;
+}
+
+.DOP-T-content-div table{
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse ;
+    background-color: ghostwhite;
+    border-spacing: unset;
+    box-shadow: none;
+}
+
+.DOP-T-content-div th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.DOP-T-content-div tr:hover{
+    background-color:lightgrey;
+}
+
+.DOP-selected-row{
+    background-color: orange;
 }
