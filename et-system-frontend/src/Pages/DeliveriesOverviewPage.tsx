@@ -10,7 +10,7 @@ import DOPTable1 from "./DeliveryPageComponents/DOPTable1";
 const DeliveriesOverviewPage = () => {
     return (
         <div className='deliveries-overview-page'>
-            <h1>Deliveries Overview</h1>
+            <h1 className={'DOP-title'}>Deliveries Overview</h1>
             <div className={'DOP-upper'}>
                 <button>SCHEDULE NEW DELIVERY</button>
                 <button>APPROVED SUPPLIERS DASHBOARD</button>

@@ -13,6 +13,7 @@
 
     --border-color: powderblue;
     --button-color: lightcyan;
+    --shadow-color: rgb(0,0,0,0.4);
 }
 
 .deliveries-overview-page button {
@@ -20,18 +21,20 @@
     border-color: var(--border-color);
     font-weight: bold;
     background-color: var(--button-color);
-
 }
 
 .deliveries-overview-page *{
-   font-family: "Roboto";
+    font-family: "Roboto";
+    color: black;
+
 }
 
-.deliveries-overview-page h1{
+.DOP-title{
     margin: 0px;
     padding: 0px 0px 4px 0px;
     border-bottom: solid black 2px;
 }
+
 
 /*Upper Panel*/
 .DOP-upper{
@@ -41,7 +44,7 @@
     display: grid;
     gap: 10px;
     grid-template-columns: 140px 140px 300px;
-    box-shadow: 1px 1px 3px;
+    box-shadow: 1px 1px 3px var(--shadow-color);
     padding: 10px;
     border-radius: 0.5rem;
     border: var(--border-color) solid 1px;
@@ -78,7 +81,7 @@
     width: 100%;
     height: 200px;
     background-color: ghostwhite;
-    box-shadow: 1px 1px 3px;
+    box-shadow: 1px 1px 3px var(--shadow-color);
     border-radius: 0.5rem;
     border: var(--border-color) solid 1px
 }
@@ -125,7 +128,7 @@
 .DOP-T-grid{
     display: grid;
     grid-template-rows: 70px 60px;
-    box-shadow: 1px 1px 3px;
+    box-shadow: 1px 1px 3px var(--shadow-color);
     width: 100%;
     height: 660px;
     border-radius: 0.5rem;
@@ -165,7 +168,6 @@
 .DOP-T-search-container label{
     font-weight: bold;
     font-size: 14px;
-    color: rgb(102, 107, 106);
     padding-bottom: 4px;
 }
 .DOP-T-search-container input{
@@ -174,15 +176,14 @@
     width: 100%;
 
     font-weight: normal;
-    color: rgb(102, 107, 106);
     padding: 8px 16px;
     border: none;
-    box-shadow: 2px 2px 3px inset;
+    box-shadow: 2px 2px 3px var(--shadow-color) inset;
     border-radius: 0.5rem;
     outline: none;
 }
 .DOP-T-search-container input:focus{
-    box-shadow: 3px 3px 3px inset;
+    box-shadow: 3px 3px 3px var(--shadow-color) inset;
 }
 
 .DOP-T-table-headers-div{
