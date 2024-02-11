@@ -59,6 +59,14 @@ public class Recipe {
     public Recipe(String label, List<IngredientQuantity> ingredients) {
         this.label = label;
         this.ingredients = ingredients;
+        this.allergens = ingredients.stream().
+                map(IngredientQuantity::getIngredient)
+                .filter(x -> x.isAllergen())
+                .collect(Collectors.toList());
+        this.vegan = ingredients.stream()
+                .allMatch(x -> x.getIngredient().isVegan());
+        this.vegetarian = ingredients.stream()
+                .allMatch(x -> x.getIngredient().isVegetarian());
     }
 
     public Recipe() {
@@ -111,7 +119,7 @@ public class Recipe {
 
     public void setIngredients(List<IngredientQuantity> ingredients) {
         this.allergens = ingredients.stream().
-                map(x -> x.getIngredient())
+                map(IngredientQuantity::getIngredient)
                 .filter(x -> x.isAllergen())
                 .collect(Collectors.toList());
         this.vegan = ingredients.stream()

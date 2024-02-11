@@ -54,6 +54,8 @@ public class Ingredient{
     public Ingredient(String label, boolean allergen, boolean vegetarian, boolean vegan) {
         this.label = label.toLowerCase();
         this.allergen = allergen;
+        this.vegetarian = vegetarian;
+        this.vegan = vegan;
     }
 
     public Ingredient() {
