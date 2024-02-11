@@ -6,7 +6,7 @@ import DeliveryName from "./TakeDeliveryPageComponents/DeliveryName";
 import BarCodeEntry from "./TakeDeliveryPageComponents/BarCodeEntry";
 import SubmitDeliveryButton from "./TakeDeliveryPageComponents/SubmitDeliveryButton";
 import Table from "./TakeDeliveryPageComponents/Table";
-import DeliveryItem from "./TakeDeliveryPageComponents/Interfaces/DeliveryItem";
+import DeliveryItem from "./Interfaces/DeliveryItem";
 import Metadata from "./TakeDeliveryPageComponents/Interfaces/Metadata";
 import {json} from "react-router-dom";
 
