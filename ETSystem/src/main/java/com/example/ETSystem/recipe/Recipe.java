@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Table(
@@ -39,10 +40,10 @@ public class Recipe {
     // cascade = CascadeType.ALL makes sure when saving/deleting/... a Recipe object into the db,
     // the appropriate IngredientQuantity objects are saved/deleted/... as well
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<IngredientQuantity> ingredients;
+    private Set<IngredientQuantity> ingredients;
 
     @OneToMany(cascade = CascadeType.REFRESH)
-    private List<Ingredient> allergens;
+    private Set<Ingredient> allergens;
 
     @Column(
             name = "vegan",
@@ -56,13 +57,17 @@ public class Recipe {
     )
     private boolean vegetarian;
 
-    public Recipe(String label, List<IngredientQuantity> ingredients) {
+    public Recipe(String label, Set<IngredientQuantity> ingredients) {
         this.label = label;
+        // Throws and exception if there are for example 2 milk ingredients
+        if(ingredients.stream().count() != ingredients.stream().map(x -> x.getIngredient()).distinct().count()){
+            throw new IllegalArgumentException("You can't have 2 separate identical ingredients in your recipe");
+        }
         this.ingredients = ingredients;
         this.allergens = ingredients.stream().
                 map(IngredientQuantity::getIngredient)
                 .filter(x -> x.isAllergen())
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
         this.vegan = ingredients.stream()
                 .allMatch(x -> x.getIngredient().isVegan());
         this.vegetarian = ingredients.stream()
@@ -104,7 +109,7 @@ public class Recipe {
         this.label = label;
     }
 
-    public List<IngredientQuantity> getIngredients() { return ingredients; }
+    public Set<IngredientQuantity> getIngredients() { return ingredients; }
 
 
     public boolean isVegan() {
@@ -115,13 +120,13 @@ public class Recipe {
         return this.vegetarian;
     }
 
-    public List<Ingredient> getAllergens() { return allergens; }
+    public Set<Ingredient> getAllergens() { return allergens; }
 
-    public void setIngredients(List<IngredientQuantity> ingredients) {
+    public void setIngredients(Set<IngredientQuantity> ingredients) {
         this.allergens = ingredients.stream().
                 map(IngredientQuantity::getIngredient)
                 .filter(x -> x.isAllergen())
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
         this.vegan = ingredients.stream()
                 .allMatch(x -> x.getIngredient().isVegan());
         this.vegetarian = ingredients.stream()
