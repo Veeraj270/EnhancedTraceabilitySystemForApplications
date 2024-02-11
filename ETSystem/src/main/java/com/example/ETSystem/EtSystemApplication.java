@@ -50,18 +50,21 @@ public class EtSystemApplication{
 			timelineService.saveAll(list);
 
 			//Adding a single planned delivery to database for development purposes - will need removal at a later data
-			PlannedDelivery plannedDelivery = new PlannedDelivery("Delivery 1", "A mock delivery for development purposes", ZonedDateTime.now(), Period.ZERO);
-			List<DeliveryItem> plannedItems = new ArrayList<>();
 
-			for (int i = 0; i < 20 ; i ++){
-				DeliveryItem deliveryItem = new DeliveryItem();
-				deliveryItem.setGtin(1000000 + i);
-				deliveryItem.setLabel("Item " + Integer.toString(i));
-				deliveryItemRepository.save(deliveryItem);
-				plannedItems.add(deliveryItem);
+			for (int x = 0; x < 6; x ++){
+				PlannedDelivery plannedDelivery = new PlannedDelivery("Delivery " + Integer.toString(x), "A mock delivery for development purposes", ZonedDateTime.now().plusDays(x), Period.ZERO);
+				List<DeliveryItem> plannedItems = new ArrayList<>();
+				for (int i = 0; i < 26 ; i ++){
+					DeliveryItem deliveryItem = new DeliveryItem();
+					deliveryItem.setGtin(1000000 + i);
+					deliveryItem.setLabel("Item " + Integer.toString(i));
+					deliveryItemRepository.save(deliveryItem);
+					plannedItems.add(deliveryItem);
+				}
+				plannedDelivery.setItems(plannedItems);
+				plannedDeliveryRepository.save(plannedDelivery);
 			}
-			plannedDelivery.setItems(plannedItems);
-			plannedDeliveryRepository.save(plannedDelivery);
+
 		};
 	}
 }

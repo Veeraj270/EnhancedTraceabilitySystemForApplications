@@ -1,6 +1,5 @@
 import React, {useState, useMemo, useEffect} from "react";
 import "./DPStylesheet.css"
-import Item from "../Interfaces/DeliveryItem";
 import {flexRender, getCoreRowModel,  useReactTable} from "@tanstack/react-table";
 import {PlannedDelivery} from "../Interfaces/PlannedDelivery";
 
@@ -14,7 +13,8 @@ const DOPTable1 = () => {
             "status": ""
         }
     )
-    const [tableData, setTableData] = useState<Item[]>(mockData)
+    const [tableData, setTableData] = useState(mockData)
+    const [selectedDeliveryID, setSelectedDeliveryID] = useState(-1)
 
     //Used by generateTableData()
     const fetchScheduled = async () => {
@@ -43,7 +43,7 @@ const DOPTable1 = () => {
                 formattedTableData.push({
                     id: plannedDelivery.id,
                     dateDue: dateDue ? dateDue : "error",
-                    type: plannedDelivery.deliveryInterval ? "Recurring" : "One-Of",
+                    type: plannedDelivery.deliveryInterval == "P0D" ? "One-of" : "Recurring",
                     status: "Unknown", //Placeholder
                 });
             })
@@ -51,7 +51,7 @@ const DOPTable1 = () => {
             //Populate table with additional empty rows
             if (formattedTableData.length < tableRowNum){
                 formattedTableData = [...formattedTableData, ...Array(tableRowNum - formattedTableData.length).fill({
-                    id: "",
+                    id: undefined,
                     dateDue: "",
                     type: "",
                     status: "", //Placeholder
@@ -91,6 +91,16 @@ const DOPTable1 = () => {
         getCoreRowModel: getCoreRowModel(),
     })
 
+    const handleClick = (event: React.MouseEvent, id : number) => {
+        if (id !== undefined){
+            setSelectedDeliveryID(id)
+            console.log("Selected Delivery: " + id);
+        }
+        else{
+            console.log("Empty row clicked");
+        }
+    }
+
     return (
         <div className={'DOP-T-grid'}>
 
@@ -113,7 +123,7 @@ const DOPTable1 = () => {
             <div className={'DOP-T-table-content-div'}>
                 <table>
                 <tbody>
-                {table.getRowModel().rows.map(row => (<tr key={row.id}>
+                {table.getRowModel().rows.map(row => (<tr key={row.id} onClick={(event) => {handleClick(event, row.original.id)}}>
                     {row.getVisibleCells().map(cell => (
                         <td>
                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
