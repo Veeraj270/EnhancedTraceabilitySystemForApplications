@@ -44,6 +44,18 @@ public class Recipe {
     @OneToMany(cascade = CascadeType.REFRESH)
     private List<Ingredient> allergens;
 
+    @Column(
+            name = "vegan",
+            nullable = false
+    )
+    private boolean vegan;
+
+    @Column(
+            name = "vegetarian",
+            nullable = false
+    )
+    private boolean vegetarian;
+
     public Recipe(String label, List<IngredientQuantity> ingredients) {
         this.label = label;
         this.ingredients = ingredients;
@@ -86,13 +98,26 @@ public class Recipe {
 
     public List<IngredientQuantity> getIngredients() { return ingredients; }
 
+
+    public boolean isVegan() {
+        return this.vegan;
+    }
+
+    public boolean isVegetarian() {
+        return this.vegetarian;
+    }
+
     public List<Ingredient> getAllergens() { return allergens; }
 
     public void setIngredients(List<IngredientQuantity> ingredients) {
-        allergens = ingredients.stream().
+        this.allergens = ingredients.stream().
                 map(x -> x.getIngredient())
                 .filter(x -> x.isAllergen())
                 .collect(Collectors.toList());
+        this.vegan = ingredients.stream()
+                .allMatch(x -> x.getIngredient().isVegan());
+        this.vegetarian = ingredients.stream()
+                .allMatch(x -> x.getIngredient().isVegetarian());
         this.ingredients = ingredients;
     }
 }
