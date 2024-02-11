@@ -1,5 +1,4 @@
 
-
 .deliveries-overview-page{
     /*Take into account padding*/
     width: calc(100% - 100px);
@@ -9,12 +8,23 @@
     padding-top: 20px;
     display: flex;
     flex-direction: column;
-    background-color: white;
+    background-color: azure;
     row-gap: 20px;
+
+    --border-color: powderblue;
+    --button-color: lightcyan;
 }
 
 .deliveries-overview-page button {
     border-radius: 0.5rem;
+    border-color: var(--border-color);
+    font-weight: bold;
+    background-color: var(--button-color);
+
+}
+
+.deliveries-overview-page *{
+   font-family: "Roboto";
 }
 
 .deliveries-overview-page h1{
@@ -34,7 +44,7 @@
     box-shadow: 1px 1px 3px;
     padding: 10px;
     border-radius: 0.5rem;
-    border: black solid 1px;
+    border: var(--border-color) solid 1px;
 }
 
 .DOP-grid-container{
@@ -70,7 +80,7 @@
     background-color: ghostwhite;
     box-shadow: 1px 1px 3px;
     border-radius: 0.5rem;
-    border: black solid 1px
+    border: var(--border-color) solid 1px
 }
 
 .DOP-SP-due-date{
@@ -81,7 +91,7 @@
 
 .DOP-SP-item{
     border-radius: 0.5rem;
-    border: solid lightgrey 1px;
+    border: var(--border-color) solid 1px;
     background-color: #efeeee;
 }
 
@@ -120,7 +130,7 @@
     height: 660px;
     border-radius: 0.5rem;
     background-color: ghostwhite;
-    border: solid black 2px;
+    border: solid var(--border-color)  2px;
 }
 
 .DOP-T-grid *{
@@ -147,8 +157,8 @@
     display: flex;
     flex-direction: column;
     padding: 10px;
-    border-radius: 0.5rem;
-    border-bottom: black solid 2px;
+    border-radius: 0.2rem;
+    border-bottom: var(--border-color)  solid 2px;
     background-color: powderblue;
 }
 
@@ -178,7 +188,7 @@
 .DOP-T-table-headers-div{
     background-color: ghostwhite;
     font-size: 16px;
-    border-bottom: 1px black solid;
+    border-bottom: 1px var(--border-color)  solid;
 }
 
 
