@@ -9,6 +9,7 @@ import Table from "./TakeDeliveryPageComponents/Table";
 import DeliveryItem from "./Interfaces/DeliveryItem";
 import Metadata from "./TakeDeliveryPageComponents/Interfaces/Metadata";
 import {json} from "react-router-dom";
+import {useLocation} from "react-router-dom"
 
 
 const TakeDelivery = () => {
@@ -30,6 +31,10 @@ const TakeDelivery = () => {
         deliveryTime: "",
         description: "",
     }
+    //Navigation
+    const location = useLocation();
+    const { selectedPDelivery } = location.state || {};
+    const id = selectedPDelivery;
 
     //State variables
     const [metaData, setMetaData] = useState(emptyMetaData);
@@ -37,8 +42,6 @@ const TakeDelivery = () => {
     const [scannedTData, setScannedTData] = useState(emptyData);
     const [unexpectedTData, setUnexpectedTData] = useState(emptyData);
 
-    //Temporary planned-delivery id
-    const id = 1;
     const [deliveryId, setDeliveryId] = useState(id)
     const [startTime, setStartTime] = useState(Date.now())
 

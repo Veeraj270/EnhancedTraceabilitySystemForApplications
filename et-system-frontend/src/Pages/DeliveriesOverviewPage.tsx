@@ -6,10 +6,12 @@ import DOPSummaryPanel2 from './DeliveryPageComponents/DOPSummaryPanel2';
 import DOPButtonPanel2 from './DeliveryPageComponents/DOPButtonPanel2';
 import DOPTable1 from "./DeliveryPageComponents/DOPTable1";
 import React, {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 
 const DeliveriesOverviewPage = () => {
     const empty: any[] = []
+    //STATE VARIABLES
     const [selectedPDelivery, setSelectedPDelivery] = useState(-1)
     const [selectedRDelivery, setSelectedRDelivery] = useState(-1)
 
@@ -17,8 +19,11 @@ const DeliveriesOverviewPage = () => {
     const [rawScheduledData, setRawScheduledData] = useState(empty)
     const [rawRecordedData, setRawRecordedData] = useState(empty)
 
+    //PanelProps
     const [panelOneProps, setPanelOneProps] = useState({})
     const [panelTwoProps, setPanelTwoProps] = useState({})
+
+    const navigate = useNavigate()
 
     //Fetch Functions
     const fetchScheduled = async () => {
@@ -64,11 +69,6 @@ const DeliveriesOverviewPage = () => {
         setPanelOneProps(panelProps)
     }, [selectedPDelivery]);
 
-    //DEBUGGING
-    useEffect(() => {
-        console.log("debugging...")
-        console.log(panelOneProps)
-    }, [panelOneProps]);
     //Extracting Data for Summary Panel 2
     useEffect(() => {
         let panelProps = {}
@@ -93,7 +93,7 @@ const DeliveriesOverviewPage = () => {
     //Button Functionality
     //Called by "PROCESS" button click handler
     const processDelivery = () => {
-        console.log("processDelivery()")
+        navigate('take-delivery', {state: {selectedPDelivery}})
     }
 
     //Called by "EDIT" button click handler
@@ -120,7 +120,6 @@ const DeliveriesOverviewPage = () => {
     const handleClick2 = (event: React.MouseEvent) => {
         console.log("APPROVED SUPPLIERS DASHBOARD button clicked")
     }
-
 
     return (
         <div className='deliveries-overview-page'>

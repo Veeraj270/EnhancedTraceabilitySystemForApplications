@@ -30,12 +30,6 @@ export const SideBarData = [
         cName: 'nav-text'
     },
     {
-        title: ' Take Delivery ',
-        path: '/take-delivery',
-        icon: <FaWarehouse/>,
-        cName: 'nav-text'
-    },
-    {
         title: ' Deliveries ',
         path: '/deliveries',
         icon: <FaWarehouse/>,
