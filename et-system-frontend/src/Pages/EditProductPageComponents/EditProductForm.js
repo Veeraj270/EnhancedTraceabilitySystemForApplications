@@ -10,7 +10,7 @@ const EditProductForm = ({ product, handleChange, handleSubmit}) => {
             <Form onSubmit={handleSubmit}>
 
                 <FormGroup>
-                    <Label for="parentID">parentID</Label>
+                    <Label for="parentID">ParentID</Label>
                     <Input type="text" name="parentID" id="parentID" value={product.parentID} onChange={handleChange}/>
                 </FormGroup>
 
