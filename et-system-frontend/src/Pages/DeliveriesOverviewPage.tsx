@@ -72,15 +72,15 @@ const DeliveriesOverviewPage = () => {
     //Extracting Data for Summary Panel 2
     useEffect(() => {
         let panelProps = {}
-        if (selectedPDelivery != -1){
-            const selected = rawScheduledData.filter((row)=> row.id == selectedPDelivery).at(0)
-
+        if (selectedRDelivery != -1){
+            const selected = rawRecordedData.filter((row)=> row.id == selectedRDelivery).at(0)
+            console.log(selected);
             //Extract information
             panelProps = {
-                name: (selected.plan.name + "- record"),
+                name: (selected.plan.name + " [record]"),
                 dateDelivered: selected.startTime.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/)?.at(0),
-                startTime: selected.startTime.match(/T[0-9]{2}:[0-9]{2}:[0-9]{2/),
-                endTime: selected.endTime.match(/T[0-9]{2}:[0-9]{2}:[0-9]{2/),
+                startTime: selected.startTime.match(/[0-9]{2}:[0-9]{2}:[0-9]{2}/).at(0),
+                endTime: selected.endTime.match(/[0-9]{2}:[0-9]{2}:[0-9]{2}/).at(0),
                 expectedItemCount: selected.plan.items.length,
                 actualItemCount: selected.plan.items.length,
                 suppliers: ""

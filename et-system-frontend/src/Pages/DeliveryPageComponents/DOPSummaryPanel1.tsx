@@ -20,13 +20,13 @@ const DOPSummaryPanel1 = (props) => {
         <div className={'DOP-SP-1-grid'}>
             <p className={'DOP-SP-due-date'}>Due: {data.props.dateDue}</p>
             <div className={'DOP-SP-item'}>
-                <p>Name: {data.props.name}</p>
+                <p><b>Name:</b> {data.props.name}</p>
             </div>
             <div className={'DOP-SP-item'}>
-                <p>Description: {data.props.description}</p>
+                <p><b>Description:</b> {data.props.description}</p>
             </div>
             <div className={'DOP-SP-item'}>
-                <p>Suppliers: {data.props.suppliers}</p>
+                <p><b>Suppliers:</b> {data.props.suppliers}</p>
             </div>
         </div>
     )
