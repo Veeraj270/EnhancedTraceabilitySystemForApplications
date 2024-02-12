@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from "react";
+import React, {useState, useMemo, useEffect} from "react";
 import "./DPStylesheet.css"
 import Item from "../Interfaces/DeliveryItem";
 import {flexRender, getCoreRowModel,  useReactTable} from "@tanstack/react-table";
@@ -13,14 +13,57 @@ const DOPTable2 = () => {
     )
     const [tableData, setTableData] = useState<Item[]>(mockData)
 
+
+    //Used by generateTableData()
+    const fetchRecorded = async () => {
+        const response = await fetch ('http://localhost:8080/api/deliveries/fetch-recorded')
+        if (!response.ok){
+            throw new Error("response from fetch-planned request was not ok")
+        }
+        return await response.json()
+    }
+
+    const generateTableData = async () => {
+        try {
+            const rawData = await fetchRecorded()
+            console.log(rawData)
+
+            //Extract Date via regex
+            const regex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
+
+            let formattedTableData: any[] = []
+            rawData.map((recordedDelivery: any) => {
+                const recordedDate : string | undefined = recordedDelivery.endTime.match(regex)?.at(0)
+                formattedTableData.push({
+                    id: recordedDelivery.id,
+                    name: (recordedDelivery.plan.name + "-Record"),
+                    recordDate: recordedDate
+                })
+            })
+
+            //Convert to displayable data
+            setTableData(formattedTableData);
+
+        } catch (error){
+            console.log("Error with generateTableData(): ", error)
+        }
+    }
+
+    useEffect(() => {
+        generateTableData().then()
+    }, []);
     const columns = useMemo(() => [
         {
-            header: 'Delivery Identifier',
-            accessorKey: 'delivery-identifier'
+            header: 'ID',
+            accessorKey: 'id'
+        },
+        {
+            header: "name",
+            accessorKey: 'name',
         },
         {
             header: 'Delivery Date',
-            accessorKey: 'date-due'
+            accessorKey: 'recordDate'
         },
     ], [])
 

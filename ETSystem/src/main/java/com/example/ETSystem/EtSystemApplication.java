@@ -1,9 +1,6 @@
 package com.example.ETSystem;
 
-import com.example.ETSystem.deliveries.DeliveryItem;
-import com.example.ETSystem.deliveries.DeliveryItemRepository;
-import com.example.ETSystem.deliveries.PlannedDelivery;
-import com.example.ETSystem.deliveries.PlannedDeliveryRepository;
+import com.example.ETSystem.deliveries.*;
 import com.example.ETSystem.product.Product;
 import com.example.ETSystem.product.ProductRepository;
 import com.example.ETSystem.timeline.*;
@@ -15,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
 import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -28,7 +26,12 @@ public class EtSystemApplication{
 	}
 	
 	@Bean
-	CommandLineRunner commandLineRunner(ProductRepository productRepository, TimelineService timelineService, PlannedDeliveryRepository plannedDeliveryRepository, DeliveryItemRepository deliveryItemRepository){
+	CommandLineRunner commandLineRunner(ProductRepository productRepository,
+										TimelineService timelineService,
+										PlannedDeliveryRepository plannedDeliveryRepository,
+										DeliveryItemRepository deliveryItemRepository,
+										RecordedDeliveryRepository recordedDeliveryRepository
+	){
 		return args -> {
 			// Read from MOCK_DATA.json and save all entries to productRepo
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -49,8 +52,8 @@ public class EtSystemApplication{
 			list.add(new UseEvent(1600L, eventOwner));
 			timelineService.saveAll(list);
 
-			//Adding a single planned delivery to database for development purposes - will need removal at a later data
 
+			//Add some mock planned deliveries to the database - for development purposes
 			for (int x = 0; x < 6; x ++){
 				PlannedDelivery plannedDelivery = new PlannedDelivery("Delivery " + Integer.toString(x), "A mock delivery for development purposes", ZonedDateTime.now().plusDays(x), Period.ZERO);
 				List<DeliveryItem> plannedItems = new ArrayList<>();
@@ -65,6 +68,13 @@ public class EtSystemApplication{
 				plannedDeliveryRepository.save(plannedDelivery);
 			}
 
+			//Add some mock recorded deliveries to the database - for development purposes
+			for (int x = 1; x < 4; x ++){
+				PlannedDelivery plannedDelivery = new PlannedDelivery("Test-Delivery ", "description",ZonedDateTime.now().plusDays(x - 4), Period.ZERO);
+				plannedDeliveryRepository.save(plannedDelivery);
+				RecordedDelivery recordedDelivery = new RecordedDelivery(plannedDelivery, Instant.now(), Instant.now().plusSeconds(500), new ArrayList<Product>());
+				recordedDeliveryRepository.save(recordedDelivery);
+			}
 		};
 	}
 }

@@ -17,8 +17,7 @@ const DOPTable1 = () => {
         if (!response.ok){
             throw new Error("response from fetch-planned request was not ok")
         }
-        const responseJSON = await response.json()
-        return responseJSON
+        return await response.json()
     }
 
     const tableRowNum = 14;

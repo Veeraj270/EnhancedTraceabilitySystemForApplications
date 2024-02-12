@@ -22,7 +22,15 @@ public class RecordedDelivery{
 	
 	@OneToMany
 	private List<Product> recorded = new ArrayList<>();
-	
+
+	public RecordedDelivery(PlannedDelivery plan, Instant startTime, Instant endTime, List<Product> recorded){
+		this.plan = plan;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.recorded = recorded;
+	}
+
+	public RecordedDelivery(){	};
 	public long getId(){
 		return id;
 	}
