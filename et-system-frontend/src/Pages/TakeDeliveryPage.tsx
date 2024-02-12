@@ -41,6 +41,7 @@ const TakeDelivery = () => {
     const [expectedTData, setExpectedTData] = useState(emptyData);
     const [scannedTData, setScannedTData] = useState(emptyData);
     const [unexpectedTData, setUnexpectedTData] = useState(emptyData);
+    const [plannedDelivery, setPlannedDelivery] = useState({});
 
     const [deliveryId, setDeliveryId] = useState(id)
     const [startTime, setStartTime] = useState(Date.now())
@@ -77,6 +78,7 @@ const TakeDelivery = () => {
                 throw new Error('fetch-planned-by-id response was not ok');
             }
             const data = await response.json();
+            setPlannedDelivery(data);
             return data;
         } catch (error) {
             console.error("Error: ", error);
@@ -94,6 +96,10 @@ const TakeDelivery = () => {
 
     //Triggered by pressing button to right of input field or by pressing enter on input field
     const submitBarcode = async (barcode: string) => {
+        if  (barcode === ""){
+            return;
+        }
+
         //Check if barcode is in expectedTData
         for (let i = 0; i < expectedTData.length; i ++){
             if (expectedTData[i].gtin == barcode){
@@ -151,7 +157,7 @@ const TakeDelivery = () => {
         const recordedProducts: DeliveryItem[] =  [...structuredClone(scannedTData), ...structuredClone(unexpectedTData)];
         console.log(recordedProducts);
         const recordedDelivery = {
-            plannedDeliveryId: deliveryId,
+            plan: plannedDelivery,
             startTime: startTime,
             endTime: Date.now(),
             recorded: recordedProducts,
