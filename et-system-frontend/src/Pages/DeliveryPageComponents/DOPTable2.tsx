@@ -5,14 +5,11 @@ import {flexRender, getCoreRowModel,  useReactTable} from "@tanstack/react-table
 
 
 const DOPTable2 = () => {
-    const mockData = Array(40).fill(
-        {
-            "delivery-identifier": "",
-            "date-due": "",
-        }
-    )
-    const [tableData, setTableData] = useState<Item[]>(mockData)
-
+    const empty: any[] = []
+    const [tableData, setTableData] = useState(empty)
+    const [selectedDeliveryID, setSelectedDeliveryID] = useState(-1)
+    const [searchInput, setSearchInput] = useState("")
+    const [filteredTableData, setFilteredTableData] = useState(empty)
 
     //Used by generateTableData()
     const fetchRecorded = async () => {
@@ -25,33 +22,48 @@ const DOPTable2 = () => {
 
     const generateTableData = async () => {
         try {
-            const rawData = await fetchRecorded()
-            console.log(rawData)
+            const rawData = await fetchRecorded();
+            console.log(rawData);
 
             //Extract Date via regex
             const regex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
 
-            let formattedTableData: any[] = []
+            let formattedTableData: any[] = [];
             rawData.map((recordedDelivery: any) => {
                 const recordedDate : string | undefined = recordedDelivery.endTime.match(regex)?.at(0)
                 formattedTableData.push({
                     id: recordedDelivery.id,
                     name: (recordedDelivery.plan.name + "-Record"),
                     recordDate: recordedDate
-                })
-            })
+                });
+            });
 
             //Convert to displayable data
             setTableData(formattedTableData);
+            setFilteredTableData(formattedTableData);
 
         } catch (error){
             console.log("Error with generateTableData(): ", error)
         }
     }
 
+    //If searchInput changes, update filteredTableData
+    useEffect(() => {
+        if (searchInput.length > 0){
+            setFilteredTableData(tableData.filter((row) => {
+                return row.name.match(searchInput)
+            }))
+        } else{
+            setFilteredTableData(tableData)
+        }
+    }, [searchInput]);
+
+    //Initially generate table data upon component render
     useEffect(() => {
         generateTableData().then()
     }, []);
+
+    //Column Definitions
     const columns = useMemo(() => [
         {
             header: 'ID',
@@ -67,18 +79,36 @@ const DOPTable2 = () => {
         },
     ], [])
 
+    //Instantiates the tanstack table
     const table = useReactTable({
-        data: tableData,
+        data: filteredTableData,
         columns: columns,
         getCoreRowModel: getCoreRowModel(),
     })
 
+    //Implements selectable rows
+    const handleClick = (event: React.MouseEvent, id : number) => {
+        if (id !== undefined){
+            setSelectedDeliveryID(id)
+            console.log("Selected Delivery: " + id);
+        }
+        else{
+            console.log("Empty row clicked");
+        }
+    }
+
+    //For search bar input field
+    const handleChange = (event : any) => {
+        event.preventDefault();
+        setSearchInput(event.target.value)
+    }
+
+    //Render
     return (
         <div className={'DOP-T-grid'}>
-
             <div className={"DOP-T-search-container"}>
                 <label>Search Past Deliveries</label>
-                <input placeholder={"Search... "}/>
+                <input placeholder={"Search... "} onChange={handleChange} value={searchInput}/>
             </div>
 
             <div className={'DOP-T-headers-div'}>
@@ -95,7 +125,10 @@ const DOPTable2 = () => {
             <div className={'DOP-T-content-div'}>
                 <table>
                     <tbody>
-                    {table.getRowModel().rows.map(row => (<tr key={row.id}>
+                    {table.getRowModel().rows.map(row => (<tr
+                        key={row.id}
+                        onClick={(event: React.MouseEvent) => {handleClick(event, row.original.id)}}
+                        className={(row.original.id === selectedDeliveryID) ? 'DOP-selected-row' : ''}>
                         {row.getVisibleCells().map(cell => (
                             <td>
                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}

@@ -20,8 +20,6 @@ const DOPTable1 = () => {
         return await response.json()
     }
 
-    const tableRowNum = 14;
-
     const generateTableData = async () => {
         try{
             const rawData = await fetchScheduled();
@@ -50,6 +48,7 @@ const DOPTable1 = () => {
         }
     }
 
+    //If searchInput changes, update filteredTableData
     useEffect(() => {
         if (searchInput.length > 0){
             setFilteredTableData(tableData.filter((row) => {
@@ -60,11 +59,12 @@ const DOPTable1 = () => {
         }
         }, [searchInput]);
 
+    //Initially generate table data upon component render
     useEffect(() => {
         generateTableData().then()
     }, []);
 
-
+    //Column Definitions
     const columns = useMemo(() => [
         {
             header: 'ID',
@@ -87,12 +87,14 @@ const DOPTable1 = () => {
             accessorKey: 'status'
         }], [])
 
+    //Instantiates the tanstack table
     const table = useReactTable({
         data: filteredTableData,
         columns: columns,
         getCoreRowModel: getCoreRowModel(),
     })
 
+    //Implements selectable rows
     const handleClick = (event: React.MouseEvent, id : number) => {
         if (id !== undefined){
             setSelectedDeliveryID(id)
@@ -103,11 +105,13 @@ const DOPTable1 = () => {
         }
     }
 
+    //For search bar input field
     const handleChange = (event : any) => {
         event.preventDefault();
         setSearchInput(event.target.value)
     }
 
+    //Render
     return (
         <div className={'DOP-T-grid'}>
 
