@@ -7,7 +7,9 @@ import TraceabilityPage from "./Pages/TraceabilityPage";
 import HelpPage from "./Pages/HelpPage";
 import AddProductsPage from "./Pages/AddProductsPage";
 import EditProductPage from "./Pages/EditProductPage";
+
 import TakeDeliveryPage from "./Pages/TakeDeliveryPage";
+import DeliveriesPage from "./Pages/DeliveriesPage";
 
 function App() {
     return (
@@ -27,6 +29,9 @@ function App() {
                     <Route path={"/take-delivery"} element={<TakeDeliveryPage/>}>
 
                     </Route>
+                    <Route path={"/deliveries"} element={<DeliveriesPage/>}>
+
+                    </Route>
                     <Route path={"/help"} element={<HelpPage/>}>
 
                     </Route>
@@ -35,6 +40,7 @@ function App() {
                     </Route>
                     <Route path={"/edit-product/:id"} element={<EditProductPage/>}>
                     </Route>
+
                 </Routes>
             </div>
         </Router>
