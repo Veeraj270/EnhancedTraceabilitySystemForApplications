@@ -4,32 +4,19 @@ import Item from "../Interfaces/DeliveryItem";
 import {flexRender, getCoreRowModel,  useReactTable} from "@tanstack/react-table";
 
 
-const DOPTable2 = () => {
+// @ts-ignore
+const DOPTable2 = ( {setSelected, selected, rawData} ) => {
     const empty: any[] = []
     const [tableData, setTableData] = useState(empty)
-    const [selectedDeliveryID, setSelectedDeliveryID] = useState(-1)
     const [searchInput, setSearchInput] = useState("")
     const [filteredTableData, setFilteredTableData] = useState(empty)
 
-    //Used by generateTableData()
-    const fetchRecorded = async () => {
-        const response = await fetch ('http://localhost:8080/api/deliveries/fetch-recorded')
-        if (!response.ok){
-            throw new Error("response from fetch-planned request was not ok")
-        }
-        return await response.json()
-    }
-
     const generateTableData = async () => {
         try {
-            const rawData = await fetchRecorded();
-            console.log(rawData);
-
-            //Extract Date via regex
             const regex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
-
             let formattedTableData: any[] = [];
             rawData.map((recordedDelivery: any) => {
+                //Extract date via regex
                 const recordedDate : string | undefined = recordedDelivery.endTime.match(regex)?.at(0)
                 formattedTableData.push({
                     id: recordedDelivery.id,
@@ -60,8 +47,11 @@ const DOPTable2 = () => {
 
     //Initially generate table data upon component render
     useEffect(() => {
-        generateTableData().then()
-    }, []);
+        if (rawData.length > 0){
+            generateTableData().then()
+        }
+        console.log(rawData)
+    }, [rawData]);
 
     //Column Definitions
     const columns = useMemo(() => [
@@ -89,7 +79,7 @@ const DOPTable2 = () => {
     //Implements selectable rows
     const handleClick = (event: React.MouseEvent, id : number) => {
         if (id !== undefined){
-            setSelectedDeliveryID(id)
+            setSelected(id)
             console.log("Selected Delivery: " + id);
         }
         else{
@@ -128,7 +118,7 @@ const DOPTable2 = () => {
                     {table.getRowModel().rows.map(row => (<tr
                         key={row.id}
                         onClick={(event: React.MouseEvent) => {handleClick(event, row.original.id)}}
-                        className={(row.original.id === selectedDeliveryID) ? 'DOP-selected-row' : ''}>
+                        className={(row.original.id === selected) ? 'DOP-selected-row' : ''}>
                         {row.getVisibleCells().map(cell => (
                             <td>
                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}

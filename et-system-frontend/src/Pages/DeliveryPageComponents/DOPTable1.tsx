@@ -4,33 +4,19 @@ import {flexRender, getCoreRowModel,  useReactTable} from "@tanstack/react-table
 import {PlannedDelivery} from "../Interfaces/PlannedDelivery";
 
 
-const DOPTable1 = () => {
+// @ts-ignore
+const DOPTable1 = ( {setSelected, selected, rawData} ) => {
     const empty: any[] = []
     const [tableData, setTableData] = useState(empty)
     const [filteredTableData, setFilteredTableData] = useState(empty)
-    const [selectedDeliveryID, setSelectedDeliveryID] = useState(-1)
     const [searchInput, setSearchInput] = useState("")
 
-    //Used by generateTableData()
-    const fetchScheduled = async () => {
-        const response = await fetch('http://localhost:8080/api/deliveries/fetch-planned')
-        if (!response.ok){
-            throw new Error("response from fetch-planned request was not ok")
-        }
-        return await response.json()
-    }
-
-    const generateTableData = async () => {
+    const generateTableData = async (data: any[]) => {
         try{
-            const rawData = await fetchScheduled();
-            console.log(rawData);
-
-            //Extract Date via regex
             const regex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
-            console.log("Date Due: ", rawData[0].deliveryTime.match(regex).at(0));
-
             let formattedTableData: any[] = []; //Should remove any later
-            rawData.map((plannedDelivery: PlannedDelivery) => {
+            data.map((plannedDelivery: PlannedDelivery) => {
+                //Extract Date via regex
                 const dateDue : string | undefined = plannedDelivery.deliveryTime.match(regex)?.at(0)
                 formattedTableData.push({
                     id: plannedDelivery.id,
@@ -61,8 +47,12 @@ const DOPTable1 = () => {
 
     //Initially generate table data upon component render
     useEffect(() => {
-        generateTableData().then()
-    }, []);
+        //Don't know why .rawScheduledData is required - FIX LATER
+        if (rawData.rawScheduledData.length > 0){
+            generateTableData(rawData.rawScheduledData).then();
+        }
+        console.log(rawData);
+    }, [rawData]);
 
     //Column Definitions
     const columns = useMemo(() => [
@@ -97,7 +87,7 @@ const DOPTable1 = () => {
     //Implements selectable rows
     const handleClick = (event: React.MouseEvent, id : number) => {
         if (id !== undefined){
-            setSelectedDeliveryID(id)
+            setSelected(id)
             console.log("Selected Delivery: " + id);
         }
         else{
@@ -137,7 +127,7 @@ const DOPTable1 = () => {
                 {table.getRowModel().rows.map(row => (<tr
                     key={row.id}
                     onClick={(event) => {handleClick(event, row.original.id)}}
-                    className={(row.original.id === selectedDeliveryID) ? 'DOP-selected-row' : ''}>
+                    className={(row.original.id === selected) ? 'DOP-selected-row' : ''}>
                     {row.getVisibleCells().map(cell => (
                         <td>
                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
