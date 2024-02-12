@@ -48,8 +48,8 @@ const DOPTable1 = ( {setSelected, selected, rawData} ) => {
     //Initially generate table data upon component render
     useEffect(() => {
         //Don't know why .rawScheduledData is required - FIX LATER
-        if (rawData.rawScheduledData.length > 0){
-            generateTableData(rawData.rawScheduledData).then();
+        if (rawData.length > 0){
+            generateTableData(rawData).then();
         }
         console.log(rawData);
     }, [rawData]);
