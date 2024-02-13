@@ -10,11 +10,9 @@ interface Props{
 const MetaDataWindow : React.FC<Props> = ( props: Props) => {
     return(
         <div className={'meta-data'}>
-            <p>Supplier: {props.data.supplier}</p>
-            <p>Expected Delivery Date: {props.data.expectedDeliveryDate}</p>
-            <p>Place Holder</p>
-            <p>Place Holder</p>
-            <p>Place Holder</p>
+            <p>Supplier: {props.data.supplier ? props.data.supplier : "Unknown"} </p>
+            <p>Expected Delivery Time: {props.data.deliveryTime ? props.data.deliveryTime: "Unknown"}</p>
+            <p>Description: {props.data.description ? props.data.description : "Unknown"}</p>
         </div>
     )
 }

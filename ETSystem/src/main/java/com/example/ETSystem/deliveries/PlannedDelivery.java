@@ -24,6 +24,10 @@ public class PlannedDelivery{
 	
 	@OneToMany
 	private List<DeliveryItem> items = new ArrayList<>();
+
+	//True - Delivery has been processed (Delivery has been "taken")
+	//False - Delivery has not yet been processed
+	private boolean complete;
 	
 	public PlannedDelivery(){}
 	
@@ -32,6 +36,7 @@ public class PlannedDelivery{
 		this.description = description;
 		this.deliveryTime = deliveryTime;
 		this.deliveryInterval = deliveryInterval;
+		this.complete = false;
 	}
 	
 	public Optional<ZonedDateTime> nextScheduledTimeFrom(ZonedDateTime observer){
@@ -39,7 +44,7 @@ public class PlannedDelivery{
 			return Optional.of(deliveryTime);
 		if(deliveryInterval.isZero())
 			return Optional.empty();
-		// simpl impl, "just keep waiting"
+		// simple impl, "just keep waiting"
 		ZonedDateTime t = deliveryTime;
 		while(t.isBefore(observer))
 			t = t.plus(deliveryInterval);
@@ -95,6 +100,8 @@ public class PlannedDelivery{
 	public void setItems(List<DeliveryItem> items){
 		this.items = items;
 	}
+
+	public void markAsComplete(){ this.complete = true; }
 	
 	public boolean equals(Object obj){
 		return obj instanceof PlannedDelivery other && other.id == id;

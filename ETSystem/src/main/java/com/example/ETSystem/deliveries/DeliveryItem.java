@@ -11,7 +11,7 @@ public class DeliveryItem{
 	@GeneratedValue
 	private long id;
 	
-	private String name;
+	private String label;
 	
 	private long gtin;
 	
@@ -19,8 +19,8 @@ public class DeliveryItem{
 		return id;
 	}
 	
-	public String getName(){
-		return name;
+	public String getLabel(){
+		return label;
 	}
 	
 	public long getGtin(){
@@ -31,8 +31,8 @@ public class DeliveryItem{
 		this.id = id;
 	}
 	
-	public void setName(String name){
-		this.name = name;
+	public void setLabel(String label){
+		this.label = label;
 	}
 	
 	public void setGtin(long gtin){

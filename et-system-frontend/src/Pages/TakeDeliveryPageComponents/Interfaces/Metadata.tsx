@@ -1,7 +1,9 @@
 interface Metadata {
-    deliveryName: string;
-    supplier: string;
-    expectedDeliveryDate: number;
+    name: string,
+    supplier?: string,
+    deliveryInterval: string,
+    deliveryTime: string,
+    description: string,
 }
 
 export default Metadata;

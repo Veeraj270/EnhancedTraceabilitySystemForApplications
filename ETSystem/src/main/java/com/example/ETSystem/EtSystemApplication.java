@@ -1,5 +1,9 @@
 package com.example.ETSystem;
 
+import com.example.ETSystem.deliveries.DeliveryItem;
+import com.example.ETSystem.deliveries.DeliveryItemRepository;
+import com.example.ETSystem.deliveries.PlannedDelivery;
+import com.example.ETSystem.deliveries.PlannedDeliveryRepository;
 import com.example.ETSystem.product.Product;
 import com.example.ETSystem.product.ProductRepository;
 import com.example.ETSystem.timeline.*;
@@ -11,6 +15,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.nio.charset.StandardCharsets;
+import java.time.Period;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +28,7 @@ public class EtSystemApplication{
 	}
 	
 	@Bean
-	CommandLineRunner commandLineRunner(ProductRepository productRepository, TimelineService timelineService){
+	CommandLineRunner commandLineRunner(ProductRepository productRepository, TimelineService timelineService, PlannedDeliveryRepository plannedDeliveryRepository, DeliveryItemRepository deliveryItemRepository){
 		return args -> {
 			// Read from MOCK_DATA.json and save all entries to productRepo
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -42,6 +48,20 @@ public class EtSystemApplication{
 			list.add(new MoveEvent(1530L, eventOwner));
 			list.add(new UseEvent(1600L, eventOwner));
 			timelineService.saveAll(list);
+
+			//Adding a single planned delivery to database for development purposes - will need removal at a later data
+			PlannedDelivery plannedDelivery = new PlannedDelivery("Delivery 1", "A mock delivery for development purposes", ZonedDateTime.now(), Period.ZERO);
+			List<DeliveryItem> plannedItems = new ArrayList<>();
+
+			for (int i = 0; i < 20 ; i ++){
+				DeliveryItem deliveryItem = new DeliveryItem();
+				deliveryItem.setGtin(1000000 + i);
+				deliveryItem.setLabel("Item " + Integer.toString(i));
+				deliveryItemRepository.save(deliveryItem);
+				plannedItems.add(deliveryItem);
+			}
+			plannedDelivery.setItems(plannedItems);
+			plannedDeliveryRepository.save(plannedDelivery);
 		};
 	}
 }

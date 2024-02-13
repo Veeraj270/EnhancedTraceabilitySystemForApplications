@@ -5,9 +5,7 @@ import {
 } from '@tanstack/react-table'
 
 import React, {useEffect, useMemo, useState} from "react";
-import Item from "./Interfaces/Item";
-
-
+import Item from "./Interfaces/DeliveryItem";
 
 interface Props{
     data: Item[]
@@ -22,8 +20,8 @@ const Table : React.FC<Props> = ( props: Props ) => {
             accessorKey : 'label'
         },
         {
-            header: 'Barcode',
-            accessorKey : 'barcode'
+            header: 'GTIN',
+            accessorKey : 'gtin'
         }
     ],[])
 
@@ -66,9 +64,10 @@ const Table : React.FC<Props> = ( props: Props ) => {
     //Rendering of table
     return (
         <div>
-            <div>
+            <div className={"td-table"}>
                 {tableData.length > 0 ?
                     <table>
+                        <thead>
                         {table.getHeaderGroups().map(headerGroup => (
                             <tr key={headerGroup.id}>
                                 {headerGroup.headers.map(header => <th key={header.id}>
@@ -76,6 +75,7 @@ const Table : React.FC<Props> = ( props: Props ) => {
                                 </th>)}
                             </tr>
                         ))}
+                        </thead>
                         <tbody>
                         {table.getRowModel().rows.map(row => (<tr key={row.id}>
                             {row.getVisibleCells().map(cell => (
@@ -85,7 +85,6 @@ const Table : React.FC<Props> = ( props: Props ) => {
                             ))}
                         </tr>))
                         }
-
                         </tbody>
                     </table>
 
