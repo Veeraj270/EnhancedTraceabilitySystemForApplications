@@ -28,11 +28,9 @@ const ProductEdit = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        //await fetch(`/api/group${product.id ? `/${product.id}` : ''}`, {
 
 
             await fetch(`http://localhost:8080/api/products/add-product`, {
-                //method: (product.id) ? 'PUT' : 'POST'
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -44,7 +42,6 @@ const ProductEdit = () => {
         navigate('/products');
     }
 
-    //const title = <h2>{product.id ? 'Edit Product' : 'Add Product'}</h2>;
 
     return (<div>
             <Container>
