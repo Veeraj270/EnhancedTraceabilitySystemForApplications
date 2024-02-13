@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
+@Table(name = "finalProducts")
+@Entity(name = "FinalProducts")
 public class FinalProduct {
     @Id
     @SequenceGenerator(
