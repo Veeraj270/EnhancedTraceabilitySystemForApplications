@@ -1,7 +1,7 @@
 [
-  {"ingredientLabel": 1, "quantity": 500},
-  {"ingredientLabel": 2, "quantity": 300},
-  {"ingredientLabel": 3, "quantity": 250},
-  {"ingredientLabel": 4, "quantity": 100},
-  {"ingredientLabel": 5, "quantity": 100}
+  {"ingredient": 1, "quantity": 500},
+  {"ingredient": 2, "quantity": 300},
+  {"ingredient": 3, "quantity": 250},
+  {"ingredient": 4, "quantity": 100},
+  {"ingredient": 5, "quantity": 100}
 ]
