@@ -111,24 +111,24 @@
     border-bottom: 1px solid #ddd;
 }
 
-table {
+take-delivery-page table {
     width: 100%;
     text-align: left;
     background-color: ghostwhite;
 }
 
-thead {
+take-delivery-page thead {
     background-color: powderblue;
 }
 
-th, td {
+take-delivery-page th, td {
     padding: 12px;
     border-bottom: 1px solid #ddd;
     height: 16px;
     font-size: 14px;
 }
 
-tr:hover td {
+take-delivery-page tr:hover td {
     background-color:lightgrey;
 }
 .table-button{

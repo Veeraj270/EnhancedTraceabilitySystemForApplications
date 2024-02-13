@@ -4,7 +4,7 @@ import Item from "../TakeDeliveryPageComponents/Interfaces/DeliveryItem";
 import {flexRender, getCoreRowModel,  useReactTable} from "@tanstack/react-table";
 
 
-const DPTable = () => {
+const DOPTable2 = () => {
     const mockData = Array(40).fill(
         {
             "delivery-identifier": "",
@@ -19,14 +19,10 @@ const DPTable = () => {
             accessorKey: 'delivery-identifier'
         },
         {
-            header: 'Date Due',
+            header: 'Delivery Date',
             accessorKey: 'date-due'
         },
-        {
-            header: 'Status',
-            accessorKey: 'status'
-        }
-        ], [])
+    ], [])
 
     const table = useReactTable({
         data: tableData,
@@ -35,19 +31,27 @@ const DPTable = () => {
     })
 
     return (
-        <div className={"dp-table-1-div"}>
-            <table>
-                {table.getHeaderGroups().map(headerGroup => (
-                    <tr key={headerGroup.id} className={"dp-table-1-th"}>
-                        {headerGroup.headers.map(header => <th key={header.id}>
-                            {flexRender(header.column.columnDef.header, header.getContext())}
-                        </th>)}
-                    </tr>
-                ))}
-            </table>
+        <div className={'DOP-T-grid'}>
 
-            <div className={"dp-table-1-rows-div"}><table>
-                <tbody>
+            <div className={"DOP-T-search-container"}>
+                <label>Search Past Deliveries</label>
+                <input placeholder={"Search... "}/>
+            </div>
+
+            <div className={'DOP-T-table-headers-div'}>
+                <table>
+                    {table.getHeaderGroups().map(headerGroup => (
+                        <tr key={headerGroup.id}>
+                            {headerGroup.headers.map(header => <th key={header.id}>
+                                {flexRender(header.column.columnDef.header, header.getContext())}
+                            </th>)}
+                        </tr>
+                    ))}
+                </table>
+            </div>
+            <div className={'DOP-T-table-content-div'}>
+                <table>
+                    <tbody>
                     {table.getRowModel().rows.map(row => (<tr key={row.id}>
                         {row.getVisibleCells().map(cell => (
                             <td>
@@ -56,11 +60,11 @@ const DPTable = () => {
                         ))}
                     </tr>))
                     }
-                </tbody>
+                    </tbody>
                 </table>
             </div>
         </div>
     )
 }
 
-export default DPTable
+export default DOPTable2
