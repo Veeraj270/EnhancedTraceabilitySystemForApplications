@@ -93,7 +93,9 @@ const DeliveriesOverviewPage = () => {
     //Button Functionality
     //Called by "PROCESS" button click handler
     const processDelivery = () => {
-        navigate('take-delivery', {state: {selectedPDelivery}})
+        if (selectedPDelivery != -1){
+            navigate('take-delivery', {state: {selectedPDelivery}})
+        }
     }
 
     //Called by "EDIT" button click handler
@@ -103,7 +105,13 @@ const DeliveriesOverviewPage = () => {
 
     //Called by "CANCEL" button click handler
     const cancelDelivery = () => {
-        console.log("cancelDelivery()");
+        fetch(`http://localhost:8080/api/deliveries/delete-planned-delivery/${selectedPDelivery}`).then((res) => {
+            if (!res.ok){
+                throw new Error("response from delete-planned-delivery was not ok")
+            }
+            fetchScheduled().then((rawData) => {setRawScheduledData(rawData)});
+        }).catch((error) => console.log(error))
+
     }
 
     const showDetails = () => {

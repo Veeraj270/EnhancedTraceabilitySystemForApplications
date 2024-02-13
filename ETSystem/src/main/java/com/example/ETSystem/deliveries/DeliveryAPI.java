@@ -114,4 +114,14 @@ public class DeliveryAPI{
 		}
 		return recordedRepo.save(newRecord);
 	}
+
+	@GetMapping("/delete-planned-delivery/{id}")
+	public void deletedScheduledDelivery(@PathVariable long id) throws ResourceNotFoundException {
+		if (plannedRepo.findById(id).isPresent()){
+			plannedRepo.deleteById(id);
+		}
+		else{
+			throw new ResourceNotFoundException(id, "Error: planned delivery with given id not found");
+		}
+	}
 }
