@@ -1,10 +1,7 @@
 package com.example.ETSystem.finalProducts;
 
 import com.example.ETSystem.recipe.Recipe;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.*;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
@@ -39,11 +36,17 @@ public class FinalProduct {
     )
     private float cost;
 
-    @Column(
+
+    @ManyToOne
+    @JoinColumn(
             name="recipe",
             nullable = false
     )
     private Recipe recipe;
+
+    public FinalProduct() {
+
+    }
 
     public FinalProduct(String label, float cost, Recipe recipe) {
         this.label = label;
