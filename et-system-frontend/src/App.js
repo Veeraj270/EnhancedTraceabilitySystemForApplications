@@ -10,6 +10,7 @@ import EditProductPage from "./Pages/EditProductPage";
 
 import TakeDeliveryPage from "./Pages/TakeDeliveryPage";
 import DeliveriesPage from "./Pages/DeliveriesPage";
+import CustomerOrdersPage from "./Pages/CustomerOrdersPage";
 
 function App() {
     return (
@@ -39,6 +40,8 @@ function App() {
 
                     </Route>
                     <Route path={"/edit-product/:id"} element={<EditProductPage/>}>
+                    </Route>
+                    <Route path={"/customer-orders"} element={<CustomerOrdersPage/>}>
                     </Route>
 
                 </Routes>

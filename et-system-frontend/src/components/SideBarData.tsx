@@ -42,6 +42,12 @@ export const SideBarData = [
         cName: 'nav-text'
     },
     {
+        title: ' Customer Orders ',
+        path: '/customer-orders',
+        icon: <FaWarehouse/>,
+        cName: 'nav-text'
+    },
+    {
         title: ' Help ',
         path: '/help',
         icon: <IoMdHelp/>,
