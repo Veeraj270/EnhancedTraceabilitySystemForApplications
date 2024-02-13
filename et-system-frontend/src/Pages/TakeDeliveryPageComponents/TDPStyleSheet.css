@@ -1,17 +1,25 @@
 .take-delivery-page{
-    background-color: whitesmoke;
+    background-color: ghostwhite;
     /*Take into account padding*/
     width: calc(100% - 100px);
     height: 100%;
     padding-left:  50px;
     padding-right: 50px;
+    padding-top: 20px;
     display: flex;
     flex-direction: column;
+    row-gap: 20px;
 
     --border-color: powderblue;
     --button-color: lightcyan;
     --shadow-color: rgb(0,0,0,0.4);
 }
+
+.take-delivery-page *{
+    font-family: "Roboto";
+    color: black;
+}
+
 .content{
     width: calc(100% - 40px);
     height: 100%;
@@ -66,7 +74,7 @@
 
 .input-box{
     width: calc(100% - 60px);
-    height: 60px;
+    height: 100%;
     border-radius: .5rem;
     border-width: 2px;
     text-align: center;
@@ -75,7 +83,7 @@
 
 .submit-barcode{
     width: 60px;
-    height: 64px;
+    height: 100%;
     font-size: 20px;
     background-color: lightgrey;
     border-radius: 0.5rem;
@@ -118,28 +126,24 @@ take-delivery-page thead {
 }
 
 take-delivery-page th, td {
-    padding: 12px;
+    padding: 10px;
     border-bottom: 1px solid #ddd;
-    height: 16px;
-    font-size: 14px;
+    height: 100%;
+    font-size: 12px;
 }
 
-take-delivery-page tr:hover td {
-    background-color:lightgrey;
-}
-.table-button{
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: lightgrey;
-    border-radius: 0.5rem;
-    width: 60px;
-}
+
 
 .TDP-grid-container{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 0.8fr 1fr 1fr 1fr;
     width: 100%;
     height: 100%;
     column-gap: 40px;
+}
+
+.TDP-grid-container *{
+    box-sizing: border-box;
 }
 
 .TDP-grid-column{
@@ -153,7 +157,7 @@ take-delivery-page tr:hover td {
 /*Styling*/
 .TDP-T-grid{
     display: grid;
-    grid-template-rows: 50px 60px;
+    grid-template-rows: 50px 50px;
     box-shadow: 1px 1px 3px var(--shadow-color);
     width: 100%;
     height: 800px;
@@ -210,3 +214,51 @@ take-delivery-page tr:hover td {
     box-shadow: none;
 }
 
+TDP-T-content-div th, td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    height: 100%;
+    font-size: 12px;
+}
+
+/*Meta Data Panel*/
+.TDP-MD-grid{
+    display: grid;
+    grid-template-rows: 0.44fr 0.5fr 0.5fr 1fr;
+    row-gap: 10px;
+    padding: 10px;
+    width: 100%;
+    height: 240px;
+    background-color: ghostwhite;
+    box-shadow: 1px 1px 3px var(--shadow-color);
+    border-radius: 0.5rem;
+    border: var(--border-color) solid 1px
+}
+
+.TDP-MD-item{
+    border-radius: 0.5rem;
+    border: var(--border-color) solid 1px;
+    background-color: #efeeee;
+}
+
+.TDP-MD-item p {
+    margin: 0px;
+    padding: 10px;
+    height: 100%;
+    width: 100%;
+    text-align: left;
+    font-size: 14px;
+}
+
+.TDP-MD-grid  h3{
+    margin: 0;
+    height: 100%;
+    font-size: 24px;
+    padding: 3px 0px 0px;
+}
+/*Title*/
+.TDP-title{
+    margin: 0px;
+    padding: 0px 0px 4px 0px;
+    border-bottom: solid black 2px;
+}

@@ -45,7 +45,7 @@ const TakeDelivery = () => {
     const [plannedDelivery, setPlannedDelivery] = useState({});
 
     const [deliveryId, setDeliveryId] = useState(id)
-    const [startTime, setStartTime] = useState(new Date())
+    const [startTime, setStartTime] = useState((new Date()).toISOString())
 
     //Triggered upon initial render of the page
     useEffect(() => {
@@ -62,8 +62,8 @@ const TakeDelivery = () => {
             setExpectedTData(expectedItems)
             const newMetaData : Metadata  =  {
                 name: data.name,
-                deliveryInterval: data.deliveryInterval,
-                deliveryTime: data.deliveryTime,
+                supplier: "N/A", //Placeholder
+                startTime: startTime.match(/[0-9]{2}:[0-9]{2}:[0-9]{2}/).at(0),
                 description: data.description,
             }
             setMetaData(newMetaData)
@@ -157,7 +157,7 @@ const TakeDelivery = () => {
         const date = new Date()
         const recordedDelivery = {
             plan: plannedDelivery,
-            startTime: startTime.toISOString(),
+            startTime: startTime.match(/[0-9]{2}:[0-9]{2}:[0-9]{2}/),
             endTime: (new Date()).toISOString(),
             recorded: recordedProducts,
         }
@@ -189,13 +189,13 @@ const TakeDelivery = () => {
         window.location.href = '/deliveries'
     }
 
+    // @ts-ignore
     return (
         <div className='take-delivery-page'>
-            <h1>Take Delivery</h1>
+            <h1 className={'TDP-title'}>Process Delivery</h1>
             <div className={'TDP-grid-container'}>
                 <div className={'TDP-grid-column'}>
-                    <DeliveryName text={metaData.name ? metaData.name : "Unknown"}/>
-                    <MetaDataWindow data={metaData}/>
+                    <MetaDataWindow {...metaData}/>
                     <BarCodeEntry submit={submitBarcode}/>
                     <SubmitDeliveryButton submit={submitDelivery}/>
                 </div>

@@ -43,10 +43,9 @@ const TDPTable : React.FC<Props> = (props: Props ) => {
         data: tableData ,
         columns: columns ,
         getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
     })
 
-    //Rendering of table
+    //Rendering of tables
     return (
         <div>
             <div className={'TDP-T-grid'}>
