@@ -6,5 +6,4 @@ export interface PlannedDelivery{
     deliveryTime: string,
     description: string,
     items: DeliveryItem[],
-    deliveryInterval?: string,
 }

@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Bean;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
-import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,12 +54,12 @@ public class EtSystemApplication{
 
 			//Add some mock planned deliveries to the database - for development purposes
 			for (int x = 0; x < 6; x ++){
-				PlannedDelivery plannedDelivery = new PlannedDelivery("Delivery " + Integer.toString(x), "A mock delivery for development purposes", ZonedDateTime.now().plusDays(x), Period.ZERO);
+				PlannedDelivery plannedDelivery = new PlannedDelivery("Delivery " + x, "A mock delivery for development purposes", ZonedDateTime.now().plusDays(x));
 				List<DeliveryItem> plannedItems = new ArrayList<>();
 				for (int i = 0; i < 26 ; i ++){
 					DeliveryItem deliveryItem = new DeliveryItem();
 					deliveryItem.setGtin(1000000 + i);
-					deliveryItem.setLabel("Item " + Integer.toString(i));
+					deliveryItem.setLabel("Item " + i);
 					deliveryItemRepository.save(deliveryItem);
 					plannedItems.add(deliveryItem);
 				}
@@ -70,7 +69,8 @@ public class EtSystemApplication{
 
 			//Add some mock recorded deliveries to the database - for development purposes
 			for (int x = 1; x < 4; x ++){
-				PlannedDelivery plannedDelivery = new PlannedDelivery("Test-Delivery ", "description",ZonedDateTime.now().plusDays(x - 4), Period.ZERO);
+				PlannedDelivery plannedDelivery = new PlannedDelivery("Test-Delivery ", "description",ZonedDateTime.now().plusDays(x - 4));
+				plannedDelivery.setComplete(true);
 				plannedDeliveryRepository.save(plannedDelivery);
 				RecordedDelivery recordedDelivery = new RecordedDelivery(plannedDelivery, Instant.now(), Instant.now().plusSeconds(500), new ArrayList<Product>());
 				recordedDeliveryRepository.save(recordedDelivery);

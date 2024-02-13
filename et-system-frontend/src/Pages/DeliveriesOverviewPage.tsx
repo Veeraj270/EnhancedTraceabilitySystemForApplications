@@ -27,7 +27,7 @@ const DeliveriesOverviewPage = () => {
 
     //Fetch Functions
     const fetchScheduled = async () => {
-        const response = await fetch('http://localhost:8080/api/deliveries/fetch-planned');
+        const response = await fetch('http://localhost:8080/api/deliveries/fetch-unprocessed-planned');
         if (!response.ok){
             throw new Error("response from fetch-planned request was not ok");
         }
