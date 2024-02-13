@@ -57,15 +57,25 @@ const DOPTable2 = ( {setSelected, selected, rawData} ) => {
     const columns = useMemo(() => [
         {
             header: 'ID',
-            accessorKey: 'id'
+            accessorKey: 'id',
+            maxSize: 10,
+            size: 10,
+            minSize: 10,
+
         },
         {
-            header: "name",
+            header: "Name",
             accessorKey: 'name',
+            maxSize: 45,
+            size: 45,
+            minSize: 45,
         },
         {
             header: 'Delivery Date',
-            accessorKey: 'recordDate'
+            accessorKey: 'recordDate',
+            maxSize: 45,
+            size: 45,
+            minSize: 45,
         },
     ], [])
 
@@ -105,7 +115,7 @@ const DOPTable2 = ( {setSelected, selected, rawData} ) => {
                 <table>
                     {table.getHeaderGroups().map(headerGroup => (
                         <tr key={headerGroup.id}>
-                            {headerGroup.headers.map(header => <th key={header.id}>
+                            {headerGroup.headers.map(header => <th key={header.id} style = {{width: `${header.column.getSize()}%`, textAlign: "center"}}>
                                 {flexRender(header.column.columnDef.header, header.getContext())}
                             </th>)}
                         </tr>
@@ -120,7 +130,7 @@ const DOPTable2 = ( {setSelected, selected, rawData} ) => {
                         onClick={(event: React.MouseEvent) => {handleClick(event, row.original.id)}}
                         className={(row.original.id === selected) ? 'DOP-selected-row' : ''}>
                         {row.getVisibleCells().map(cell => (
-                            <td>
+                            <td style = {{width: `${cell.column.getSize()}%`,textAlign:"center"}}>
                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
                             </td>
                         ))}

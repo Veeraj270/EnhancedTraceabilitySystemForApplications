@@ -22,7 +22,6 @@ const DOPTable1 = ( {setSelected, selected, rawData} ) => {
                     id: plannedDelivery.id,
                     name: plannedDelivery.name,
                     dateDue: dateDue ? dateDue : "error",
-                    type: plannedDelivery.deliveryInterval == "P0D" ? "One-of" : "Recurring",
                     status: "Unknown", //Placeholder
                 });
             })
@@ -58,23 +57,31 @@ const DOPTable1 = ( {setSelected, selected, rawData} ) => {
     const columns = useMemo(() => [
         {
             header: 'ID',
-            accessorKey: 'id'
+            accessorKey: 'id',
+            maxSize: 10,
+            size: 10,
+            minSize: 10,
         },
         {
             header: 'Name',
-            accessorKey: 'name'
+            accessorKey: 'name',
+            maxSize: 30,
+            size: 30,
+            minSize: 30,
         },
         {
             header: 'Date Due',
-            accessorKey: 'dateDue'
-        },
-        {
-            header: 'Type',
-            accessorKey: 'type'
+            accessorKey: 'dateDue',
+            maxSize: 30,
+            size: 30,
+            minSize: 30,
         },
         {
             header: 'Status',
-            accessorKey: 'status'
+            accessorKey: 'status',
+            maxSize: 30,
+            size: 30,
+            minSize: 30,
         }], [])
 
     //Instantiates the tanstack table
@@ -113,8 +120,8 @@ const DOPTable1 = ( {setSelected, selected, rawData} ) => {
             <div className={'DOP-T-headers-div'}>
                 <table>
                 {table.getHeaderGroups().map(headerGroup => (
-                    <tr key={headerGroup.id}>
-                        {headerGroup.headers.map(header => <th key={header.id}>
+                    <tr key={headerGroup.id} >
+                        {headerGroup.headers.map(header => <th key={header.id} style = {{width: `${header.column.getSize()}%`, textAlign: "center"}}>
                             {flexRender(header.column.columnDef.header, header.getContext())}
                         </th>)}
                     </tr>
@@ -129,7 +136,7 @@ const DOPTable1 = ( {setSelected, selected, rawData} ) => {
                     onClick={(event) => {handleClick(event, row.original.id)}}
                     className={(row.original.id === selected) ? 'DOP-selected-row' : ''}>
                     {row.getVisibleCells().map(cell => (
-                        <td>
+                        <td style = {{width: `${cell.column.getSize()}%`,textAlign:"center"}}>
                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                         </td>
                     ))}
