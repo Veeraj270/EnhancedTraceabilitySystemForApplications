@@ -31,6 +31,7 @@ const TakeDelivery = () => {
         deliveryTime: "",
         description: "",
     }
+
     //Navigation
     const location = useLocation();
     const { selectedPDelivery } = location.state || {};
@@ -44,7 +45,7 @@ const TakeDelivery = () => {
     const [plannedDelivery, setPlannedDelivery] = useState({});
 
     const [deliveryId, setDeliveryId] = useState(id)
-    const [startTime, setStartTime] = useState(Date.now())
+    const [startTime, setStartTime] = useState(new Date())
 
     //Triggered upon initial render of the page
     useEffect(() => {
@@ -66,9 +67,7 @@ const TakeDelivery = () => {
                 description: data.description,
             }
             setMetaData(newMetaData)
-            console.log(metaData)
         })
-
     }, []);
 
     const fetchDeliveryData = async (deliveryId: number) : Promise<Delivery> => {
@@ -103,7 +102,6 @@ const TakeDelivery = () => {
         //Check if barcode is in expectedTData
         for (let i = 0; i < expectedTData.length; i ++){
             if (expectedTData[i].gtin == barcode){
-                console.log("barcode found in expectedTData")
                 setScannedTData([expectedTData[i],...scannedTData]);
                 //Create shallow copy
                 const newExpectedTData = expectedTData.slice()
@@ -118,7 +116,6 @@ const TakeDelivery = () => {
         //Check if it's in scannedTData
         for (let i = 0; i < scannedTData.length; i ++){
             if (scannedTData[i].gtin == barcode){
-                console.log("barcode found in expectedTData")
                 const deliveryItem: DeliveryItem = {label: "", gtin: ""}
                 //Shallow copy the items
                 Object.assign(deliveryItem, scannedTData[i])
@@ -134,6 +131,7 @@ const TakeDelivery = () => {
         return;
     }
 
+    //Used by submitBarcode()
     const fetchLabel = async (barcode: string) => {
         const response = await fetch(`http://localhost:8080/api/lookup/barcode/lookup-by-gtin/${barcode}`);
         if (!response.ok){
@@ -155,15 +153,14 @@ const TakeDelivery = () => {
     const submitDelivery = async () => {
         //Create a record of the delivery and push it to the database via POST
         const recordedProducts: DeliveryItem[] =  [...structuredClone(scannedTData), ...structuredClone(unexpectedTData)];
-        console.log(recordedProducts);
+
+        const date = new Date()
         const recordedDelivery = {
             plan: plannedDelivery,
-            startTime: startTime,
-            endTime: Date.now(),
+            startTime: startTime.toISOString(),
+            endTime: (new Date()).toISOString(),
             recorded: recordedProducts,
         }
-        console.log(recordedDelivery)
-        console.log(JSON.stringify(recordedDelivery))
 
         try{
             let response = await fetch(`http://localhost:8080/api/deliveries/add-recorded-with-products`,{
@@ -176,8 +173,6 @@ const TakeDelivery = () => {
             if (!response.ok){
                 throw new Error("Error occurred as a result of api/deliveries/add-recorded POST request")
             }
-
-            console.log(response)
 
             //Mark planned delivery status as processed
             response = await fetch(`http://localhost:8080/api/deliveries/set-planned-as-complete/${deliveryId}`)
