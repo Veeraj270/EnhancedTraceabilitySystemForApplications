@@ -6,9 +6,10 @@ import DeliveryName from "./TakeDeliveryPageComponents/DeliveryName";
 import BarCodeEntry from "./TakeDeliveryPageComponents/BarCodeEntry";
 import SubmitDeliveryButton from "./TakeDeliveryPageComponents/SubmitDeliveryButton";
 import Table from "./TakeDeliveryPageComponents/Table";
-import DeliveryItem from "./TakeDeliveryPageComponents/Interfaces/DeliveryItem";
+import DeliveryItem from "./Interfaces/DeliveryItem";
 import Metadata from "./TakeDeliveryPageComponents/Interfaces/Metadata";
 import {json} from "react-router-dom";
+import {useLocation} from "react-router-dom"
 
 
 const TakeDelivery = () => {
@@ -21,7 +22,6 @@ const TakeDelivery = () => {
         items: DeliveryItem[]
     }
 
-
     //Constants
     const rowsPerPage = 16;
     const emptyData: DeliveryItem[] = []
@@ -31,15 +31,18 @@ const TakeDelivery = () => {
         deliveryTime: "",
         description: "",
     }
+    //Navigation
+    const location = useLocation();
+    const { selectedPDelivery } = location.state || {};
+    const id = selectedPDelivery;
 
     //State variables
     const [metaData, setMetaData] = useState(emptyMetaData);
     const [expectedTData, setExpectedTData] = useState(emptyData);
     const [scannedTData, setScannedTData] = useState(emptyData);
     const [unexpectedTData, setUnexpectedTData] = useState(emptyData);
+    const [plannedDelivery, setPlannedDelivery] = useState({});
 
-    //Temporary planned-delivery id
-    const id = 1;
     const [deliveryId, setDeliveryId] = useState(id)
     const [startTime, setStartTime] = useState(Date.now())
 
@@ -75,6 +78,7 @@ const TakeDelivery = () => {
                 throw new Error('fetch-planned-by-id response was not ok');
             }
             const data = await response.json();
+            setPlannedDelivery(data);
             return data;
         } catch (error) {
             console.error("Error: ", error);
@@ -92,6 +96,10 @@ const TakeDelivery = () => {
 
     //Triggered by pressing button to right of input field or by pressing enter on input field
     const submitBarcode = async (barcode: string) => {
+        if  (barcode === ""){
+            return;
+        }
+
         //Check if barcode is in expectedTData
         for (let i = 0; i < expectedTData.length; i ++){
             if (expectedTData[i].gtin == barcode){
@@ -149,7 +157,7 @@ const TakeDelivery = () => {
         const recordedProducts: DeliveryItem[] =  [...structuredClone(scannedTData), ...structuredClone(unexpectedTData)];
         console.log(recordedProducts);
         const recordedDelivery = {
-            plannedDeliveryId: deliveryId,
+            plan: plannedDelivery,
             startTime: startTime,
             endTime: Date.now(),
             recorded: recordedProducts,

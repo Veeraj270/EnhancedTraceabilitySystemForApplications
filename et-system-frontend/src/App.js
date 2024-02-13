@@ -26,7 +26,7 @@ function App() {
                     <Route path={"/traceability"} element={<TraceabilityPage/>}>
 
                     </Route>
-                    <Route path={"/take-delivery"} element={<TakeDeliveryPage/>}>
+                    <Route path={"deliveries/take-delivery"} element={<TakeDeliveryPage/>}>
 
                     </Route>
                     <Route path={"/deliveries"} element={<DeliveriesOverviewPage/>}>

@@ -1,48 +1,116 @@
-import React, {useState, useMemo} from "react";
+import React, {useState, useMemo, useEffect} from "react";
 import "./DPStylesheet.css"
-import Item from "../TakeDeliveryPageComponents/Interfaces/DeliveryItem";
 import {flexRender, getCoreRowModel,  useReactTable} from "@tanstack/react-table";
+import {PlannedDelivery} from "../Interfaces/PlannedDelivery";
 
 
-const DOPTable1 = () => {
-    const mockData = Array(40).fill(
-        {
-            "delivery-identifier": "",
-            "date-due": "",
+// @ts-ignore
+const DOPTable1 = ( {setSelected, selected, rawData} ) => {
+    const empty: any[] = []
+    const [tableData, setTableData] = useState(empty)
+    const [filteredTableData, setFilteredTableData] = useState(empty)
+    const [searchInput, setSearchInput] = useState("")
+
+    const generateTableData = async (data: any[]) => {
+        try{
+            const regex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
+            let formattedTableData: any[] = []; //Should remove any later
+            data.map((plannedDelivery: PlannedDelivery) => {
+                //Extract Date via regex
+                const dateDue : string | undefined = plannedDelivery.deliveryTime.match(regex)?.at(0)
+                formattedTableData.push({
+                    id: plannedDelivery.id,
+                    name: plannedDelivery.name,
+                    dateDue: dateDue ? dateDue : "error",
+                    type: plannedDelivery.deliveryInterval == "P0D" ? "One-of" : "Recurring",
+                    status: "Unknown", //Placeholder
+                });
+            })
+
+            setTableData(formattedTableData)
+            setFilteredTableData(formattedTableData)
+        } catch (error){
+            console.log("Error with generateTableData(): ", error);
         }
-    )
-    const [tableData, setTableData] = useState<Item[]>(mockData)
+    }
 
+    //If searchInput changes, update filteredTableData
+    useEffect(() => {
+        if (searchInput.length > 0){
+            setFilteredTableData(tableData.filter((row) => {
+                return row.name.match(searchInput)
+            }))
+        } else{
+            setFilteredTableData(tableData)
+        }
+        }, [searchInput]);
+
+    //Initially generate table data upon component render
+    useEffect(() => {
+        //Don't know why .rawScheduledData is required - FIX LATER
+        if (rawData.length > 0){
+            generateTableData(rawData).then();
+        }
+        console.log(rawData);
+    }, [rawData]);
+
+    //Column Definitions
     const columns = useMemo(() => [
         {
-            header: 'Delivery Identifier',
-            accessorKey: 'delivery-identifier'
+            header: 'ID',
+            accessorKey: 'id'
+        },
+        {
+            header: 'Name',
+            accessorKey: 'name'
         },
         {
             header: 'Date Due',
-            accessorKey: 'date-due'
+            accessorKey: 'dateDue'
+        },
+        {
+            header: 'Type',
+            accessorKey: 'type'
         },
         {
             header: 'Status',
             accessorKey: 'status'
-        }
-    ], [])
+        }], [])
 
+    //Instantiates the tanstack table
     const table = useReactTable({
-        data: tableData,
+        data: filteredTableData,
         columns: columns,
         getCoreRowModel: getCoreRowModel(),
     })
 
+    //Implements selectable rows
+    const handleClick = (event: React.MouseEvent, id : number) => {
+        if (id !== undefined){
+            setSelected(id)
+            console.log("Selected Delivery: " + id);
+        }
+        else{
+            console.log("Empty row clicked");
+        }
+    }
+
+    //For search bar input field
+    const handleChange = (event : any) => {
+        event.preventDefault();
+        setSearchInput(event.target.value)
+    }
+
+    //Render
     return (
         <div className={'DOP-T-grid'}>
 
             <div className={"DOP-T-search-container"}>
                 <label>Search scheduled deliveries</label>
-                <input placeholder={"Search... "}/>
+                <input placeholder={"Search... "} onChange={handleChange} value={searchInput}/>
             </div>
 
-            <div className={'DOP-T-table-headers-div'}>
+            <div className={'DOP-T-headers-div'}>
                 <table>
                 {table.getHeaderGroups().map(headerGroup => (
                     <tr key={headerGroup.id}>
@@ -53,10 +121,13 @@ const DOPTable1 = () => {
                 ))}
             </table>
             </div>
-            <div className={'DOP-T-table-content-div'}>
+            <div className={'DOP-T-content-div'}>
                 <table>
                 <tbody>
-                {table.getRowModel().rows.map(row => (<tr key={row.id}>
+                {table.getRowModel().rows.map(row => (<tr
+                    key={row.id}
+                    onClick={(event) => {handleClick(event, row.original.id)}}
+                    className={(row.original.id === selected) ? 'DOP-selected-row' : ''}>
                     {row.getVisibleCells().map(cell => (
                         <td>
                             {flexRender(cell.column.columnDef.cell, cell.getContext())}

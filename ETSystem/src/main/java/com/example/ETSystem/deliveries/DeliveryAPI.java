@@ -112,7 +112,6 @@ public class DeliveryAPI{
 			savedProducts.add(saved);
 			timelineService.save(new CreateEvent(Instant.now().getEpochSecond(), saved));
 		}
-		newRecord.setRecorded(savedProducts);
 		return recordedRepo.save(newRecord);
 	}
 }

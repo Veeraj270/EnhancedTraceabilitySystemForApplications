@@ -10,6 +10,7 @@ const BarCodeEntry : React.FC<Props> = ({submit}) => {
 
     const buttonClicked = () => {
         submit(input);
+        setInputValue("");
     }
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {

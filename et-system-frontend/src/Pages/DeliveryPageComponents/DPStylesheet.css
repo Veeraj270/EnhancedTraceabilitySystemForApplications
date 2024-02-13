@@ -73,13 +73,13 @@
 
 
 /*Summary Panel*/
-.DOP-SP-grid{
+.DOP-SP-1-grid{
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 0.5fr 0.5fr 1fr 0.5fr;
     row-gap: 10px;
     padding: 10px;
     width: 100%;
-    height: 200px;
+    height: 280px;
     background-color: ghostwhite;
     box-shadow: 1px 1px 3px var(--shadow-color);
     border-radius: 0.5rem;
@@ -103,6 +103,20 @@
     height: 100%;
     width: 100%;
     text-align: center;
+}
+
+
+.DOP-SP-2-grid{
+    display: grid;
+    grid-template-rows: 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr;
+    row-gap: 10px;
+    padding: 10px;
+    width: 100%;
+    height: 340px;
+    background-color: ghostwhite;
+    box-shadow: 1px 1px 3px var(--shadow-color);
+    border-radius: 0.5rem;
+    border: var(--border-color) solid 1px
 }
 
 /*Button Panel 1*/
@@ -138,13 +152,6 @@
 
 .DOP-T-grid *{
     box-sizing: border-box;
-}
-
-.DOP-T-grid table{
-    width: 100%;
-    height: 100%;
-    text-align: left;
-    border-collapse: collapse;
 }
 
 .DOP-T-grid th, td{
@@ -186,22 +193,70 @@
     box-shadow: 3px 3px 3px var(--shadow-color) inset;
 }
 
-.DOP-T-table-headers-div{
+/*Stores table headers*/
+.DOP-T-headers-div{
     background-color: ghostwhite;
     font-size: 16px;
     border-bottom: 1px var(--border-color)  solid;
 }
 
+.DOP-T-headers-div table{
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    border-collapse: collapse;
+    box-shadow: none !important;
+    border-bottom: 1px solid #ddd;
+}
+
 
 /*Stores table rows*/
-.DOP-T-table-content-div{
+.DOP-T-content-div{
     overflow-y: scroll;
     overflow-x: hidden;
 }
 
-.DOP-T-table-content-div td{
+.DOP-T-content-div td{
     padding: 12px;
     border-bottom: 1px solid #ddd;
     height: 40px;
+    max-height: 40px;
     font-size: 14px;
+}
+
+.DOP-T-content-div tr{
+    width: 100%;
+    max-height: 40px;
+    cursor: pointer;
+}
+
+.DOP-T-content-div table{
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse ;
+    background-color: ghostwhite;
+    border-spacing: unset;
+    box-shadow: none;
+}
+
+.DOP-T-content-div th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.DOP-T-content-div tr:hover{
+    background-color:lightgrey;
+}
+
+.DOP-selected-row{
+    background-color: orange;
+}
+
+.DOP-SP-item p{
+    font-size: 14px;
+    text-align: initial;
+    padding: 5px 10px 5px 10px;
+    overflow: clip;
+    word-wrap: break-word;
+
 }
