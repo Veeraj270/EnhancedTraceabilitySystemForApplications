@@ -5,7 +5,7 @@ import MetaDataWindow from "./TakeDeliveryPageComponents/MetaDataWindow";
 import DeliveryName from "./TakeDeliveryPageComponents/DeliveryName";
 import BarCodeEntry from "./TakeDeliveryPageComponents/BarCodeEntry";
 import SubmitDeliveryButton from "./TakeDeliveryPageComponents/SubmitDeliveryButton";
-import Table from "./TakeDeliveryPageComponents/Table";
+import TDPTable from "./TakeDeliveryPageComponents/TDPTable";
 import DeliveryItem from "./Interfaces/DeliveryItem";
 import Metadata from "./TakeDeliveryPageComponents/Interfaces/Metadata";
 import {json} from "react-router-dom";
@@ -192,30 +192,24 @@ const TakeDelivery = () => {
     return (
         <div className='take-delivery-page'>
             <h1>Take Delivery</h1>
-            <div className={'content'}>
-                <div className={'section1'}>
+            <div className={'TDP-grid-container'}>
+                <div className={'TDP-grid-column'}>
                     <DeliveryName text={metaData.name ? metaData.name : "Unknown"}/>
                     <MetaDataWindow data={metaData}/>
                     <BarCodeEntry submit={submitBarcode}/>
                     <SubmitDeliveryButton submit={submitDelivery}/>
                 </div>
-                <div className={'section2'}>
-                    <div className={'table-container'}>
-                        <h3 className={'td-table-title'}>Expected Items</h3>
-                        <Table data={expectedTData.reverse()} rowsPerPage={rowsPerPage}/>
-                    </div>
-
-                    <div className={'table-container'}>
-                        <h3 className={'td-table-title'}>Scanned Items</h3>
-                        <Table data={scannedTData.reverse()} rowsPerPage={rowsPerPage}/>
-                    </div>
-
-                    <div className={'table-container'}>
-                        <h3 className={'td-table-title'}>Unexpected Items</h3>
-                        <Table data={unexpectedTData.reverse()} rowsPerPage={rowsPerPage}/>
-                    </div>
+                <div className={'TDP-grid-column'}>
+                    <TDPTable data={expectedTData.reverse()} rowsPerPage={rowsPerPage} title={"Expected Items"}/>
+                </div>
+                <div className={'TDP-grid-column'}>
+                    <TDPTable data={scannedTData.reverse()} rowsPerPage={rowsPerPage} title={"Scanned Items"}/>
+                </div>
+                <div className={'TDP-grid-column'}>
+                    <TDPTable data={unexpectedTData.reverse()} rowsPerPage={rowsPerPage} title={"Unexpected Items"}/>
                 </div>
             </div>
+
         </div>
     )
 }

@@ -111,7 +111,6 @@ const DOPTable1 = ( {setSelected, selected, rawData} ) => {
     //Render
     return (
         <div className={'DOP-T-grid'}>
-
             <div className={"DOP-T-search-container"}>
                 <label>Search scheduled deliveries</label>
                 <input placeholder={"Search... "} onChange={handleChange} value={searchInput}/>
@@ -126,7 +125,7 @@ const DOPTable1 = ( {setSelected, selected, rawData} ) => {
                         </th>)}
                     </tr>
                 ))}
-            </table>
+                </table>
             </div>
             <div className={'DOP-T-content-div'}>
                 <table>
@@ -134,7 +133,7 @@ const DOPTable1 = ( {setSelected, selected, rawData} ) => {
                 {table.getRowModel().rows.map(row => (<tr
                     key={row.id}
                     onClick={(event) => {handleClick(event, row.original.id)}}
-                    className={(row.original.id === selected) ? 'DOP-selected-row' : ''}>
+                    className={(row.original.id === selected) ? 'DOP-selected-row' : 'DOP-unselected-row'}>
                     {row.getVisibleCells().map(cell => (
                         <td style = {{width: `${cell.column.getSize()}%`,textAlign:"center"}}>
                             {flexRender(cell.column.columnDef.cell, cell.getContext())}

@@ -128,7 +128,7 @@ const DOPTable2 = ( {setSelected, selected, rawData} ) => {
                     {table.getRowModel().rows.map(row => (<tr
                         key={row.id}
                         onClick={(event: React.MouseEvent) => {handleClick(event, row.original.id)}}
-                        className={(row.original.id === selected) ? 'DOP-selected-row' : ''}>
+                        className={(row.original.id === selected) ? 'DOP-selected-row' : 'DOP-unselected-row'}>
                         {row.getVisibleCells().map(cell => (
                             <td style = {{width: `${cell.column.getSize()}%`,textAlign:"center"}}>
                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}

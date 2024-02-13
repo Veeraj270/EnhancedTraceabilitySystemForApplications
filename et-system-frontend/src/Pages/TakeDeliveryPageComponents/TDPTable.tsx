@@ -10,40 +10,34 @@ import Item from "../Interfaces/DeliveryItem";
 interface Props{
     data: Item[]
     rowsPerPage: number
+    title: string
 }
 
-const Table : React.FC<Props> = ( props: Props ) => {
+const TDPTable : React.FC<Props> = (props: Props ) => {
     //Define Columns
     const columns= useMemo(()=> [
         {
             header: 'Label',
-            accessorKey : 'label'
+            accessorKey : 'label',
+            maxSize: 50,
+            size: 50,
+            minSize: 50,
         },
         {
             header: 'GTIN',
-            accessorKey : 'gtin'
+            accessorKey : 'gtin',
+            maxSize: 50,
+            size: 50,
+            minSize: 50,
         }
     ],[])
 
     const [tableData, setTableData] = useState<Item[]>(props.data)
 
-    //Runs whenever the props.data being passed to the component changes
+    //Runs whenever props changes - triggers a re-render
     useEffect(() => {
-        let emptyRows : Item[] = []
-        if (props.data.length % props.rowsPerPage > 0 || props.data.length === 0){
-            emptyRows = Array(props.rowsPerPage - (props.data.length % props.rowsPerPage)).fill(
-                {
-                    label: "",
-                    barcode: "",
-                })
-        }
-        setTableData([...props.data, ...emptyRows])
+        setTableData([...props.data])
     }, [props.data]);
-
-    //Runs once when component mounts
-    useEffect(() => {
-        table.setPageSize(props.rowsPerPage)
-    }, []);
 
     const table = useReactTable({
         data: tableData ,
@@ -52,34 +46,30 @@ const Table : React.FC<Props> = ( props: Props ) => {
         getPaginationRowModel: getPaginationRowModel(),
     })
 
-
-    const prevPage = () => {
-        table.previousPage()
-    }
-
-    const nextPage = () => {
-        table.nextPage()
-    }
-
     //Rendering of table
     return (
         <div>
-            <div className={"td-table"}>
-                {tableData.length > 0 ?
+            <div className={'TDP-T-grid'}>
+                <div className={'TDP-T-title-div'}>
+                    <h3 className={'TDP-T-title'}>{props.title}</h3>
+                </div>
+                <div className={'TDP-T-headers-div'}>
                     <table>
-                        <thead>
                         {table.getHeaderGroups().map(headerGroup => (
-                            <tr key={headerGroup.id}>
-                                {headerGroup.headers.map(header => <th key={header.id}>
+                            <tr key={headerGroup.id} >
+                                {headerGroup.headers.map(header => <th key={header.id}  style = {{width: `${header.column.getSize()}%`, textAlign: "left"}}>
                                     {flexRender(header.column.columnDef.header, header.getContext())}
                                 </th>)}
                             </tr>
                         ))}
-                        </thead>
+                    </table>
+                </div>
+                <div className={'TDP-T-content-div'}>
+                    <table>
                         <tbody>
                         {table.getRowModel().rows.map(row => (<tr key={row.id}>
                             {row.getVisibleCells().map(cell => (
-                                <td>
+                                <td style = {{width: `${cell.column.getSize()}%`,textAlign:"left"}}>
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                 </td>
                             ))}
@@ -87,15 +77,10 @@ const Table : React.FC<Props> = ( props: Props ) => {
                         }
                         </tbody>
                     </table>
-
-                    :
-                    <p>no data available</p>
-                }
+                </div>
             </div>
-            <button className={'table-button'} onClick={prevPage}>Prev</button>
-            <button className={'table-button'} onClick={nextPage}>Next</button>
         </div>
     )
 }
 
-export default Table;
+export default TDPTable;
