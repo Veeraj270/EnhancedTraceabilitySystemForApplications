@@ -1,0 +1,16 @@
+[
+  {
+    "label": "Chocolate Cake",
+    "vegan": false,
+    "vegetarian": true,
+    "ingredients": [1, 2, 3, 4, 5],
+    "allergens": [4, 5]
+  },
+  {
+    "label": "Vegan Cookies",
+    "vegan": true,
+    "vegetarian": true,
+    "ingredients": [1, 2],
+    "allergens": []
+  }
+]
