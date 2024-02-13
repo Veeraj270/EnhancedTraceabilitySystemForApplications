@@ -8,16 +8,16 @@ import jakarta.persistence.SequenceGenerator;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
-public class finalProduct {
+public class FinalProduct {
     @Id
     @SequenceGenerator(
-            name = "finalProduct_sequence",
-            sequenceName = "finalProduct_sequence",
+            name = "FinalProduct_sequence",
+            sequenceName = "FinalProduct_sequence",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = SEQUENCE,
-            generator = "finalProduct_sequence"
+            generator = "FinalProduct_sequence"
     )
     @Column(
             name = "id",
@@ -45,7 +45,7 @@ public class finalProduct {
     )
     private Recipe recipe;
 
-    public finalProduct(String label, float cost, Recipe recipe) {
+    public FinalProduct(String label, float cost, Recipe recipe) {
         this.label = label;
         this.cost = cost;
         this.recipe = recipe;
