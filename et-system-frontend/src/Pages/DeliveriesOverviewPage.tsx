@@ -77,12 +77,12 @@ const DeliveriesOverviewPage = () => {
             console.log(selected);
             //Extract information
             panelProps = {
-                name: (selected.plan.name + " [record]"),
+                name: (selected.plan.name + " [Record]"),
                 dateDelivered: selected.startTime.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/)?.at(0),
                 startTime: selected.startTime.match(/[0-9]{2}:[0-9]{2}:[0-9]{2}/).at(0),
                 endTime: selected.endTime.match(/[0-9]{2}:[0-9]{2}:[0-9]{2}/).at(0),
                 expectedItemCount: selected.plan.items.length,
-                actualItemCount: selected.plan.items.length,
+                actualItemCount: selected.recorded.length,
                 suppliers: ""
             }
             console.log(panelProps);

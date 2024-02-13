@@ -20,7 +20,7 @@ const DOPTable2 = ( {setSelected, selected, rawData} ) => {
                 const recordedDate : string | undefined = recordedDelivery.endTime.match(regex)?.at(0)
                 formattedTableData.push({
                     id: recordedDelivery.id,
-                    name: (recordedDelivery.plan.name + "-Record"),
+                    name: (recordedDelivery.plan.name + " [Record]"),
                     recordDate: recordedDate
                 });
             });
