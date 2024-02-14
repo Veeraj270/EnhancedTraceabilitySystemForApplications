@@ -1,10 +1,10 @@
-import './DeliveryPageComponents/DPStylesheet.css'
-import DOPTable2 from './DeliveryPageComponents/DOPTable2';
-import DOPSummaryPanel1 from './DeliveryPageComponents/DOPSummaryPanel1';
-import DOPButtonPanel from './DeliveryPageComponents/DOPButtonPanel';
-import DOPSummaryPanel2 from './DeliveryPageComponents/DOPSummaryPanel2';
-import DOPButtonPanel2 from './DeliveryPageComponents/DOPButtonPanel2';
-import DOPTable1 from "./DeliveryPageComponents/DOPTable1";
+import './DeliveriesOverviewPageComponents/DOPStylesheet.css'
+import DOPTable2 from './DeliveriesOverviewPageComponents/DOPTable2';
+import DOPSummaryPanel1 from './DeliveriesOverviewPageComponents/DOPSummaryPanel1';
+import DOPButtonPanel from './DeliveriesOverviewPageComponents/DOPButtonPanel';
+import DOPSummaryPanel2 from './DeliveriesOverviewPageComponents/DOPSummaryPanel2';
+import DOPButtonPanel2 from './DeliveriesOverviewPageComponents/DOPButtonPanel2';
+import DOPTable1 from "./DeliveriesOverviewPageComponents/DOPTable1";
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 
@@ -44,12 +44,8 @@ const DeliveriesOverviewPage = () => {
 
     //Upon initial page render fetch raw data for scheduled and recorded deliveries
     useEffect(() => {
-        try{
-            fetchScheduled().then((rawData) => {setRawScheduledData(rawData)});
-            fetchRecorded().then((rawData) => {setRawRecordedData(rawData)});
-        }catch(error){
-            console.log("Error occurred during initial fetching of raw data: " + error)
-        }
+        fetchScheduled().then((rawData) => {setRawScheduledData(rawData)}).catch((err) => {console.log("error within fetchScheduled" + err)});
+        fetchRecorded().then((rawData) => {setRawRecordedData(rawData)}).catch((err) => {console.log("error within fetchRecorded" + err)});
     }, []);
 
     //Extracting Data for Summary Panel 1
@@ -111,7 +107,6 @@ const DeliveriesOverviewPage = () => {
             }
             fetchScheduled().then((rawData) => {setRawScheduledData(rawData)});
         }).catch((error) => console.log(error))
-
     }
 
     const showDetails = () => {
@@ -160,7 +155,6 @@ const DeliveriesOverviewPage = () => {
                     <DOPSummaryPanel2 props={panelTwoProps}/>
                     <DOPButtonPanel2 details={showDetails}/>
                 </div>
-
             </div>
         </div>
     )

@@ -18,7 +18,7 @@ const DOPSummaryPanel1 = (props) => {
 
     return (
         <div className={'DOP-SP-1-grid'}>
-            <p className={'DOP-SP-due-date'}>Due: {data.props.dateDue}</p>
+            <p className={'DOP-SP-due-date'}><b>Due:</b> {data.props.dateDue}</p>
             <div className={'DOP-SP-item'}>
                 <p><b>Name:</b> {data.props.name}</p>
             </div>

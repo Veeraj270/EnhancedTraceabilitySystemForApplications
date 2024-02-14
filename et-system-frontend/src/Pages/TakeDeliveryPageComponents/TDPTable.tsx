@@ -1,7 +1,7 @@
 import {
     getCoreRowModel,
     flexRender,
-    useReactTable, getPaginationRowModel, Row,
+    useReactTable,
 } from '@tanstack/react-table'
 
 import React, {useEffect, useMemo, useState} from "react";
@@ -9,7 +9,6 @@ import Item from "../Interfaces/DeliveryItem";
 
 interface Props{
     data: Item[]
-    rowsPerPage: number
     title: string
 }
 

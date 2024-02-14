@@ -1,14 +1,12 @@
 import './TakeDeliveryPageComponents/TDPStyleSheet.css'
 import {useEffect, useState} from "react";
 
-import MetaDataWindow from "./TakeDeliveryPageComponents/MetaDataWindow";
-import DeliveryName from "./TakeDeliveryPageComponents/DeliveryName";
-import BarCodeEntry from "./TakeDeliveryPageComponents/BarCodeEntry";
-import SubmitDeliveryButton from "./TakeDeliveryPageComponents/SubmitDeliveryButton";
+import TDPMetaDataWindow from "./TakeDeliveryPageComponents/TDPMetaDataWindow";
+import TDPBarCodeEntry from "./TakeDeliveryPageComponents/TDPBarCodeEntry";
+import TDPSubmitDeliveryButton from "./TakeDeliveryPageComponents/TDPSubmitDeliveryButton";
 import TDPTable from "./TakeDeliveryPageComponents/TDPTable";
 import DeliveryItem from "./Interfaces/DeliveryItem";
 import Metadata from "./TakeDeliveryPageComponents/Interfaces/Metadata";
-import {json} from "react-router-dom";
 import {useLocation} from "react-router-dom"
 
 
@@ -23,14 +21,12 @@ const TakeDelivery = () => {
     }
 
     //Constants
-    const rowsPerPage = 16;
     const emptyData: DeliveryItem[] = []
-    const emptyMetaData: Metadata = {
+    const emptyMetadata: Metadata = {
         name: "",
-        deliveryInterval: "",
-        deliveryTime: "",
+        supplier: "",
         description: "",
-    }
+        startTime: "",}
 
     //Navigation
     const location = useLocation();
@@ -38,7 +34,7 @@ const TakeDelivery = () => {
     const id = selectedPDelivery;
 
     //State variables
-    const [metaData, setMetaData] = useState(emptyMetaData);
+    const [metadata, setMetadata] = useState(emptyMetadata);
     const [expectedTData, setExpectedTData] = useState(emptyData);
     const [scannedTData, setScannedTData] = useState(emptyData);
     const [unexpectedTData, setUnexpectedTData] = useState(emptyData);
@@ -58,15 +54,16 @@ const TakeDelivery = () => {
                     gtin: item.gtin,
                 })
             })
-
             setExpectedTData(expectedItems)
-            const newMetaData : Metadata  =  {
+
+            const time = startTime.match(/[0-9]{2}:[0-9]{2}:[0-9]{2}/)?.at(0)
+            const newMetadata : Metadata  =  {
                 name: data.name,
                 supplier: "N/A", //Placeholder
-                startTime: startTime.match(/[0-9]{2}:[0-9]{2}:[0-9]{2}/).at(0),
                 description: data.description,
+                startTime: time ? time : "N/A",
             }
-            setMetaData(newMetaData)
+            setMetadata(newMetadata)
         })
     }, []);
 
@@ -103,11 +100,8 @@ const TakeDelivery = () => {
         for (let i = 0; i < expectedTData.length; i ++){
             if (expectedTData[i].gtin == barcode){
                 setScannedTData([expectedTData[i],...scannedTData]);
-                //Create shallow copy
                 const newExpectedTData = expectedTData.slice()
-                //Remove item
                 newExpectedTData.splice(i,1)
-                //Update expectedTData array
                 setExpectedTData(newExpectedTData)
                 return;
             }
@@ -117,7 +111,6 @@ const TakeDelivery = () => {
         for (let i = 0; i < scannedTData.length; i ++){
             if (scannedTData[i].gtin == barcode){
                 const deliveryItem: DeliveryItem = {label: "", gtin: ""}
-                //Shallow copy the items
                 Object.assign(deliveryItem, scannedTData[i])
                 setUnexpectedTData([deliveryItem,...unexpectedTData])
                 return;
@@ -154,59 +147,51 @@ const TakeDelivery = () => {
         //Create a record of the delivery and push it to the database via POST
         const recordedProducts: DeliveryItem[] =  [...structuredClone(scannedTData), ...structuredClone(unexpectedTData)];
 
-        const date = new Date()
         const recordedDelivery = {
             plan: plannedDelivery,
-            startTime: startTime.match(/[0-9]{2}:[0-9]{2}:[0-9]{2}/),
+            startTime: startTime,
             endTime: (new Date()).toISOString(),
             recorded: recordedProducts,
         }
 
-        try{
-            let response = await fetch(`http://localhost:8080/api/deliveries/add-recorded-with-products`,{
-                method: "POST",
-                body: JSON.stringify(recordedDelivery),
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8"
-                }
-            })
-            if (!response.ok){
-                throw new Error("Error occurred as a result of api/deliveries/add-recorded POST request")
+        let response = await fetch(`http://localhost:8080/api/deliveries/add-recorded-with-products`,{
+            method: "POST",
+            body: JSON.stringify(recordedDelivery),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
             }
+        })
+        if (!response.ok){
+            throw new Error("Error occurred as a result of api/deliveries/add-recorded POST request")
+        }
 
-            //Mark planned delivery status as processed
-            response = await fetch(`http://localhost:8080/api/deliveries/set-planned-as-complete/${deliveryId}`)
-            if (!response.ok){
-                throw new Error("Error occurred as a result of api/deliveries/set-planned-status/")
-            }
-
-        } catch (error){
-            console.log("Error")
-            //Render an error message
+        //Mark planned delivery status as processed
+        response = await fetch(`http://localhost:8080/api/deliveries/set-planned-as-complete/${deliveryId}`)
+        if (!response.ok){
+            throw new Error("Error occurred as a result of api/deliveries/set-planned-status/")
         }
 
         //Take user back to the deliveries-overview page
         window.location.href = '/deliveries'
     }
 
-    // @ts-ignore
     return (
         <div className='take-delivery-page'>
             <h1 className={'TDP-title'}>Process Delivery</h1>
             <div className={'TDP-grid-container'}>
                 <div className={'TDP-grid-column'}>
-                    <MetaDataWindow {...metaData}/>
-                    <BarCodeEntry submit={submitBarcode}/>
-                    <SubmitDeliveryButton submit={submitDelivery}/>
+                    <TDPMetaDataWindow {...metadata}/>
+                    <TDPBarCodeEntry submit={submitBarcode}/>
+                    <TDPSubmitDeliveryButton submit={submitDelivery}/>
                 </div>
                 <div className={'TDP-grid-column'}>
-                    <TDPTable data={expectedTData.reverse()} rowsPerPage={rowsPerPage} title={"Expected Items"}/>
+                    <TDPTable data={expectedTData.reverse()} title={"Expected Items"}/>
                 </div>
                 <div className={'TDP-grid-column'}>
-                    <TDPTable data={scannedTData.reverse()} rowsPerPage={rowsPerPage} title={"Scanned Items"}/>
+                    <TDPTable data={scannedTData.reverse()} title={"Scanned Items"}/>
                 </div>
                 <div className={'TDP-grid-column'}>
-                    <TDPTable data={unexpectedTData.reverse()} rowsPerPage={rowsPerPage} title={"Unexpected Items"}/>
+                    <TDPTable data={unexpectedTData.reverse()} title={"Unexpected Items"}/>
                 </div>
             </div>
 

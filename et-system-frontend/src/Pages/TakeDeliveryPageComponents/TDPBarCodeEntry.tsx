@@ -5,7 +5,7 @@ interface Props{
     submit: (input: string) => void
 }
 
-const BarCodeEntry : React.FC<Props> = ({submit}) => {
+const TDPBarCodeEntry : React.FC<Props> = ({submit}) => {
     const [input, setInputValue] = useState("")
 
     const buttonClicked = () => {
@@ -16,6 +16,7 @@ const BarCodeEntry : React.FC<Props> = ({submit}) => {
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.target.value);
     }
+
     const handleKeyPress = (event: React.KeyboardEvent) => {
         if (event.key === 'Enter'){
             buttonClicked();
@@ -23,14 +24,14 @@ const BarCodeEntry : React.FC<Props> = ({submit}) => {
     }
 
     return(
-        <div className={'bar-code-entry'}>
-            <input className={'input-box'} value={input}
+        <div className={'TDP-bar-code-entry'}>
+            <input className={'TDP-input-box'} value={input}
                    onChange={handleChange}
                    onKeyDown={handleKeyPress}
             />
-            <button className={'submit-barcode'} onClick={buttonClicked}><FaArrowRight/></button>
+            <button className={'TDP-submit-barcode'} onClick={buttonClicked}><FaArrowRight/></button>
         </div>
     )
 }
 
-export default BarCodeEntry;
+export default TDPBarCodeEntry;

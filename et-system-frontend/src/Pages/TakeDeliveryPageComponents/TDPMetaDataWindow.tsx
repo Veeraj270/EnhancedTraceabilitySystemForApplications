@@ -1,12 +1,7 @@
 import React from "react";
-import Metadata from "./Interfaces/Metadata";
+import type Metadata from "./Interfaces/Metadata";
 
-
-
-/*Note: Could streamline use of props in the future*/
-
-// @ts-ignore
-const MetaDataWindow : React.FC = ( {name, supplier, description, startTime} ) => {
+const TDPMetaDataWindow : React.FC<Metadata> = ({name, supplier, description, startTime} ) => {
     return(
         <div className={'TDP-MD-grid'}>
             <h3>{name}</h3>
@@ -23,4 +18,4 @@ const MetaDataWindow : React.FC = ( {name, supplier, description, startTime} ) =
     )
 }
 
-export default MetaDataWindow
+export default TDPMetaDataWindow
