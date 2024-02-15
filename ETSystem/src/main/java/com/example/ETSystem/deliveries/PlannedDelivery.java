@@ -2,12 +2,10 @@ package com.example.ETSystem.deliveries;
 
 import jakarta.persistence.*;
 
-import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Entity
 public class PlannedDelivery{
@@ -19,9 +17,7 @@ public class PlannedDelivery{
 	private String name, description;
 	
 	private ZonedDateTime deliveryTime;
-	
-	private Period deliveryInterval;
-	
+
 	@OneToMany
 	private List<DeliveryItem> items = new ArrayList<>();
 
@@ -30,25 +26,12 @@ public class PlannedDelivery{
 	private boolean complete;
 	
 	public PlannedDelivery(){}
-	
-	public PlannedDelivery(String name, String description, ZonedDateTime deliveryTime, Period deliveryInterval){
+
+	public PlannedDelivery(String name, String description, ZonedDateTime deliveryTime){
 		this.name = name;
 		this.description = description;
 		this.deliveryTime = deliveryTime;
-		this.deliveryInterval = deliveryInterval;
 		this.complete = false;
-	}
-	
-	public Optional<ZonedDateTime> nextScheduledTimeFrom(ZonedDateTime observer){
-		if(observer.isBefore(deliveryTime))
-			return Optional.of(deliveryTime);
-		if(deliveryInterval.isZero())
-			return Optional.empty();
-		// simple impl, "just keep waiting"
-		ZonedDateTime t = deliveryTime;
-		while(t.isBefore(observer))
-			t = t.plus(deliveryInterval);
-		return Optional.of(t);
 	}
 	
 	// getters, setters, and default methods
@@ -64,15 +47,19 @@ public class PlannedDelivery{
 	public String getDescription(){
 		return description;
 	}
+
+	public boolean isComplete() {
+		return complete;
+	}
+
+	public void setComplete(boolean complete) {
+		this.complete = complete;
+	}
 	
 	public ZonedDateTime getDeliveryTime(){
 		return deliveryTime;
 	}
-	
-	public Period getDeliveryInterval(){
-		return deliveryInterval;
-	}
-	
+
 	public List<DeliveryItem> getItems(){
 		return items;
 	}
@@ -93,16 +80,10 @@ public class PlannedDelivery{
 		this.deliveryTime = deliveryTime;
 	}
 	
-	public void setDeliveryInterval(Period deliveryInterval){
-		this.deliveryInterval = deliveryInterval;
-	}
-	
 	public void setItems(List<DeliveryItem> items){
 		this.items = items;
 	}
 
-	public void markAsComplete(){ this.complete = true; }
-	
 	public boolean equals(Object obj){
 		return obj instanceof PlannedDelivery other && other.id == id;
 	}
@@ -117,7 +98,6 @@ public class PlannedDelivery{
 				", name='" + name + '\'' +
 				", description='" + description + '\'' +
 				", deliveryTime=" + deliveryTime +
-				", deliveryInterval=" + deliveryInterval +
 				", items=" + items +
 				'}';
 	}

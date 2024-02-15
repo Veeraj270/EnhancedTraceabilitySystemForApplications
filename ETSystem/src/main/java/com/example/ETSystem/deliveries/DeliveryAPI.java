@@ -47,7 +47,7 @@ public class DeliveryAPI{
 	public List<RecordedDelivery> getRecorded(){
 		return recordedRepo.findAll();
 	}
-	
+
 	@GetMapping("/fetch-planned-by-id/{id}")
 	public PlannedDelivery getPlannedById(@PathVariable long id){
 		return plannedRepo.findById(id).orElse(null);
@@ -76,25 +76,30 @@ public class DeliveryAPI{
 	public void setPlannedStatus(@PathVariable long id ) throws ResourceNotFoundException {
 		Optional<PlannedDelivery> plannedDelivery = plannedRepo.findById(id);
 		if (plannedDelivery.isPresent()){
-			plannedDelivery.get().markAsComplete();
+			plannedDelivery.get().setComplete(true);
+			plannedRepo.save(plannedDelivery.get());
 		}
 		else {
 			throw new ResourceNotFoundException(id, "Error: delivery with given id not found");
 		}
 	}
 	// convenience getters
-	
+
+	@GetMapping("/fetch-unprocessed-planned")
+	public List<PlannedDelivery> getUnprocessedPlanned(){
+		return getPlanned().stream().filter((plannedDelivery -> (!plannedDelivery.isComplete()))).toList();
+	}
+
 	@GetMapping("/fetch-planned-by-next")
 	public List<PlannedDelivery> getPlannedSortedByNext(){
 		ZonedDateTime now = ZonedDateTime.now();
 		List<PlannedDelivery> all = getPlanned();
 		List<Reordered<PlannedDelivery, ZonedDateTime>> sortedPlans = new ArrayList<>(all.size());
-		for(PlannedDelivery delivery : all)
-			delivery.nextScheduledTimeFrom(now).ifPresent(time -> sortedPlans.add(new Reordered<>(delivery, time)));
 		sortedPlans.sort(null);
 		return sortedPlans.stream().map(Reordered::data).toList();
 	}
-	
+
+
 	@GetMapping("/fetch-planned-by-search-query/{search}")
 	public List<PlannedDelivery> getPlannedBySearchQuery(@PathVariable String search){
 		// TODO: fuzzy search? include non-matching results last?
@@ -113,5 +118,15 @@ public class DeliveryAPI{
 			timelineService.save(new CreateEvent(Instant.now().getEpochSecond(), saved));
 		}
 		return recordedRepo.save(newRecord);
+	}
+
+	@PostMapping("/delete-planned-delivery/{id}")
+	public void deletedScheduledDelivery(@PathVariable long id) throws ResourceNotFoundException {
+		if (plannedRepo.findById(id).isPresent()){
+			plannedRepo.deleteById(id);
+		}
+		else{
+			throw new ResourceNotFoundException(id, "Error: planned delivery with given id not found");
+		}
 	}
 }
