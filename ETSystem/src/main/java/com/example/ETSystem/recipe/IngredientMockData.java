@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.util.List;
 
 @Component
@@ -19,8 +18,7 @@ public class IngredientMockData {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        File ingredientsFile = new File(getClass().getResource("/MOCK_INGREDIENTS.json").toURI());
-        List<Ingredient> ingredients = objectMapper.readValue(ingredientsFile, new TypeReference<List<Ingredient>>() {
+        List<Ingredient> ingredients = objectMapper.readValue((getClass().getResourceAsStream("/MOCK_INGREDIENTS.json")), new TypeReference<>() {
         });
         ingredientRepository.saveAll(ingredients);
 

@@ -4,6 +4,7 @@ import com.example.ETSystem.product.Product;
 import com.example.ETSystem.product.ProductRepository;
 import com.example.ETSystem.recipe.IngredientMockData;
 import com.example.ETSystem.recipe.IngredientQuantityMockData;
+import com.example.ETSystem.recipe.RecipeMockData;
 import com.example.ETSystem.timeline.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,7 +25,7 @@ public class EtSystemApplication{
 	}
 	
 	@Bean
-	CommandLineRunner commandLineRunner(ProductRepository productRepository, TimelineService timelineService, IngredientMockData ingredientMockData, IngredientQuantityMockData ingredientQuantityMockData){
+	CommandLineRunner commandLineRunner(ProductRepository productRepository, TimelineService timelineService, IngredientMockData ingredientMockData, IngredientQuantityMockData ingredientQuantityMockData, RecipeMockData recipeMockData){
 		return args -> {
 			// Read from MOCK_DATA.json and save all entries to productRepo
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -53,6 +54,8 @@ public class EtSystemApplication{
 
 			ingredientMockData.processIngredients();
 			ingredientQuantityMockData.processIngredientQuantity();
+			recipeMockData.processRecipes();
+
 		};
 	}
 }

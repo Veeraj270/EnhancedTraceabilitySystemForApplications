@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
 
 @Component
 public class IngredientQuantityMockData {
@@ -17,8 +16,10 @@ public class IngredientQuantityMockData {
     private IngredientQuantityRepository ingredientQuantityRepository;
 
     public void processIngredientQuantity() throws Exception{
+
+
         ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode root = objectMapper.readTree(new File(getClass().getResource("/MOCK_INGREDIENT-QUANTITY.json").toURI()));
+        JsonNode root = objectMapper.readTree(getClass().getResourceAsStream("/MOCK_INGREDIENT-QUANTITY.json"));
 
         for(JsonNode node : root) {
             long ingredientId = node.get("ingredient").asLong();

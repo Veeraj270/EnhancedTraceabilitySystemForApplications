@@ -3,10 +3,5 @@
     "label": "Final Chocolate Cake",
     "cost": 22.50,
     "recipe": 1
-  },
-  {
-    "label": "Final Vegan Cookie",
-    "cost": 15.00,
-    "recipe": 2
   }
 ]
