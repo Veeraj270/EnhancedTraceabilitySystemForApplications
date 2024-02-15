@@ -60,7 +60,6 @@ public class PlannedDelivery{
 		return deliveryTime;
 	}
 
-	
 	public List<DeliveryItem> getItems(){
 		return items;
 	}
@@ -84,8 +83,6 @@ public class PlannedDelivery{
 	public void setItems(List<DeliveryItem> items){
 		this.items = items;
 	}
-
-	public void markAsComplete(){setComplete(true);}
 
 	public boolean equals(Object obj){
 		return obj instanceof PlannedDelivery other && other.id == id;

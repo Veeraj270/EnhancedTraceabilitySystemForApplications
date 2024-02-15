@@ -166,7 +166,12 @@ const TakeDelivery = () => {
         }
 
         //Mark planned delivery status as processed
-        response = await fetch(`http://localhost:8080/api/deliveries/set-planned-as-complete/${deliveryId}`)
+        response = await fetch(`http://localhost:8080/api/deliveries/set-planned-as-complete/${deliveryId}`,{
+            method: "POST",
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        })
         if (!response.ok){
             throw new Error("Error occurred as a result of api/deliveries/set-planned-status/")
         }

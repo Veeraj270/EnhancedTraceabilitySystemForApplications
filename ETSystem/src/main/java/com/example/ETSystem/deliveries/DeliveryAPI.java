@@ -72,11 +72,11 @@ public class DeliveryAPI{
 		return recordedRepo.save(newRecord);
 	}
 
-	@GetMapping("/set-planned-as-complete/{id}")
+	@PostMapping("/set-planned-as-complete/{id}")
 	public void setPlannedStatus(@PathVariable long id ) throws ResourceNotFoundException {
 		Optional<PlannedDelivery> plannedDelivery = plannedRepo.findById(id);
 		if (plannedDelivery.isPresent()){
-			plannedDelivery.get().markAsComplete();
+			plannedDelivery.get().setComplete(true);
 			plannedRepo.save(plannedDelivery.get());
 		}
 		else {
@@ -85,7 +85,7 @@ public class DeliveryAPI{
 	}
 	// convenience getters
 
-	@GetMapping("fetch-unprocessed-planned")
+	@GetMapping("/fetch-unprocessed-planned")
 	public List<PlannedDelivery> getUnprocessedPlanned(){
 		return getPlanned().stream().filter((plannedDelivery -> (!plannedDelivery.isComplete()))).toList();
 	}
@@ -120,7 +120,7 @@ public class DeliveryAPI{
 		return recordedRepo.save(newRecord);
 	}
 
-	@GetMapping("/delete-planned-delivery/{id}")
+	@PostMapping("/delete-planned-delivery/{id}")
 	public void deletedScheduledDelivery(@PathVariable long id) throws ResourceNotFoundException {
 		if (plannedRepo.findById(id).isPresent()){
 			plannedRepo.deleteById(id);

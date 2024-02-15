@@ -101,7 +101,12 @@ const DeliveriesOverviewPage = () => {
 
     //Called by "CANCEL" button click handler
     const cancelDelivery = () => {
-        fetch(`http://localhost:8080/api/deliveries/delete-planned-delivery/${selectedPDelivery}`).then((res) => {
+        fetch(`http://localhost:8080/api/deliveries/delete-planned-delivery/${selectedPDelivery}`,{
+            method: "POST",
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        }).then((res) => {
             if (!res.ok){
                 throw new Error("response from delete-planned-delivery was not ok")
             }
