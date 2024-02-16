@@ -1,9 +1,6 @@
-package com.example.ETSystem.gtinData;
+package com.example.ETSystem.ProductData;
 
-import com.example.ETSystem.recipe.Ingredient;
 import jakarta.persistence.*;
-
-import java.util.ArrayList;
 
 @Table(name = "internalGTINDatabase")
 @Entity(name = "ProductData")
@@ -12,7 +9,7 @@ public class ProductData {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column
+    @Column(unique = true)
     private String gtin;
 
     @Column
@@ -34,7 +31,7 @@ public class ProductData {
 
     public ProductData(String gtin, String label, String ingredientType, Float quantity, String units, String supplier){
         this.gtin = gtin;
-        this.label = gtin;
+        this.label = label;
         this.ingredientType = ingredientType;
         this.quantity = quantity;
         this.units = units;

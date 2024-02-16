@@ -1,4 +1,4 @@
-package com.example.ETSystem.gtinData;
+package com.example.ETSystem.ProductData;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -192,6 +192,8 @@ public class MockDataGenerator {
                  unit,
                  supplier
          );
+
+         System.out.println(entry);
 
          //Save to Internal Database
          gtinRepository.save(entry);

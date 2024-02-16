@@ -137,7 +137,8 @@ const TakeDelivery = () => {
                 return "Unknown";
             }
             else {
-                return resJSON.name;
+                console.log(resJSON.label);
+                return resJSON.label;
             }
         }
     }

@@ -1,5 +1,7 @@
 package com.example.ETSystem;
 
+import com.example.ETSystem.ProductData.GTINRepository;
+import com.example.ETSystem.ProductData.MockDataGenerator;
 import com.example.ETSystem.deliveries.*;
 import com.example.ETSystem.product.Product;
 import com.example.ETSystem.product.ProductRepository;
@@ -29,11 +31,13 @@ public class EtSystemApplication{
 										TimelineService timelineService,
 										PlannedDeliveryRepository plannedDeliveryRepository,
 										DeliveryItemRepository deliveryItemRepository,
-										RecordedDeliveryRepository recordedDeliveryRepository
+										RecordedDeliveryRepository recordedDeliveryRepository,
+										GTINRepository gtinRepository
 	){
 		return args -> {
 			//Generate internal gtin database contents
-
+			MockDataGenerator mockDataGenerator = new MockDataGenerator(gtinRepository);
+			mockDataGenerator.GenerateMockData();
 
 			// Read from MOCK_DATA.json and save all entries to productRepo
 			ObjectMapper objectMapper = new ObjectMapper();

@@ -1,10 +1,13 @@
 package com.example.ETSystem.lookup;
 
+import com.example.ETSystem.ProductData.ProductData;
+import com.example.ETSystem.ProductData.ProductDataService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -22,9 +25,21 @@ public class BarcodeAPI{
 	);
 	
 	private final RestTemplate openFoodFactsTemplate = new RestTemplate();
-	
+
+	private final ProductDataService productDataService;
+
+	@Autowired
+	public BarcodeAPI(ProductDataService productDataService) {
+		this.productDataService = productDataService;
+	}
+
 	@GetMapping("/lookup-by-gtin/{gtin}")
-	public BarcodeData lookupByGtin(@PathVariable long gtin) throws JsonProcessingException{
+	public ProductData lookupByGtin(@PathVariable String gtin){
+		return productDataService.getProductData(gtin);
+	}
+
+	@GetMapping("/lookup-by-gtin-old/{gtin}")
+	public BarcodeData lookupByGtinOld(@PathVariable long gtin) throws JsonProcessingException{
 		String response;
 		try {
 			response = openFoodFactsTemplate.getForObject(

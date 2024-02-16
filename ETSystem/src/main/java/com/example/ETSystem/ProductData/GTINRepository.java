@@ -1,4 +1,4 @@
-package com.example.ETSystem.gtinData;
+package com.example.ETSystem.ProductData;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
