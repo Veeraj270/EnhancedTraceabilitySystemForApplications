@@ -32,6 +32,9 @@ public class EtSystemApplication{
 										RecordedDeliveryRepository recordedDeliveryRepository
 	){
 		return args -> {
+			//Generate internal gtin database contents
+
+
 			// Read from MOCK_DATA.json and save all entries to productRepo
 			ObjectMapper objectMapper = new ObjectMapper();
 			byte[] bytes = EtSystemApplication.class.getClassLoader().getResourceAsStream("MOCK_DATA.json").readAllBytes();
@@ -75,6 +78,7 @@ public class EtSystemApplication{
 				RecordedDelivery recordedDelivery = new RecordedDelivery(plannedDelivery, Instant.now(), Instant.now().plusSeconds(500), new ArrayList<Product>());
 				recordedDeliveryRepository.save(recordedDelivery);
 			}
+
 		};
 	}
 }

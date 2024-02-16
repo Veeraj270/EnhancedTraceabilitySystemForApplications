@@ -1,5 +1,6 @@
 package com.example.ETSystem.gtinData;
 
+import com.example.ETSystem.recipe.Ingredient;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -18,10 +19,10 @@ public class ProductData {
     private String label;
 
     @Column
-    private String IngredientType;
+    private String ingredientType;
 
     @Column
-    private Integer quantity;
+    private Float quantity;
 
     @Column
     private String units;
@@ -31,11 +32,14 @@ public class ProductData {
 
     public ProductData(){};
 
-    //Mock Data Generation Methods
-    public void GenerateMockData(){
-
+    public ProductData(String gtin, String label, String ingredientType, Float quantity, String units, String supplier){
+        this.gtin = gtin;
+        this.label = gtin;
+        this.ingredientType = ingredientType;
+        this.quantity = quantity;
+        this.units = units;
+        this.supplier = supplier;
     }
-
 
     //Getters
     public Long getId() {
@@ -59,19 +63,19 @@ public class ProductData {
     }
 
     public String getIngredientType() {
-        return IngredientType;
+        return ingredientType;
     }
 
     //Setters
     public void setIngredientType(String ingredientType) {
-        IngredientType = ingredientType;
+        this.ingredientType = ingredientType;
     }
 
-    public Integer getQuantity() {
+    public Float getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(Float quantity) {
         this.quantity = quantity;
     }
 
