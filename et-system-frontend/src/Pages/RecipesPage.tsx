@@ -1,11 +1,18 @@
-import IngredientsTable from './RecipePageComponents/IngredientsTable'
+import RecipeTable from "./RecipePageComponents/RecipeTable";
 
 const RecipesPage = () => {
     return (
-        <div className='page'>
-            <h1>Ingredients</h1>
-            <h3>All Ingredients:</h3>
-            <IngredientsTable />
+        <div className='recipe-page'>
+            <h1 className={'RP-title'}>Recipes</h1>
+            <div className={'RP-grid-container'}>
+                <div className={'RP-grid-column'}>
+                    <RecipeTable />
+                </div>
+                <div className={'RP-grid-column'}>
+
+                </div>
+            </div>
+
         </div>
     )
 }

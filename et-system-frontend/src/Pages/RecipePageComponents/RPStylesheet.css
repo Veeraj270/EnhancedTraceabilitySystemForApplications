@@ -1,0 +1,98 @@
+.recipe-page{
+    /*Take into account padding*/
+    width: calc(100% - 100px);
+    height: 100%;
+    padding-left:  50px;
+    padding-right: 50px;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: azure;
+    row-gap: 20px;
+
+    --border-color: powderblue;
+    --button-color: lightcyan;
+    --shadow-color: rgb(0,0,0,0.4);
+}
+
+.recipe-page *{
+    font-family: "Roboto";
+    color: black;
+}
+
+.RP-title{
+    margin: 0px;
+    padding: 0px 0px 4px 0px;
+    border-bottom: solid black 2px;
+}
+
+.RP-grid-column{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
+.RP-grid-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    height: 100%;
+    column-gap: 60px;
+}
+
+.RP-grid-container * {
+    box-sizing: border-box;
+}
+
+.RPTable-grid{
+    display: grid;
+    grid-template-rows: 70px 60px;
+    box-shadow: 1px 1px 3px var(--shadow-color);
+    width: 100%;
+    height: 660px;
+    border-radius: 0.5rem;
+    background-color: ghostwhite;
+    border: solid var(--border-color)  2px;
+}
+
+
+.RPTable-grid *{
+    box-sizing: border-box;
+}
+
+.RPTable-grid th, td{
+    padding: 12px;
+}
+
+.RPTable-search-container{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 0.2rem;
+    border-bottom: var(--border-color)  solid 2px;
+    background-color: powderblue;
+}
+
+.RPTable-search-container label{
+    font-weight: bold;
+    font-size: 14px;
+    padding-bottom: 4px;
+}
+
+.RPTable-search-container input{
+    background-color: ghostwhite;
+    height: 30px;
+    width: 100%;
+
+    font-weight: normal;
+    padding: 8px 16px;
+    border: none;
+    box-shadow: 2px 2px 3px var(--shadow-color) inset;
+    border-radius: 0.5rem;
+    outline: none;
+}
+.RPTable-search-container input:focus{
+    box-shadow: 3px 3px 3px var(--shadow-color) inset;
+}
