@@ -1,0 +1,258 @@
+
+.deliveries-overview-page{
+    /*Take into account padding*/
+    width: calc(100% - 100px);
+    height: 100%;
+    padding-left:  50px;
+    padding-right: 50px;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: azure;
+    row-gap: 20px;
+
+    --border-color: powderblue;
+    --button-color: lightcyan;
+    --shadow-color: rgb(0,0,0,0.4);
+}
+
+.deliveries-overview-page button {
+    border-radius: 0.5rem;
+    border-color: var(--border-color);
+    font-weight: bold;
+    background-color: var(--button-color);
+    cursor: pointer;
+}
+
+.deliveries-overview-page *{
+    font-family: "Roboto";
+    color: black;
+}
+
+.DOP-title{
+    margin: 0px;
+    padding: 0px 0px 4px 0px;
+    border-bottom: solid black 2px;
+}
+
+
+/*Upper Panel*/
+.DOP-upper{
+    width: 100%;
+    height: 140px;
+    background-color: ghostwhite;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 140px 140px 300px;
+    box-shadow: 1px 1px 3px var(--shadow-color);
+    padding: 10px;
+    border-radius: 0.5rem;
+    border: var(--border-color) solid 1px;
+}
+
+.DOP-grid-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    width: 100%;
+    height: 100%;
+    column-gap: 40px;
+}
+
+.DOP-grid-container * {
+    box-sizing: border-box;
+}
+
+.DOP-grid-column{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
+
+
+/*Summary Panel*/
+.DOP-SP-1-grid{
+    display: grid;
+    grid-template-rows: 0.5fr 0.5fr 1fr 0.5fr;
+    row-gap: 10px;
+    padding: 10px;
+    width: 100%;
+    height: 280px;
+    background-color: ghostwhite;
+    box-shadow: 1px 1px 3px var(--shadow-color);
+    border-radius: 0.5rem;
+    border: var(--border-color) solid 1px
+}
+
+.DOP-SP-due-date{
+    text-align: center;
+    margin: 0px;
+    padding: 10px;
+}
+
+.DOP-SP-item{
+    border-radius: 0.5rem;
+    border: var(--border-color) solid 1px;
+    background-color: #efeeee;
+}
+
+.DOP-SP-item p {
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+
+.DOP-SP-2-grid{
+    display: grid;
+    grid-template-rows: 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr;
+    row-gap: 10px;
+    padding: 10px;
+    width: 100%;
+    height: 340px;
+    background-color: ghostwhite;
+    box-shadow: 1px 1px 3px var(--shadow-color);
+    border-radius: 0.5rem;
+    border: var(--border-color) solid 1px
+}
+
+/*Button Panel 1*/
+
+.DOP-BP-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    height: 100px;
+    width: 100%;
+    gap: 10px;
+}
+
+/*Button Panel 2*/
+.DOP-BP-2-grid{
+    display: grid;
+    height: 100px;
+    width: 100%;
+    gap: 10px;
+}
+
+
+/*TDPTable 1*/
+.DOP-T-grid{
+    display: grid;
+    grid-template-rows: 70px 60px;
+    box-shadow: 1px 1px 3px var(--shadow-color);
+    width: 100%;
+    height: 660px;
+    border-radius: 0.5rem;
+    background-color: ghostwhite;
+    border: solid var(--border-color)  2px;
+}
+
+.DOP-T-grid *{
+    box-sizing: border-box;
+}
+
+.DOP-T-grid th, td{
+    padding: 12px;
+}
+
+
+.DOP-T-search-container{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 0.2rem;
+    border-bottom: var(--border-color)  solid 2px;
+    background-color: powderblue;
+}
+
+.DOP-T-search-container label{
+    font-weight: bold;
+    font-size: 14px;
+    padding-bottom: 4px;
+}
+.DOP-T-search-container input{
+    background-color: ghostwhite;
+    height: 30px;
+    width: 100%;
+
+    font-weight: normal;
+    padding: 8px 16px;
+    border: none;
+    box-shadow: 2px 2px 3px var(--shadow-color) inset;
+    border-radius: 0.5rem;
+    outline: none;
+}
+.DOP-T-search-container input:focus{
+    box-shadow: 3px 3px 3px var(--shadow-color) inset;
+}
+
+/*Stores table headers*/
+.DOP-T-headers-div{
+    background-color: ghostwhite;
+    font-size: 16px;
+    border-bottom: 1px var(--border-color)  solid;
+}
+
+.DOP-T-headers-div table{
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    box-shadow: none !important;
+    border-bottom: 1px solid #ddd;
+}
+
+
+/*Stores table rows*/
+.DOP-T-content-div{
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.DOP-T-content-div td{
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    height: 40px;
+    max-height: 40px;
+    font-size: 14px;
+}
+
+.DOP-T-content-div tr{
+    width: 100%;
+    max-height: 40px;
+    cursor: pointer;
+}
+
+.DOP-T-content-div table{
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse ;
+    background-color: ghostwhite;
+    border-spacing: unset;
+    box-shadow: none;
+}
+
+.DOP-T-content-div th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+
+.DOP-unselected-row:hover{
+    background-color: lightgrey;
+}
+
+.DOP-selected-row{
+    background-color: orange;
+}
+
+.DOP-SP-item p{
+    font-size: 14px;
+    text-align: initial;
+    padding: 5px 10px 5px 10px;
+    overflow: clip;
+    word-wrap: break-word;
+
+}
