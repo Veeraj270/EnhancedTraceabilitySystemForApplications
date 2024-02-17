@@ -46,14 +46,21 @@ public class FinalProduct {
     )
     private Recipe recipe;
 
+    @Column(
+            name = "quantity",
+            nullable = false
+    )
+    private int quantity;
+
     public FinalProduct() {
 
     }
 
-    public FinalProduct(String label, float cost, Recipe recipe) {
+    public FinalProduct(String label, float cost, Recipe recipe, int quantity) {
         this.label = label;
         this.cost = cost;
         this.recipe = recipe;
+        this.quantity = quantity;
     }
 
     public String getLabel() {
@@ -78,5 +85,13 @@ public class FinalProduct {
 
     public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }
