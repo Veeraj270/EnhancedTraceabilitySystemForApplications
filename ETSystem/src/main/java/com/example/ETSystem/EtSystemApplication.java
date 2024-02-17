@@ -3,6 +3,9 @@ package com.example.ETSystem;
 import com.example.ETSystem.deliveries.*;
 import com.example.ETSystem.product.Product;
 import com.example.ETSystem.product.ProductRepository;
+import com.example.ETSystem.recipe.IngredientMockData;
+import com.example.ETSystem.recipe.IngredientQuantityMockData;
+import com.example.ETSystem.recipe.RecipeMockData;
 import com.example.ETSystem.timeline.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,9 +28,7 @@ public class EtSystemApplication{
 	}
 	
 	@Bean
-	CommandLineRunner commandLineRunner(ProductRepository productRepository,
-										TimelineService timelineService,
-										PlannedDeliveryRepository plannedDeliveryRepository,
+	CommandLineRunner commandLineRunner(ProductRepository productRepository, TimelineService timelineService, IngredientMockData ingredientMockData, IngredientQuantityMockData ingredientQuantityMockData, RecipeMockData recipeMockData, PlannedDeliveryRepository plannedDeliveryRepository,
 										DeliveryItemRepository deliveryItemRepository,
 										RecordedDeliveryRepository recordedDeliveryRepository
 	){
@@ -75,6 +76,13 @@ public class EtSystemApplication{
 				RecordedDelivery recordedDelivery = new RecordedDelivery(plannedDelivery, Instant.now(), Instant.now().plusSeconds(500), new ArrayList<Product>());
 				recordedDeliveryRepository.save(recordedDelivery);
 			}
+
+
+
+			ingredientMockData.processIngredients();
+			ingredientQuantityMockData.processIngredientQuantity();
+			recipeMockData.processRecipes();
+
 		};
 	}
 }

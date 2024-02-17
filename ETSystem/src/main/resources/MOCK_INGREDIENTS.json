@@ -1,0 +1,7 @@
+[
+  {"label": "Sugar", "allergen": false, "vegan": true, "vegetarian": true},
+  {"label": "Flour", "allergen": false, "vegan": true, "vegetarian": true},
+  {"label": "Butter", "allergen": true, "vegan": false, "vegetarian": true},
+  {"label": "Eggs", "allergen": true, "vegan": false, "vegetarian": true},
+  {"label": "Milk", "allergen": true, "vegan": false, "vegetarian": true}
+]
