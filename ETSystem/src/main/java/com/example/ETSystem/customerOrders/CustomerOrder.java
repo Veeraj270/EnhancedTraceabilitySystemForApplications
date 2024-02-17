@@ -3,6 +3,8 @@ package com.example.ETSystem.customerOrders;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
@@ -39,6 +41,8 @@ public class CustomerOrder {
     )
     private LocalDate date;
 
+
+
     public CustomerOrder() {
     }
 
@@ -46,6 +50,11 @@ public class CustomerOrder {
         this.client = client;
         this.date = date;
     }
+
+    @Column(name = "finalProducts")
+    @ElementCollection(targetClass = Long.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "finalOrderProducts_id", joinColumns = @JoinColumn(name = "finalProducts_id"))
+    private List<Long> finalProductsId = new ArrayList<>();
 
     public String getClient() {
         return client;
@@ -61,5 +70,13 @@ public class CustomerOrder {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public List<Long> getFinalProductsId() {
+        return finalProductsId;
+    }
+
+    public void setFinalProductsId(List<Long> finalProductsId) {
+        this.finalProductsId = finalProductsId;
     }
 }

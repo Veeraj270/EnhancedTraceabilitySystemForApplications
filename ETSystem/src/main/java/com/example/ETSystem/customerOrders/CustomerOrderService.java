@@ -41,6 +41,7 @@ public class CustomerOrderService {
                 .orElseThrow(() -> new RuntimeException("Customer order not found with id: " + id));
         existingCustomerOrder.setClient(customerOrder.getClient());
         existingCustomerOrder.setDate(customerOrder.getDate());
+        existingCustomerOrder.setFinalProductsId(customerOrder.getFinalProductsId());
 
         return customerOrderRepository.save(existingCustomerOrder);
 
