@@ -1,8 +1,6 @@
 package com.example.ETSystem.customerOrders;
 
 
-import com.example.ETSystem.finalProducts.FinalProduct;
-import com.example.ETSystem.finalProducts.FinalProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
@@ -42,6 +40,7 @@ public class CustomerOrderService {
         CustomerOrder existingCustomerOrder = customerOrderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Customer order not found with id: " + id));
         existingCustomerOrder.setClient(customerOrder.getClient());
+        existingCustomerOrder.setDate(customerOrder.getDate());
 
         return customerOrderRepository.save(existingCustomerOrder);
 
