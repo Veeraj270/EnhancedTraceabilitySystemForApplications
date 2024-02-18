@@ -10,24 +10,26 @@ const RecipeTable = ({rawData}) => {
     const columns = useMemo(() => [
         {
             header: 'ID',
-            accessorKey: 'id'
+            accessorKey: 'id',
+            size: '20'
         },
         {
             header: 'Name',
-            accessorKey: 'label'
+            accessorKey: 'label',
+            size: '80'
         }
     ], [])
 
-    // const generateTableData = async (data: any[]) => {
-    //     let recipesTableData: any[] = [];
-    //     data.map((recipe: Recipe) => {
-    //         recipesTableData.push({
-    //             id: recipe.id,
-    //             label: recipe.label
-    //         });
-    //     })
-    //     setTableData(recipesTableData)
-    // }
+    const generateTableData = async (data: any[]) => {
+        let recipesTableData: any[] = [];
+        data.map((recipe: Recipe) => {
+            recipesTableData.push({
+                id: recipe.id,
+                label: recipe.label
+            });
+        })
+        setTableData(recipesTableData)
+    }
 
     const handleChange = (event : ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
@@ -38,7 +40,7 @@ const RecipeTable = ({rawData}) => {
         // Have to check if the data is undefined, because there can be no data passed
         if(rawData !== undefined){
             if(rawData.length > 0) {
-                setTableData(rawData)
+                generateTableData(rawData).then()
             }
         }
         console.log(rawData);
@@ -61,11 +63,8 @@ const RecipeTable = ({rawData}) => {
                 {table.getRowModel().rows.map(row => (<tr
                     key={row.id}
                     className={'RP-unselected-row'}>
-                    {row.getVisibleCells().map(cell => (
-                        <td style = {{width: `${cell.column.getSize()}%`,textAlign:"center"}}>
-                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </td>
-                    ))}
+                    <td style={{width: '10%', textAlign: 'center'}}>{row.id}</td>
+                    <td style={{width: '90%'}}>{row.original.label}</td>
                 </tr>))
                 }
                 </tbody>

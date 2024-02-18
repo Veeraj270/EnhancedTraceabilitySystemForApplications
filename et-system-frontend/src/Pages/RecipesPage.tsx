@@ -1,5 +1,7 @@
+import "./RecipePageComponents/RPStylesheet.css"
 import RecipeTable from "./RecipePageComponents/RecipeTable";
 import {useEffect, useState} from "react";
+import RPSummaryPanel from "./RecipePageComponents/RPSummaryPanel";
 
 const RecipesPage = () => {
 
@@ -25,7 +27,7 @@ const RecipesPage = () => {
                     <RecipeTable rawData = {recipeData}/>
                 </div>
                 <div className={'RP-grid-column'}>
-
+                    <RPSummaryPanel/>
                 </div>
             </div>
 

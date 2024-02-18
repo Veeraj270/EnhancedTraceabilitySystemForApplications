@@ -28,7 +28,7 @@
 
 .RP-grid-container{
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 0.4fr 0.6fr;
     width: 100%;
     height: 100%;
     column-gap: 60px;
@@ -51,7 +51,7 @@
     grid-template-rows: 70px 60px;
     box-shadow: 1px 1px 3px var(--shadow-color);
     width: 100%;
-    height: 660px; // CHANGE
+    height: 660px; /* CHANGE */
     border-radius: 0.5rem;
     background-color: ghostwhite;
     border: solid var(--border-color)  2px;
@@ -72,24 +72,19 @@
     border-radius: 0.2rem;
     border-bottom: var(--border-color)  solid 2px;
     background-color: powderblue;
-}
-
-.RPTable-search-container label{
-    font-weight: bold;
-    font-size: 14px;
-    padding-bottom: 4px;
+    justify-content: center;
 }
 
 .RPTable-search-container input{
     background-color: ghostwhite;
-    height: 30px;
+    height: 35px;
     width: 100%;
 
     font-weight: normal;
     padding: 8px 16px;
     border: none;
     box-shadow: 2px 2px 3px var(--shadow-color) inset;
-    border-radius: 0.5rem;
+    border-radius: 0.7rem;
     outline: none;
 }
 .RPTable-search-container input:focus{
@@ -131,4 +126,29 @@
 
 .RP-unselected-row:hover{
     background-color: lightgrey;
+}
+
+.RPSummary-grid{
+    display: grid;
+    grid-template-rows: 0.5fr 1fr 2fr;
+    row-gap: 10px;
+    padding: 10px;
+    width: 100%;
+    height: 280px;
+    background-color: ghostwhite;
+    box-shadow: 1px 1px 3px var(--shadow-color);
+    border-radius: 0.5rem;
+    border: var(--border-color) solid 1px
+}
+
+.RPSummary-name{
+    text-align: center;
+    margin: 0px;
+    padding: 10px;
+}
+
+.RPSummary-item{
+    border-radius: 0.5rem;
+    border: var(--border-color) solid 1px;
+    background-color: #efeeee;
 }
