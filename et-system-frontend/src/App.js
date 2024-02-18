@@ -10,6 +10,7 @@ import EditProductPage from "./Pages/EditProductPage";
 
 import TakeDeliveryPage from "./Pages/TakeDeliveryPage";
 import DeliveriesOverviewPage from "./Pages/DeliveriesOverviewPage";
+import RecipesPage from "./Pages/RecipesPage";
 
 function App() {
     return (
@@ -25,10 +26,12 @@ function App() {
 
                     <Route path={"/traceability"} element={<TraceabilityPage/>}>
                     </Route>
-                    <Route path={"/take-delivery"} element={<TakeDeliveryPage/>}>
 
+                    <Route path={"/take-delivery"} element={<TakeDeliveryPage/>}>
                     </Route>
-                    <Route path={"/deliveries"} element={<DeliveriesPage/>}>
+
+                    <Route path={"/deliveries"} element={<DeliveriesOverviewPage/>}>
+                    </Route>
 
                     <Route path={"/recipes"} element={<RecipesPage/>}>
                     </Route>
@@ -47,5 +50,6 @@ function App() {
         </Router>
     )
 }
+
 
 export default App

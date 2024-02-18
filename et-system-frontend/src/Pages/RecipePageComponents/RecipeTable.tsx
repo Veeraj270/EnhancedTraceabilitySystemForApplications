@@ -14,20 +14,20 @@ const RecipeTable = ({rawData}) => {
         },
         {
             header: 'Name',
-            accessorKey: 'name'
+            accessorKey: 'label'
         }
     ], [])
 
-    const generateTableData = async (data: any[]) => {
-        let tableData: any[] = [];
-        data.map((recipe: Recipe) => {
-            tableData.push({
-                id: recipe.id,
-                label: recipe.label
-            })
-            setTableData(tableData)
-        })
-    }
+    // const generateTableData = async (data: any[]) => {
+    //     let recipesTableData: any[] = [];
+    //     data.map((recipe: Recipe) => {
+    //         recipesTableData.push({
+    //             id: recipe.id,
+    //             label: recipe.label
+    //         });
+    //     })
+    //     setTableData(recipesTableData)
+    // }
 
     const handleChange = (event : ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
@@ -36,9 +36,9 @@ const RecipeTable = ({rawData}) => {
 
     useEffect(() => {
         // Have to check if the data is undefined, because there can be no data passed
-        if(rawData != undefined){
+        if(rawData !== undefined){
             if(rawData.length > 0) {
-                generateTableData(rawData).then();
+                setTableData(rawData)
             }
         }
         console.log(rawData);
@@ -52,22 +52,22 @@ const RecipeTable = ({rawData}) => {
 
     return <div className={"RPTable-grid"}>
         <div className={"RPTable-search-container"}>
-            <label>Search recipes</label>
-            <input placeholder={"Search... "} onChange={handleChange} value={searchInput}/>
+            <input placeholder={"Search recipes... "} onChange={handleChange} value={searchInput}/>
         </div>
 
         <div className={"RPTable-content-div"}>
             <table>
                 <tbody>
-                {table.getRowModel().rows.map(row => (
-                    <tr key={row.id}>
-                        {row.getVisibleCells().map(cell => (
-                            <td style = {{width: `${cell.column.getSize()}%`,textAlign:"center"}}>
-                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                            </td>
-                        ))}
-                    </tr>))
-                    }
+                {table.getRowModel().rows.map(row => (<tr
+                    key={row.id}
+                    className={'RP-unselected-row'}>
+                    {row.getVisibleCells().map(cell => (
+                        <td style = {{width: `${cell.column.getSize()}%`,textAlign:"center"}}>
+                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </td>
+                    ))}
+                </tr>))
+                }
                 </tbody>
             </table>
         </div>

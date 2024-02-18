@@ -14,15 +14,15 @@ const RecipesPage = () => {
     }
 
     useEffect(() => {
-        fetchRecipes().then((recipeData) => {setRecipesData(recipeData)}).catch((reason) => {console.error(reason)})
-    })
+        fetchRecipes().then((recipeData) => {setRecipesData(recipeData)}).catch((reason) => {console.error("Error within fetchRecipes" + reason)})
+    }, [])
 
     return (
         <div className='recipe-page'>
             <h1 className={'RP-title'}>Recipes</h1>
             <div className={'RP-grid-container'}>
                 <div className={'RP-grid-column'}>
-                    <RecipeTable tableData = {recipeData}/>
+                    <RecipeTable rawData = {recipeData}/>
                 </div>
                 <div className={'RP-grid-column'}>
 
