@@ -1,5 +1,6 @@
 package com.example.ETSystem.customerOrders;
 
+import com.example.ETSystem.finalProducts.FinalProduct;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -46,15 +47,14 @@ public class CustomerOrder {
     public CustomerOrder() {
     }
 
-    public CustomerOrder(String client, LocalDate date) {
+    public CustomerOrder(String client, LocalDate date, List<FinalProduct> finalProducts) {
         this.client = client;
         this.date = date;
+        this.finalProducts = finalProducts;
     }
 
-    @Column(name = "finalProducts")
-    @ElementCollection(targetClass = Long.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "finalOrderProducts_id", joinColumns = @JoinColumn(name = "finalProducts_id"))
-    private List<Long> finalProductsId = new ArrayList<>();
+    @OneToMany(mappedBy = "customerOrder", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<FinalProduct> finalProducts = new ArrayList<>();
 
     public String getClient() {
         return client;
@@ -72,11 +72,11 @@ public class CustomerOrder {
         this.date = date;
     }
 
-    public List<Long> getFinalProductsId() {
-        return finalProductsId;
+    public List<FinalProduct> getFinalProducts() {
+        return finalProducts;
     }
 
-    public void setFinalProductsId(List<Long> finalProductsId) {
-        this.finalProductsId = finalProductsId;
+    public void setFinalProducts(List<FinalProduct> finalProducts) {
+        this.finalProducts = finalProducts;
     }
 }
