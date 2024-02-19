@@ -1,6 +1,7 @@
 package com.example.ETSystem.customerOrders;
 
 import com.example.ETSystem.finalProducts.FinalProduct;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -40,6 +41,7 @@ public class CustomerOrder {
             name = "date",
             nullable = false
     )
+    @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDate date;
 
 
@@ -53,7 +55,8 @@ public class CustomerOrder {
         this.finalProducts = finalProducts;
     }
 
-    @OneToMany(mappedBy = "customerOrder", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "customerOrder_Id")
     private List<FinalProduct> finalProducts = new ArrayList<>();
 
     public String getClient() {
