@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {IngredientQuantity} from "../Interfaces/IngredientQuantity";
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 
@@ -19,9 +19,9 @@ const IngredientQuantitiesTable = (ingredientQuantities) => {
     ], [])
 
     const generateTableData = async (data: any[]) => {
-        const tempTableData = data.map((ingredientQuanity: IngredientQuantity) => ({
-                ingredient: ingredientQuanity.ingredient.label,
-                quantity: ingredientQuanity.quantity
+        const tempTableData = data.map((ingredientQuantity: IngredientQuantity) => ({
+                ingredient: ingredientQuantity.ingredient.label,
+                quantity: ingredientQuantity.quantity
         }))
         return tempTableData
     }
@@ -42,20 +42,18 @@ const IngredientQuantitiesTable = (ingredientQuantities) => {
     }, [ingredientQuantities])
 
     return (
-        <div className={"tan-table"}>
+        <div className={"table"}>
             <div>
 
             </div>
             <div>
                 <table>
                     <tbody>
-                    {table.getRowModel().rows.map(row => (<tr key={row.id}>
-                        {row.getVisibleCells().map(cell => (
-                            <td>
-                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                            </td>
-                        ))}
-                    </tr>))}
+                    {table.getRowModel().rows.map(row => (<tr
+                            key={row.id}>
+                            <td style={{width: '80%'}}>{row.original.ingredient}</td>
+                            <td style={{width: '20%', textAlign: 'center'}}>{row.original.quantity}</td>
+                        </tr>))}
                     </tbody>
 
                 </table>

@@ -3,6 +3,8 @@ import RecipeTable from "./RecipePageComponents/RecipeTable";
 import {useEffect, useState} from "react";
 import RPSummaryPanel from "./RecipePageComponents/RPSummaryPanel";
 import IngredientQuantitiesTable from "./RecipePageComponents/IngredientQuantitiesTable";
+import {Recipe} from "./Interfaces/Recipe";
+import {IngredientQuantity} from "./Interfaces/IngredientQuantity";
 
 const RecipesPage = () => {
 
@@ -23,21 +25,24 @@ const RecipesPage = () => {
         fetchRecipes().then((recipeData) =>
         {
             setRecipesData(recipeData)
-            setIngredientQuantitiesData(recipeData.ingredientQuantities)
         })
             .catch((reason) => {console.error("Error within fetchRecipes" + reason)})
     }, [])
 
     useEffect(() => {
         let panelPropsData = {}
+        let ingredientQuantityList: IngredientQuantity[] = []
         if (selectedRecipe !== -1){
             const selected = recipeData.filter((recipe) => recipe.id === selectedRecipe).at(0)
+            ingredientQuantityList = selected.ingredients
             panelPropsData = {
                 label: selected.label,
-                allergens: selected.allergens
+                allergens: selected.allergens,
             }
             console.log(panelPropsData);
+            console.log(ingredientQuantityList)
         }
+        setIngredientQuantitiesData(ingredientQuantityList)
         setPanelProps(panelPropsData)
     }, [selectedRecipe]);
 
