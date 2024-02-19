@@ -1,6 +1,5 @@
 package com.example.ETSystem.finalProducts;
 
-import com.example.ETSystem.customerOrders.CustomerOrder;
 import com.example.ETSystem.recipe.Recipe;
 import jakarta.persistence.*;
 
@@ -53,9 +52,6 @@ public class FinalProduct {
     )
     private int quantity;
 
-    @ManyToOne
-    @JoinColumn(name = "customerOrder_id", nullable = false)
-    private CustomerOrder customerOrder;
 
     public FinalProduct() {
 
