@@ -1,8 +1,8 @@
 import React, {ChangeEvent, useEffect, useMemo, useState} from "react";
-import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
+import {getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import {Recipe} from "../Interfaces/Recipe";
 
-const RecipeTable = ({rawData}) => {
+const RecipeTable = ({selected, rawData}) => {
 
     const [tableData, setTableData] = useState([])
     const [searchInput, setSearchInput] = useState("")
@@ -10,13 +10,11 @@ const RecipeTable = ({rawData}) => {
     const columns = useMemo(() => [
         {
             header: 'ID',
-            accessorKey: 'id',
-            size: '20'
+            accessorKey: 'id'
         },
         {
-            header: 'Name',
-            accessorKey: 'label',
-            size: '80'
+            header: 'Label',
+            accessorKey: 'label'
         }
     ], [])
 
@@ -61,9 +59,9 @@ const RecipeTable = ({rawData}) => {
             <table>
                 <tbody>
                 {table.getRowModel().rows.map(row => (<tr
-                    key={row.id}
+                    key={row.original.id}
                     className={'RP-unselected-row'}>
-                    <td style={{width: '10%', textAlign: 'center'}}>{row.id}</td>
+                    <td style={{width: '10%', textAlign: 'center'}}>{row.original.id}</td>
                     <td style={{width: '90%'}}>{row.original.label}</td>
                 </tr>))
                 }

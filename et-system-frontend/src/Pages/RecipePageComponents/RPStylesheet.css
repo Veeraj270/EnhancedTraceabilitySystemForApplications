@@ -128,6 +128,10 @@
     background-color: lightgrey;
 }
 
+.RP-selected-row{
+    background-color: orange;
+}
+
 .RPSummary-grid{
     display: grid;
     grid-template-rows: 0.5fr 1fr 2fr;
@@ -151,4 +155,11 @@
     border-radius: 0.5rem;
     border: var(--border-color) solid 1px;
     background-color: #efeeee;
+}
+
+.RPSummary-item p {
+    margin: 10px;
+    height: 100%;
+    width: 100%;
+    text-align: left;
 }
