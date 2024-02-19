@@ -35,9 +35,11 @@ public class BarcodeAPI{
 
 	@GetMapping("/lookup-by-gtin/{gtin}")
 	public ProductData lookupByGtin(@PathVariable String gtin){
+		//Now returns the complete ProductData object
 		return productDataService.getProductData(gtin);
 	}
 
+	//Deprecated
 	@GetMapping("/lookup-by-gtin-old/{gtin}")
 	public BarcodeData lookupByGtinOld(@PathVariable long gtin) throws JsonProcessingException{
 		String response;
