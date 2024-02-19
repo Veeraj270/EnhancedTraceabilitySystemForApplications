@@ -42,6 +42,7 @@ public class FinalProductService {
         existingFinalProduct.setLabel(finalProduct.getLabel());
         existingFinalProduct.setCost(finalProduct.getCost());
         existingFinalProduct.setRecipe(finalProduct.getRecipe());
+        existingFinalProduct.setQuantity(finalProduct.getQuantity());
 
         return finalProductRepository.save(existingFinalProduct);
 
