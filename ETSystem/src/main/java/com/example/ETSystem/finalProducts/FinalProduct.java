@@ -1,6 +1,7 @@
 package com.example.ETSystem.finalProducts;
 
 import com.example.ETSystem.recipe.Recipe;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
@@ -9,6 +10,7 @@ import static jakarta.persistence.GenerationType.SEQUENCE;
 @Entity(name = "FinalProducts")
 public class FinalProduct {
     @Id
+    @JsonProperty
     @SequenceGenerator(
             name = "FinalProduct_sequence",
             sequenceName = "FinalProduct_sequence",

@@ -4,7 +4,9 @@ import {
     flexRender,
 } from '@tanstack/react-table';
 import { useEffect, useMemo, useState } from "react";
-const FinalProductsTable = () => {
+import { useParams} from "react-router-dom";
+const FinalProductTable = () => {
+    const {orderId} = useParams<{ orderId : string}>();
     const [data, setData] = useState([]);
 
 
@@ -13,21 +15,20 @@ const FinalProductsTable = () => {
         {
             header: 'ID',
             accessorKey: 'id',
-            cell: ({ getValue }) => {
-                const value = getValue();
-            },
         },
         {
             header: 'Label',
             accessorKey: 'label',
         },
+
+        {
+            header: 'Quantity',
+            accessorKey: "quantity",
+        },
+
         {
             header: 'Cost',
             accessorKey: 'cost',
-        },
-        {
-            header: 'Recipe',
-            accessorKey: 'recipe',
         },
     ], []);
 
@@ -35,17 +36,19 @@ const FinalProductsTable = () => {
         id: number;
         label: string;
         cost: number;
-        recipe: string;
-    };
+        quantity: number;
+    }
+
+
 
     const fetchData = async (): Promise<void> => {
         try {
-            const response = await fetch('http://localhost:8080/api/finalproducts/fetch');
+            const response = await fetch(`http://localhost:8080/api/customerorders/fetch-by-id/${orderId}`);
             console.log("Fetch Request!")
             if (!response.ok) {
-                throw new Error("Fetch finalproducts request was not ok");
+                throw new Error("Fetch customerOrders request was not ok");
             }
-            const finalProducts: FinalProduct[] = await response.json();
+            const {finalProducts}: {finalProducts:FinalProduct[]} = await response.json();
             setData(finalProducts);
             console.log(finalProducts)
         } catch (error) {
@@ -55,7 +58,7 @@ const FinalProductsTable = () => {
 
     useEffect(() => {
         fetchData().then();
-    }, []);
+    }, [orderId]);
 
     const table = useReactTable({
         data,
@@ -91,10 +94,10 @@ const FinalProductsTable = () => {
                     </tbody>
                 </table>
             ) : (
-                <p>No data available</p>
+                <p>Loading</p>
             )}
         </div>
     );
 };
 
-export default FinalProductsTable;
+export default FinalProductTable;

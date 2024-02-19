@@ -11,6 +11,7 @@ import EditProductPage from "./Pages/EditProductPage";
 import TakeDeliveryPage from "./Pages/TakeDeliveryPage";
 import CustomerOrdersPage from "./Pages/CustomerOrdersPage";
 import DeliveriesOverviewPage from "./Pages/DeliveriesOverviewPage";
+import FinalProductPage from "./Pages/FinalProductPage";
 
 function App() {
     return (
@@ -43,6 +44,9 @@ function App() {
                     </Route>
                     <Route path={"/customer-orders"} element={<CustomerOrdersPage/>}>
                     </Route>
+                    <Route path={"/customerorderdetails/:orderId"} element={<FinalProductPage/>}>
+                    </Route>
+
 
                 </Routes>
             </div>
