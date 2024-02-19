@@ -23,7 +23,6 @@ public class CustomerOrderAPI {
     }
 
     @GetMapping(path = "/fetch-by-id/{id}")
-    @CrossOrigin(origins = "http://localhost:3000")
     public CustomerOrder getCustomerOrderById(@PathVariable("id") String id){
         return customerOrderService.getCustomerOrderByID(Long.parseLong(id));
     }
