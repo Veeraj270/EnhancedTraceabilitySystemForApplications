@@ -2,3 +2,5 @@
 
 ETSystem/build/
 ETSystem/.gradle/
+
+et-system-frontend/node_modules
