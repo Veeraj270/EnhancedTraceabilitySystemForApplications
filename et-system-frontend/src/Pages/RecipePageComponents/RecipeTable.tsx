@@ -2,7 +2,7 @@ import React, {ChangeEvent, useEffect, useMemo, useState} from "react";
 import {getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import {Recipe} from "../Interfaces/Recipe";
 
-const RecipeTable = ({selected, rawData}) => {
+const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
 
     const [tableData, setTableData] = useState([])
     const [searchInput, setSearchInput] = useState("")
@@ -34,6 +34,16 @@ const RecipeTable = ({selected, rawData}) => {
         setSearchInput(event.target.value)
     }
 
+    const handleClick = (event: React.MouseEvent, id : number) => {
+        if (id !== undefined){
+            setSelectedRow(id)
+            console.log("Selected recipe: " + id);
+        }
+        else{
+            console.log("Empty row clicked");
+        }
+    }
+
     useEffect(() => {
         // Have to check if the data is undefined, because there can be no data passed
         if(rawData !== undefined){
@@ -60,7 +70,8 @@ const RecipeTable = ({selected, rawData}) => {
                 <tbody>
                 {table.getRowModel().rows.map(row => (<tr
                     key={row.original.id}
-                    className={'RP-unselected-row'}>
+                    onClick={(event) => {handleClick(event, row.original.id)}}
+                    className={(row.original.id === selectedRow) ? 'RP-selected-row' : 'RP-unselected-row'}>
                     <td style={{width: '10%', textAlign: 'center'}}>{row.original.id}</td>
                     <td style={{width: '90%'}}>{row.original.label}</td>
                 </tr>))

@@ -7,7 +7,7 @@ const RecipesPage = () => {
 
     const [recipeData, setRecipesData] = useState([]);
     const [selectedRecipe, setSelectedRecipe] = useState(-1)
-    const [panelProps, setPanelProps] = useState(-1)
+    const [panelProps, setPanelProps] = useState({})
 
     const fetchRecipes = async () => {
         const response = await fetch("http://localhost:8080/api/recipes/fetch-recipes")
@@ -24,7 +24,7 @@ const RecipesPage = () => {
     useEffect(() => {
         let panelPropsData = {}
         if (selectedRecipe !== -1){
-            const selected = recipeData.filter((recipe)=> recipe.id === selectedRecipe).at(0)
+            const selected = recipeData.filter((recipe) => recipe.id === selectedRecipe).at(0)
             panelPropsData = {
                 name: selected.name,
                 allergens: selected.allergens
@@ -32,14 +32,18 @@ const RecipesPage = () => {
             console.log(panelPropsData);
         }
         setPanelProps(panelPropsData)
-    }, [selectedRecipe]);
+    }, [selectedRecipe, recipeData]);
 
     return (
         <div className='recipe-page'>
             <h1 className={'RP-title'}>Recipes</h1>
             <div className={'RP-grid-container'}>
                 <div className={'RP-grid-column'}>
-                    <RecipeTable rawData = {recipeData}/>
+                    <RecipeTable
+                        setSelectedRow={setSelectedRecipe}
+                        selectedRow={selectedRecipe}
+                        rawData = {recipeData}
+                    />
                 </div>
                 <div className={'RP-grid-column'}>
                     <RPSummaryPanel props={panelProps}/>
