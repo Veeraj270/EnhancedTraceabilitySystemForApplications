@@ -5,6 +5,7 @@ import {Recipe} from "../Interfaces/Recipe";
 const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
 
     const [tableData, setTableData] = useState([])
+    const [filteredTableData, setFilteredTableData] = useState([])
     const [searchInput, setSearchInput] = useState("")
 
     const columns = useMemo(() => [
@@ -19,14 +20,13 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
     ], [])
 
     const generateTableData = async (data: any[]) => {
-        let recipesTableData: any[] = [];
-        data.map((recipe: Recipe) => {
-            recipesTableData.push({
+        const recipesTableData = data.map((recipe: Recipe) => (
+            {
                 id: recipe.id,
                 label: recipe.label
-            });
-        })
-        setTableData(recipesTableData)
+            }
+        ));
+        return recipesTableData
     }
 
     const handleChange = (event : ChangeEvent<HTMLInputElement>) => {
@@ -45,17 +45,31 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
     }
 
     useEffect(() => {
+        if (searchInput.length > 0){
+            setFilteredTableData(tableData.filter((row) => {
+                return row.label.match(searchInput)
+                    || row.id.toString().match(searchInput)
+            }))
+        } else{
+            setFilteredTableData(tableData)
+        }
+    }, [searchInput]);
+
+    useEffect(() => {
         // Have to check if the data is undefined, because there can be no data passed
         if(rawData !== undefined){
             if(rawData.length > 0) {
-                generateTableData(rawData).then()
+                generateTableData(rawData).then(recipesTableData => {
+                    setTableData(recipesTableData)
+                    setFilteredTableData(recipesTableData)
+                })
             }
         }
         console.log(rawData);
     }, [rawData]);
 
     const table = useReactTable({
-        data: tableData,
+        data: filteredTableData,
         columns: columns,
         getCoreRowModel: getCoreRowModel()
     })
@@ -64,7 +78,6 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
         <div className={"RPTable-search-container"}>
             <input placeholder={"Search recipes... "} onChange={handleChange} value={searchInput}/>
         </div>
-
         <div className={"RPTable-content-div"}>
             <table>
                 <tbody>

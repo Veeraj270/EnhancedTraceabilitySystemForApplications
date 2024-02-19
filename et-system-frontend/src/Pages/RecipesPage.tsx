@@ -2,10 +2,12 @@ import "./RecipePageComponents/RPStylesheet.css"
 import RecipeTable from "./RecipePageComponents/RecipeTable";
 import {useEffect, useState} from "react";
 import RPSummaryPanel from "./RecipePageComponents/RPSummaryPanel";
+import IngredientQuantitiesTable from "./RecipePageComponents/IngredientQuantitiesTable";
 
 const RecipesPage = () => {
 
-    const [recipeData, setRecipesData] = useState([]);
+    const [recipeData, setRecipesData] = useState([])
+    const [ingredientQuantitiesData, setIngredientQuantitiesData] = useState([])
     const [selectedRecipe, setSelectedRecipe] = useState(-1)
     const [panelProps, setPanelProps] = useState({})
 
@@ -18,7 +20,12 @@ const RecipesPage = () => {
     }
 
     useEffect(() => {
-        fetchRecipes().then((recipeData) => {setRecipesData(recipeData)}).catch((reason) => {console.error("Error within fetchRecipes" + reason)})
+        fetchRecipes().then((recipeData) =>
+        {
+            setRecipesData(recipeData)
+            setIngredientQuantitiesData(recipeData.ingredientQuantities)
+        })
+            .catch((reason) => {console.error("Error within fetchRecipes" + reason)})
     }, [])
 
     useEffect(() => {
@@ -32,7 +39,7 @@ const RecipesPage = () => {
             console.log(panelPropsData);
         }
         setPanelProps(panelPropsData)
-    }, [selectedRecipe, recipeData]);
+    }, [selectedRecipe]);
 
     return (
         <div className='recipe-page'>
@@ -46,6 +53,7 @@ const RecipesPage = () => {
                     />
                 </div>
                 <div className={'RP-grid-column'}>
+                    <IngredientQuantitiesTable ingredientQuantities={ingredientQuantitiesData}/>
                     <RPSummaryPanel props={panelProps}/>
                 </div>
             </div>
