@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.Period;
 import java.time.ZonedDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,7 +19,7 @@ public class PlannedDeliveryTest{
 	
 	@Test
 	void testJsonRoundtrip() throws JsonProcessingException{
-		PlannedDelivery p = plannedDeliveries.save(new PlannedDelivery("", "", ZonedDateTime.now(), Period.ofDays(1)));
+		PlannedDelivery p = plannedDeliveries.save(new PlannedDelivery("", "", ZonedDateTime.now()));
 		System.out.println(p);
 		ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
 		String json = mapper.writeValueAsString(p);

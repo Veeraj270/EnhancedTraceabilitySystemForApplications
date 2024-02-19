@@ -1,7 +1,13 @@
 package com.example.ETSystem;
 
+import com.example.ETSystem.customerOrders.CustomerOrderMockData;
+import com.example.ETSystem.deliveries.*;
+import com.example.ETSystem.finalProducts.FinalProductMockData;
 import com.example.ETSystem.product.Product;
 import com.example.ETSystem.product.ProductRepository;
+import com.example.ETSystem.recipe.IngredientMockData;
+import com.example.ETSystem.recipe.IngredientQuantityMockData;
+import com.example.ETSystem.recipe.RecipeMockData;
 import com.example.ETSystem.timeline.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,6 +17,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +30,12 @@ public class EtSystemApplication{
 	}
 	
 	@Bean
-	CommandLineRunner commandLineRunner(ProductRepository productRepository, TimelineService timelineService){
+	CommandLineRunner commandLineRunner(ProductRepository productRepository, TimelineService timelineService, IngredientMockData ingredientMockData, IngredientQuantityMockData ingredientQuantityMockData, RecipeMockData recipeMockData, PlannedDeliveryRepository plannedDeliveryRepository,
+										DeliveryItemRepository deliveryItemRepository,
+										RecordedDeliveryRepository recordedDeliveryRepository,
+										FinalProductMockData finalProductMockData,
+										CustomerOrderMockData customerOrderMockData
+	){
 		return args -> {
 			// Read from MOCK_DATA.json and save all entries to productRepo
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -42,6 +55,40 @@ public class EtSystemApplication{
 			list.add(new MoveEvent(1530L, eventOwner));
 			list.add(new UseEvent(1600L, eventOwner));
 			timelineService.saveAll(list);
+
+
+			//Add some mock planned deliveries to the database - for development purposes
+			for (int x = 0; x < 6; x ++){
+				PlannedDelivery plannedDelivery = new PlannedDelivery("Delivery " + x, "A mock delivery for development purposes", ZonedDateTime.now().plusDays(x));
+				List<DeliveryItem> plannedItems = new ArrayList<>();
+				for (int i = 0; i < 26 ; i ++){
+					DeliveryItem deliveryItem = new DeliveryItem();
+					deliveryItem.setGtin(1000000 + i);
+					deliveryItem.setLabel("Item " + i);
+					deliveryItemRepository.save(deliveryItem);
+					plannedItems.add(deliveryItem);
+				}
+				plannedDelivery.setItems(plannedItems);
+				plannedDeliveryRepository.save(plannedDelivery);
+			}
+
+			//Add some mock recorded deliveries to the database - for development purposes
+			for (int x = 1; x < 4; x ++){
+				PlannedDelivery plannedDelivery = new PlannedDelivery("Test-Delivery ", "description",ZonedDateTime.now().plusDays(x - 4));
+				plannedDelivery.setComplete(true);
+				plannedDeliveryRepository.save(plannedDelivery);
+				RecordedDelivery recordedDelivery = new RecordedDelivery(plannedDelivery, Instant.now(), Instant.now().plusSeconds(500), new ArrayList<Product>());
+				recordedDeliveryRepository.save(recordedDelivery);
+			}
+
+
+
+			ingredientMockData.processIngredients();
+			ingredientQuantityMockData.processIngredientQuantity();
+			recipeMockData.processRecipes();
+			finalProductMockData.processFinalProduct();
+			customerOrderMockData.processCustomerOrder();
+
 		};
 	}
 }

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -14,7 +15,6 @@ import java.util.List;
 @RequestMapping("api/lookup/barcode")
 @CrossOrigin(origins = "http://localhost:3000")
 public class BarcodeAPI{
-	
 	private static final List<String> opffLabels = List.of(
 			"generic_name", "generic_name_en",
 			"name", "title", "label",
@@ -25,11 +25,16 @@ public class BarcodeAPI{
 	
 	@GetMapping("/lookup-by-gtin/{gtin}")
 	public BarcodeData lookupByGtin(@PathVariable long gtin) throws JsonProcessingException{
-		String response = openFoodFactsTemplate.getForObject(
-				"https://world.openfoodfacts.org/api/v2/product/{id}.json",
-				String.class,
-				gtin
-		);
+		String response;
+		try {
+			response = openFoodFactsTemplate.getForObject(
+					"https://world.openfoodfacts.org/api/v2/product/{id}.json",
+					String.class,
+					gtin
+			);
+		} catch (RestClientException ignored){
+			return BarcodeData.INVALID;
+		}
 		if(response == null)
 			return BarcodeData.INVALID;
 		
