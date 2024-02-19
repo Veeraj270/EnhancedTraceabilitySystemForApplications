@@ -69,7 +69,7 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
             <table>
                 <tbody>
                 {table.getRowModel().rows.map(row => (<tr
-                    key={row.original.id}
+                    key={row.id}
                     onClick={(event) => {handleClick(event, row.original.id)}}
                     className={(row.original.id === selectedRow) ? 'RP-selected-row' : 'RP-unselected-row'}>
                     <td style={{width: '10%', textAlign: 'center'}}>{row.original.id}</td>

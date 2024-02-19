@@ -6,16 +6,17 @@ const RPSummaryPanel = (props) => {
 
     useEffect(() => {
         setData(props)
+        console.log(props)
     }, [props])
 
     return(
         <div className={"RPSummary-grid"}>
-            <p className={"RPSummary-name"}><b>Recipe name:</b>{data.props.name}</p>
+            <p className={"RPSummary-name"}><b>Recipe name: </b>{data.props.label}</p>
             <div className={"RPSummary-item"}>
-                <p ><b>Allergens:</b>{data.allergens}</p>
+                <p><b>Allergens: </b>{data.props.allergens ? data.props.allergens.map(ingredient => ingredient.label).join(", ") : ""}</p>
             </div>
             <div className={"RPSummary-item"}>
-                <p><b>Description:</b></p>
+                <p><b>Description: </b></p>
             </div>
         </div>
     )

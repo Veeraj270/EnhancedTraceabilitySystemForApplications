@@ -26,7 +26,7 @@ const RecipesPage = () => {
         if (selectedRecipe !== -1){
             const selected = recipeData.filter((recipe) => recipe.id === selectedRecipe).at(0)
             panelPropsData = {
-                name: selected.name,
+                label: selected.label,
                 allergens: selected.allergens
             }
             console.log(panelPropsData);
