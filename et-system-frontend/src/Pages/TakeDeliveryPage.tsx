@@ -46,16 +46,6 @@ const TakeDelivery = () => {
     //Triggered upon initial render of the page
     useEffect(() => {
         fetchDeliveryData(deliveryId).then((data: Delivery) => {
-            //Remove the id from each item
-            let expectedItems: DeliveryItem[] = [];
-            data.items.map((item) => {
-                expectedItems.push({
-                    label: item.label,
-                    gtin: item.gtin,
-                })
-            })
-            setExpectedTData(expectedItems)
-
             const time = startTime.match(/[0-9]{2}:[0-9]{2}:[0-9]{2}/)?.at(0)
             const newMetadata : Metadata  =  {
                 name: data.name,
@@ -64,9 +54,24 @@ const TakeDelivery = () => {
                 startTime: time ? time : "N/A",
             }
             setMetadata(newMetadata)
-        })
+            return data
+        }).then(
+            (data) => fetchExpectedItemsData(data.items).then(
+            (expectedItems: any[]) => setExpectedTData(expectedItems)))
     }, []);
 
+    const fetchExpectedItemsData = async (items: any[]): Promise<any[]> => {
+        const promises = items.map(async (item: any) => {
+            try {
+                const productData = await fetchProductData(item.gtin);
+                delete productData.id;
+                return productData;
+            } catch (err) {
+                console.log(err);
+            }
+        })
+        return await Promise.all(promises);
+    }
     const fetchDeliveryData = async (deliveryId: number) : Promise<Delivery> => {
         try {
             const response = await fetch(`http://localhost:8080/api/deliveries/fetch-planned-by-id/${deliveryId}`);
@@ -95,14 +100,13 @@ const TakeDelivery = () => {
         if  (barcode === ""){
             return;
         }
-
         //Check if barcode is in expectedTData
         for (let i = 0; i < expectedTData.length; i ++){
             if (expectedTData[i].gtin == barcode){
                 setScannedTData([expectedTData[i],...scannedTData]);
-                const newExpectedTData = expectedTData.slice()
-                newExpectedTData.splice(i,1)
-                setExpectedTData(newExpectedTData)
+                const newExpectedTData = expectedTData.slice();
+                newExpectedTData.splice(i,1);
+                setExpectedTData(newExpectedTData);
                 return;
             }
         }
@@ -110,36 +114,33 @@ const TakeDelivery = () => {
         //Check if it's in scannedTData
         for (let i = 0; i < scannedTData.length; i ++){
             if (scannedTData[i].gtin == barcode){
-                const deliveryItem: DeliveryItem = {label: "", gtin: ""}
+                const deliveryItem: any = {}
                 Object.assign(deliveryItem, scannedTData[i])
                 setUnexpectedTData([deliveryItem,...unexpectedTData])
                 return;
             }
         }
 
-        //If barcode isn't within expectedTData or scannedTData, query back-end API for label
-        const label = await fetchLabel(barcode)
-        const deliveryItem = {label: label, gtin: barcode}
-        setUnexpectedTData([deliveryItem,...unexpectedTData])
-        return;
+        //If barcode isn't within expectedTData or scannedTData, query back-end API for productData
+        const productData = {}
+        try{
+            const productData = await fetchProductData(barcode);
+            setUnexpectedTData([productData,...unexpectedTData]);
+            return;
+        }
+        catch (err){
+            console.log(err);
+        }
     }
 
     //Used by submitBarcode()
-    const fetchLabel = async (barcode: string) => {
+    const fetchProductData = async (barcode: string) => {
         const response = await fetch(`http://localhost:8080/api/lookup/barcode/lookup-by-gtin/${barcode}`);
         if (!response.ok){
-            console.log("Error: api/lookup/barcode/lookup-by-gtin was not ok");
-            return "Error";
+            throw new Error("Error: api/lookup/barcode/lookup-by-gtin was not ok");
         }
         else {
-            const resJSON = await response.json();
-            if (resJSON.valid == false || resJSON.name == ""){
-                return "Unknown";
-            }
-            else {
-                console.log(resJSON.label);
-                return resJSON.label;
-            }
+            return await response.json();
         }
     }
 

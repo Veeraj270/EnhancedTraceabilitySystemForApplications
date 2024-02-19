@@ -8,7 +8,7 @@ import React, {useEffect, useMemo, useState} from "react";
 import Item from "../Interfaces/DeliveryItem";
 
 interface Props{
-    data: Item[]
+    data: any
     title: string
 }
 
@@ -31,7 +31,7 @@ const TDPTable : React.FC<Props> = (props: Props ) => {
         }
     ],[])
 
-    const [tableData, setTableData] = useState<Item[]>(props.data)
+    const [tableData, setTableData] = useState(props.data)
 
     //Runs whenever props changes - triggers a re-render
     useEffect(() => {

@@ -63,9 +63,9 @@ public class EtSystemApplication{
 			for (int x = 0; x < 6; x ++){
 				PlannedDelivery plannedDelivery = new PlannedDelivery("Delivery " + x, "A mock delivery for development purposes", ZonedDateTime.now().plusDays(x));
 				List<DeliveryItem> plannedItems = new ArrayList<>();
-				for (int i = 0; i < 26 ; i ++){
+				for (int i = 1; i < 20 ; i ++){
 					DeliveryItem deliveryItem = new DeliveryItem();
-					deliveryItem.setGtin(1000000 + i);
+					deliveryItem.setGtin(Long.toString(1000000000000L + i));
 					deliveryItem.setLabel("Item " + i);
 					deliveryItemRepository.save(deliveryItem);
 					plannedItems.add(deliveryItem);
