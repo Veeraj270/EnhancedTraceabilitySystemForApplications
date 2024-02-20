@@ -1,6 +1,6 @@
-package com.example.ETSystem.ProductData;
+package com.example.ETSystem.productData;
 
-import com.example.ETSystem.ProductData.Exceptions.ProductNotFoundException;
+import com.example.ETSystem.productData.Exceptions.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -1,7 +1,7 @@
 package com.example.ETSystem.lookup;
 
-import com.example.ETSystem.ProductData.ProductData;
-import com.example.ETSystem.ProductData.ProductDataService;
+import com.example.ETSystem.productData.ProductData;
+import com.example.ETSystem.productData.ProductDataService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,4 +1,4 @@
-package com.example.ETSystem.ProductData;
+package com.example.ETSystem.productData;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

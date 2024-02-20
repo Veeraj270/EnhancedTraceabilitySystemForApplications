@@ -32,7 +32,8 @@ public class Product{
 	@ElementCollection(targetClass = Long.class, fetch = FetchType.EAGER)
 	@CollectionTable(name = "intermediaries_id", joinColumns = @JoinColumn(name = "product_id"))
 	private List<Long> intermediariesId = new ArrayList<>();
-	
+
+
 	@Transient
 	private Long parentID;
 	

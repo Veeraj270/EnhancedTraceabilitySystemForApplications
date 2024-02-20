@@ -2,6 +2,7 @@ package com.example.ETSystem.deliveries;
 
 import com.example.ETSystem.product.Product;
 import com.example.ETSystem.product.ProductRepository;
+import com.example.ETSystem.productData.ProductData;
 import com.example.ETSystem.timeline.CreateEvent;
 import com.example.ETSystem.timeline.TimelineService;
 import com.example.ETSystem.util.Reordered;
@@ -109,15 +110,28 @@ public class DeliveryAPI{
 	// convenience adders
 	
 	@PostMapping("/add-recorded-with-products")
-	public RecordedDelivery addRecordedWithProducts(@RequestBody RecordedDelivery newRecord){
-		// assume constituent products to be valid up to IDs
+	public RecordedDelivery addRecordedWithProducts(@RequestBody RecordedDeliveryInput newRecordInput){
+		//Initialise new RecordedDelivery
+		RecordedDelivery newRecord = new RecordedDelivery();
+
+		for (ProductData product : newRecordInput.recorded){
+			//If needed, add new delivery type
+
+			//Create new Product instance
+
+			//Save Product
+		}
+		//Save RecordedDelivery with list of new Products
+
+		//DEPRECATED
+		/*// assume constituent products to be valid up to IDs
 		List<Product> savedProducts = new ArrayList<>(newRecord.getRecorded().size());
 		for(Product product : newRecord.getRecorded()){
 			Product saved = productRepo.save(product);
 			savedProducts.add(saved);
 			timelineService.save(new CreateEvent(Instant.now().getEpochSecond(), saved));
 		}
-		return recordedRepo.save(newRecord);
+		return recordedRepo.save(newRecord);*/
 	}
 
 	@PostMapping("/delete-planned-delivery/{id}")

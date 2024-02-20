@@ -1,7 +1,7 @@
 package com.example.ETSystem;
 
-import com.example.ETSystem.ProductData.GTINRepository;
-import com.example.ETSystem.ProductData.MockDataGenerator;
+import com.example.ETSystem.productData.GTINRepository;
+import com.example.ETSystem.productData.MockDataGenerator;
 import com.example.ETSystem.deliveries.*;
 import com.example.ETSystem.product.Product;
 import com.example.ETSystem.product.ProductRepository;

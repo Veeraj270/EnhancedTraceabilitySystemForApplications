@@ -1,4 +1,4 @@
-package com.example.ETSystem.ProductData.Exceptions;
+package com.example.ETSystem.productData.Exceptions;
 
 public class DuplicateGTINException extends Exception{
     public DuplicateGTINException(String gtin){

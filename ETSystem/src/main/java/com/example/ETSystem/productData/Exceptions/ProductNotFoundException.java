@@ -1,4 +1,4 @@
-package com.example.ETSystem.ProductData.Exceptions;
+package com.example.ETSystem.productData.Exceptions;
 
 public class ProductNotFoundException extends RuntimeException {
     public ProductNotFoundException(String gtin){
