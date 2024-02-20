@@ -9,15 +9,15 @@ import java.util.List;
 
 @Component
 public class SuppliedGoodService {
-    private final GTINRepository gtinRepository;
+    private final SuppliedGoodRepository suppliedGoodRepository;
 
     @Autowired
-    public SuppliedGoodService(GTINRepository gtinRepository){
-        this.gtinRepository = gtinRepository;
+    public SuppliedGoodService(SuppliedGoodRepository suppliedGoodRepository){
+        this.suppliedGoodRepository = suppliedGoodRepository;
     }
 
     public SuppliedGood getProductData(@RequestBody String gtin){
-        List<SuppliedGood> data = gtinRepository.findAll().stream().filter((productData -> productData.getGtin().equals(gtin))).toList();
+        List<SuppliedGood> data = suppliedGoodRepository.findAll().stream().filter((productData -> productData.getGtin().equals(gtin))).toList();
         if (data.isEmpty()){
             throw new ProductNotFoundException(gtin);
         }

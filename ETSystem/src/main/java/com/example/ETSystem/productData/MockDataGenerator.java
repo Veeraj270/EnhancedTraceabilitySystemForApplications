@@ -1,5 +1,7 @@
 package com.example.ETSystem.productData;
 
+import com.example.ETSystem.ingredientType.IngredientType;
+import com.example.ETSystem.ingredientType.IngredientTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -8,11 +10,13 @@ import java.util.Arrays;
 
 @Component
 public class MockDataGenerator {
-    private final GTINRepository gtinRepository;
+    private final SuppliedGoodRepository suppliedGoodRepository;
+    private final IngredientTypeRepository ingredientTypeRepository;
 
     @Autowired
-    public MockDataGenerator(GTINRepository gtinRepository){
-        this.gtinRepository = gtinRepository;
+    public MockDataGenerator(SuppliedGoodRepository suppliedGoodRepository, IngredientTypeRepository ingredientTypeRepository){
+        this.suppliedGoodRepository = suppliedGoodRepository;
+        this.ingredientTypeRepository = ingredientTypeRepository;
     }
 
     public void GenerateMockData(){
@@ -183,7 +187,12 @@ public class MockDataGenerator {
      public void genTableRow(Long barcode,String name, Float quantity, String unit, String supplier){
          //Format label
          String label = String.format("%s-%s-%s", name.replace(" ","-").toLowerCase(), quantity, unit);
-         String ingredientType = name.replace(" ","-").toLowerCase();
+         String ingredientTypeName = name.replace(" ","-").toLowerCase();
+
+         //Currently just setting all ingredients to be non allergen, vegetarian, and vegan
+         IngredientType ingredientType = new IngredientType(ingredientTypeName, false, false, false);
+         ingredientTypeRepository.save(ingredientType);
+
          SuppliedGood entry = new SuppliedGood(
                  barcode.toString(),
                  label,
@@ -196,7 +205,7 @@ public class MockDataGenerator {
          System.out.println(entry);
 
          //Save to Internal Database
-         gtinRepository.save(entry);
+         suppliedGoodRepository.save(entry);
      }
 }
 

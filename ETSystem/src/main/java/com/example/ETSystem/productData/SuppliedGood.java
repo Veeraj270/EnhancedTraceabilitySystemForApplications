@@ -3,6 +3,8 @@ package com.example.ETSystem.productData;
 import com.example.ETSystem.ingredientType.IngredientType;
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Table(name = "internalGTINDatabase")
 @Entity(name = "SuppliedGood")
 public class SuppliedGood {
@@ -27,6 +29,9 @@ public class SuppliedGood {
 
     @Column
     private String supplier;
+
+    @Column // In Pence
+    private int price;
 
     public SuppliedGood(){};
 
@@ -92,4 +97,24 @@ public class SuppliedGood {
     public void setSupplier(String supplier) {
         this.supplier = supplier;
     }
+
+    //Utility
+    public String toString(){
+        return "SuppliedGood{" +
+                "id=" + id +
+                ", label=" + label +
+                ", price=" + price +
+                ", quantity=" + quantity + units +
+                ", ingredientType=" + ingredientType +
+                '}';
+    }
+
+    public int hashCode(){
+        return Objects.hash(id);
+    }
+
+    public boolean equals(Object obj){
+        return obj instanceof com.example.ETSystem.productData.SuppliedGood other && other.id == id;
+    }
+
 }

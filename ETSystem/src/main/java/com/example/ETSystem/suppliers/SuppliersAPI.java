@@ -1,5 +1,8 @@
 package com.example.ETSystem.suppliers;
 
+import com.example.ETSystem.ingredientType.IngredientType;
+import com.example.ETSystem.productData.SuppliedGoodRepository;
+import com.example.ETSystem.productData.SuppliedGood;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -11,11 +14,11 @@ import java.util.List;
 public class SuppliersAPI{
 
 	private final SupplierRepository supplierRepo;
-	private final SuppliedGoodRepository goodRepo;
+	private final SuppliedGoodRepository suppliedGoodRepository;
 	
-	public SuppliersAPI(SupplierRepository supplierRepo, SuppliedGoodRepository goodRepo){
+	public SuppliersAPI(SupplierRepository supplierRepo, SuppliedGoodRepository suppliedGoodRepository){
 		this.supplierRepo = supplierRepo;
-		this.goodRepo = goodRepo;
+		this.suppliedGoodRepository = suppliedGoodRepository;
 	}
 	
 	// standard getters
@@ -27,7 +30,7 @@ public class SuppliersAPI{
 	
 	@GetMapping("/fetch-goods")
 	public List<SuppliedGood> getGoods(){
-		return goodRepo.findAll();
+		return suppliedGoodRepository.findAll();
 	}
 	
 	@GetMapping("/fetch-supplier/{id}")
@@ -37,7 +40,7 @@ public class SuppliersAPI{
 	
 	@GetMapping("/fetch-good/{id}")
 	public SuppliedGood getGoodById(@PathVariable long id){
-		return goodRepo.findById(id).orElseThrow();
+		return suppliedGoodRepository.findById(id).orElseThrow();
 	}
 	
 	@GetMapping("/fetch-suppliers-by-search-query/{search}")
@@ -47,7 +50,7 @@ public class SuppliersAPI{
 	
 	@GetMapping("/fetch-goods-by-search-query/{search}")
 	public List<SuppliedGood> getGoodsBySearchQuery(@PathVariable String search){
-		return getGoods().stream().filter(x -> x.getName().contains(search)).toList();
+		return getGoods().stream().filter(x -> x.getLabel().contains(search)).toList();
 	}
 	
 	// standard adders
@@ -59,7 +62,7 @@ public class SuppliersAPI{
 	
 	@PostMapping("/add-good")
 	public SuppliedGood addGood(@RequestBody SuppliedGood good){
-		return goodRepo.save(good);
+		return suppliedGoodRepository.save(good);
 	}
 	
 	// other helpers

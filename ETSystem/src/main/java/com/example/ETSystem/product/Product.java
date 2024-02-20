@@ -23,7 +23,6 @@ public class Product{
 
     @Column
 	private int maxQuantity, currentQuantity;
-
 	
 	@Column(name = "intermediaries_id")
 	@ElementCollection(targetClass = Long.class, fetch = FetchType.EAGER)

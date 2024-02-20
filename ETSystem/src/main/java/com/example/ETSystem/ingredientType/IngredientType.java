@@ -37,8 +37,8 @@ public class IngredientType {
     //Constructors
     public IngredientType() {}
 
-    public IngredientType(String label, boolean isAllergen, boolean isVegetarian, boolean isVegan) {
-        this.name = label.toLowerCase();
+    public IngredientType(String name, boolean isAllergen, boolean isVegetarian, boolean isVegan) {
+        this.name = name.toLowerCase();
         this.isAllergen = isAllergen;
         this.isVegetarian = isVegetarian;
         this.isVegan = isVegan;

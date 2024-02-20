@@ -1,5 +1,6 @@
 package com.example.ETSystem.suppliers;
 
+import com.example.ETSystem.productData.SuppliedGood;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
