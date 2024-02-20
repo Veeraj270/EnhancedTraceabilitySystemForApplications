@@ -7,11 +7,11 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "api/ingredients")
 @CrossOrigin(origins = "http://localhost:3000")
-public class IngredientsAPI{
+public class IngredientsTypeAPI {
 
 	private final IngredientTypeRepository ingredientTypeRepo;
 	
-	public IngredientsAPI(IngredientTypeRepository repo){
+	public IngredientsTypeAPI(IngredientTypeRepository repo){
 		ingredientTypeRepo = repo;
 	}
 	

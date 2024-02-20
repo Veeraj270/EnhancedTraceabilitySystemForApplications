@@ -1,5 +1,6 @@
 package com.example.ETSystem.recipe;
 
+import com.example.ETSystem.ingredients.IngredientType;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -24,18 +25,18 @@ public class RecipeServiceTest {
     @Autowired
     private IngredientRepository ingredientRepository;
 
-    private Ingredient milk;
-    private Ingredient flour;
-    private Ingredient chocolate;
-    private Ingredient vanilla;
+    private IngredientType milk;
+    private IngredientType flour;
+    private IngredientType chocolate;
+    private IngredientType vanilla;
 
     @BeforeAll
     public void setup() {
         // Adding elements to the repository
-        milk = recipeService.addNewIngredient(new Ingredient("MILK", true, true, false));
-        flour = recipeService.addNewIngredient(new Ingredient("fLoUR", false, true, true));
-        chocolate = recipeService.addNewIngredient(new Ingredient("chocolate", true, true, false));
-        vanilla = recipeService.addNewIngredient(new Ingredient("vanilla", false, true, true));
+        milk = recipeService.addNewIngredient(new IngredientType("MILK", true, true, false));
+        flour = recipeService.addNewIngredient(new IngredientType("fLoUR", false, true, true));
+        chocolate = recipeService.addNewIngredient(new IngredientType("chocolate", true, true, false));
+        vanilla = recipeService.addNewIngredient(new IngredientType("vanilla", false, true, true));
     }
 
     @Test
@@ -49,7 +50,7 @@ public class RecipeServiceTest {
 
         // Throwing an error for adding the same element
         assertThrows(IllegalArgumentException.class, () -> {
-            recipeService.addNewIngredient(new Ingredient("flour", false, true, true));
+            recipeService.addNewIngredient(new IngredientType("flour", false, true, true));
         });
     }
 
@@ -91,7 +92,7 @@ public class RecipeServiceTest {
         assertEquals(recipeRepository.findAll().stream().toList(), List.of(rec1, rec2));
 
         IngredientQuantity mango_invalid = new IngredientQuantity();
-        mango_invalid.setIngredient(new Ingredient("mango", false, true, true));
+        mango_invalid.setIngredient(new IngredientType("mango", false, true, true));
 
         IngredientQuantity milk_100 = new IngredientQuantity();
         milk_100.setIngredient(milk);

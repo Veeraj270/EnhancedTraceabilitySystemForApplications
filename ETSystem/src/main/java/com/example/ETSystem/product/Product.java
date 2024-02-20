@@ -1,6 +1,5 @@
 package com.example.ETSystem.product;
 
-import com.example.ETSystem.ingredients.IngredientType;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;

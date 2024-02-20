@@ -1,6 +1,5 @@
 package com.example.ETSystem.productData;
 
-import com.example.ETSystem.ingredients.IngredientType;
 import jakarta.persistence.*;
 
 @Table(name = "internalGTINDatabase")

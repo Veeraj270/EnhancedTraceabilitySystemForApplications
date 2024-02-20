@@ -1,5 +1,6 @@
 package com.example.ETSystem.recipe;
 
+import com.example.ETSystem.ingredients.IngredientType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,14 +31,14 @@ public class RecipeAPI {
     }
 
     @GetMapping(path = "/fetch-ingredients")
-    public List<Ingredient> getIngredients(){
+    public List<IngredientType> getIngredients(){
         return recipeService.getIngredients();
     }
 
     @PostMapping(path = "/add-ingredient")
-    public Ingredient addIngredient(@RequestBody Ingredient ingredient){
-        recipeService.addNewIngredient(ingredient);
-        return ingredient;
+    public IngredientType addIngredient(@RequestBody IngredientType ingredientType){
+        recipeService.addNewIngredient(ingredientType);
+        return ingredientType;
     }
 
 }

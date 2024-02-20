@@ -1,5 +1,6 @@
 package com.example.ETSystem.recipe;
 
+import com.example.ETSystem.ingredients.IngredientType;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -32,7 +33,7 @@ public class RecipeService {
     public Recipe addNewRecipe(Recipe recipe) {
         for (IngredientQuantity ingredientQuantity : recipe.getIngredients()){
             // Checks if the ingredients of the recipe exist, then adds the recipe
-            Optional<Ingredient> optionalIngredient = ingredientRepository.findByLabel(ingredientQuantity.getIngredient().getLabel());
+            Optional<IngredientType> optionalIngredient = ingredientRepository.findByLabel(ingredientQuantity.getIngredientType().getLabel());
             if (optionalIngredient.isEmpty()){
                 throw new IllegalArgumentException("At least one of the ingredients of the new recipe does not exist.");
             }
@@ -44,18 +45,18 @@ public class RecipeService {
         return recipe;
     }
 
-    public List<Ingredient> getIngredients(){
-        List<Ingredient> ingredients =  ingredientRepository.findAll();
-        return ingredients;
+    public List<IngredientType> getIngredients(){
+        List<IngredientType> ingredientTypes =  ingredientRepository.findAll();
+        return ingredientTypes;
     }
 
     @Transactional
-    public Ingredient addNewIngredient(Ingredient ingredient) {
-            if (ingredientRepository.findByLabel(ingredient.getLabel()).isPresent()) {
+    public IngredientType addNewIngredient(IngredientType ingredientType) {
+            if (ingredientRepository.findByLabel(ingredientType.getLabel()).isPresent()) {
                 throw new IllegalArgumentException("Ingredient already exists.");
             }
-        this.ingredientRepository.save(ingredient);
-            return ingredient;
+        this.ingredientRepository.save(ingredientType);
+            return ingredientType;
     }
 }
 

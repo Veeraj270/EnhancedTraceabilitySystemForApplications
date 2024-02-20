@@ -1,7 +1,6 @@
 package com.example.ETSystem.suppliers;
 
-import com.example.ETSystem.ingredients.IngredientType;
-import com.example.ETSystem.ingredients.IngredientsAPI;
+import com.example.ETSystem.ingredients.IngredientsTypeAPI;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +18,7 @@ public class SuppliersAPITest{
 	SuppliersAPI sapi;
 	
 	@Autowired
-	IngredientsAPI iapi;
+	IngredientsTypeAPI iapi;
 	
 	@Test
 	void testRoundtrip(){

@@ -1,6 +1,5 @@
 package com.example.ETSystem.suppliers;
 
-import com.example.ETSystem.ingredients.IngredientType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;

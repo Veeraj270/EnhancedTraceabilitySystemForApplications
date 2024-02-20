@@ -4,7 +4,7 @@ By Izzeldeen Abumatar, Veeraj Bhagwat, Matthew Cudby, and Josif Trenchovski, und
 
 ## Summary
 
-The goal of the project is to develop a comprehensive system for the tracking of the production of Cakesmiths baked goods from their beginnings as raw ingredients, to their point of sale. 
+The goal of the project is to develop a comprehensive system for the tracking of the production of Cakesmiths baked goods from their beginnings as raw ingredientTypes, to their point of sale. 
 
 ## Expectation of Final Product
 The aim is to provide a piece of desktop software that provides accurate tracking of the production process, easy information retrieval, and intuitive visualization on the efficiency of their production lines. Aside from the desktop application, the system will also require an auxiliary platform for the real-time input of data during the production and delivery processes.
@@ -13,17 +13,17 @@ The intended use of the software is for warehouse & factory staff to be able to 
 
 ## Minimum Viable Product [MVP]
 A simple stock control system that allows users:
-- Add ingredients to the database.
-- Add products, "produced" from these ingredients into the database.
+- Add ingredientTypes to the database.
+- Add products, "produced" from these ingredientTypes into the database.
 - View all products currently on the database 
-- Use a basic traceability page, that can search for the intermediary ingredients of a product and list them in a tree diagram
+- Use a basic traceability page, that can search for the intermediary ingredientTypes of a product and list them in a tree diagram
 - View the history of any product conceptualised as a series of **events** in chronological order.
 
 ## User Stories
-- As a **warehouse staff member**, I'd like to be able to scan and log the arrival of raw ingredients into the system such
+- As a **warehouse staff member**, I'd like to be able to scan and log the arrival of raw ingredientTypes into the system such
 that we accurately tracker the inventory from the moment it arrives at our premises.
 - As a **production line baker**, I want a user-friendly interface that allows us to pick from a list of previously defined 
-recipes and log exactly which ingredients were used in the production of the product. I'd like to be able to input data
+recipes and log exactly which ingredientTypes were used in the production of the product. I'd like to be able to input data
 regarding loss and waste during the production process. 
 - As a **company director**, I want a system that provides key insights into the efficiency of our production process via 
 intuitive data graphics. Also, I want the system to be able to provide in depth traceability data on any finished product

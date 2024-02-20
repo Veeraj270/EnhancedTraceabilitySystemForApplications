@@ -1,5 +1,6 @@
 package com.example.ETSystem.recipe;
 
+import com.example.ETSystem.ingredients.IngredientType;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -10,7 +11,6 @@ public class IngredientQuantity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(
-            name = "id",
             updatable = false,
             nullable = false
     )
@@ -19,7 +19,7 @@ public class IngredientQuantity {
     // CascadeType.MERGE connects the object with the appropriate Ingredient
     // One Ingredient object can be merged with many IngredientQuantity objects
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-    private Ingredient ingredient;
+    private IngredientType ingredientType;
 
     @Column
     private Integer quantity;
@@ -30,12 +30,12 @@ public class IngredientQuantity {
         if (o == null || getClass() != o.getClass()) return false;
 
         IngredientQuantity that = (IngredientQuantity) o;
-        return Objects.equals(this.getQuantity(), that.getQuantity()) && Objects.equals(this.getIngredient(), that.getIngredient());
+        return Objects.equals(this.getQuantity(), that.getQuantity()) && Objects.equals(this.getIngredientType(), that.getIngredientType());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ingredient, quantity);
+        return Objects.hash(ingredientType, quantity);
     }
 
     public Long getId() {
@@ -46,11 +46,11 @@ public class IngredientQuantity {
         this.id = id;
     }
 
-    public Ingredient getIngredient() {
-        return ingredient;
+    public IngredientType getIngredientType() {
+        return ingredientType;
     }
 
-    public void setIngredient(Ingredient ingredient) { this.ingredient = ingredient; }
+    public void setIngredient(IngredientType ingredientType) { this.ingredientType = ingredientType; }
 
     public Integer getQuantity() { return quantity; }
 
