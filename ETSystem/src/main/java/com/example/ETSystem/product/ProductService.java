@@ -75,7 +75,7 @@ public class ProductService{
                 .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
         existingProduct.setLabel(product.getLabel());
         existingProduct.setParentID(product.getParentID());
-        existingProduct.setIntermediaries(product.getIntermediariesId());
+        existingProduct.setIntermediaryIds(product.getIntermediaryIds());
         existingProduct.setMaxQuantity(product.getMaxQuantity());
         existingProduct.setCurrentQuantity(product.getCurrentQuantity());
 

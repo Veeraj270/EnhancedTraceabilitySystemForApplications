@@ -15,7 +15,7 @@ public class Supplier{
 	private String name;
 	
 	@OneToMany(fetch = FetchType.EAGER)
-	private List<SuppliedGood> goods = new ArrayList<>();
+	private List<SuppliedGood> suppliedGoods = new ArrayList<>();
 	
 	public Supplier(){}
 	

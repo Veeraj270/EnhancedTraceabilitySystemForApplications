@@ -1,7 +1,7 @@
 package com.example.ETSystem.lookup;
 
-import com.example.ETSystem.productData.ProductData;
-import com.example.ETSystem.productData.ProductDataService;
+import com.example.ETSystem.productData.SuppliedGood;
+import com.example.ETSystem.productData.SuppliedGoodService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,17 +26,17 @@ public class BarcodeAPI{
 	
 	private final RestTemplate openFoodFactsTemplate = new RestTemplate();
 
-	private final ProductDataService productDataService;
+	private final SuppliedGoodService suppliedGoodService;
 
 	@Autowired
-	public BarcodeAPI(ProductDataService productDataService) {
-		this.productDataService = productDataService;
+	public BarcodeAPI(SuppliedGoodService suppliedGoodService) {
+		this.suppliedGoodService = suppliedGoodService;
 	}
 
 	@GetMapping("/lookup-by-gtin/{gtin}")
-	public ProductData lookupByGtin(@PathVariable String gtin){
+	public SuppliedGood lookupByGtin(@PathVariable String gtin){
 		//Now returns the complete ProductData object
-		return productDataService.getProductData(gtin);
+		return suppliedGoodService.getProductData(gtin);
 	}
 
 	//Deprecated

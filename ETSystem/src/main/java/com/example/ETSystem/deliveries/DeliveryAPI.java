@@ -1,20 +1,13 @@
 package com.example.ETSystem.deliveries;
 
-import com.example.ETSystem.product.Product;
 import com.example.ETSystem.product.ProductRepository;
-import com.example.ETSystem.productData.ProductData;
-import com.example.ETSystem.timeline.CreateEvent;
+import com.example.ETSystem.productData.SuppliedGood;
 import com.example.ETSystem.timeline.TimelineService;
-import com.example.ETSystem.util.Reordered;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/deliveries")
@@ -85,8 +78,9 @@ public class DeliveryAPI{
 		//Initialise new RecordedDelivery
 		RecordedDelivery newRecord = new RecordedDelivery();
 
-		for (ProductData product : newRecordInput.recorded){
+		for (SuppliedGood product : newRecordInput.recorded){
 			//If needed, add new delivery type
+
 
 			//Create new Product instance
 
@@ -103,6 +97,12 @@ public class DeliveryAPI{
 			timelineService.save(new CreateEvent(Instant.now().getEpochSecond(), saved));
 		}
 		return recordedRepo.save(newRecord);*/
+		return new RecordedDelivery();
+	}
+
+	@GetMapping("/fetch-unprocessed-planned")
+	public List<PlannedDelivery> getUnprocessedPlanned(){
+		return getPlanned().stream().filter((plannedDelivery -> (!plannedDelivery.isComplete()))).toList();
 	}
 
 	@PostMapping("/delete-planned-delivery/{id}")

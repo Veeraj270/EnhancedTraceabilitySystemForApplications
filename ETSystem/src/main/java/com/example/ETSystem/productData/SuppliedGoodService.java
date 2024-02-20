@@ -8,16 +8,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 @Component
-public class ProductDataService {
+public class SuppliedGoodService {
     private final GTINRepository gtinRepository;
 
     @Autowired
-    public ProductDataService(GTINRepository gtinRepository){
+    public SuppliedGoodService(GTINRepository gtinRepository){
         this.gtinRepository = gtinRepository;
     }
 
-    public ProductData getProductData(@RequestBody String gtin){
-        List<ProductData> data = gtinRepository.findAll().stream().filter((productData -> productData.getGtin().equals(gtin))).toList();
+    public SuppliedGood getProductData(@RequestBody String gtin){
+        List<SuppliedGood> data = gtinRepository.findAll().stream().filter((productData -> productData.getGtin().equals(gtin))).toList();
         if (data.isEmpty()){
             throw new ProductNotFoundException(gtin);
         }

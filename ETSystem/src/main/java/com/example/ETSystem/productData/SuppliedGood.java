@@ -1,10 +1,11 @@
 package com.example.ETSystem.productData;
 
+import com.example.ETSystem.ingredients.IngredientType;
 import jakarta.persistence.*;
 
 @Table(name = "internalGTINDatabase")
 @Entity(name = "ProductData")
-public class ProductData {
+public class SuppliedGood {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -16,7 +17,7 @@ public class ProductData {
     private String label;
 
     @Column
-    private String ingredientType;
+    private IngredientType ingredientType;
 
     @Column
     private Float quantity;
@@ -27,9 +28,9 @@ public class ProductData {
     @Column
     private String supplier;
 
-    public ProductData(){};
+    public SuppliedGood(){};
 
-    public ProductData(String gtin, String label, String ingredientType, Float quantity, String units, String supplier){
+    public SuppliedGood(String gtin, String label, String ingredientType, Float quantity, String units, String supplier){
         this.gtin = gtin;
         this.label = label;
         this.ingredientType = ingredientType;

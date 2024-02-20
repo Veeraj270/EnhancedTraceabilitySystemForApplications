@@ -184,7 +184,7 @@ public class MockDataGenerator {
          //Format label
          String label = String.format("%s-%s-%s", name.replace(" ","-").toLowerCase(), quantity, unit);
          String ingredientType = name.replace(" ","-").toLowerCase();
-         ProductData entry = new ProductData(
+         SuppliedGood entry = new SuppliedGood(
                  barcode.toString(),
                  label,
                  ingredientType,
