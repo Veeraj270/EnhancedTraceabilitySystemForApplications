@@ -109,12 +109,26 @@ public class SuppliedGood {
                 '}';
     }
 
+    @Override
     public int hashCode(){
         return Objects.hash(id);
     }
 
+    @Override
     public boolean equals(Object obj){
-        return obj instanceof com.example.ETSystem.productData.SuppliedGood other && other.id == id;
+        //return obj instanceof com.example.ETSystem.productData.SuppliedGood other && other.id == id;
+        if (this == obj){
+            return true;
+        }
+        if (obj == null){
+            return false;
+        }
+        if (obj instanceof SuppliedGood && ((SuppliedGood) obj).getId().equals(this.id)){
+            return true;
+        }
+        return false;
     }
+
+
 
 }

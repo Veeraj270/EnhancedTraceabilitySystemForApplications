@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class MockDataGenerator {
@@ -190,8 +191,17 @@ public class MockDataGenerator {
          String ingredientTypeName = name.replace(" ","-").toLowerCase();
 
          //Currently just setting all ingredients to be non allergen, vegetarian, and vegan
-         IngredientType ingredientType = new IngredientType(ingredientTypeName, false, false, false);
-         ingredientTypeRepository.save(ingredientType);
+         List<IngredientType> list = ingredientTypeRepository.findByName(ingredientTypeName);
+
+         IngredientType ingredientType = null;
+         if (list.isEmpty()){
+             ingredientType = new IngredientType(ingredientTypeName, false, false, false);
+             ingredientTypeRepository.save(ingredientType);
+         }
+         else {
+             ingredientType = list.get(0);
+         }
+
 
          SuppliedGood entry = new SuppliedGood(
                  barcode.toString(),

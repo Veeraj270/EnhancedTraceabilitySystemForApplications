@@ -1,5 +1,6 @@
 package com.example.ETSystem.ingredientType;
 
+import com.example.ETSystem.productData.SuppliedGood;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -54,35 +55,45 @@ public class IngredientType {
         return name;
     }
 
-    public boolean isAllergen() { return isAllergen; }
+    public boolean getIsAllergen() { return isAllergen; }
 
-    public boolean isVegan() { return isVegan; }
+    public boolean getIsVegetarian() { return isVegetarian; }
+
+    public boolean getIsVegan() { return isVegan; }
 
 
     //Setters
 
     public void setName(String name) { this.name = name; }
 
-    public void setAllergen(boolean allergen) { this.isAllergen = allergen; }
+    public void setIsAllergen(boolean allergen) { this.isAllergen = allergen; }
 
-    public void setVegan(boolean vegan) {
+    public void setIsVegan(boolean vegan) {
         if (vegan) { this.isVegetarian = true; }
         this.isVegan = vegan;
     }
 
-    public boolean isVegetarian() { return isVegetarian; }
-
     //Utility
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        return this == o || Objects.equals(((IngredientType) o).getName(), this.name);
-    }
-
     @Override
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public boolean equals(Object obj){
+        //return obj instanceof com.example.ETSystem.productData.SuppliedGood other && other.id == id;
+        if (this == obj){
+            return true;
+        }
+        if (obj == null){
+            return false;
+        }
+        if (obj instanceof IngredientType && ((IngredientType) obj).getId().equals(this.id)){
+            return true;
+        }
+        return false;
+    }
+
 
     public String toString(){
         return "IngredientType{" +
@@ -90,7 +101,7 @@ public class IngredientType {
                 ", name='" + name + '\'' +
                 ", isAllergen=" + isAllergen +
                 ", isVegan=" + isVegan +
-                ", isVegetarian" + isVegetarian +
+                ", isVegetarian=" + isVegetarian +
                 '}';
     }
 }

@@ -33,7 +33,7 @@ public class RecipeService {
     public Recipe addNewRecipe(Recipe recipe) {
         for (IngredientQuantity ingredientQuantity : recipe.getIngredients()){
             // Checks if the ingredients of the recipe exist, then adds the recipe
-            Optional<IngredientType> optionalIngredient = ingredientRepository.findByLabel(ingredientQuantity.getIngredientType().getLabel());
+            Optional<IngredientType> optionalIngredient = ingredientRepository.findByName(ingredientQuantity.getIngredientType().getName());
             if (optionalIngredient.isEmpty()){
                 throw new IllegalArgumentException("At least one of the ingredients of the new recipe does not exist.");
             }
@@ -52,7 +52,7 @@ public class RecipeService {
 
     @Transactional
     public IngredientType addNewIngredient(IngredientType ingredientType) {
-            if (ingredientRepository.findByLabel(ingredientType.getLabel()).isPresent()) {
+            if (ingredientRepository.findByName(ingredientType.getName()).isPresent()) {
                 throw new IllegalArgumentException("Ingredient already exists.");
             }
         this.ingredientRepository.save(ingredientType);

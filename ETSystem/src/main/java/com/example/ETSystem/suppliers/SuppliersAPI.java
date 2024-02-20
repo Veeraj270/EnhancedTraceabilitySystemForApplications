@@ -69,10 +69,8 @@ public class SuppliersAPI{
 	
 	@GetMapping("/fetch-goods-with-type")
 	public List<SuppliedGood> getGoodsWithType(@RequestBody IngredientType type){
-		List<SuppliedGood> ret = new ArrayList<>();
-		for(SuppliedGood good : getGoods())
-			if(type.equals(good.getIngredientType()))
-				ret.add(good);
-		return ret;
+		List<SuppliedGood> allGoods = getGoods();
+		List<SuppliedGood> filtered = allGoods.stream().filter(suppliedGood -> suppliedGood.getIngredientType().equals(type)).toList();
+		return filtered;
 	}
 }

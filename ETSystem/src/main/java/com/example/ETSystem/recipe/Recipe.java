@@ -66,12 +66,12 @@ public class Recipe {
         this.ingredients = ingredients;
         this.allergens = ingredients.stream().
                 map(IngredientQuantity::getIngredientType)
-                .filter(x -> x.isAllergen())
+                .filter(x -> x.getIsAllergen())
                 .collect(Collectors.toSet());
         this.vegan = ingredients.stream()
-                .allMatch(x -> x.getIngredientType().isVegan());
+                .allMatch(x -> x.getIngredientType().getIsVegan());
         this.vegetarian = ingredients.stream()
-                .allMatch(x -> x.getIngredientType().isVegetarian());
+                .allMatch(x -> x.getIngredientType().getIsVegetarian());
     }
 
     public Recipe() {
@@ -125,12 +125,12 @@ public class Recipe {
     public void setIngredients(Set<IngredientQuantity> ingredients) {
         this.allergens = ingredients.stream().
                 map(IngredientQuantity::getIngredientType)
-                .filter(x -> x.isAllergen())
+                .filter(x -> x.getIsAllergen())
                 .collect(Collectors.toSet());
         this.vegan = ingredients.stream()
-                .allMatch(x -> x.getIngredientType().isVegan());
+                .allMatch(x -> x.getIngredientType().getIsVegan());
         this.vegetarian = ingredients.stream()
-                .allMatch(x -> x.getIngredientType().isVegetarian());
+                .allMatch(x -> x.getIngredientType().getIsVegetarian());
         this.ingredients = ingredients;
     }
 }

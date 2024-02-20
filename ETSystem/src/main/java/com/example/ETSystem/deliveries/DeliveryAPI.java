@@ -1,13 +1,18 @@
 package com.example.ETSystem.deliveries;
 
+import com.example.ETSystem.product.Product;
 import com.example.ETSystem.product.ProductRepository;
 import com.example.ETSystem.productData.SuppliedGood;
+import com.example.ETSystem.timeline.CreateEvent;
 import com.example.ETSystem.timeline.TimelineService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/deliveries")
@@ -75,29 +80,34 @@ public class DeliveryAPI{
 	
 	@PostMapping("/add-recorded-with-products")
 	public RecordedDelivery addRecordedWithProducts(@RequestBody RecordedDeliveryInput newRecordInput){
-		//Initialise new RecordedDelivery
-		RecordedDelivery newRecord = new RecordedDelivery();
-
+		List<Product> savedProducts = new ArrayList<>(newRecordInput.recorded.size());
 		for (SuppliedGood product : newRecordInput.recorded){
-			//If needed, add new delivery type
-
-
 			//Create new Product instance
+			Product newProduct =  new Product();
+			product.setGtin(product.getGtin());
+			product.setLabel(product.getLabel());
+			product.setQuantity(product.getQuantity());
+			product.setUnits(product.getUnits());
+
+			//FIX NEEDED: needs to be updated to use Supplier class
+			product.setSupplier(product.getSupplier());
+			product.setIngredientType(product.getIngredientType());
 
 			//Save Product
+			productRepo.save(newProduct);
+
+			//Create TimeLineEvent for each new product
+			timelineService.save(new CreateEvent(Instant.now().getEpochSecond(), newProduct));
+			savedProducts.add(newProduct);
 		}
 		//Save RecordedDelivery with list of new Products
+		RecordedDelivery newRecord = new RecordedDelivery(
+				newRecordInput.plan,
+				newRecordInput.startTime,
+				newRecordInput.endTime,
+				savedProducts);
 
-		//DEPRECATED
-		/*// assume constituent products to be valid up to IDs
-		List<Product> savedProducts = new ArrayList<>(newRecord.getRecorded().size());
-		for(Product product : newRecord.getRecorded()){
-			Product saved = productRepo.save(product);
-			savedProducts.add(saved);
-			timelineService.save(new CreateEvent(Instant.now().getEpochSecond(), saved));
-		}
-		return recordedRepo.save(newRecord);*/
-		return new RecordedDelivery();
+		return recordedRepo.save(newRecord);
 	}
 
 	@GetMapping("/fetch-unprocessed-planned")
@@ -112,6 +122,18 @@ public class DeliveryAPI{
 		}
 		else{
 			throw new ResourceNotFoundException(id, "Error: planned delivery with given id not found");
+		}
+	}
+
+	@PostMapping("/set-planned-as-complete/{id}")
+	public void setPlannedStatus(@PathVariable long id ) throws ResourceNotFoundException {
+		Optional<PlannedDelivery> plannedDelivery = plannedRepo.findById(id);
+		if (plannedDelivery.isPresent()){
+			plannedDelivery.get().setComplete(true);
+			plannedRepo.save(plannedDelivery.get());
+		}
+		else {
+			throw new ResourceNotFoundException(id, "Error: delivery with given id not found");
 		}
 	}
 }

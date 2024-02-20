@@ -41,12 +41,12 @@ public class RecipeServiceTest {
 
     @Test
     void testIngredient(){
-        // Correctly saving label of Ingredient
-        assertEquals(milk.getLabel(), "milk");
-        assertEquals(flour.getLabel(), "flour");
+        // Correctly saving name of Ingredient
+        assertEquals(milk.getName(), "milk");
+        assertEquals(flour.getName(), "flour");
 
         // Correctly saving ingredient in repository
-        assertEquals(ingredientRepository.findAll().stream().toList(), List.of(milk, flour, chocolate, vanilla));
+        assert(ingredientRepository.findAll().stream().toList().containsAll(List.of(milk, flour, chocolate, vanilla)));
 
         // Throwing an error for adding the same element
         assertThrows(IllegalArgumentException.class, () -> {
