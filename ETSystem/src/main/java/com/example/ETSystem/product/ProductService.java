@@ -32,9 +32,6 @@ public class ProductService{
 	}
 
 	public void addNewProduct(Product product){
-		for(long productId : product.getIntermediariesId())
-			if(!productRepository.existsById(productId))
-				throw new IllegalArgumentException("At least one of the intermediaries of the new product does not exist");
 		productRepository.save(product);
 	}
 
@@ -46,9 +43,7 @@ public class ProductService{
 	}
 
 	public void recursiveSearch(Product product, List<Product> intermediaries, Product parent){
-		List<Long> cur = product.getIntermediariesId();
-
-		for(long id : cur)
+		for(long id : product.getIntermediaryIds())
 			productRepository.findById(id).ifPresent(value -> recursiveSearch(value, intermediaries, product));
 
 		intermediaries.add(product);
