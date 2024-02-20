@@ -1,20 +1,22 @@
 import React, {useEffect, useMemo, useState} from "react";
 import {IngredientQuantity} from "../Interfaces/IngredientQuantity";
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
+import '../ProductPageComponents/TanStackTable/Table.css'
+import './RPStylesheet.css'
 
 
-const IngredientQuantitiesTable = (ingredientQuantities) => {
+const IngredientQuantitiesTable = ({ingredientQuantities}) => {
 
     const [tableData, setTableData] = useState([])
 
     const columns = useMemo(() => [
         {
             header: "Ingredient",
-            accessoreKey: "ingredient"
+            accessorKey: "ingredient"
         },
         {
             header: "Quantity",
-            accessoreKey: "quantity"
+            accessorKey: "quantity"
         }
     ], [])
 
@@ -23,6 +25,7 @@ const IngredientQuantitiesTable = (ingredientQuantities) => {
                 ingredient: ingredientQuantity.ingredient.label,
                 quantity: ingredientQuantity.quantity
         }))
+        console.log(tempTableData)
         return tempTableData
     }
 
@@ -35,27 +38,33 @@ const IngredientQuantitiesTable = (ingredientQuantities) => {
     useEffect(() => {
         if(ingredientQuantities.length > 0){
             generateTableData(ingredientQuantities)
-                .then(tempTableData => {setTableData(tempTableData)})
-                .catch("Error generating table data");
+                .then(tempTableData => {
+                    setTableData(tempTableData)})
+                .catch(error => console.error("Error generating table data", error));
         }
         console.log(ingredientQuantities)
     }, [ingredientQuantities])
 
     return (
-        <div className={"table"}>
-            <div>
-
-            </div>
-            <div>
+        <div>
+            {/* This className should make this scrollable, I can't check for sure*/}
+            {/* because there is not enough ingredients.*/}
+            <div className={'RP-table-content-div'}>
                 <table>
+                    {table.getHeaderGroups().map(headerGroup => (
+                        <tr key={headerGroup.id}>
+                            {headerGroup.headers.map(header => <th key={header.id}>
+                                {flexRender(header.column.columnDef.header, header.getContext())}
+                            </th>)}
+                        </tr>
+                    ))}
                     <tbody>
-                    {table.getRowModel().rows.map(row => (<tr
+                    {table.getCoreRowModel().rows.map(row => (<tr
                             key={row.id}>
-                            <td style={{width: '80%'}}>{row.original.ingredient}</td>
-                            <td style={{width: '20%', textAlign: 'center'}}>{row.original.quantity}</td>
+                            <td style={{width: '50%'}}>{row.original.ingredient}</td>
+                            <td style={{width: '50%'}}>{row.original.quantity}</td>
                         </tr>))}
                     </tbody>
-
                 </table>
             </div>
         </div>

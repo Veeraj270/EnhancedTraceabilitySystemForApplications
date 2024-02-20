@@ -3,7 +3,6 @@ import RecipeTable from "./RecipePageComponents/RecipeTable";
 import {useEffect, useState} from "react";
 import RPSummaryPanel from "./RecipePageComponents/RPSummaryPanel";
 import IngredientQuantitiesTable from "./RecipePageComponents/IngredientQuantitiesTable";
-import {Recipe} from "./Interfaces/Recipe";
 import {IngredientQuantity} from "./Interfaces/IngredientQuantity";
 
 const RecipesPage = () => {
@@ -38,6 +37,8 @@ const RecipesPage = () => {
             panelPropsData = {
                 label: selected.label,
                 allergens: selected.allergens,
+                vegan: selected.vegan,
+                vegetarian: selected.vegetarian
             }
             console.log(panelPropsData);
             console.log(ingredientQuantityList)
@@ -58,8 +59,8 @@ const RecipesPage = () => {
                     />
                 </div>
                 <div className={'RP-grid-column'}>
-                    <IngredientQuantitiesTable ingredientQuantities={ingredientQuantitiesData}/>
                     <RPSummaryPanel props={panelProps}/>
+                    <IngredientQuantitiesTable ingredientQuantities={ingredientQuantitiesData}/>
                 </div>
             </div>
 
