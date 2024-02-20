@@ -1,4 +1,4 @@
-package com.example.ETSystem.ingredients;
+package com.example.ETSystem.ingredientType;
 
 import jakarta.persistence.*;
 
@@ -22,7 +22,7 @@ public class IngredientType {
     @Column
     private Long id;
 
-    @Column
+    @Column(unique = true)
     private String name;
 
     @Column(nullable = false)

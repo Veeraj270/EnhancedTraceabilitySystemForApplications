@@ -33,7 +33,7 @@ public class Supplier{
 	}
 	
 	public List<SuppliedGood> getGoods(){
-		return goods;
+		return suppliedGoods;
 	}
 	
 	public void setId(long id){
@@ -44,7 +44,7 @@ public class Supplier{
 		this.name = name;
 	}
 	
-	public void setGoods(List<SuppliedGood> goods){
-		this.goods = goods;
+	public void setGoods(List<SuppliedGood> suppliedGoods){
+		this.suppliedGoods = suppliedGoods;
 	}
 }

@@ -1,4 +1,4 @@
-package com.example.ETSystem.ingredients;
+package com.example.ETSystem.ingredientType;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.example.ETSystem.recipe;
 
-import com.example.ETSystem.ingredients.IngredientType;
+import com.example.ETSystem.ingredientType.IngredientType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

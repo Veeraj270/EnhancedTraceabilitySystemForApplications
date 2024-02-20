@@ -1,6 +1,6 @@
 package com.example.ETSystem.suppliers;
 
-import com.example.ETSystem.ingredients.IngredientsTypeAPI;
+import com.example.ETSystem.ingredientType.IngredientsTypeAPI;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

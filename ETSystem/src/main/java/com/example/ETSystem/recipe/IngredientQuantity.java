@@ -1,6 +1,6 @@
 package com.example.ETSystem.recipe;
 
-import com.example.ETSystem.ingredients.IngredientType;
+import com.example.ETSystem.ingredientType.IngredientType;
 import jakarta.persistence.*;
 
 import java.util.Objects;

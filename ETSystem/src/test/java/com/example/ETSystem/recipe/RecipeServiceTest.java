@@ -1,6 +1,6 @@
 package com.example.ETSystem.recipe;
 
-import com.example.ETSystem.ingredients.IngredientType;
+import com.example.ETSystem.ingredientType.IngredientType;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
