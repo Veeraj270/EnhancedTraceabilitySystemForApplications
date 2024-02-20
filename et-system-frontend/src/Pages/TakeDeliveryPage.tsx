@@ -5,7 +5,6 @@ import TDPMetaDataWindow from "./TakeDeliveryPageComponents/TDPMetaDataWindow";
 import TDPBarCodeEntry from "./TakeDeliveryPageComponents/TDPBarCodeEntry";
 import TDPSubmitDeliveryButton from "./TakeDeliveryPageComponents/TDPSubmitDeliveryButton";
 import TDPTable from "./TakeDeliveryPageComponents/TDPTable";
-import DeliveryItem from "./Interfaces/DeliveryItem";
 import Metadata from "./TakeDeliveryPageComponents/Interfaces/Metadata";
 import {useLocation} from "react-router-dom"
 
@@ -17,11 +16,11 @@ const TakeDelivery = () => {
         deliveryTime: string,
         description: string,
         id: number,
-        items: DeliveryItem[]
+        items: any[]
     }
 
     //Constants
-    const emptyData: DeliveryItem[] = []
+    const emptyData: any[] = []
     const emptyMetadata: Metadata = {
         name: "",
         supplier: "",
@@ -43,6 +42,11 @@ const TakeDelivery = () => {
     const [deliveryId, setDeliveryId] = useState(id)
     const [startTime, setStartTime] = useState((new Date()).toISOString())
 
+    //Debugging
+    useEffect(() => {
+        console.log(expectedTData);
+    }, [expectedTData]);
+
     //Triggered upon initial render of the page
     useEffect(() => {
         fetchDeliveryData(deliveryId).then((data: Delivery) => {
@@ -57,7 +61,7 @@ const TakeDelivery = () => {
             return data
         }).then(
             (data) => fetchExpectedItemsData(data.items).then(
-            (expectedItems: any[]) => setExpectedTData(expectedItems)))
+            (expectedItems: any[]) => {setExpectedTData(expectedItems); console.log(expectedItems)}))
     }, []);
 
     const fetchExpectedItemsData = async (items: any[]): Promise<any[]> => {
@@ -147,7 +151,7 @@ const TakeDelivery = () => {
     //Triggered by pressing submit delivery button
     const submitDelivery = async () => {
         //Create a record of the delivery and push it to the database via POST
-        const recordedProducts: DeliveryItem[] =  [...structuredClone(scannedTData), ...structuredClone(unexpectedTData)];
+        const recordedProducts: any[] =  [...structuredClone(scannedTData), ...structuredClone(unexpectedTData)];
 
         const recordedDelivery = {
             plan: plannedDelivery,
@@ -156,6 +160,7 @@ const TakeDelivery = () => {
             recorded: recordedProducts,
         }
 
+        console.log(recordedDelivery);
         let response = await fetch(`http://localhost:8080/api/deliveries/add-recorded-with-products`,{
             method: "POST",
             body: JSON.stringify(recordedDelivery),
@@ -164,7 +169,7 @@ const TakeDelivery = () => {
             }
         })
         if (!response.ok){
-            throw new Error("Error occurred as a result of api/deliveries/add-recorded POST request")
+            throw new Error("Error occurred as a result of api/deliveries/add-recorded-with-products POST request")
         }
 
         //Mark planned delivery status as processed

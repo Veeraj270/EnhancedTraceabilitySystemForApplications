@@ -22,7 +22,7 @@ public class Product{
 	private String label;
 
     @Column
-	private int maxQuantity, currentQuantity;
+	private float maxQuantity, currentQuantity;
 	
 	@Column(name = "intermediaries_id")
 	@ElementCollection(targetClass = Long.class, fetch = FetchType.EAGER)
@@ -62,11 +62,11 @@ public class Product{
 		return label;
 	}
 	
-	public int getMaxQuantity(){
+	public float getMaxQuantity(){
 		return maxQuantity;
 	}
 	
-	public int getCurrentQuantity(){
+	public float getCurrentQuantity(){
 		return currentQuantity;
 	}
 	
@@ -91,11 +91,11 @@ public class Product{
 		this.label = label;
 	}
 	
-	public void setMaxQuantity(int maxQuantity){
+	public void setMaxQuantity(float maxQuantity){
 		this.maxQuantity = maxQuantity;
 	}
 	
-	public void setCurrentQuantity(int currentQuantity){
+	public void setCurrentQuantity(float currentQuantity){
 		this.currentQuantity = currentQuantity;
 	}
 	

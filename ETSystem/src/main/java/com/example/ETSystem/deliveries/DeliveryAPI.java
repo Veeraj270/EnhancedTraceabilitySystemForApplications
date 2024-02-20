@@ -80,18 +80,19 @@ public class DeliveryAPI{
 	
 	@PostMapping("/add-recorded-with-products")
 	public RecordedDelivery addRecordedWithProducts(@RequestBody RecordedDeliveryInput newRecordInput){
+		//Validation
 		List<Product> savedProducts = new ArrayList<>(newRecordInput.recorded.size());
 		for (SuppliedGood product : newRecordInput.recorded){
 			//Create new Product instance
 			Product newProduct =  new Product();
-			product.setGtin(product.getGtin());
-			product.setLabel(product.getLabel());
-			product.setQuantity(product.getQuantity());
-			product.setUnits(product.getUnits());
+			newProduct.setGtin(product.getGtin());
+			newProduct.setLabel(product.getLabel());
+			newProduct.setMaxQuantity(product.getQuantity());
+			newProduct.setCurrentQuantity(product.getQuantity());
 
 			//FIX NEEDED: needs to be updated to use Supplier class
-			product.setSupplier(product.getSupplier());
-			product.setIngredientType(product.getIngredientType());
+			//newProduct.setSupplier(product.getSupplier());
+			newProduct.setIngredientType(product.getIngredientType());
 
 			//Save Product
 			productRepo.save(newProduct);

@@ -212,8 +212,6 @@ public class MockDataGenerator {
                  supplier
          );
 
-         System.out.println(entry);
-
          //Save to Internal Database
          suppliedGoodRepository.save(entry);
      }
