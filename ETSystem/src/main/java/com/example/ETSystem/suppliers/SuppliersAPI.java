@@ -73,4 +73,5 @@ public class SuppliersAPI{
 		List<SuppliedGood> filtered = allGoods.stream().filter(suppliedGood -> suppliedGood.getIngredientType().equals(type)).toList();
 		return filtered;
 	}
+
 }

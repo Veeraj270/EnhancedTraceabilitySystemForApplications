@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 
 import java.util.Objects;
 
-@Table(name = "internalGTINDatabase")
 @Entity(name = "SuppliedGood")
 public class SuppliedGood {
     @Id
@@ -27,21 +26,17 @@ public class SuppliedGood {
     @Column
     private String units;
 
-    @Column
-    private String supplier;
-
     @Column // In Pence
     private int price;
 
     public SuppliedGood(){};
 
-    public SuppliedGood(String gtin, String label, IngredientType ingredientType, Float quantity, String units, String supplier){
+    public SuppliedGood(String gtin, String label, IngredientType ingredientType, Float quantity, String units){
         this.gtin = gtin;
         this.label = label;
         this.ingredientType = ingredientType;
         this.quantity = quantity;
         this.units = units;
-        this.supplier = supplier;
     }
 
     //Getters
@@ -53,16 +48,16 @@ public class SuppliedGood {
         return gtin;
     }
 
-    public void setGtin(String gtin) {
-        this.gtin = gtin;
+    public String getUnits() {
+        return units;
     }
 
     public String getLabel() {
         return label;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public Float getQuantity() {
+        return quantity;
     }
 
     public IngredientType getIngredientType() {
@@ -70,33 +65,26 @@ public class SuppliedGood {
     }
 
     //Setters
-    public void setIngredientType(IngredientType ingredientType) {
-        this.ingredientType = ingredientType;
+    public void setGtin(String gtin) {
+        this.gtin = gtin;
     }
 
-    public Float getQuantity() {
-        return quantity;
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public void setIngredientType(IngredientType ingredientType) {
+        this.ingredientType = ingredientType;
     }
 
     public void setQuantity(Float quantity) {
         this.quantity = quantity;
     }
 
-    public String getUnits() {
-        return units;
-    }
-
     public void setUnits(String units) {
         this.units = units;
     }
 
-    public String getSupplier() {
-        return supplier;
-    }
-
-    public void setSupplier(String supplier) {
-        this.supplier = supplier;
-    }
 
     //Utility
     public String toString(){
@@ -128,7 +116,4 @@ public class SuppliedGood {
         }
         return false;
     }
-
-
-
 }

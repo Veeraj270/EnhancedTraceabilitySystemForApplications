@@ -18,7 +18,6 @@ public class IngredientQuantityMockData {
 
     public void processIngredientQuantity() throws Exception{
 
-
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode root = objectMapper.readTree(getClass().getResourceAsStream("/MOCK_INGREDIENT-QUANTITY.json"));
 

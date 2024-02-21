@@ -4,8 +4,11 @@ import com.example.ETSystem.ingredientType.IngredientType;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Profile;
 
 import java.util.List;
 import java.util.Set;
@@ -14,15 +17,24 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest
+@Profile("test")
 public class RecipeServiceTest {
     @Autowired
+    @MockBean
     private RecipeService recipeService;
 
     @Autowired
+    @MockBean
     private RecipeRepository recipeRepository;
 
     @Autowired
+    @MockBean
     private IngredientRepository ingredientRepository;
+
+    @Autowired
+    @MockBean
+    private IngredientQuantityRepository ingredientQuantityRepository;
+
 
     private IngredientType milk;
     private IngredientType flour;
@@ -32,6 +44,7 @@ public class RecipeServiceTest {
     @BeforeAll
     public void setup() {
         // Adding elements to the repository
+        recipeService = new RecipeService(recipeRepository, ingredientRepository, ingredientQuantityRepository);
         milk = recipeService.addNewIngredient(new IngredientType("MILK", true, true, false));
         flour = recipeService.addNewIngredient(new IngredientType("fLoUR", false, true, true));
         chocolate = recipeService.addNewIngredient(new IngredientType("chocolate", true, true, false));

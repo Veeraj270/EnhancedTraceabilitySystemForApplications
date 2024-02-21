@@ -2,6 +2,8 @@ package com.example.ETSystem.productData;
 
 import com.example.ETSystem.ingredientType.IngredientType;
 import com.example.ETSystem.ingredientType.IngredientTypeRepository;
+import com.example.ETSystem.suppliers.Supplier;
+import com.example.ETSystem.suppliers.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,23 +15,33 @@ import java.util.List;
 public class MockDataGenerator {
     private final SuppliedGoodRepository suppliedGoodRepository;
     private final IngredientTypeRepository ingredientTypeRepository;
+    private final SupplierService supplierService;
 
     @Autowired
-    public MockDataGenerator(SuppliedGoodRepository suppliedGoodRepository, IngredientTypeRepository ingredientTypeRepository){
+    public MockDataGenerator(SuppliedGoodRepository suppliedGoodRepository,
+                             IngredientTypeRepository ingredientTypeRepository,
+                             SupplierService supplierService
+    ){
         this.suppliedGoodRepository = suppliedGoodRepository;
         this.ingredientTypeRepository = ingredientTypeRepository;
+        this.supplierService = supplierService;
     }
 
     public void GenerateMockData(){
         //Starting Barcode - 13 digits to fit EAC format
         //SUPPLIERS
-        ArrayList<String> Suppliers = new ArrayList<>(Arrays.asList(
+        ArrayList<String> SupplierNames = new ArrayList<>(Arrays.asList(
                 "Cisco",
                 "Andrew Ingredients",
                 "Harry Harvey",
                 "Brakes"
         ));
 
+        ArrayList<Supplier> Suppliers = new ArrayList<Supplier>();
+
+        for (String name : SupplierNames){
+            Suppliers.add(new Supplier(name, new ArrayList<SuppliedGood>()));
+        }
         //INGREDIENTS
         //Flours
         ArrayList<String> Flours = new ArrayList<>(Arrays.asList(
@@ -135,7 +147,7 @@ public class MockDataGenerator {
         ));
 
         int i = 1;
-        for (String supplier : Suppliers){
+        for (Supplier supplier : Suppliers){
             Long barcode  = 1000000000000L * i; i ++;
             ArrayList<Float> quantities = new ArrayList<>(Arrays.asList(25F,10F, 5F, 2.5F, 1F));
             //Bulk Ingredients
@@ -143,16 +155,16 @@ public class MockDataGenerator {
             for (Float quantity : quantities){
                 for (String name : Flours){
                     barcode ++;
-                    genTableRow(barcode, name, quantity, unit, supplier.toLowerCase());
+                    genTableRow(barcode, name, quantity, unit, supplier);
                 }
                 for (String name : Sugars){
                     barcode ++;
-                    genTableRow(barcode, name, quantity, unit, supplier.toLowerCase());
+                    genTableRow(barcode, name, quantity, unit, supplier);
 
                 }
                 for (String name : FruitAndVeg){
                     barcode ++;
-                    genTableRow(barcode, name, quantity, unit, supplier.toLowerCase());
+                    genTableRow(barcode, name, quantity, unit, supplier);
                 }
             }
 
@@ -162,15 +174,15 @@ public class MockDataGenerator {
             for (Float quantity : quantities){
                 for (String name : ButtersAndCream){
                     barcode ++;
-                    genTableRow(barcode, name, quantity, unit, supplier.toLowerCase());
+                    genTableRow(barcode, name, quantity, unit, supplier);
                 }
                 for (String name : Chocolates){
                     barcode ++;
-                    genTableRow(barcode, name, quantity, unit, supplier.toLowerCase());
+                    genTableRow(barcode, name, quantity, unit, supplier);
                 }
                 for (String name : ButtersAndCream){
                     barcode ++;
-                    genTableRow(barcode, name, quantity, unit, supplier.toLowerCase());
+                    genTableRow(barcode, name, quantity, unit, supplier);
                 }
             }
 
@@ -180,21 +192,21 @@ public class MockDataGenerator {
             for (Float quantity : quantities){
                 for (String name : Liquids){
                     barcode ++;
-                    genTableRow(barcode, name, quantity, unit, supplier.toLowerCase());
+                    genTableRow(barcode, name, quantity, unit, supplier);
                 }
             }
         }
     }
-     public void genTableRow(Long barcode,String name, Float quantity, String unit, String supplier){
+     public void genTableRow(Long barcode,String name, Float quantity, String unit, Supplier supplier){
          //Format label
          String label = String.format("%s-%s-%s", name.replace(" ","-").toLowerCase(), quantity, unit);
          String ingredientTypeName = name.replace(" ","-").toLowerCase();
 
-         //Currently just setting all ingredients to be non allergen, vegetarian, and vegan
          List<IngredientType> list = ingredientTypeRepository.findByName(ingredientTypeName);
 
          IngredientType ingredientType = null;
          if (list.isEmpty()){
+             //Currently just setting all ingredients to be non allergen, vegetarian, and vegan
              ingredientType = new IngredientType(ingredientTypeName, false, false, false);
              ingredientTypeRepository.save(ingredientType);
          }
@@ -202,18 +214,16 @@ public class MockDataGenerator {
              ingredientType = list.get(0);
          }
 
-
          SuppliedGood entry = new SuppliedGood(
                  barcode.toString(),
                  label,
                  ingredientType,
                  quantity,
-                 unit,
-                 supplier
+                 unit
          );
 
-         //Save to Internal Database
-         suppliedGoodRepository.save(entry);
+         //The suppliedGood is saved to the suppliedGood repo within this method
+         supplierService.AddGoodToSupplier(supplier, entry);
      }
 }
 

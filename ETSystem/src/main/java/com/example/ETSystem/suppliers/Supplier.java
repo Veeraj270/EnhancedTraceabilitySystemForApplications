@@ -48,4 +48,11 @@ public class Supplier{
 	public void setGoods(List<SuppliedGood> suppliedGoods){
 		this.suppliedGoods = suppliedGoods;
 	}
+
+	//Utility
+	//Should only be accessed via API or Service Layer
+	public void addSuppliedGood(SuppliedGood good){
+		this.suppliedGoods.add(good);
+	}
+
 }

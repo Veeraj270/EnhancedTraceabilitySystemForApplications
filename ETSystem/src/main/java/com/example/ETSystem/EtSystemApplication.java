@@ -9,13 +9,17 @@ import com.example.ETSystem.product.ProductRepository;
 import com.example.ETSystem.recipe.IngredientMockData;
 import com.example.ETSystem.recipe.IngredientQuantityMockData;
 import com.example.ETSystem.recipe.RecipeMockData;
+import com.example.ETSystem.suppliers.Supplier;
+import com.example.ETSystem.suppliers.SupplierService;
 import com.example.ETSystem.timeline.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
@@ -24,12 +28,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
+@Profile("!test")
 public class EtSystemApplication{
 	
 	public static void main(String[] args){
 		SpringApplication.run(EtSystemApplication.class, args);
 	}
-	
+
+	@Profile("!test")
 	@Bean
 	CommandLineRunner commandLineRunner(ProductRepository productRepository,
                                         TimelineService timelineService,
@@ -40,11 +46,16 @@ public class EtSystemApplication{
 										DeliveryItemRepository deliveryItemRepository,
 										RecordedDeliveryRepository recordedDeliveryRepository,
 										SuppliedGoodRepository suppliedGoodRepository,
-										IngredientTypeRepository ingredientTypeRepository
+										IngredientTypeRepository ingredientTypeRepository,
+										SupplierService supplierService
 	){
 		return args -> {
+			ingredientMockData.processIngredients();
+			ingredientQuantityMockData.processIngredientQuantity();
+			recipeMockData.processRecipes();
+
 			//Generate internal gtin database contents
-			MockDataGenerator mockDataGenerator = new MockDataGenerator(suppliedGoodRepository, ingredientTypeRepository);
+			MockDataGenerator mockDataGenerator = new MockDataGenerator(suppliedGoodRepository, ingredientTypeRepository, supplierService);
 			mockDataGenerator.GenerateMockData();
 
 			// Read from MOCK_DATA.json and save all entries to productRepo
@@ -91,9 +102,6 @@ public class EtSystemApplication{
 				recordedDeliveryRepository.save(recordedDelivery);
 			}
 
-			ingredientMockData.processIngredients();
-			ingredientQuantityMockData.processIngredientQuantity();
-			recipeMockData.processRecipes();
 		};
 	}
 }
