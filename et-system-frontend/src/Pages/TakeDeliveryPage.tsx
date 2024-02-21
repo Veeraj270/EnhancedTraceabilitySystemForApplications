@@ -7,6 +7,7 @@ import TDPSubmitDeliveryButton from "./TakeDeliveryPageComponents/TDPSubmitDeliv
 import TDPTable from "./TakeDeliveryPageComponents/TDPTable";
 import Metadata from "./TakeDeliveryPageComponents/Interfaces/Metadata";
 import {useLocation} from "react-router-dom"
+import TDPPopUp from "./TakeDeliveryPageComponents/TDPPopUp";
 
 
 const TakeDelivery = () => {
@@ -40,8 +41,10 @@ const TakeDelivery = () => {
     const [plannedDelivery, setPlannedDelivery] = useState({});
 
     const [deliveryId, setDeliveryId] = useState(id)
-    const [startTime, setStartTime] = useState((new Date()).toISOString())
+    const [startTime, setStartTime] = useState((new Date()).toISOString());
 
+    const [popUpVisible, setPopUpVisible] = useState(false);
+    const [popUpPromise, setPopUpPromise] = useState(new Promise(() => {}));
     //Debugging
     useEffect(() => {
         console.log(expectedTData);
@@ -148,8 +151,21 @@ const TakeDelivery = () => {
         }
     }
 
+    const waitForTrigger = () => {
+        const promise = new Promise<boolean>(() => {})
+        setPopUpPromise(promise);
+        return promise;
+    }
+
+
     //Triggered by pressing submit delivery button
     const submitDelivery = async () => {
+        //Set Pop-Up as visible
+        setPopUpVisible(true);
+
+        //Await resolve
+        const ok =  waitForTrigger();
+
         //Create a record of the delivery and push it to the database via POST
         const recordedProducts: any[] =  [...structuredClone(scannedTData), ...structuredClone(unexpectedTData)];
 
@@ -189,6 +205,7 @@ const TakeDelivery = () => {
 
     return (
         <div className='take-delivery-page'>
+            <TDPPopUp state={popUpVisible}/>
             <h1 className={'TDP-title'}>Process Delivery</h1>
             <div className={'TDP-grid-container'}>
                 <div className={'TDP-grid-column'}>
