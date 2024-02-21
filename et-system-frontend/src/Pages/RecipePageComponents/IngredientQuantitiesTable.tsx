@@ -47,8 +47,6 @@ const IngredientQuantitiesTable = ({ingredientQuantities}) => {
 
     return (
         <div>
-            {/* This className should make this scrollable, I can't check for sure*/}
-            {/* because there is not enough ingredients.*/}
             <div className={'RP-table-content-div'}>
                 <table>
                     {table.getHeaderGroups().map(headerGroup => (
