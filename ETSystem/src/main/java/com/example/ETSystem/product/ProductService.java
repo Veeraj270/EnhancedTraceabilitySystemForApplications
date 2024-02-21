@@ -57,8 +57,6 @@ public class ProductService{
 				.orElseGet(List::of);
 	}
 
-
-
     public Product getProductByID(Long id){
         if(productRepository.findById(id).isPresent()){
             return productRepository.findById(id).get();
@@ -67,8 +65,6 @@ public class ProductService{
             throw new ResponseStatusException(NOT_FOUND, "Unable to find product");
         }
     }
-
-
 
     public Product editProduct(Long id, Product product){
         Product existingProduct = productRepository.findById(id)
@@ -80,6 +76,5 @@ public class ProductService{
         existingProduct.setCurrentQuantity(product.getCurrentQuantity());
 
         return productRepository.save(existingProduct);
-
     }
 }

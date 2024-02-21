@@ -11,15 +11,7 @@ import static jakarta.persistence.GenerationType.SEQUENCE;
 public class IngredientType {
 
     @Id
-    @SequenceGenerator(
-            name = "ingredient_sequence",
-            sequenceName = "ingredient_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = SEQUENCE,
-            generator = "ingredient_sequence"
-    )
+    @GeneratedValue
     @Column
     private Long id;
 
@@ -66,11 +58,10 @@ public class IngredientType {
 
     public void setName(String name) { this.name = name; }
 
-    public void setIsAllergen(boolean allergen) { this.isAllergen = allergen; }
+    public void setIsAllergen(boolean isAllergen) { this.isAllergen = isAllergen; }
 
-    public void setIsVegan(boolean vegan) {
-        if (vegan) { this.isVegetarian = true; }
-        this.isVegan = vegan;
+    public void setIsVegan(boolean isVegan) {
+       this.isVegan = isVegan;
     }
 
     //Utility
@@ -81,7 +72,6 @@ public class IngredientType {
 
     @Override
     public boolean equals(Object obj){
-        //return obj instanceof com.example.ETSystem.productData.SuppliedGood other && other.id == id;
         if (this == obj){
             return true;
         }
@@ -94,11 +84,10 @@ public class IngredientType {
         return false;
     }
 
-
     public String toString(){
         return "IngredientType{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + name + "'" +
                 ", isAllergen=" + isAllergen +
                 ", isVegan=" + isVegan +
                 ", isVegetarian=" + isVegetarian +

@@ -7,7 +7,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-/*** ***/
 public class RecordedDeliveryInput {
     public PlannedDelivery plan;
     public Instant startTime, endTime;

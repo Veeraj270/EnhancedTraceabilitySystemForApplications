@@ -39,7 +39,7 @@ public class BarcodeAPI{
 		return suppliedGoodService.getProductData(gtin);
 	}
 
-	//Deprecated
+	@Deprecated
 	@GetMapping("/lookup-by-gtin-old/{gtin}")
 	public BarcodeData lookupByGtinOld(@PathVariable long gtin) throws JsonProcessingException{
 		String response;

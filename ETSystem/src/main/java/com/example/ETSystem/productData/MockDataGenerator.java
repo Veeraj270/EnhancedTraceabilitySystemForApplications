@@ -30,21 +30,21 @@ public class MockDataGenerator {
     public void GenerateMockData(){
         //Starting Barcode - 13 digits to fit EAC format
         //SUPPLIERS
-        ArrayList<String> SupplierNames = new ArrayList<>(Arrays.asList(
+        List<String> supplierNames = List.of(
                 "Cisco",
                 "Andrew Ingredients",
                 "Harry Harvey",
                 "Brakes"
-        ));
+        );
 
-        ArrayList<Supplier> Suppliers = new ArrayList<Supplier>();
+        ArrayList<Supplier> suppliers = new ArrayList<Supplier>();
 
-        for (String name : SupplierNames){
-            Suppliers.add(new Supplier(name, new ArrayList<SuppliedGood>()));
+        for (String name : supplierNames){
+            suppliers.add(new Supplier(name, new ArrayList<SuppliedGood>()));
         }
         //INGREDIENTS
         //Flours
-        ArrayList<String> Flours = new ArrayList<>(Arrays.asList(
+        ArrayList<String> flours = new ArrayList<>(Arrays.asList(
                 "Bread Flour",
                 "Strong Flour",
                 "Wholemeal Flour",
@@ -54,7 +54,7 @@ public class MockDataGenerator {
         ));
 
         //Sugar Types
-        ArrayList<String> Sugars = new ArrayList<>(Arrays.asList(
+        ArrayList<String> sugars = new ArrayList<>(Arrays.asList(
                 "Granulated Sugar",
                 "Caster Sugar",
                 "Icing Sugar",
@@ -64,7 +64,7 @@ public class MockDataGenerator {
         ));
 
 
-        ArrayList<String> Nuts = new ArrayList<>(Arrays.asList(
+        ArrayList<String> nuts = new ArrayList<>(Arrays.asList(
                 "Almonds",
                 "Peanuts",
                 "Hazelnuts",
@@ -87,7 +87,7 @@ public class MockDataGenerator {
         ));
 
         //Liquids
-        ArrayList<String> Liquids = new ArrayList<>(Arrays.asList(
+        ArrayList<String> liquids = new ArrayList<>(Arrays.asList(
                 "Coconut Oil",
                 "Palm Oil",
                 "Soybean Oil",
@@ -99,7 +99,7 @@ public class MockDataGenerator {
         ));
 
         //Fresh Fruit & Veg
-        ArrayList<String> FruitAndVeg = new ArrayList<>(Arrays.asList(
+        ArrayList<String> fruitAndVeg = new ArrayList<>(Arrays.asList(
                 "Apples",
                 "Bananas",
                 "Blueberries",
@@ -131,7 +131,7 @@ public class MockDataGenerator {
         ));
 
         //Butters
-        ArrayList<String> ButtersAndCream = new ArrayList<>(Arrays.asList(
+        ArrayList<String> buttersAndCream = new ArrayList<>(Arrays.asList(
                 "Salted Butter",
                 "Unsalted Butter",
                 "Sour Cream",
@@ -140,29 +140,29 @@ public class MockDataGenerator {
         ));
 
         //Chocolate
-        ArrayList<String> Chocolates = new ArrayList<>(Arrays.asList(
+        ArrayList<String> chocolates = new ArrayList<>(Arrays.asList(
                 "Dark Chocolate",
                 "White Chocolate",
                 "Milk Chocolate"
         ));
 
         int i = 1;
-        for (Supplier supplier : Suppliers){
+        for (Supplier supplier : suppliers){
             Long barcode  = 1000000000000L * i; i ++;
             ArrayList<Float> quantities = new ArrayList<>(Arrays.asList(25F,10F, 5F, 2.5F, 1F));
             //Bulk Ingredients
             String unit = "kg";
             for (Float quantity : quantities){
-                for (String name : Flours){
+                for (String name : flours){
                     barcode ++;
                     genTableRow(barcode, name, quantity, unit, supplier);
                 }
-                for (String name : Sugars){
+                for (String name : sugars){
                     barcode ++;
                     genTableRow(barcode, name, quantity, unit, supplier);
 
                 }
-                for (String name : FruitAndVeg){
+                for (String name : fruitAndVeg){
                     barcode ++;
                     genTableRow(barcode, name, quantity, unit, supplier);
                 }
@@ -172,15 +172,15 @@ public class MockDataGenerator {
             quantities = new ArrayList<>(Arrays.asList(5F, 2.5F, 1F, 0.5F));
             unit = "kg";
             for (Float quantity : quantities){
-                for (String name : ButtersAndCream){
+                for (String name : buttersAndCream){
                     barcode ++;
                     genTableRow(barcode, name, quantity, unit, supplier);
                 }
-                for (String name : Chocolates){
+                for (String name : chocolates){
                     barcode ++;
                     genTableRow(barcode, name, quantity, unit, supplier);
                 }
-                for (String name : ButtersAndCream){
+                for (String name : nuts){
                     barcode ++;
                     genTableRow(barcode, name, quantity, unit, supplier);
                 }
@@ -190,7 +190,7 @@ public class MockDataGenerator {
             quantities = new ArrayList<>(Arrays.asList(5F, 2.5F, 1F, 0.5F));
             unit = "L";
             for (Float quantity : quantities){
-                for (String name : Liquids){
+                for (String name : liquids){
                     barcode ++;
                     genTableRow(barcode, name, quantity, unit, supplier);
                 }
