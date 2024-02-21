@@ -6,9 +6,9 @@ import {PlannedDelivery} from "../Interfaces/PlannedDelivery";
 
 // @ts-ignore
 const DOPTable1 = ( {setSelected, selected, rawData} ) => {
-    const empty: any[] = []
-    const [tableData, setTableData] = useState(empty)
-    const [filteredTableData, setFilteredTableData] = useState(empty)
+
+    const [tableData, setTableData] = useState([])
+    const [filteredTableData, setFilteredTableData] = useState([])
     const [searchInput, setSearchInput] = useState("")
 
     const generateTableData = async (data: any[]) => {
