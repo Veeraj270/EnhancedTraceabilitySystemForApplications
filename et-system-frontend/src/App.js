@@ -9,7 +9,7 @@ import AddProductsPage from "./Pages/AddProductsPage";
 import EditProductPage from "./Pages/EditProductPage";
 
 import TakeDeliveryPage from "./Pages/TakeDeliveryPage";
-import DeliveriesOverviewPage from "./Pages/DeliveriesOverviewPage";
+import DeliveriesPage from "./Pages/DeliveriesPage";
 
 function App() {
     return (
@@ -26,10 +26,10 @@ function App() {
                     <Route path={"/traceability"} element={<TraceabilityPage/>}>
 
                     </Route>
-                    <Route path={"deliveries/take-delivery"} element={<TakeDeliveryPage/>}>
+                    <Route path={"/take-delivery"} element={<TakeDeliveryPage/>}>
 
                     </Route>
-                    <Route path={"/deliveries"} element={<DeliveriesOverviewPage/>}>
+                    <Route path={"/deliveries"} element={<DeliveriesPage/>}>
 
                     </Route>
                     <Route path={"/help"} element={<HelpPage/>}>

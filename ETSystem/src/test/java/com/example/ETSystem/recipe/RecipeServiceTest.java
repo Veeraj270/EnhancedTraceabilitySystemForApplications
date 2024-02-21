@@ -10,8 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest
@@ -46,7 +45,7 @@ public class RecipeServiceTest {
         assertEquals(flour.getName(), "flour");
 
         // Correctly saving ingredient in repository
-        assert(ingredientRepository.findAll().stream().toList().containsAll(List.of(milk, flour, chocolate, vanilla)));
+        assertTrue(ingredientRepository.findAll().containsAll(List.of(milk, flour, chocolate, vanilla)));
 
         // Throwing an error for adding the same element
         assertThrows(IllegalArgumentException.class, () -> {
@@ -78,9 +77,12 @@ public class RecipeServiceTest {
 
         var rec1 = recipeService.addNewRecipe(new Recipe("Vanilla Cake", Set.of(vanilla_100, flour_500)));
 
-        assertEquals(recipeRepository.findAll().stream().toList(), List.of(rec1));
+        //assertEquals(recipeRepository.findAll().stream().toList(), List.of(rec1)); DOES NOT WORK AS MOCK DATA IS PRESENT ALSO, ADAPTATION IS BELOW:
+        assertTrue(recipeRepository.findAll().contains(rec1));
 
-        var rec2 = recipeService.addNewRecipe(new Recipe("Chocolate Cake", Set.of(chocolate_300, flour_500_2)));
+        var rec2 = recipeService.addNewRecipe(new Recipe("Chocolate Cake Test", Set.of(chocolate_300, flour_500_2))); //PLEASE NOTE I ADDED THE "TEST". MOCK DATA CONTAINS OBJECT WITH SAME
+        //LABEL AND RECIPESERVICE THROWS AN ERROR AS A RESULT. THIS SHOULD NOT BE THE CASE AS THE ONLY UNIQUE IDENTIFIER IS THE ID, DUPLICATE LABELS SHOULD BE PREVENTED
+        //AT AN API LEVEL NOT AT A REPOSITORY LEVEL
 
         assertEquals(List.of(), rec1.getAllergens().stream().toList());
         assertEquals(List.of(chocolate), rec2.getAllergens().stream().toList());

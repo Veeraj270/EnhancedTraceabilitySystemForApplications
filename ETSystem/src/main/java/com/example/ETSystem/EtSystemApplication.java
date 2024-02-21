@@ -6,6 +6,9 @@ import com.example.ETSystem.productData.MockDataGenerator;
 import com.example.ETSystem.deliveries.*;
 import com.example.ETSystem.product.Product;
 import com.example.ETSystem.product.ProductRepository;
+import com.example.ETSystem.recipe.IngredientMockData;
+import com.example.ETSystem.recipe.IngredientQuantityMockData;
+import com.example.ETSystem.recipe.RecipeMockData;
 import com.example.ETSystem.timeline.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,8 +32,11 @@ public class EtSystemApplication{
 	
 	@Bean
 	CommandLineRunner commandLineRunner(ProductRepository productRepository,
-										TimelineService timelineService,
-										PlannedDeliveryRepository plannedDeliveryRepository,
+                                        TimelineService timelineService,
+                                        IngredientMockData ingredientMockData,
+                                        IngredientQuantityMockData ingredientQuantityMockData,
+                                        RecipeMockData recipeMockData,
+                                        PlannedDeliveryRepository plannedDeliveryRepository,
 										DeliveryItemRepository deliveryItemRepository,
 										RecordedDeliveryRepository recordedDeliveryRepository,
 										SuppliedGoodRepository suppliedGoodRepository,
@@ -85,6 +91,9 @@ public class EtSystemApplication{
 				recordedDeliveryRepository.save(recordedDelivery);
 			}
 
+			ingredientMockData.processIngredients();
+			ingredientQuantityMockData.processIngredientQuantity();
+			recipeMockData.processRecipes();
 		};
 	}
 }
