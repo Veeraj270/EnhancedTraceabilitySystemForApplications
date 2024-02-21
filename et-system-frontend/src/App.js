@@ -9,7 +9,7 @@ import AddProductsPage from "./Pages/AddProductsPage";
 import EditProductPage from "./Pages/EditProductPage";
 
 import TakeDeliveryPage from "./Pages/TakeDeliveryPage";
-import DeliveriesPage from "./Pages/DeliveriesPage";
+import DeliveriesOverviewPage from "./Pages/DeliveriesOverviewPage";
 
 function App() {
     return (
@@ -29,7 +29,7 @@ function App() {
                     <Route path={"/take-delivery"} element={<TakeDeliveryPage/>}>
 
                     </Route>
-                    <Route path={"/deliveries"} element={<DeliveriesPage/>}>
+                    <Route path={"/deliveries"} element={<DeliveriesOverviewPage/>}>
 
                     </Route>
                     <Route path={"/help"} element={<HelpPage/>}>
