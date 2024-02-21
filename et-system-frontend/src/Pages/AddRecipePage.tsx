@@ -1,13 +1,26 @@
-import {useState} from "react";
-import {List} from "reactstrap";
-import './Interfaces/IngredientQuantity'
-
+import React, {useState} from "react";
+import AddRecipe from "./AddRecipePageComponents/AddRecipe";
+import IngredientQuantitiesTable from "./RecipePageComponents/IngredientQuantitiesTable";
 
 const AddRecipePage = () => {
-    const[recipe, setRecipe] = useState({
+
+    const [recipe, setRecipe] = useState({
         label: '',
-        ingredients: List<IngredientQuantity>
+        ingredients: []
     })
+
+    return(
+        <div>
+            <AddRecipe
+                recipe = {recipe}
+                setRecipe = {setRecipe}
+            />
+            <IngredientQuantitiesTable
+                ingredientQuantities={recipe.ingredients}
+            />
+        </div>
+    )
+
 }
 
 export default AddRecipePage

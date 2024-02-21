@@ -11,6 +11,7 @@ import EditProductPage from "./Pages/EditProductPage";
 import TakeDeliveryPage from "./Pages/TakeDeliveryPage";
 import DeliveriesOverviewPage from "./Pages/DeliveriesOverviewPage";
 import RecipesPage from "./Pages/RecipesPage";
+import AddRecipePage from "./Pages/AddRecipePage";
 
 function App() {
     return (
@@ -34,6 +35,9 @@ function App() {
                     </Route>
 
                     <Route path={"/recipes"} element={<RecipesPage/>}>
+                    </Route>
+
+                    <Route path={"/add-recipe"} element={<AddRecipePage/>}>
                     </Route>
 
                     <Route path={"/help"} element={<HelpPage/>}>

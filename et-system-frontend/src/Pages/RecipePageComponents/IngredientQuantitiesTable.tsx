@@ -22,7 +22,7 @@ const IngredientQuantitiesTable = ({ingredientQuantities}) => {
 
     const generateTableData = async (data: any[]) => {
         const tempTableData = data.map((ingredientQuantity: IngredientQuantity) => ({
-                ingredient: ingredientQuantity.ingredient.label,
+                ingredient: ingredientQuantity.ingredient,
                 quantity: ingredientQuantity.quantity
         }))
         console.log(tempTableData)
