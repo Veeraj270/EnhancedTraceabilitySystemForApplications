@@ -10,6 +10,7 @@ const AddRecipe = ({recipe, setRecipe}) => {
         event.preventDefault()
         setRecipe({...recipe, ingredients: [...recipe.ingredients, ingredientQuantity]})
         console.log(ingredientQuantity)
+        setIngredientQuantity({})
     }
 
     const handleChange = (event) => {
@@ -25,7 +26,7 @@ const AddRecipe = ({recipe, setRecipe}) => {
                        onChange={handleChange}/>
 
                 <Label for="quantity">Quantity:</Label>
-                <Input type="number" name="quantity" id="quantity" value={ingredientQuantity?.quantity || 0}
+                <Input type="number" name="quantity" id="quantity" value={ingredientQuantity?.quantity || {}}
                        onChange={handleChange}/>
 
                 <Button color="primary" onClick={handleIngredientSubmit}>Add to recipe</Button>
