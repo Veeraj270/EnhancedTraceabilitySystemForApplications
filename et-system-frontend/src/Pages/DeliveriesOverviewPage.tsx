@@ -90,7 +90,7 @@ const DeliveriesOverviewPage = () => {
     //Called by "PROCESS" button click handler
     const processDelivery = () => {
         if (selectedPDelivery != -1){
-            navigate('take-delivery', {state: {selectedPDelivery}})
+            navigate('/take-delivery', {state: {selectedPDelivery}})
         }
     }
 

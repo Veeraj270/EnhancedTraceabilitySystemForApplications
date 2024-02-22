@@ -1,6 +1,8 @@
 package com.example.ETSystem;
 
+import com.example.ETSystem.customerOrders.CustomerOrderMockData;
 import com.example.ETSystem.deliveries.*;
+import com.example.ETSystem.finalProducts.FinalProductMockData;
 import com.example.ETSystem.product.Product;
 import com.example.ETSystem.product.ProductRepository;
 import com.example.ETSystem.recipe.IngredientMockData;
@@ -30,7 +32,9 @@ public class EtSystemApplication{
 	@Bean
 	CommandLineRunner commandLineRunner(ProductRepository productRepository, TimelineService timelineService, IngredientMockData ingredientMockData, IngredientQuantityMockData ingredientQuantityMockData, RecipeMockData recipeMockData, PlannedDeliveryRepository plannedDeliveryRepository,
 										DeliveryItemRepository deliveryItemRepository,
-										RecordedDeliveryRepository recordedDeliveryRepository
+										RecordedDeliveryRepository recordedDeliveryRepository,
+										FinalProductMockData finalProductMockData,
+										CustomerOrderMockData customerOrderMockData
 	){
 		return args -> {
 			// Read from MOCK_DATA.json and save all entries to productRepo
@@ -82,6 +86,8 @@ public class EtSystemApplication{
 			ingredientMockData.processIngredients();
 			ingredientQuantityMockData.processIngredientQuantity();
 			recipeMockData.processRecipes();
+			finalProductMockData.processFinalProduct();
+			customerOrderMockData.processCustomerOrder();
 
 		};
 	}
