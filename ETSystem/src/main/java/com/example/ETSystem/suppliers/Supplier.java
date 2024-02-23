@@ -14,8 +14,9 @@ public class Supplier{
 	private long id;
 	
 	private String name;
-	
-	@OneToMany(fetch = FetchType.EAGER)
+
+	//Discussion need on whether suppliedGoods should be @ManyToOne or @ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<SuppliedGood> suppliedGoods = new ArrayList<>();
 	
 	public Supplier(){}
@@ -32,7 +33,7 @@ public class Supplier{
 	public String getName(){
 		return name;
 	}
-	
+
 	public List<SuppliedGood> getGoods(){
 		return suppliedGoods;
 	}

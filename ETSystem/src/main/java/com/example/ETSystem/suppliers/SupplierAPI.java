@@ -3,20 +3,24 @@ package com.example.ETSystem.suppliers;
 import com.example.ETSystem.ingredientType.IngredientType;
 import com.example.ETSystem.productData.SuppliedGoodRepository;
 import com.example.ETSystem.productData.SuppliedGood;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
+@Service
 @RestController
 @RequestMapping(path = "api/suppliers")
 @CrossOrigin(origins = "http://localhost:3000")
-public class SuppliersAPI{
+public class SupplierAPI {
 
 	private final SupplierRepository supplierRepo;
 	private final SuppliedGoodRepository suppliedGoodRepository;
-	
-	public SuppliersAPI(SupplierRepository supplierRepo, SuppliedGoodRepository suppliedGoodRepository){
+
+	@Autowired
+	public SupplierAPI(SupplierRepository supplierRepo, SuppliedGoodRepository suppliedGoodRepository){
 		this.supplierRepo = supplierRepo;
 		this.suppliedGoodRepository = suppliedGoodRepository;
 	}
