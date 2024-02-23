@@ -1,6 +1,5 @@
 package com.example.ETSystem.ingredientType;
 
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,10 +7,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class IngredientsTypeAPITest {
+public class IngredientTypeAPITest {
 	
 	@Autowired
-	IngredientsTypeAPI api;
+    IngredientTypeAPI api;
 	
 	@Test
 	void testRoundtrip(){

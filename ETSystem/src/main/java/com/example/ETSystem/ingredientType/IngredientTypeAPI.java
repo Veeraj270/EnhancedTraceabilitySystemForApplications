@@ -1,5 +1,7 @@
 package com.example.ETSystem.ingredientType;
 
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -7,24 +9,25 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "api/ingredients")
 @CrossOrigin(origins = "http://localhost:3000")
-public class IngredientsTypeAPI {
+public class IngredientTypeAPI {
 
-	private final IngredientTypeRepository ingredientTypeRepo;
-	
-	public IngredientsTypeAPI(IngredientTypeRepository repo){
-		ingredientTypeRepo = repo;
+	private final IngredientTypeRepository ingredientTypeRepository;
+
+	@Autowired
+	public IngredientTypeAPI(IngredientTypeRepository repo){
+		ingredientTypeRepository = repo;
 	}
 	
 	// standard getters
 	
 	@GetMapping("/fetch-ingredient-types")
 	public List<IngredientType> getIngredientTypes(){
-		return ingredientTypeRepo.findAll();
+		return ingredientTypeRepository.findAll();
 	}
 	
 	@GetMapping("/fetch-ingredient-type/{id}")
 	public IngredientType getIngredientTypeById(@PathVariable long id){
-		return ingredientTypeRepo.findById(id).orElseThrow();
+		return ingredientTypeRepository.findById(id).orElseThrow();
 	}
 	
 	@GetMapping("/fetch-ingredient-type-by-search-query/{search}")
@@ -33,9 +36,10 @@ public class IngredientsTypeAPI {
 	}
 	
 	// standard adders
-	
+	@Transactional
 	@PostMapping("/add-ingredient-type")
 	public IngredientType addIngredientType(@RequestBody IngredientType type){
-		return ingredientTypeRepo.save(type);
+		IngredientType ret = ingredientTypeRepository.save(type);
+		return ret;
 	}
 }

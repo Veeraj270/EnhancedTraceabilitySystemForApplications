@@ -18,6 +18,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 
@@ -35,13 +36,12 @@ public class EtSystemApplication{
 		SpringApplication.run(EtSystemApplication.class, args);
 	}
 
-	@Profile("!test")
+	@ConditionalOnProperty(
+			prefix = "command-line-runner", name = "enabled"
+	)
 	@Bean
 	CommandLineRunner commandLineRunner(ProductRepository productRepository,
                                         TimelineService timelineService,
-                                        IngredientMockData ingredientMockData,
-                                        IngredientQuantityMockData ingredientQuantityMockData,
-                                        RecipeMockData recipeMockData,
                                         PlannedDeliveryRepository plannedDeliveryRepository,
 										DeliveryItemRepository deliveryItemRepository,
 										RecordedDeliveryRepository recordedDeliveryRepository,
@@ -50,9 +50,9 @@ public class EtSystemApplication{
 										SupplierService supplierService
 	){
 		return args -> {
-			ingredientMockData.processIngredients();
+			/*ingredientMockData.processIngredients();
 			ingredientQuantityMockData.processIngredientQuantity();
-			recipeMockData.processRecipes();
+			recipeMockData.processRecipes();*/
 
 			//Generate internal gtin database contents
 			MockDataGenerator mockDataGenerator = new MockDataGenerator(suppliedGoodRepository, ingredientTypeRepository, supplierService);

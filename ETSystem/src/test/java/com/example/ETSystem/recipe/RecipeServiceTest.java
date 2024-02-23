@@ -1,40 +1,44 @@
 package com.example.ETSystem.recipe;
 
 import com.example.ETSystem.ingredientType.IngredientType;
+import com.example.ETSystem.ingredientType.IngredientTypeRepository;
+import com.example.ETSystem.ingredientType.IngredientTypeAPI;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Profile;
+import org.mockito.Mockito.*;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest
-@Profile("test")
+@TestPropertySource(locations = "/application.properties")
 public class RecipeServiceTest {
-    @Autowired
-    @MockBean
+    //API & SERVICE
     private RecipeService recipeService;
 
+    private IngredientTypeAPI ingredientTypeAPI;
+
+    //REPOs
     @Autowired
-    @MockBean
     private RecipeRepository recipeRepository;
 
     @Autowired
-    @MockBean
-    private IngredientRepository ingredientRepository;
+    private IngredientTypeRepository ingredientTypeRepository;
 
     @Autowired
-    @MockBean
     private IngredientQuantityRepository ingredientQuantityRepository;
-
 
     private IngredientType milk;
     private IngredientType flour;
@@ -44,11 +48,13 @@ public class RecipeServiceTest {
     @BeforeAll
     public void setup() {
         // Adding elements to the repository
-        recipeService = new RecipeService(recipeRepository, ingredientRepository, ingredientQuantityRepository);
-        milk = recipeService.addNewIngredient(new IngredientType("MILK", true, true, false));
-        flour = recipeService.addNewIngredient(new IngredientType("fLoUR", false, true, true));
-        chocolate = recipeService.addNewIngredient(new IngredientType("chocolate", true, true, false));
-        vanilla = recipeService.addNewIngredient(new IngredientType("vanilla", false, true, true));
+        recipeService = new RecipeService(recipeRepository, ingredientTypeRepository, ingredientQuantityRepository);
+        ingredientTypeAPI = new IngredientTypeAPI(ingredientTypeRepository);
+
+        milk = ingredientTypeAPI.addIngredientType(new IngredientType("MILK", true, true, false));
+        flour = ingredientTypeAPI.addIngredientType(new IngredientType("fLoUR", false, true, true));
+        chocolate = ingredientTypeAPI.addIngredientType(new IngredientType("chocolate", true, true, false));
+        vanilla = ingredientTypeAPI.addIngredientType(new IngredientType("vanilla", false, true, true));
     }
 
     @Test
@@ -58,17 +64,13 @@ public class RecipeServiceTest {
         assertEquals(flour.getName(), "flour");
 
         // Correctly saving ingredient in repository
-        assertTrue(ingredientRepository.findAll().containsAll(List.of(milk, flour, chocolate, vanilla)));
+        List<IngredientType> list = ingredientTypeRepository.findAll();
+        assertTrue(ingredientTypeRepository.findAll().containsAll(List.of(milk, flour, chocolate, vanilla)));
 
-        // Throwing an error for adding the same element
-        assertThrows(IllegalArgumentException.class, () -> {
-            recipeService.addNewIngredient(new IngredientType("flour", false, true, true));
-        });
     }
 
     @Test
     void testRecipe(){
-
         IngredientQuantity flour_500 = new IngredientQuantity();
         flour_500.setIngredient(flour);
         flour_500.setQuantity(500);

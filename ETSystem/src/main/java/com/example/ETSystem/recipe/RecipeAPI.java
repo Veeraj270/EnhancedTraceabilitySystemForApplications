@@ -29,17 +29,5 @@ public class RecipeAPI {
         recipeService.addNewRecipe(recipe);
         return recipe;
     }
-
-    @GetMapping(path = "/fetch-ingredients")
-    public List<IngredientType> getIngredients(){
-        return recipeService.getIngredients();
-    }
-
-    @PostMapping(path = "/add-ingredient")
-    public IngredientType addIngredient(@RequestBody IngredientType ingredientType){
-        recipeService.addNewIngredient(ingredientType);
-        return ingredientType;
-    }
-
 }
 

@@ -64,6 +64,34 @@ public class IngredientType {
        this.isVegan = isVegan;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public boolean isAllergen() {
+        return isAllergen;
+    }
+
+    public void setAllergen(boolean allergen) {
+        isAllergen = allergen;
+    }
+
+    public boolean isVegan() {
+        return isVegan;
+    }
+
+    public void setVegan(boolean vegan) {
+        isVegan = vegan;
+    }
+
+    public boolean isVegetarian() {
+        return isVegetarian;
+    }
+
+    public void setVegetarian(boolean vegetarian) {
+        isVegetarian = vegetarian;
+    }
+
     //Utility
     @Override
     public int hashCode() {

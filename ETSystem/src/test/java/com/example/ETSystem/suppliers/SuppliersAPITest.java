@@ -1,7 +1,7 @@
 package com.example.ETSystem.suppliers;
 
 import com.example.ETSystem.ingredientType.IngredientType;
-import com.example.ETSystem.ingredientType.IngredientsTypeAPI;
+import com.example.ETSystem.ingredientType.IngredientTypeAPI;
 import com.example.ETSystem.productData.SuppliedGood;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -24,7 +24,7 @@ public class SuppliersAPITest{
 	SuppliersAPI sapi;
 	
 	@Autowired
-	IngredientsTypeAPI iapi;
+    IngredientTypeAPI iapi;
 
 	@Autowired
 	SupplierService sservice;

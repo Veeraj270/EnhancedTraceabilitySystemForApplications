@@ -1,26 +1,28 @@
 package com.example.ETSystem.recipe;
 
 import com.example.ETSystem.ingredientType.IngredientType;
+import com.example.ETSystem.ingredientType.IngredientTypeRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class RecipeService {
 
     private final RecipeRepository recipeRepository;
 
-    private final IngredientRepository ingredientRepository;
+    private final IngredientTypeRepository ingredientTypeRepository;
 
     private final IngredientQuantityRepository ingredientQuantityRepository;
 
     @Autowired
-    public RecipeService(RecipeRepository recipeRepository, IngredientRepository ingredientRepository, IngredientQuantityRepository ingredientQuantityRepository){
+    public RecipeService(RecipeRepository recipeRepository,
+                         IngredientTypeRepository ingredientRepository,
+                         IngredientQuantityRepository ingredientQuantityRepository){
         this.recipeRepository = recipeRepository;
-        this.ingredientRepository = ingredientRepository;
+        this.ingredientTypeRepository = ingredientRepository;
         this.ingredientQuantityRepository = ingredientQuantityRepository;
     }
 
@@ -31,9 +33,11 @@ public class RecipeService {
 
     @Transactional
     public Recipe addNewRecipe(Recipe recipe) {
-        for (IngredientQuantity ingredientQuantity : recipe.getIngredients()){
+        //Need
+
+        for (IngredientQuantity ingredientQuantity : recipe.getIngredientQuantities()){
             // Checks if the ingredients of the recipe exist, then adds the recipe
-            Optional<IngredientType> optionalIngredient = ingredientRepository.findByName(ingredientQuantity.getIngredientType().getName());
+            List<IngredientType> optionalIngredient = ingredientTypeRepository.findByName(ingredientQuantity.getIngredientType().getName());
             if (optionalIngredient.isEmpty()){
                 throw new IllegalArgumentException("At least one of the ingredients of the new recipe does not exist.");
             }
@@ -45,18 +49,21 @@ public class RecipeService {
         return recipe;
     }
 
-    public List<IngredientType> getIngredients(){
-        List<IngredientType> ingredientTypes =  ingredientRepository.findAll();
+    //Should be handled by the IngredientTypeService or IngredientTypeAPI
+    /*
+    public List<IngredientType> getIngredientTypes(){
+        List<IngredientType> ingredientTypes =  ingredientTypeRepository.findAll();
         return ingredientTypes;
     }
 
-    @Transactional
+     @Transactional
     public IngredientType addNewIngredient(IngredientType ingredientType) {
-            if (ingredientRepository.findByName(ingredientType.getName()).isPresent()) {
+            if (!ingredientTypeRepository.findByName(ingredientType.getName()).isEmpty()) {
                 throw new IllegalArgumentException("Ingredient already exists.");
             }
-        this.ingredientRepository.save(ingredientType);
+        this.ingredientTypeRepository.save(ingredientType);
             return ingredientType;
     }
+    */
 }
 
