@@ -20,7 +20,7 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
     ], [])
 
     const generateTableData = async (data: any[]) => {
-        const recipesTableData = data.map((recipe: Recipe) => (
+        const recipesTableData = data.map((recipe) => (
             {
                 id: recipe.id,
                 label: recipe.label
