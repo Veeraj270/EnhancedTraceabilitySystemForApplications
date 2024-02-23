@@ -1,16 +1,14 @@
 import React, {useEffect, useState} from "react";
-import AddRecipe from "./AddRecipePageComponents/AddRecipe";
 import IngredientQuantitiesTable from "./RecipePageComponents/IngredientQuantitiesTable";
 import RecipeTable from "./RecipePageComponents/RecipeTable";
 import "./AddRecipePageComponents/ARPStylesheet.css"
-import IngredientQuanitytPanel from "./AddRecipePageComponents/IngredientQuanitytPanel";
-import {IngredientQuantity} from "./Interfaces/IngredientQuantity";
+import IngredientQuantityPanel from "./AddRecipePageComponents/IngredientQuantityPanel";
 
 const AddRecipePage = () => {
 
-    const [selectedIngredient, setSelectedIngredient] = useState(-1)
+    const [selectedIngredientID, setSelectedIngredientID] = useState(-1)
     const [ingredientsData, setIngredientsData] = useState([])
-    const [panelProps, setPanelProps] = useState({})
+    const [selectedIngredient, setSelectedIngredient] = useState({})
     const [recipe, setRecipe] = useState({
         label: '',
         ingredients: []
@@ -33,14 +31,12 @@ const AddRecipePage = () => {
     }, [])
 
     useEffect(() => {
-        let panelPropsData = {}
-        if (selectedIngredient !== -1){
-            const selected = ingredientsData.filter((ingredient) => ingredient.id === selectedIngredient).at(0)
-            panelPropsData = selected
+        if (selectedIngredientID !== -1){
+            const selected = ingredientsData.filter((ingredient) => ingredient.id === selectedIngredientID).at(0)
             console.log(selected);
+            setSelectedIngredient(selected)
         }
-        setPanelProps(panelPropsData)
-    }, [selectedIngredient]);
+    }, [selectedIngredientID]);
 
     return(
         <div className={'add-recipe-page'}>
@@ -50,14 +46,16 @@ const AddRecipePage = () => {
             <div className={'ARP-grid-container'}>
                 <div className={'ARP-grid-column'}>
                     <RecipeTable
-                        setSelectedRow={setSelectedIngredient}
-                        selectedRow={selectedIngredient}
+                        setSelectedRow={setSelectedIngredientID}
+                        selectedRow={selectedIngredientID}
                         rawData={ingredientsData}
                         />
                 </div>
                 <div className={'ARP-grid-column'}>
-                    <IngredientQuanitytPanel
-                        props={panelProps}
+                    <IngredientQuantityPanel
+                        recipe={recipe}
+                        setRecipe={setRecipe}
+                        selectedIngredient={selectedIngredient}
                     />
                 </div>
                 <div className={'ARP-grid-column'}>

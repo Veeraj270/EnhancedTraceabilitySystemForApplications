@@ -1,17 +1,24 @@
 import React, {useEffect, useState} from "react";
 import {IngredientQuantity} from "../Interfaces/IngredientQuantity";
-import {Input, Label} from "reactstrap";
+import {Button, Input, Label} from "reactstrap";
 import "./ARPStylesheet.css"
 
-const IngredientQuantityPanel = ({props}) => {
+const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient}) => {
 
-    const [data, setData] = useState(props)
+    const [data, setData] = useState(selectedIngredient)
     const [ingredientQuantity, setIngredientQuantity] = useState<IngredientQuantity>()
 
+    const handleIngredientSubmit = (event) => {
+        event.preventDefault()
+        setRecipe({...recipe, ingredients: [...recipe.ingredients, ingredientQuantity]})
+        console.log(ingredientQuantity)
+        setIngredientQuantity({})
+    }
+
     useEffect(() => {
-        setData(props)
-        console.log(props)
-    }, [props])
+        setData(selectedIngredient)
+        console.log(selectedIngredient)
+    }, [selectedIngredient])
 
     const handleChange = (event) => {
         const {name, value} = event.target
@@ -25,11 +32,12 @@ const IngredientQuantityPanel = ({props}) => {
                 {data.label}
             </p>
             <div className={"ARPSummary-item"}>
-            </div>
-            <div className={"ARPSummary-item"}>
                 <Label for="quantity">Quantity:</Label>
                 <Input type="number" name="quantity" id="quantity" value={ingredientQuantity?.quantity || {}}
                        onChange={handleChange}/>
+            </div>
+            <div className={"ARPSummary-item"}>
+                <Button color="primary" onClick={handleIngredientSubmit}>Add to recipe</Button>
             </div>
         </div>
     )
