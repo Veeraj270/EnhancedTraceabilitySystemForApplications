@@ -46,17 +46,6 @@ const AddRecipePage = () => {
     return(
         <div className={'add-recipe-page'}>
             <h1 className={'ARP-title'}> Add recipe </h1>
-            <div className={'ARP-upper'}>
-                <div>
-                <Label for="recipe_label">Name: </Label>
-                <Input type="text" name="recipe_label" id="recipe_label"
-                       onChange={handleChange}/>
-                </div>
-                <div>
-                <Label for="recipe_description">Description: </Label>
-                <Input type="text" name="recipe_description" id="recipe_description"/>
-                </div>
-            </div>
             <div className={'ARP-grid-container'}>
                 <div className={'ARP-grid-column'}>
                     <RecipeTable
@@ -76,6 +65,21 @@ const AddRecipePage = () => {
                 <div className={'ARP-grid-column'}>
                     <IngredientQuantitiesTable
                         ingredientQuantities={recipe.ingredients}
+                    />
+                </div>
+            </div>
+            <div className={'ARP-upper'}>
+                <div>
+                    <Label for="recipe_label">Name: </Label>
+                    <Input type="text" name="recipe_label" id="recipe_label"
+                           onChange={handleChange}/>
+                </div>
+                <div>
+                    <Label for="recipe_description">Description: </Label>
+                    <textarea
+                        id={"recipe_description"}
+                        className="paragraph-input"
+                        onChange={handleChange}
                     />
                 </div>
             </div>

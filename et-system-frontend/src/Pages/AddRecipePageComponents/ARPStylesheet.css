@@ -29,22 +29,30 @@
     display: grid;
     grid-template-rows: 0.3fr 0.7fr;;
     row-gap: 10px;
-    padding: 10px;
     width: 100%;
     height: 140px;
     background-color: ghostwhite;
     box-shadow: 1px 1px 3px var(--shadow-color);
     border-radius: 0.5rem;
-    border: var(--border-color) solid 1px;
-    gap: 10px;
-    padding: 10px;
+    border: #999 solid 1px;
+    padding: 20px 0px 10px 20px;
+}
+
+.paragraph-input {
+    width: 300px;
+    height: 55px;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
 }
 
 .ARP-grid-container{
     display: grid;
     grid-template-columns: 0.30fr 0.30fr 0.40fr;
     width: 100%;
-    height: 100%;
+    height: 600px;
     column-gap: 40px;
 }
 
