@@ -17,6 +17,7 @@ const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient}) => {
 
     useEffect(() => {
         setData(selectedIngredient)
+        setIngredientQuantity({...ingredientQuantity, ingredient: selectedIngredient})
         console.log(selectedIngredient)
     }, [selectedIngredient])
 
@@ -26,17 +27,17 @@ const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient}) => {
     }
 
     return(
-        <div className={"ARPSummary-grid"}>
-            <p className={"ARPSummary-name"}>
+        <div className={"ARPPanel-grid"}>
+            <p className={"ARPPanel-name"}>
                 <b>Ingredient: </b>
                 {data.label}
             </p>
-            <div className={"ARPSummary-item"}>
-                <Label for="quantity">Quantity:</Label>
+            <div className={"ARPPanel-item"}>
+                <Label for="quantity">Add quantity: </Label>
                 <Input type="number" name="quantity" id="quantity" value={ingredientQuantity?.quantity || {}}
                        onChange={handleChange}/>
             </div>
-            <div className={"ARPSummary-item"}>
+            <div className={"ARPPanel-item"}>
                 <Button color="primary" onClick={handleIngredientSubmit}>Add to recipe</Button>
             </div>
         </div>

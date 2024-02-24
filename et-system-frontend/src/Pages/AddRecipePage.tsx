@@ -3,6 +3,7 @@ import IngredientQuantitiesTable from "./RecipePageComponents/IngredientQuantiti
 import RecipeTable from "./RecipePageComponents/RecipeTable";
 import "./AddRecipePageComponents/ARPStylesheet.css"
 import IngredientQuantityPanel from "./AddRecipePageComponents/IngredientQuantityPanel";
+import {Input, Label} from "reactstrap";
 
 const AddRecipePage = () => {
 
@@ -38,10 +39,23 @@ const AddRecipePage = () => {
         }
     }, [selectedIngredientID]);
 
+    const handleChange = (event) => {
+        setRecipe({...recipe, label: event.value})
+    }
+
     return(
         <div className={'add-recipe-page'}>
-            <div>
-
+            <h1 className={'ARP-title'}> Add recipe </h1>
+            <div className={'ARP-upper'}>
+                <div>
+                <Label for="recipe_label">Name: </Label>
+                <Input type="text" name="recipe_label" id="recipe_label"
+                       onChange={handleChange}/>
+                </div>
+                <div>
+                <Label for="recipe_description">Description: </Label>
+                <Input type="text" name="recipe_description" id="recipe_description"/>
+                </div>
             </div>
             <div className={'ARP-grid-container'}>
                 <div className={'ARP-grid-column'}>
@@ -49,6 +63,7 @@ const AddRecipePage = () => {
                         setSelectedRow={setSelectedIngredientID}
                         selectedRow={selectedIngredientID}
                         rawData={ingredientsData}
+                        dataType={"ingredients"}
                         />
                 </div>
                 <div className={'ARP-grid-column'}>

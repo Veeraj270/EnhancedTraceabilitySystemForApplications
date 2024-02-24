@@ -19,9 +19,30 @@
     color: black;
 }
 
+.ARP-title{
+    margin: 0px;
+    padding: 0px 0px 4px 0px;
+    border-bottom: solid black 2px;
+}
+
+.ARP-upper{
+    display: grid;
+    grid-template-rows: 0.3fr 0.7fr;;
+    row-gap: 10px;
+    padding: 10px;
+    width: 100%;
+    height: 140px;
+    background-color: ghostwhite;
+    box-shadow: 1px 1px 3px var(--shadow-color);
+    border-radius: 0.5rem;
+    border: var(--border-color) solid 1px;
+    gap: 10px;
+    padding: 10px;
+}
+
 .ARP-grid-container{
     display: grid;
-    grid-template-columns: 0.35fr 0.30fr 0.35fr;
+    grid-template-columns: 0.30fr 0.30fr 0.40fr;
     width: 100%;
     height: 100%;
     column-gap: 40px;
@@ -41,11 +62,11 @@
 
 .ARPPanel-grid{
     display: grid;
-    grid-template-rows: 0.5fr 1fr 2fr;
+    grid-template-rows: 1fr 1fr 1fr;
     row-gap: 10px;
     padding: 10px;
     width: 100%;
-    height: 280px;
+    height: 150px;
     background-color: ghostwhite;
     box-shadow: 1px 1px 3px var(--shadow-color);
     border-radius: 0.5rem;
@@ -60,8 +81,7 @@
 
 .ARPPanel-item{
     border-radius: 0.5rem;
-    border: var(--border-color) solid 1px;
-    background-color: #efeeee;
+    text-align: center;
 }
 
 .ARPPanel-item p {

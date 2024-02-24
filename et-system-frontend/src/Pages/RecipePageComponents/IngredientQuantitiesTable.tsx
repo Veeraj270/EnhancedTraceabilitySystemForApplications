@@ -59,7 +59,7 @@ const IngredientQuantitiesTable = ({ingredientQuantities}) => {
                     <tbody>
                     {table.getCoreRowModel().rows.map(row => (<tr
                             key={row.id}>
-                            <td style={{width: '50%'}}>{row.original.ingredient}</td>
+                            <td style={{width: '50%'}}>{row.original.ingredient.label}</td>
                             <td style={{width: '50%'}}>{row.original.quantity}</td>
                         </tr>))}
                     </tbody>

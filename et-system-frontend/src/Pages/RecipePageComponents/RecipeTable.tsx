@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useEffect, useMemo, useState} from "react";
 import {getCoreRowModel, useReactTable} from "@tanstack/react-table";
 
-const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
+const RecipeTable = ({setSelectedRow, selectedRow, rawData, dataType}) => {
 
     const [tableData, setTableData] = useState([])
     const [filteredTableData, setFilteredTableData] = useState([])
@@ -19,10 +19,10 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
     ], [])
 
     const generateTableData = async (data: any[]) => {
-        const recipesTableData = data.map((recipe) => (
+        const recipesTableData = data.map((dataElement) => (
             {
-                id: recipe.id,
-                label: recipe.label
+                id: dataElement.id,
+                label: dataElement.label
             }
         ));
         return recipesTableData
@@ -36,7 +36,7 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
     const handleClick = (event: React.MouseEvent, id : number) => {
         if (id !== undefined){
             setSelectedRow(id)
-            console.log("Selected recipe: " + id);
+            console.log("Selected" +  dataType + ": " + id);
         }
         else{
             console.log("Empty row clicked");
@@ -75,7 +75,8 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
 
     return <div className={"RPTable-grid"}>
         <div className={"RPTable-search-container"}>
-            <input placeholder={"Search recipes... "} onChange={handleChange} value={searchInput}/>
+            <label>Select an item</label>
+            <input placeholder={"Search " + dataType + "... "} onChange={handleChange} value={searchInput}/>
         </div>
         <div className={"RPTable-content-div"}>
             <table>

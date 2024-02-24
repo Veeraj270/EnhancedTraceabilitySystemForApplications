@@ -54,6 +54,7 @@ const RecipesPage = () => {
                         setSelectedRow={setSelectedRecipe}
                         selectedRow={selectedRecipe}
                         rawData = {recipeData}
+                        dataType={"recipes"}
                     />
                 </div>
                 <div className={'RP-grid-column'}>
