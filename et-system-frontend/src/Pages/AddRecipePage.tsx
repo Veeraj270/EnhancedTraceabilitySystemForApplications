@@ -3,14 +3,15 @@ import IngredientQuantitiesTable from "./RecipePageComponents/IngredientQuantiti
 import RecipeTable from "./RecipePageComponents/RecipeTable";
 import "./AddRecipePageComponents/ARPStylesheet.css"
 import IngredientQuantityPanel from "./AddRecipePageComponents/IngredientQuantityPanel";
-import {Input, Label} from "reactstrap";
+import {Button, Input, Label} from "reactstrap";
+import {Recipe} from "./Interfaces/Recipe"
 
 const AddRecipePage = () => {
 
     const [selectedIngredientID, setSelectedIngredientID] = useState(-1)
     const [ingredientsData, setIngredientsData] = useState([])
     const [selectedIngredient, setSelectedIngredient] = useState({})
-    const [recipe, setRecipe] = useState({
+    const [recipe, setRecipe] = useState<Recipe>({
         label: '',
         ingredients: []
     })
@@ -40,7 +41,26 @@ const AddRecipePage = () => {
     }, [selectedIngredientID]);
 
     const handleChange = (event) => {
-        setRecipe({...recipe, label: event.value})
+        setRecipe({...recipe, label: event.target.value})
+    }
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const response = await fetch('http://localhost:8080/api/recipes/add-recipe', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(recipe)
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to add recipe');
+        }
+
+        setRecipe({});
+
     }
 
     return(
@@ -55,7 +75,7 @@ const AddRecipePage = () => {
                         dataType={"ingredients"}
                         />
                 </div>
-                <div className={'ARP-grid-column'}>
+                <div className={'ARP-grid-column'} style={{marginTop: "100px"}}>
                     <IngredientQuantityPanel
                         recipe={recipe}
                         setRecipe={setRecipe}
@@ -82,6 +102,7 @@ const AddRecipePage = () => {
                         onChange={handleChange}
                     />
                 </div>
+                <Button color="primary" onClick={handleSubmit}>Save</Button>
             </div>
         </div>
     )

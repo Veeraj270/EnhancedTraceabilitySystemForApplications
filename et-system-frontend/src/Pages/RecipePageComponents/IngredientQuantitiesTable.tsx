@@ -47,7 +47,7 @@ const IngredientQuantitiesTable = ({ingredientQuantities}) => {
 
     return (
         <div>
-            <div className={'RP-table-content-div'}>
+            <h2>Added ingredients</h2>
                 <table>
                     {table.getHeaderGroups().map(headerGroup => (
                         <tr key={headerGroup.id}>
@@ -64,7 +64,6 @@ const IngredientQuantitiesTable = ({ingredientQuantities}) => {
                         </tr>))}
                     </tbody>
                 </table>
-            </div>
         </div>
     )
 }
