@@ -16,7 +16,7 @@ public class Supplier{
 	private String name;
 
 	//Discussion need on whether suppliedGoods should be @ManyToOne or @ManyToMany
-	@ManyToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER)
 	private List<SuppliedGood> suppliedGoods = new ArrayList<>();
 	
 	public Supplier(){}

@@ -49,15 +49,15 @@ public class SupplierAPITest {
 		Supplier outA = supplierAPI.getSupplierById(inA.getId());
 		assertEquals("Sainsbury", outA.getName());
 
-		//You can't have two suppliers reference the same good - but maybe this should be possible
 		Supplier inB = new Supplier();
 		inB.setName("Brown and Orange Eggs. Co");
-		inB.setGoods(List.of(outEggsGood));
+		SuppliedGood eggsGood2 =  new SuppliedGood("1653317388988","brown-eggs-20-units", eggsType, 20F, "units");
+		supplierService.AddGoodToSupplier(inB, eggsGood2);
 		supplierAPI.addSupplier(inB);
+
 		Supplier outB = supplierAPI.getSupplierById(inB.getId());
 		assertEquals(outB.getName(), "Brown and Orange Eggs. Co");
-		Assertions.assertIterableEquals(new ArrayList<>(outB.getGoods()), List.of(outEggsGood));
-		
+		Assertions.assertIterableEquals(new ArrayList<>(outB.getGoods()), List.of(eggsGood2));
 		assertNotEquals(outA, outB);
 	}
 	

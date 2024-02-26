@@ -47,12 +47,15 @@ public class EtSystemApplication{
 										RecordedDeliveryRepository recordedDeliveryRepository,
 										SuppliedGoodRepository suppliedGoodRepository,
 										IngredientTypeRepository ingredientTypeRepository,
-										SupplierService supplierService
+										SupplierService supplierService,
+										IngredientMockData ingredientMockData,
+										IngredientQuantityMockData ingredientQuantityMockData,
+										RecipeMockData recipeMockData
 	){
 		return args -> {
-			/*ingredientMockData.processIngredients();
+			ingredientMockData.processIngredients();
 			ingredientQuantityMockData.processIngredientQuantity();
-			recipeMockData.processRecipes();*/
+			recipeMockData.processRecipes();
 
 			//Generate internal gtin database contents
 			MockDataGenerator mockDataGenerator = new MockDataGenerator(suppliedGoodRepository, ingredientTypeRepository, supplierService);
