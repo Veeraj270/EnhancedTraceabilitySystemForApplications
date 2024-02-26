@@ -21,7 +21,7 @@ public class SuppliedGood {
     private IngredientType ingredientType;
 
     @Column
-    private Float quantity;
+    private float quantity;
 
     @Column
     private String units;
@@ -31,7 +31,7 @@ public class SuppliedGood {
 
     public SuppliedGood(){};
 
-    public SuppliedGood(String gtin, String label, IngredientType ingredientType, Float quantity, String units){
+    public SuppliedGood(String gtin, String label, IngredientType ingredientType, float quantity, String units){
         this.gtin = gtin;
         this.label = label;
         this.ingredientType = ingredientType;
@@ -56,7 +56,7 @@ public class SuppliedGood {
         return label;
     }
 
-    public Float getQuantity() {
+    public float getQuantity() {
         return quantity;
     }
 
@@ -77,7 +77,7 @@ public class SuppliedGood {
         this.ingredientType = ingredientType;
     }
 
-    public void setQuantity(Float quantity) {
+    public void setQuantity(float quantity) {
         this.quantity = quantity;
     }
 
@@ -104,7 +104,6 @@ public class SuppliedGood {
 
     @Override
     public boolean equals(Object obj){
-        //return obj instanceof com.example.ETSystem.productData.SuppliedGood other && other.id == id;
         if (this == obj){
             return true;
         }

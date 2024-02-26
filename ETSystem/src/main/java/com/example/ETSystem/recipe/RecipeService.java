@@ -48,22 +48,5 @@ public class RecipeService {
         this.recipeRepository.save(recipe);
         return recipe;
     }
-
-    //Should be handled by the IngredientTypeService or IngredientTypeAPI
-    /*
-    public List<IngredientType> getIngredientTypes(){
-        List<IngredientType> ingredientTypes =  ingredientTypeRepository.findAll();
-        return ingredientTypes;
-    }
-
-     @Transactional
-    public IngredientType addNewIngredient(IngredientType ingredientType) {
-            if (!ingredientTypeRepository.findByName(ingredientType.getName()).isEmpty()) {
-                throw new IllegalArgumentException("Ingredient already exists.");
-            }
-        this.ingredientTypeRepository.save(ingredientType);
-            return ingredientType;
-    }
-    */
 }
 
