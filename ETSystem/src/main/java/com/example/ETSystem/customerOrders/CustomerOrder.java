@@ -44,8 +44,6 @@ public class CustomerOrder {
     @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDate date;
 
-
-
     public CustomerOrder() {
     }
 

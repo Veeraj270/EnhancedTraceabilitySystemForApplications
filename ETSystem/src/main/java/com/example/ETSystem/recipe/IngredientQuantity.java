@@ -24,6 +24,15 @@ public class IngredientQuantity {
     @Column
     private Integer quantity;
 
+    public IngredientQuantity(){};
+
+    public IngredientQuantity(IngredientType type, int quantity){
+        this.ingredientType = type;
+        this.quantity = quantity;
+    };
+
+
+
     @Override
     public boolean equals(Object o) {
         if(this == o) return true;
