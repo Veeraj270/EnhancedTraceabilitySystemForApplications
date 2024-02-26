@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -44,36 +43,36 @@ public class MockDataGenerator {
         }
         //INGREDIENTS
         //Flours
-        ArrayList<String> flours = new ArrayList<>(Arrays.asList(
+        List<String> flours = List.of(
                 "Bread Flour",
                 "Strong Flour",
                 "Wholemeal Flour",
                 "Plain Flour",
                 "Self Raising Flour",
                 "Rice Flour"
-        ));
+        );
 
         //Sugar Types
-        ArrayList<String> sugars = new ArrayList<>(Arrays.asList(
+        List<String> sugars = List.of(
                 "Granulated Sugar",
                 "Caster Sugar",
                 "Icing Sugar",
                 "Light Brown Sugar",
                 "Dark Brown Sugar",
                 "Demerara Sugar"
-        ));
+        );
 
 
-        ArrayList<String> nuts = new ArrayList<>(Arrays.asList(
+        List<String> nuts = List.of(
                 "Almonds",
                 "Peanuts",
                 "Hazelnuts",
                 "Walnuts",
                 "Cashew nuts"
-        ));
+        );
 
         //Spices
-        ArrayList<String> Spices = new ArrayList<>(Arrays.asList(
+        List<String> Spices = List.of(
                 "Ground Cinnamon",
                 "Ground Nutmeg",
                 "Ground Cloves",
@@ -84,10 +83,10 @@ public class MockDataGenerator {
                 "Saffron",
                 "Cayenne Pepper",
                 "Black Pepper"
-        ));
+        );
 
         //Liquids
-        ArrayList<String> liquids = new ArrayList<>(Arrays.asList(
+        List<String> liquids = List.of(
                 "Coconut Oil",
                 "Palm Oil",
                 "Soybean Oil",
@@ -96,10 +95,10 @@ public class MockDataGenerator {
                 "Sunflower Oil",
                 "Semi-Skimmed Milk",
                 "Whole Milk"
-        ));
+        );
 
         //Fresh Fruit & Veg
-        ArrayList<String> fruitAndVeg = new ArrayList<>(Arrays.asList(
+        List<String> fruitAndVeg = List.of(
                 "Apples",
                 "Bananas",
                 "Blueberries",
@@ -128,28 +127,28 @@ public class MockDataGenerator {
                 "Coconut",
                 "Avocado",
                 "Beetroot"
-        ));
+        );
 
         //Butters
-        ArrayList<String> buttersAndCream = new ArrayList<>(Arrays.asList(
+        List<String> buttersAndCream = List.of(
                 "Salted Butter",
                 "Unsalted Butter",
                 "Sour Cream",
                 "Cottage Cheese",
                 "Cheddar Cheese"
-        ));
+        );
 
         //Chocolate
-        ArrayList<String> chocolates = new ArrayList<>(Arrays.asList(
+        List<String> chocolates = List.of(
                 "Dark Chocolate",
                 "White Chocolate",
                 "Milk Chocolate"
-        ));
+        );
 
         int i = 1;
         for (Supplier supplier : suppliers){
             Long barcode  = 1000000000000L * i; i ++;
-            ArrayList<Float> quantities = new ArrayList<>(Arrays.asList(25F,10F, 5F, 2.5F, 1F));
+            List<Float> quantities = List.of(25F,10F, 5F, 2.5F, 1F);
             //Bulk Ingredients
             String unit = "kg";
             for (Float quantity : quantities){
@@ -169,7 +168,7 @@ public class MockDataGenerator {
             }
 
             //Medium Bulk Ingredients
-            quantities = new ArrayList<>(Arrays.asList(5F, 2.5F, 1F, 0.5F));
+            quantities = List.of(5F,2.5F, 1F, 0.5F);
             unit = "kg";
             for (Float quantity : quantities){
                 for (String name : buttersAndCream){
@@ -187,7 +186,7 @@ public class MockDataGenerator {
             }
 
             //Liquids
-            quantities = new ArrayList<>(Arrays.asList(5F, 2.5F, 1F, 0.5F));
+            quantities = List.of(5F, 2.5F, 1F, 0.5F);
             unit = "L";
             for (Float quantity : quantities){
                 for (String name : liquids){

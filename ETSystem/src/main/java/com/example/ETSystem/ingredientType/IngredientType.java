@@ -13,7 +13,7 @@ public class IngredientType {
     @Id
     @GeneratedValue
     @Column
-    private Long id;
+    private long id;
 
     @Column(unique = true)
     private String name;
@@ -39,7 +39,7 @@ public class IngredientType {
 
     //Getters
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
@@ -64,7 +64,7 @@ public class IngredientType {
        this.isVegan = isVegan;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -106,7 +106,7 @@ public class IngredientType {
         if (obj == null){
             return false;
         }
-        if (obj instanceof IngredientType && ((IngredientType) obj).getId().equals(this.id)){
+        if (obj instanceof IngredientType && ((IngredientType) obj).getId() == this.id){
             return true;
         }
         return false;
