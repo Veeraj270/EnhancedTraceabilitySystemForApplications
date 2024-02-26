@@ -35,7 +35,7 @@ const TanTable = () => {
         },
         {
             header: 'Intermediaries',
-            accessorKey: 'intermediariesId'
+            accessorKey: 'intermediaryIds'
         },
     ], [])
 

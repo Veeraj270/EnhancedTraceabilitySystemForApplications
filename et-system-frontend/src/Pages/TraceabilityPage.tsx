@@ -93,6 +93,7 @@ const TraceabilityPage = () => {
             throw new Error(" Root is undefined. ");
         }
         else {
+            console.log("root: " + root);
             return root;
         }
     }

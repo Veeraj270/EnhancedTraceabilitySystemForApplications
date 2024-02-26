@@ -13,7 +13,7 @@ public class DeliveryItem{
 	
 	private String label;
 	
-	private long gtin;
+	private String gtin;
 	
 	public long getId(){
 		return id;
@@ -23,7 +23,7 @@ public class DeliveryItem{
 		return label;
 	}
 	
-	public long getGtin(){
+	public String getGtin(){
 		return gtin;
 	}
 	
@@ -35,7 +35,7 @@ public class DeliveryItem{
 		this.label = label;
 	}
 	
-	public void setGtin(long gtin){
+	public void setGtin(String gtin){
 		this.gtin = gtin;
 	}
 }
