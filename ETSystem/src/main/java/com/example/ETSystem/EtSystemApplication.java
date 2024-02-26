@@ -3,13 +3,14 @@ package com.example.ETSystem;
 import com.example.ETSystem.ingredientType.IngredientTypeRepository;
 import com.example.ETSystem.productData.SuppliedGoodRepository;
 import com.example.ETSystem.productData.MockDataGenerator;
+import com.example.ETSystem.customerOrders.CustomerOrderMockData;
 import com.example.ETSystem.deliveries.*;
+import com.example.ETSystem.finalProducts.FinalProductMockData;
 import com.example.ETSystem.product.Product;
 import com.example.ETSystem.product.ProductRepository;
 import com.example.ETSystem.recipe.IngredientMockData;
 import com.example.ETSystem.recipe.IngredientQuantityMockData;
 import com.example.ETSystem.recipe.RecipeMockData;
-import com.example.ETSystem.suppliers.Supplier;
 import com.example.ETSystem.suppliers.SupplierService;
 import com.example.ETSystem.timeline.*;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -50,12 +51,16 @@ public class EtSystemApplication{
 										SupplierService supplierService,
 										IngredientMockData ingredientMockData,
 										IngredientQuantityMockData ingredientQuantityMockData,
-										RecipeMockData recipeMockData
+										RecipeMockData recipeMockData,
+										FinalProductMockData finalProductMockData,
+										CustomerOrderMockData customerOrderMockData
 	){
 		return args -> {
-			ingredientMockData.processIngredients();
-			ingredientQuantityMockData.processIngredientQuantity();
-			recipeMockData.processRecipes();
+            ingredientMockData.processIngredients();
+            ingredientQuantityMockData.processIngredientQuantity();
+            recipeMockData.processRecipes();
+            finalProductMockData.processFinalProduct();
+            customerOrderMockData.processCustomerOrder();
 
 			//Generate internal gtin database contents
 			MockDataGenerator mockDataGenerator = new MockDataGenerator(suppliedGoodRepository, ingredientTypeRepository, supplierService);
@@ -104,7 +109,6 @@ public class EtSystemApplication{
 				RecordedDelivery recordedDelivery = new RecordedDelivery(plannedDelivery, Instant.now(), Instant.now().plusSeconds(500), new ArrayList<Product>());
 				recordedDeliveryRepository.save(recordedDelivery);
 			}
-
 		};
 	}
 }
