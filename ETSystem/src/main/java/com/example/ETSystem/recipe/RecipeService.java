@@ -33,8 +33,6 @@ public class RecipeService {
 
     @Transactional
     public Recipe addNewRecipe(Recipe recipe) {
-        //Need
-
         for (IngredientQuantity ingredientQuantity : recipe.getIngredientQuantities()){
             // Checks if the ingredients of the recipe exist, then adds the recipe
             List<IngredientType> optionalIngredient = ingredientTypeRepository.findByName(ingredientQuantity.getIngredientType().getName());

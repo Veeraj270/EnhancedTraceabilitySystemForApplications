@@ -67,6 +67,10 @@ public class RecipeServiceTest {
         List<IngredientType> list = ingredientTypeRepository.findAll();
         assertTrue(ingredientTypeRepository.findAll().containsAll(List.of(milk, flour, chocolate, vanilla)));
 
+        // Throwing an error for adding the same element
+        assertThrows(IllegalArgumentException.class, () -> {
+            recipeService.addNewIngredient(new Ingredient("flour", false, true, true));
+        });
     }
 
     @Test
