@@ -1,7 +1,7 @@
 [
-  {"label": "Sugar", "allergen": false, "vegan": true, "vegetarian": true},
-  {"label": "Flour", "allergen": false, "vegan": true, "vegetarian": true},
-  {"label": "Butter", "allergen": true, "vegan": false, "vegetarian": true},
-  {"label": "Eggs", "allergen": true, "vegan": false, "vegetarian": true},
-  {"label": "Milk", "allergen": true, "vegan": false, "vegetarian": true}
+  {"name": "Sugar", "isAllergen": false, "isVegan": true, "isVegetarian": true},
+  {"name": "Flour", "isAllergen": false, "isVegan": true, "isVegetarian": true},
+  {"name": "Butter", "isAllergen": true, "isVegan": false, "isVegetarian": true},
+  {"name": "Eggs", "isAllergen": true, "isVegan": false, "isVegetarian": true},
+  {"name": "Milk", "isAllergen": true, "isVegan": false, "isVegetarian": true}
 ]

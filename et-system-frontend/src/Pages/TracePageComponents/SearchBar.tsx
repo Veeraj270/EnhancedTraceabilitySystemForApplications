@@ -14,9 +14,10 @@ const SearchBar: React.FC<SearchBarProps> = ( { onUpdate } ) => {
         try {
             const res = await fetch(`http://localhost:8080/api/products/fetch-product-intermediaries/${id}`);
             if (!res.ok){
-                throw new Error("fetch-product-intermediaries response was not ok")
+                throw new Error("fetch-product-intermediaries response was not ok");
             }
             const products = await res.json();
+            console.log(products);
             onUpdate(products);
         } catch(error){
             console.log("Error occurred within fetchData(): ", error);
