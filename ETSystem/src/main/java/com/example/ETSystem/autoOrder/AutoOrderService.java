@@ -6,7 +6,6 @@ import com.example.ETSystem.customerOrders.CustomerOrderService;
 import com.example.ETSystem.deliveries.PlannedDelivery;
 import com.example.ETSystem.finalProducts.FinalProduct;
 import com.example.ETSystem.ingredientType.IngredientType;
-import com.example.ETSystem.recipe.Ingredient;
 import com.example.ETSystem.recipe.IngredientQuantity;
 import com.example.ETSystem.recipe.Recipe;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -36,6 +35,7 @@ public class AutoOrderService {
 
         //Query suppliers to determine what SuppliedGoods can be bought to match the requirements
 
+
         return new PlannedDelivery();
     }
 
@@ -49,6 +49,7 @@ public class AutoOrderService {
             Recipe recipe = finalProduct.getRecipe();
 
             for (IngredientQuantity IQ : recipe.getIngredientQuantities()){
+                IQ.setQuantity(IQ.getQuantity() * quantity);
                 ingredientQuantities.add(IQ);
             }
         }
@@ -59,12 +60,13 @@ public class AutoOrderService {
             if (IQ == null){ continue; }
             IngredientType type = IQ.getIngredientType();
             int total = IQ.getQuantity();
-            for (int x = i + 1; i < ingredientQuantities.size(); i ++){
-                if (ingredientQuantities.get(x).equals(ingredientQuantities.get(i))){
+            for (int x = i + 1; x < ingredientQuantities.size(); x ++){
+                if (ingredientQuantities.get(x) != null && ingredientQuantities.get(x).getIngredientType().equals(ingredientQuantities.get(i).getIngredientType())){
                     total += ingredientQuantities.get(x).getQuantity();
                     ingredientQuantities.set(x, null);
                 }
             }
+            ingredientQuantities.set(i, null);
             ingredientTotals.add(new IngredientQuantity(type, total));
         }
 
