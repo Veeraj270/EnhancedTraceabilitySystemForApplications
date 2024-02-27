@@ -3,8 +3,10 @@ package com.example.ETSystem.autoOrder;
 import com.example.ETSystem.customerOrders.CustomerOrderService;
 import com.example.ETSystem.finalProducts.FinalProduct;
 import com.example.ETSystem.ingredientType.IngredientType;
+import com.example.ETSystem.productData.SuppliedGood;
 import com.example.ETSystem.recipe.IngredientQuantity;
 import com.example.ETSystem.recipe.Recipe;
+import com.example.ETSystem.suppliers.Supplier;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -64,16 +66,19 @@ public class AutoOrderServiceTest {
 
         List<FinalProduct>  TFinalProducts = List.of(fProduct1,fProduct2);
 
-        //Call method - (Total the required amount of each IngredientType)
+        //Call method to be tested
         List<IngredientQuantity> result = autoOrderService.totalIngredients(TFinalProducts);
 
         //Check result
         assert result.size() == 2;
-        assert result.get(0).getIngredientType().getName() == "flour";
+
+        assert result.get(0).getIngredientType().getName().equals("flour");
         assert result.get(0).getQuantity() == 900;
 
-        assert result.get(1).getIngredientType().getName() == "sugar";
+        assert result.get(1).getIngredientType().getName().equals("sugar");
         assert result.get(1).getQuantity() == 900;
+
+
     }
 
     @Test
@@ -82,7 +87,7 @@ public class AutoOrderServiceTest {
         List<Float> distinctQuantities = List.of(0.5F, 1F, 2.5F, 5F, 25F);
         float reqAmount = 116.75F;
 
-        //Call method
+        //Call method to be tested
         int[] result = autoOrderService.determineNumOfEach(distinctQuantities, reqAmount);
 
         //Check result
@@ -103,5 +108,47 @@ public class AutoOrderServiceTest {
         assert (sum ==  117F);
     }
 
+    //Need to test whether the algo chooses the cheapest good for each required distinct quantity;
 
+    @Test
+    void testDetermineGoods(){
+        //Setup
+        IngredientType iType = new IngredientType("sugar", false, false, false);
+
+        Supplier testSupplier = new Supplier();
+
+        SuppliedGood good1 = new SuppliedGood("00001", "good-1", iType, 10F, "kg", 10000);
+        good1.setId(1L);
+        SuppliedGood good2 = new SuppliedGood("00002", "good-2", iType, 5F, "kg", 5000);
+        good2.setId(2L);
+        SuppliedGood good3 = new SuppliedGood("00003", "good-3", iType, 2.5F, "kg", 10000);
+        good3.setId(3L);
+        SuppliedGood good4 = new SuppliedGood("00004", "good-4", iType, 1F, "kg", 5000);
+        good4.setId(4L);
+        SuppliedGood good5 = new SuppliedGood("00005", "good-5", iType, 10F, "kg", 5000);
+        good5.setId(5L);
+        SuppliedGood good6 = new SuppliedGood("00006", "good-6", iType, 5F, "kg", 10000);
+        good6.setId(6L);
+        SuppliedGood good7 = new SuppliedGood("00007", "good-7", iType, 2.5F, "kg", 5000);
+        good7.setId(7L);
+        SuppliedGood good8 = new SuppliedGood("00008", "good-8", iType, 1F, "kg", 10000);
+        good8.setId(8L);
+
+        List<SuppliedGood> matchingGoods = List.of(good1, good2, good3,good4, good5, good6, good7, good8);
+
+        testSupplier.setGoods(matchingGoods);
+        for (SuppliedGood good: matchingGoods){
+            good.setSupplier(testSupplier);
+        }
+        List<Float> distinctQuantities = matchingGoods.stream().map(SuppliedGood::getQuantity).distinct().sorted().toList();
+        float reqAmount = 27.5F;
+        int[] amounts = autoOrderService.determineNumOfEach(distinctQuantities, reqAmount);
+
+        //Call method to be tested
+        List<SuppliedGood> result = autoOrderService.determineGoods(matchingGoods, distinctQuantities, amounts);
+
+        //Check it matches expected output - (It chooses each suppliedGood with the lower cost)
+        List<SuppliedGood> expectedResult = List.of(good2, good5, good5, good4, good7);
+        assert result.containsAll(expectedResult);
+    }
 }

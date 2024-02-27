@@ -1,6 +1,7 @@
 package com.example.ETSystem.productData;
 
 import com.example.ETSystem.ingredientType.IngredientType;
+import com.example.ETSystem.suppliers.Supplier;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -29,14 +30,18 @@ public class SuppliedGood {
     @Column // In Pence
     private int price;
 
+    @Transient //Not stored in database but attribute used in AutoOrderService
+    private Supplier supplier;
+
     public SuppliedGood(){};
 
-    public SuppliedGood(String gtin, String label, IngredientType ingredientType, float quantity, String units){
+    public SuppliedGood(String gtin, String label, IngredientType ingredientType, float quantity, String units, int price){
         this.gtin = gtin;
         this.label = label;
         this.ingredientType = ingredientType;
         this.quantity = quantity;
         this.units = units;
+        this.price = price;
     }
 
     //Getters
@@ -64,7 +69,18 @@ public class SuppliedGood {
         return ingredientType;
     }
 
+    public int getPrice(){
+        return this.price;
+    }
+
+    public Supplier getSupplier(){
+        return this.supplier;
+    }
     //Setters
+    public void setId(Long id){
+        this.id = id;
+    }
+    
     public void setGtin(String gtin) {
         this.gtin = gtin;
     }
@@ -83,6 +99,14 @@ public class SuppliedGood {
 
     public void setUnits(String units) {
         this.units = units;
+    }
+
+    public void setPrice(int price){
+        this.price = price;
+    }
+
+    public void setSupplier(Supplier supplier){
+        this.supplier = supplier;
     }
 
 

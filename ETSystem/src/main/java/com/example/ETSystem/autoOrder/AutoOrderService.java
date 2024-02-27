@@ -15,13 +15,9 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 import static java.lang.Math.ceil;
 import static java.lang.Math.round;
@@ -59,9 +55,15 @@ public class AutoOrderService {
             //Find all SuppliedGoods that match the IngredientType
             IngredientType reqType = IQ.getIngredientType();
             for (Supplier supplier : suppliers){
-                matchingGoods.addAll(supplier.getGoods().stream().filter((good) -> good.getIngredientType().equals(reqType)).toList());
+                matchingGoods.addAll(supplier.getGoods().stream()
+                        .filter((good) -> good.getIngredientType().equals(reqType))
+                        .map((good) -> {
+                            good.setSupplier(supplier);
+                            return good;
+                        })
+                        .toList());
             }
-
+            //Each matching good now has its @Transient supplier attribute set
             //Determine the distinct set of matchingGoods's quantity attributes
             List<Float> distinctQuantities = matchingGoods.stream().map(SuppliedGood::getQuantity).distinct().sorted().toList();
 
@@ -69,11 +71,27 @@ public class AutoOrderService {
             int[] amounts = determineNumOfEach(distinctQuantities,reqAmount);
 
             //Add the cheapest good that matches the required quantity to the toOrder list
+            toOrder = determineGoods(matchingGoods, distinctQuantities, amounts);
 
-
+            //To Do: Generate Scheduled Delivery for each supplier used.
         }
 
         return new PlannedDelivery();
+    }
+
+    public List<SuppliedGood> determineGoods(List<SuppliedGood> matchingGoods, List<Float> distinctQuantities, int[] amounts){
+        List<SuppliedGood> goods = new ArrayList<>();
+
+        for (int i = 0; i < distinctQuantities.size(); i ++){
+            if (amounts[i] == 0){ continue; }
+            final int finalI = i;
+            SuppliedGood chosenGood = matchingGoods.stream().filter((good) -> good.getQuantity() == distinctQuantities.get(finalI)).sorted(Comparator.comparing(SuppliedGood::getPrice)).toList().get(0);
+            for (int x = 0; x < amounts[i]; x ++){
+                goods.add(chosenGood);
+            }
+        }
+
+        return goods;
     }
 
     //Takes a list of distinctQuantities and total required ingredient amount - returns an array containing no. of each distinctQuantity to reach reqAmount
