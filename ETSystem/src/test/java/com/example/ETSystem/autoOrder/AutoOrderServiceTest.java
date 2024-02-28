@@ -1,6 +1,8 @@
 package com.example.ETSystem.autoOrder;
 
+import com.example.ETSystem.customerOrders.CustomerOrder;
 import com.example.ETSystem.customerOrders.CustomerOrderService;
+import com.example.ETSystem.deliveries.PlannedDelivery;
 import com.example.ETSystem.finalProducts.FinalProduct;
 import com.example.ETSystem.ingredientType.IngredientType;
 import com.example.ETSystem.productData.SuppliedGood;
@@ -11,9 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -151,4 +152,52 @@ public class AutoOrderServiceTest {
         List<SuppliedGood> expectedResult = List.of(good2, good5, good5, good4, good7);
         assert result.containsAll(expectedResult);
     }
-}
+
+    @Test
+    void testGenOrdersToSuppliers(){
+        //Setup
+        Supplier supplier1 = new Supplier();
+        supplier1.setId(1);
+        Supplier supplier2 = new Supplier();
+        supplier2.setId(2);
+
+        SuppliedGood good1 = new SuppliedGood();
+        good1.setSupplier(supplier1);
+        good1.setGtin("00001");
+        SuppliedGood good2 = new SuppliedGood();
+        good2.setSupplier(supplier1);
+        good1.setGtin("00002");
+        SuppliedGood good3 = new SuppliedGood();
+        good3.setSupplier(supplier1);
+        good3.setGtin("00003");
+
+        SuppliedGood good4 = new SuppliedGood();
+        good4.setSupplier(supplier2);
+        good4.setGtin("00004");
+        SuppliedGood good5 = new SuppliedGood();
+        good5.setSupplier(supplier2);
+        good5.setGtin("00005");
+        SuppliedGood good6 = new SuppliedGood();
+        good6.setSupplier(supplier2);
+        good6.setGtin("00006");
+
+
+        supplier1.setGoods(List.of(good1, good2, good3));
+        supplier2.setGoods(List.of(good4, good5, good6));
+
+        List<Supplier> suppliers = List.of(supplier1, supplier2);
+
+        List<SuppliedGood> toOrder = List.of(good1, good1, good2, good3, good4, good6);
+
+        CustomerOrder order = new CustomerOrder("client", ZonedDateTime.now(), ZonedDateTime.now().plusDays(7), new ArrayList<FinalProduct>());
+
+        //Call method to be tested
+        List<PlannedDelivery> result = autoOrderService.genOrdersToSuppliers(suppliers, toOrder, order);
+
+        //Check output
+        assert result.size() == 2;
+        assert result.get(0).getItems().size() == 4;
+        assert result.get(1).getItems().size() == 2;
+
+        //To-Do needs more comprehensive checking
+    }}

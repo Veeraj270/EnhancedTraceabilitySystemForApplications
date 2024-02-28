@@ -50,6 +50,7 @@ public class Supplier{
 		this.suppliedGoods = suppliedGoods;
 	}
 
+
 	//Utility
 	//Should only be accessed via API or Service Layer
 	public void addSuppliedGood(SuppliedGood good){

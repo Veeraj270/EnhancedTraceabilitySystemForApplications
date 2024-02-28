@@ -1,9 +1,11 @@
 package com.example.ETSystem.autoOrder;
 
 import com.example.ETSystem.customerOrders.CustomerOrder;
-import com.example.ETSystem.customerOrders.CustomerOrderRepository;
 import com.example.ETSystem.customerOrders.CustomerOrderService;
+import com.example.ETSystem.deliveries.DeliveryItem;
+import com.example.ETSystem.deliveries.DeliveryItemRepository;
 import com.example.ETSystem.deliveries.PlannedDelivery;
+import com.example.ETSystem.deliveries.PlannedDeliveryRepository;
 import com.example.ETSystem.finalProducts.FinalProduct;
 import com.example.ETSystem.ingredientType.IngredientType;
 import com.example.ETSystem.productData.SuppliedGood;
@@ -11,34 +13,40 @@ import com.example.ETSystem.recipe.IngredientQuantity;
 import com.example.ETSystem.recipe.Recipe;
 import com.example.ETSystem.suppliers.Supplier;
 import com.example.ETSystem.suppliers.SupplierService;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 import static java.lang.Math.ceil;
-import static java.lang.Math.round;
 
 @Component
 public class AutoOrderService {
     private final CustomerOrderService customerOrderService;
     private final SupplierService supplierService;
+    private final PlannedDeliveryRepository plannedDeliveryRepo;
+    private final DeliveryItemRepository deliveryItemRepository;
 
     @Autowired
     public AutoOrderService(
             CustomerOrderService customerOrderService,
-            SupplierService supplierService
+            SupplierService supplierService,
+            PlannedDeliveryRepository plannedDeliveryRepo,
+            DeliveryItemRepository deliveryItemRepository
             ){
         this.customerOrderService = customerOrderService;
         this.supplierService = supplierService;
+        this.plannedDeliveryRepo = plannedDeliveryRepo;
+        this.deliveryItemRepository = deliveryItemRepository;
     }
 
-    public PlannedDelivery generateRequiredOrders(CustomerOrder order){
+    public List<PlannedDelivery> generateRequiredOrders(CustomerOrder order){
         //Local Variables
         List<SuppliedGood>  toOrder = new ArrayList<>();
+        List<PlannedDelivery> plannedDeliveries = new ArrayList<>();
 
         //Calculate required total of each distinct IngredientQuantity
         List<IngredientQuantity> totals = totalIngredients(order.getFinalProducts());
@@ -71,14 +79,52 @@ public class AutoOrderService {
             int[] amounts = determineNumOfEach(distinctQuantities,reqAmount);
 
             //Add the cheapest good that matches the required quantity to the toOrder list
-            toOrder = determineGoods(matchingGoods, distinctQuantities, amounts);
-
-            //To Do: Generate Scheduled Delivery for each supplier used.
+            toOrder.addAll(determineGoods(matchingGoods, distinctQuantities, amounts));
         }
 
-        return new PlannedDelivery();
+        plannedDeliveries = genOrdersToSuppliers(suppliers, toOrder, order);
+        return plannedDeliveries;
     }
 
+    //Takes the list of suppliedGoods that need to be ordered, and generates the required PlannedDeliveries
+    public List<PlannedDelivery> genOrdersToSuppliers(List<Supplier> suppliers ,List<SuppliedGood> toOrder, CustomerOrder order){
+        List<PlannedDelivery> plannedDeliveries = new ArrayList<>();
+
+        for (Supplier supplier : suppliers){
+            List<SuppliedGood> filteredToOrder = toOrder.stream().filter((good) -> good.getSupplier().equals(supplier)).toList();
+            if (filteredToOrder.isEmpty()){ continue; }
+
+            makeOrder(filteredToOrder, supplier);   //Exists to mimic the behaviour of making an order to our suppliers via their own APIs
+
+            String name = String.format("%s-%d-%s",
+                    order.getClient().toLowerCase(),
+                    order.getDate().getDayOfMonth(),
+                    order.getDate().getMonth().toString().toLowerCase()
+
+            );
+            String description = "Auto generated delivery";
+
+            ZonedDateTime deliveryTime = order.getDeliveryDate().minusDays(4); //Want ingredients delivered 4 days before CustomerOrder is due
+            PlannedDelivery plannedDelivery = new PlannedDelivery(name, description, deliveryTime);
+
+            //PlannedDelivery items attribute is a List<DeliveryItem> - maybe change this later to List<SuppliedGood>
+            plannedDelivery.setItems(filteredToOrder.stream().map(
+                    (good) -> {
+                        DeliveryItem item = new DeliveryItem(good.getLabel(), good.getGtin());
+                        deliveryItemRepository.save(item);
+                        return item;
+                    }).toList());
+
+            plannedDeliveries.add(plannedDelivery);
+        }
+        return plannedDeliveries;
+    }
+
+    public void makeOrder(List<SuppliedGood> toOrder, Supplier supplier){
+        //Do nothing...
+    }
+
+    //Determines which goods need to be ordered based on the amount of each distinct quantity needed, and the price of each SuppliedGood
     public List<SuppliedGood> determineGoods(List<SuppliedGood> matchingGoods, List<Float> distinctQuantities, int[] amounts){
         List<SuppliedGood> goods = new ArrayList<>();
 
@@ -147,49 +193,5 @@ public class AutoOrderService {
         }
 
         return iTotals;
-
-
     }
-
-    private class FloatIntPair{
-        public float f;
-        public int i;
-
-        public FloatIntPair(){};
-    }
-
-
-
-
-
-
-
-
-
-
-    /* @Autowired
-    public AutoOrderService(CustomerOrderRepository customerOrderRepository){
-        this.customerOrderRepository = customerOrderRepository;
-    }
-
-    private List<Entry<Ingredient, Integer>> getIngredients(FinalProduct finalProduct){
-        return finalProduct.getRecipe()
-                .getIngredients()
-                .stream()
-                .map(x -> new SimpleEntry<>(x.getIngredient(), x.getQuantity()))
-                .collect(Collectors.toList());
-    }
-
-    public List<Entry<Ingredient, Integer>> getIngredients(Long id){
-        return customerOrderRepository.findById(id)
-                .get().getFinalProducts().stream()
-                .map(finalProduct -> getIngredients(finalProduct))
-                .flatMap(List::stream)
-                .collect(Collectors.groupingBy(ingredientQuantity -> ingredientQuantity.getKey())).entrySet()
-                .stream()
-                .map(entry -> Map.entry(entry.getKey(),
-                        entry.getValue().stream().mapToInt(Entry<Ingredient, Integer>::getValue).sum()))
-                .collect(Collectors.toList());
-    }*/
-
 }

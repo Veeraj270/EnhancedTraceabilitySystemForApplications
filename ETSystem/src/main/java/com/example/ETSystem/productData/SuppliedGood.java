@@ -76,6 +76,7 @@ public class SuppliedGood {
     public Supplier getSupplier(){
         return this.supplier;
     }
+
     //Setters
     public void setId(Long id){
         this.id = id;
