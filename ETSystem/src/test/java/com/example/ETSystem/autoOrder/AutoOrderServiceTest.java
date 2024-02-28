@@ -79,7 +79,6 @@ public class AutoOrderServiceTest {
         assert result.get(1).getIngredientType().getName().equals("sugar");
         assert result.get(1).getQuantity() == 900;
 
-
     }
 
     @Test

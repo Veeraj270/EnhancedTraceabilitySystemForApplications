@@ -29,6 +29,7 @@ public class AutoOrderService {
     private final SupplierService supplierService;
     private final PlannedDeliveryRepository plannedDeliveryRepo;
     private final DeliveryItemRepository deliveryItemRepository;
+    private List<PlannedDelivery> savedDeliveries;
 
     @Autowired
     public AutoOrderService(
@@ -41,6 +42,18 @@ public class AutoOrderService {
         this.supplierService = supplierService;
         this.plannedDeliveryRepo = plannedDeliveryRepo;
         this.deliveryItemRepository = deliveryItemRepository;
+    }
+
+    //Once confirmation that the generated orders are ok is received this is called to "make" orders to suppliers and save the planned deliveries
+    public boolean confirmSavedOrders(){
+        for (PlannedDelivery plan : savedDeliveries){
+            boolean ok = makeOrder(plan);   //Exists to mimic the behaviour of making an order to our suppliers via their own APIs
+            if (ok){
+                plannedDeliveryRepo.save(plan);
+            }
+            else { return false; }
+        }
+        return true;
     }
 
     public List<PlannedDelivery> generateRequiredOrders(CustomerOrder order){
@@ -58,7 +71,6 @@ public class AutoOrderService {
             List<SuppliedGood> matchingGoods = new ArrayList<>();
 
             int reqAmount = IQ.getQuantity();
-            int actAmount = 0;
 
             //Find all SuppliedGoods that match the IngredientType
             IngredientType reqType = IQ.getIngredientType();
@@ -94,8 +106,6 @@ public class AutoOrderService {
             List<SuppliedGood> filteredToOrder = toOrder.stream().filter((good) -> good.getSupplier().equals(supplier)).toList();
             if (filteredToOrder.isEmpty()){ continue; }
 
-            makeOrder(filteredToOrder, supplier);   //Exists to mimic the behaviour of making an order to our suppliers via their own APIs
-
             String name = String.format("%s-%d-%s",
                     order.getClient().toLowerCase(),
                     order.getDate().getDayOfMonth(),
@@ -120,8 +130,9 @@ public class AutoOrderService {
         return plannedDeliveries;
     }
 
-    public void makeOrder(List<SuppliedGood> toOrder, Supplier supplier){
+    public boolean makeOrder(PlannedDelivery plan){
         //Do nothing...
+        return true;
     }
 
     //Determines which goods need to be ordered based on the amount of each distinct quantity needed, and the price of each SuppliedGood
@@ -193,5 +204,13 @@ public class AutoOrderService {
         }
 
         return iTotals;
+    }
+
+    public List<PlannedDelivery> getSavedDeliveries() {
+        return savedDeliveries;
+    }
+
+    public void setSavedDeliveries(List<PlannedDelivery> savedDeliveries) {
+        this.savedDeliveries = savedDeliveries;
     }
 }
