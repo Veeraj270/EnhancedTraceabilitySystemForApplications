@@ -2,15 +2,24 @@ package com.example.ETSystem.autoOrder;
 
 import com.example.ETSystem.customerOrders.CustomerOrder;
 import com.example.ETSystem.customerOrders.CustomerOrderService;
+import com.example.ETSystem.deliveries.DeliveryItem;
 import com.example.ETSystem.deliveries.PlannedDelivery;
+import com.example.ETSystem.deliveries.PlannedDeliveryRepository;
 import com.example.ETSystem.finalProducts.FinalProduct;
 import com.example.ETSystem.ingredientType.IngredientType;
+import com.example.ETSystem.ingredientType.IngredientTypeRepository;
 import com.example.ETSystem.productData.SuppliedGood;
+import com.example.ETSystem.productData.SuppliedGoodRepository;
 import com.example.ETSystem.recipe.IngredientQuantity;
+import com.example.ETSystem.recipe.IngredientQuantityRepository;
 import com.example.ETSystem.recipe.Recipe;
 import com.example.ETSystem.suppliers.Supplier;
+import com.example.ETSystem.suppliers.SupplierRepository;
+import com.example.ETSystem.suppliers.SupplierService;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.ZonedDateTime;
@@ -22,15 +31,33 @@ import java.util.Set;
 public class AutoOrderServiceTest {
     private final CustomerOrderService customerOrderService;
     private final AutoOrderService autoOrderService;
+    private final PlannedDeliveryRepository plannedDeliveryRepository;
+    private final SupplierService supplierService;
+    private final SupplierRepository supplierRepository;
+    private final SuppliedGoodRepository suppliedGoodRepository;
+    private final IngredientTypeRepository ingredientTypeRepository;
+    private final IngredientQuantityRepository ingredientQuantityRepository;
 
     //Constructor based dependency injection
     @Autowired
     public AutoOrderServiceTest(
             CustomerOrderService customerOrderService,
-            AutoOrderService autoOrderService
+            AutoOrderService autoOrderService,
+            PlannedDeliveryRepository plannedDeliveryRepository,
+            SupplierService supplierService,
+            SupplierRepository supplierRepository,
+            SuppliedGoodRepository suppliedGoodRepository,
+            IngredientTypeRepository ingredientTypeRepository,
+            IngredientQuantityRepository ingredientQuantityRepository
     ){
         this.customerOrderService = customerOrderService;
         this.autoOrderService = autoOrderService;
+        this.plannedDeliveryRepository = plannedDeliveryRepository;
+        this.supplierService = supplierService;
+        this.supplierRepository = supplierRepository;
+        this.suppliedGoodRepository  = suppliedGoodRepository;
+        this.ingredientTypeRepository = ingredientTypeRepository;
+        this.ingredientQuantityRepository = ingredientQuantityRepository;
     }
 
     //UNIT TESTS
@@ -43,16 +70,16 @@ public class AutoOrderServiceTest {
         iType2.setId(2);
 
         IngredientQuantity iQuantity1 = new IngredientQuantity(iType1, 100);
-        iQuantity1.setId(1L);
+        iQuantity1 = ingredientQuantityRepository.save(iQuantity1);
 
         IngredientQuantity iQuantity2 = new IngredientQuantity(iType1, 200);
-        iQuantity2.setId(2L);
+        iQuantity2 = ingredientQuantityRepository.save(iQuantity2);
 
         IngredientQuantity iQuantity3 = new IngredientQuantity(iType2, 100);
-        iQuantity3.setId(3L);
+        iQuantity3 = ingredientQuantityRepository.save(iQuantity3);
 
         IngredientQuantity iQuantity4 = new IngredientQuantity(iType2, 200);
-        iQuantity4.setId(4L);
+        iQuantity4 = ingredientQuantityRepository.save(iQuantity4);
 
         Recipe recipe1 = new Recipe("recipe-1", Set.of(iQuantity1, iQuantity3));
         Recipe recipe2 = new Recipe("recipe-2", Set.of(iQuantity2, iQuantity4));
@@ -199,4 +226,93 @@ public class AutoOrderServiceTest {
         assert result.get(1).getItems().size() == 2;
 
         //To-Do needs more comprehensive checking
-    }}
+    }
+
+    @Test
+    @Transactional
+    void testGenerateRequiredOrders(){
+        //Setup
+        IngredientType flour = new IngredientType("flour", false, false, false); flour.setId(1);
+        IngredientType sugar = new IngredientType("sugar", false,false, false); sugar.setId(2);
+
+        flour = ingredientTypeRepository.save(flour);
+        sugar = ingredientTypeRepository.save(sugar);
+
+        IngredientQuantity iQuantity1 = new IngredientQuantity(flour, 5);
+        IngredientQuantity iQuantity2 = new IngredientQuantity(sugar,5);
+
+        Recipe recipe = new Recipe("recipe1", Set.of(iQuantity1, iQuantity2));
+        FinalProduct fProduct1 = new FinalProduct("fProduct1", 1000, recipe, 4);
+
+        CustomerOrder order = new CustomerOrder();
+        order.setFinalProducts(List.of(fProduct1));
+        order.setClient("client");
+        order.setDate(ZonedDateTime.now());
+        order.setDeliveryDate(ZonedDateTime.now().plusDays(7));
+
+        //Add some SuppliedGoods that match requirements
+        SuppliedGood flour1 = new SuppliedGood(); flour1.setIngredientType(flour); flour1.setQuantity(1); flour1.setLabel("flour1");
+        SuppliedGood flour3 = new SuppliedGood(); flour3.setIngredientType(flour); flour3.setQuantity(3); flour3.setLabel("flour3");
+        SuppliedGood flour9 = new SuppliedGood(); flour9.setIngredientType(flour); flour9.setQuantity(9); flour9.setLabel("flour9");
+
+        SuppliedGood sugar1 = new SuppliedGood(); sugar1.setIngredientType(sugar); sugar1.setQuantity(1); sugar1.setLabel("sugar1");
+        SuppliedGood sugar3 = new SuppliedGood(); sugar3.setIngredientType(sugar); sugar3.setQuantity(3); sugar3.setLabel("sugar3");
+        SuppliedGood sugar9 = new SuppliedGood(); sugar9.setIngredientType(sugar); sugar9.setQuantity(9); sugar9.setLabel("sugar9");
+
+        suppliedGoodRepository.saveAll(List.of(flour1, flour3, flour9, sugar1, sugar3, sugar9));
+
+        Supplier supplier = new Supplier();
+        supplier = supplierRepository.save(supplier);
+
+        supplierService.AddGoodToSupplier(supplier, flour1);
+        supplierService.AddGoodToSupplier(supplier, flour3);
+        supplierService.AddGoodToSupplier(supplier, flour9);
+        supplierService.AddGoodToSupplier(supplier, sugar1);
+        supplierService.AddGoodToSupplier(supplier, sugar3);
+        supplierService.AddGoodToSupplier(supplier, sugar9);
+
+
+        //Call method to be tested
+        List<PlannedDelivery> result = autoOrderService.generateRequiredOrders(order);
+
+        //Check result against expected output
+        List<DeliveryItem>  deliveryItemList = result.get(0).getItems();
+
+        //Total quantities add to 20 - which is required amount
+        assert deliveryItemList.get(0).getLabel() == "sugar1";
+        assert deliveryItemList.get(1).getLabel() == "sugar1";
+        assert deliveryItemList.get(2).getLabel() == "sugar9";
+        assert deliveryItemList.get(3).getLabel() == "sugar9";
+
+        assert deliveryItemList.get(4).getLabel() == "flour1";
+        assert deliveryItemList.get(5).getLabel() == "flour1";
+        assert deliveryItemList.get(6).getLabel() == "flour9";
+        assert deliveryItemList.get(7).getLabel() == "flour9";
+    }
+
+    @Test
+    @Transactional
+    void testConfirmSavedOrders_AddsToRepo(){
+        //Setup
+        plannedDeliveryRepository.deleteAll(); //Clear repo
+        PlannedDelivery plan1 = new PlannedDelivery();
+        plan1.setName("plan1");
+        PlannedDelivery plan2 = new PlannedDelivery();
+        plan2.setName("plan2");
+        PlannedDelivery plan3 = new PlannedDelivery();
+        plan3.setName("plan3");
+
+        List<PlannedDelivery> planned = List.of(plan1, plan2, plan3);
+
+        autoOrderService.setSavedDeliveries(planned);
+
+        //Run method to be tested
+        autoOrderService.confirmSavedOrders();
+
+        //Check result
+        List<PlannedDelivery> all = plannedDeliveryRepository.findAll();
+        assert(all.get(0).getName() == "plan1");
+        assert(all.get(1).getName() == "plan2");
+        assert(all.get(2).getName() == "plan3");
+    }
+}
