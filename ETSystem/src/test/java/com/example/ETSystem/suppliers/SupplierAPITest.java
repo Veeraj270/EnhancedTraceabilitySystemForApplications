@@ -3,6 +3,7 @@ package com.example.ETSystem.suppliers;
 import com.example.ETSystem.ingredientType.IngredientType;
 import com.example.ETSystem.ingredientType.IngredientTypeAPI;
 import com.example.ETSystem.productData.SuppliedGood;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -33,6 +34,7 @@ public class SupplierAPITest {
 	SupplierService supplierService;
 
 	@Test
+	@Transactional
 	void testRoundTrip(){
 		Supplier testSupplier = new Supplier("testing supplier", new ArrayList<>());
 
@@ -62,6 +64,7 @@ public class SupplierAPITest {
 	}
 	
 	@Test
+	@Transactional
 	void testSearchByType(){
 		Supplier testSupplier = new Supplier("testing supplier", new ArrayList<>());
 

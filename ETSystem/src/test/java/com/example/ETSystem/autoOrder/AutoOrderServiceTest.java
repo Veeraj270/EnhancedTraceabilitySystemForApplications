@@ -1,8 +1,10 @@
 package com.example.ETSystem.autoOrder;
 
 import com.example.ETSystem.customerOrders.CustomerOrder;
+import com.example.ETSystem.customerOrders.CustomerOrderRepository;
 import com.example.ETSystem.customerOrders.CustomerOrderService;
 import com.example.ETSystem.deliveries.DeliveryItem;
+import com.example.ETSystem.deliveries.DeliveryItemRepository;
 import com.example.ETSystem.deliveries.PlannedDelivery;
 import com.example.ETSystem.deliveries.PlannedDeliveryRepository;
 import com.example.ETSystem.finalProducts.FinalProduct;
@@ -17,7 +19,10 @@ import com.example.ETSystem.suppliers.Supplier;
 import com.example.ETSystem.suppliers.SupplierRepository;
 import com.example.ETSystem.suppliers.SupplierService;
 import jakarta.transaction.Transactional;
+import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,47 +32,65 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+
 @SpringBootTest
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class AutoOrderServiceTest {
     private final CustomerOrderService customerOrderService;
     private final AutoOrderService autoOrderService;
-    private final PlannedDeliveryRepository plannedDeliveryRepository;
     private final SupplierService supplierService;
+    private final PlannedDeliveryRepository plannedDeliveryRepository;
     private final SupplierRepository supplierRepository;
     private final SuppliedGoodRepository suppliedGoodRepository;
     private final IngredientTypeRepository ingredientTypeRepository;
     private final IngredientQuantityRepository ingredientQuantityRepository;
-
+    private final DeliveryItemRepository deliveryItemRepository;
+    private final CustomerOrderRepository customerOrderRepository;
     //Constructor based dependency injection
     @Autowired
     public AutoOrderServiceTest(
-            CustomerOrderService customerOrderService,
-            AutoOrderService autoOrderService,
             PlannedDeliveryRepository plannedDeliveryRepository,
-            SupplierService supplierService,
             SupplierRepository supplierRepository,
             SuppliedGoodRepository suppliedGoodRepository,
             IngredientTypeRepository ingredientTypeRepository,
-            IngredientQuantityRepository ingredientQuantityRepository
+            IngredientQuantityRepository ingredientQuantityRepository,
+            CustomerOrderRepository customerOrderRepository,
+            DeliveryItemRepository deliveryItemRepository
     ){
-        this.customerOrderService = customerOrderService;
-        this.autoOrderService = autoOrderService;
         this.plannedDeliveryRepository = plannedDeliveryRepository;
-        this.supplierService = supplierService;
         this.supplierRepository = supplierRepository;
         this.suppliedGoodRepository  = suppliedGoodRepository;
         this.ingredientTypeRepository = ingredientTypeRepository;
         this.ingredientQuantityRepository = ingredientQuantityRepository;
+        this.customerOrderRepository  = customerOrderRepository;
+        this.deliveryItemRepository = deliveryItemRepository;
+
+        this.customerOrderService = new CustomerOrderService(customerOrderRepository);
+        this.supplierService = new SupplierService(supplierRepository, suppliedGoodRepository);
+        this.autoOrderService = new AutoOrderService(this.customerOrderService, this.supplierService, plannedDeliveryRepository, deliveryItemRepository);
+    }
+
+    @BeforeAll
+    public void before(){
+        plannedDeliveryRepository.deleteAll();
+        supplierRepository.deleteAll();
+        suppliedGoodRepository.deleteAll();
+        ingredientTypeRepository.deleteAll();
+        ingredientQuantityRepository.deleteAll();
+        customerOrderRepository.deleteAll();
+        plannedDeliveryRepository.deleteAll();
+        customerOrderRepository.deleteAll();
     }
 
     //UNIT TESTS
     @Test
+    @Transactional
     void testTotalIngredients(){
         //Setup
         IngredientType iType1 = new IngredientType("flour", false, false, false);
-        iType1.setId(1);
+        iType1 = ingredientTypeRepository.save(iType1);
         IngredientType iType2 = new IngredientType("sugar", false, false, false);
-        iType2.setId(2);
+        iType2 = ingredientTypeRepository.save(iType2);
 
         IngredientQuantity iQuantity1 = new IngredientQuantity(iType1, 100);
         iQuantity1 = ingredientQuantityRepository.save(iQuantity1);
@@ -100,15 +123,15 @@ public class AutoOrderServiceTest {
         //Check result
         assert result.size() == 2;
 
-        assert result.get(0).getIngredientType().getName().equals("flour");
+        assert result.get(0).getIngredientType().getName().equals("sugar");
         assert result.get(0).getQuantity() == 900;
 
-        assert result.get(1).getIngredientType().getName().equals("sugar");
+        assert result.get(1).getIngredientType().getName().equals("flour");
         assert result.get(1).getQuantity() == 900;
-
     }
 
     @Test
+    @Transactional
     void testDetermineNumOfEach(){
         //Setup
         List<Float> distinctQuantities = List.of(0.5F, 1F, 2.5F, 5F, 25F);
@@ -138,6 +161,7 @@ public class AutoOrderServiceTest {
     //Need to test whether the algo chooses the cheapest good for each required distinct quantity;
 
     @Test
+    @Transactional
     void testDetermineGoods(){
         //Setup
         IngredientType iType = new IngredientType("sugar", false, false, false);
@@ -180,6 +204,7 @@ public class AutoOrderServiceTest {
     }
 
     @Test
+    @Transactional
     void testGenOrdersToSuppliers(){
         //Setup
         Supplier supplier1 = new Supplier();
@@ -271,7 +296,6 @@ public class AutoOrderServiceTest {
         supplierService.AddGoodToSupplier(supplier, sugar3);
         supplierService.AddGoodToSupplier(supplier, sugar9);
 
-
         //Call method to be tested
         List<PlannedDelivery> result = autoOrderService.generateRequiredOrders(order);
 
@@ -279,10 +303,10 @@ public class AutoOrderServiceTest {
         List<DeliveryItem>  deliveryItemList = result.get(0).getItems();
 
         //Total quantities add to 20 - which is required amount
-        assert deliveryItemList.get(0).getLabel() == "sugar1";
-        assert deliveryItemList.get(1).getLabel() == "sugar1";
-        assert deliveryItemList.get(2).getLabel() == "sugar9";
-        assert deliveryItemList.get(3).getLabel() == "sugar9";
+        assert deliveryItemList.get(0).getLabel().equals("sugar1");
+        assert deliveryItemList.get(1).getLabel().equals("sugar1");
+        assert deliveryItemList.get(2).getLabel().equals("sugar9");
+        assert deliveryItemList.get(3).getLabel().equals("sugar9");
 
         assert deliveryItemList.get(4).getLabel() == "flour1";
         assert deliveryItemList.get(5).getLabel() == "flour1";

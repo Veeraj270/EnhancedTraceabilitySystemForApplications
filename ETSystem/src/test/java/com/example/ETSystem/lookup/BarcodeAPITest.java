@@ -1,6 +1,7 @@
 package com.example.ETSystem.lookup;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +16,7 @@ public class BarcodeAPITest{
 	BarcodeAPI bapi;
 	
 	@Test
+	@Transactional
 	void testKnownGood() throws JsonProcessingException{
 		/*long gtin = 737628064502L;
 		BarcodeData riceNoodleData = bapi.lookupByGtin(gtin);
