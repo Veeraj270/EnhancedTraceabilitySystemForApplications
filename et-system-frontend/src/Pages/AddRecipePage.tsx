@@ -66,28 +66,6 @@ const AddRecipePage = () => {
     return(
         <div className={'add-recipe-page'}>
             <h1 className={'ARP-title'}> Add recipe </h1>
-            <div className={'ARP-grid-container'}>
-                <div className={'ARP-grid-column'}>
-                    <RecipeTable
-                        setSelectedRow={setSelectedIngredientID}
-                        selectedRow={selectedIngredientID}
-                        rawData={ingredientsData}
-                        dataType={"ingredients"}
-                        />
-                </div>
-                <div className={'ARP-grid-column'} style={{marginTop: "100px"}}>
-                    <IngredientQuantityPanel
-                        recipe={recipe}
-                        setRecipe={setRecipe}
-                        selectedIngredient={selectedIngredient}
-                    />
-                </div>
-                <div className={'ARP-grid-column'}>
-                    <IngredientQuantitiesTable
-                        ingredientQuantities={recipe.ingredients}
-                    />
-                </div>
-            </div>
             <div className={'ARP-upper'}>
                 <div>
                     <Label for="recipe_label">Name: </Label>
@@ -102,7 +80,30 @@ const AddRecipePage = () => {
                         onChange={handleChange}
                     />
                 </div>
-                <Button color="primary" onClick={handleSubmit}>Save</Button>
+                {/*<Button color="primary" onClick={handleSubmit}>Save</Button>*/}
+            </div>
+            <div className={'ARP-grid-container'}>
+                <div className={'ARP-grid-column'}>
+                    <RecipeTable
+                        setSelectedRow={setSelectedIngredientID}
+                        selectedRow={selectedIngredientID}
+                        rawData={ingredientsData}
+                        dataType={"ingredients"}
+                        />
+                </div>
+                <div className={'ARP-grid-column'}>
+                    <IngredientQuantityPanel
+                        recipe={recipe}
+                        setRecipe={setRecipe}
+                        selectedIngredient={selectedIngredient}
+                    />
+                    <div className={'IGTable'}>
+                    <h2>Added ingredients</h2>
+                    <IngredientQuantitiesTable
+                        ingredientQuantities={recipe.ingredients}
+                    />
+                    </div>
+                </div>
             </div>
         </div>
     )

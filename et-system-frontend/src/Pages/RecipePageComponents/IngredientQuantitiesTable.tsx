@@ -4,7 +4,6 @@ import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table"
 import '../ProductPageComponents/TanStackTable/Table.css'
 import './RPStylesheet.css'
 
-
 const IngredientQuantitiesTable = ({ingredientQuantities}) => {
 
     const [tableData, setTableData] = useState([])
@@ -47,8 +46,7 @@ const IngredientQuantitiesTable = ({ingredientQuantities}) => {
 
     return (
         <div>
-            <h2>Added ingredients</h2>
-                <table>
+                <table className={'IGTable'}>
                     {table.getHeaderGroups().map(headerGroup => (
                         <tr key={headerGroup.id}>
                             {headerGroup.headers.map(header => <th key={header.id}>

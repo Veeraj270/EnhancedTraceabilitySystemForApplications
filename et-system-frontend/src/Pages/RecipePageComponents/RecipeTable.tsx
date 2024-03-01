@@ -1,7 +1,10 @@
 import React, {ChangeEvent, useEffect, useMemo, useState} from "react";
 import {getCoreRowModel, useReactTable} from "@tanstack/react-table";
+import "../AddRecipePageComponents/ARPStylesheet.css"
 
 const RecipeTable = ({setSelectedRow, selectedRow, rawData, dataType}) => {
+
+    const tableClassName = dataType === 'recipe' ? 'RPTable-grid' : 'ARPTable-grid'
 
     const [tableData, setTableData] = useState([])
     const [filteredTableData, setFilteredTableData] = useState([])
@@ -73,7 +76,7 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData, dataType}) => {
         getCoreRowModel: getCoreRowModel()
     })
 
-    return <div className={"RPTable-grid"}>
+    return <div className={tableClassName}>
         <div className={"RPTable-search-container"}>
             <label>Select an item</label>
             <input placeholder={"Search " + dataType + "... "} onChange={handleChange} value={searchInput}/>
