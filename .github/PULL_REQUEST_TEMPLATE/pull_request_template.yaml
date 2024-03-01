@@ -1,0 +1,37 @@
+name: Pull Request
+description: Open a Pull Request
+projects:
+  - "spe-uob/141"
+body:
+  - type: textarea
+    attributes:
+      label: Description of Changes
+      description: Please add a reasonably detailed description of the changes made
+  - type: checkboxes
+    attributes:
+      label: Changes
+      description: Put an **x** in all boxes that apply
+    options:
+      - label: Bugfix
+      - label: New feature
+      - label: Enhancement of an existing feature
+      - label: Additional tests for existing Feature
+      - label: Other (for when none of the above apply)
+  - type: textarea
+    attributes:
+      label: Screenshots (If Applicable)
+      description: Screenshots can be included to to visually present the changes (generally for front-end changes)
+  - type: checkboxes
+    attributes:
+      label: Checklist
+    options:
+      - label: I have added tests that prove my fix is effective or that my feature works
+      - label: I have commented my code in hard to understand areas
+      - label: New and existing unit tests pass locally with my changes
+      - label: I have linked all relevant issues
+      - label: I have performed a self-review of my code
+      - label: I have requested reviews from the relevant members of the team
+  - type: textarea
+    attributes:
+      label: Additional Notes
+      description: Any additional notes that you feel may be helpful
