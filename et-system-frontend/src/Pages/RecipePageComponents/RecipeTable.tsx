@@ -78,8 +78,8 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData, dataType}) => {
 
     return <div className={tableClassName}>
         <div className={"RPTable-search-container"}>
-            <label>Select an item</label>
-            <input placeholder={"Search " + dataType + "... "} onChange={handleChange} value={searchInput}/>
+            <label>{dataType === 'recipe' ? 'Select a ' + dataType : 'Select an ' + dataType}</label>
+            <input placeholder={"Search..."} onChange={handleChange} value={searchInput}/>
         </div>
         <div className={"RPTable-content-div"}>
             <table>

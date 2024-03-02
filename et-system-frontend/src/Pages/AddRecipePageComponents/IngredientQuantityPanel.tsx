@@ -28,18 +28,21 @@ const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient}) => {
 
     return(
         <div className={"ARPPanel-grid"}>
-            <p className={"ARPPanel-name"}>
+            <p className={'ARPPanel-name'}>Add ingredient to recipe</p>
+            <div className={"ARPPanel-item"}>
+                <p style={{margin: '10px 0 5px 0'}}>
                 <b>Ingredient: </b>
                 {data.label}
             </p>
-            <div className={"ARPPanel-item"}>
-                <Label for="quantity">Add quantity: </Label>
-                <Input type="number" name="quantity" id="quantity" value={ingredientQuantity?.quantity || {}}
+                <Label for="quantity"><b>Quantity: </b></Label>
+                <Input className="quantity-input" type="number" name="quantity" id="quantity" value={ingredientQuantity?.quantity || {}}
                        onChange={handleChange}/>
             </div>
-            <div className={"ARPPanel-item"}>
-                <Button color="primary" onClick={handleIngredientSubmit}>Add to recipe</Button>
+                <Button color="primary" onClick={handleIngredientSubmit} className = {'add-to-recipe-button'}>Add to recipe</Button>
+            <div>
+                <i className="arrow down"></i>
             </div>
+
         </div>
     )
 

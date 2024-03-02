@@ -66,29 +66,13 @@ const AddRecipePage = () => {
     return(
         <div className={'add-recipe-page'}>
             <h1 className={'ARP-title'}> Add recipe </h1>
-            <div className={'ARP-upper'}>
-                <div>
-                    <Label for="recipe_label">Name: </Label>
-                    <Input type="text" name="recipe_label" id="recipe_label"
-                           onChange={handleChange}/>
-                </div>
-                <div>
-                    <Label for="recipe_description">Description: </Label>
-                    <textarea
-                        id={"recipe_description"}
-                        className="paragraph-input"
-                        onChange={handleChange}
-                    />
-                </div>
-                {/*<Button color="primary" onClick={handleSubmit}>Save</Button>*/}
-            </div>
             <div className={'ARP-grid-container'}>
                 <div className={'ARP-grid-column'}>
                     <RecipeTable
                         setSelectedRow={setSelectedIngredientID}
                         selectedRow={selectedIngredientID}
                         rawData={ingredientsData}
-                        dataType={"ingredients"}
+                        dataType={"ingredient"}
                         />
                 </div>
                 <div className={'ARP-grid-column'}>
@@ -97,14 +81,33 @@ const AddRecipePage = () => {
                         setRecipe={setRecipe}
                         selectedIngredient={selectedIngredient}
                     />
-                    <div className={'IGTable'}>
                     <h2>Added ingredients</h2>
+                    <div className={'IGTable'}>
                     <IngredientQuantitiesTable
                         ingredientQuantities={recipe.ingredients}
                     />
                     </div>
                 </div>
+                <div className={'ARP-submit-column'}>
+                    <div className={'ARP-submit-panel'}>
+                        <p className={'ARP-submit-panel-name'}>Submit recipe</p>
+                            <Input type="text" name="recipe_label" id="recipe_label"
+                                   className = "recipe-name-input"
+                                   onChange={handleChange}
+                                   placeholder={"Name.."}
+                            />
+                            <textarea
+                                id={"recipe_description"}
+                                className="paragraph-input"
+                                onChange={handleChange}
+                                placeholder={"Description..."}
+                            />
+                        <Button color="primary" className={"submit-button"} onClick={handleSubmit}>SUBMIT</Button>
+                    </div>
+                </div>
             </div>
+
+
         </div>
     )
 

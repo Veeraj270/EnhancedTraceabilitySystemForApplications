@@ -174,8 +174,11 @@
 
 .IGTable{
     width: 100%;
-    text-align: left;
+    text-align: center;
+    border-radius: 0.5rem;
+    border: var(--border-color) solid 1px;
     border-collapse: collapse ;
     background-color: ghostwhite;
+    background-color: #efeeee;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
