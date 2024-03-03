@@ -1,6 +1,6 @@
-import {Ingredient} from "./Ingredient";
+import {IngredientType} from "./IngredientType";
 
 export interface IngredientQuantity{
-    ingredient: Ingredient,
+    ingredient: IngredientType,
     quantity: number
 }

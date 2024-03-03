@@ -16,8 +16,8 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData, dataType}) => {
             accessorKey: 'id'
         },
         {
-            header: 'Label',
-            accessorKey: 'label'
+            header: 'Name',
+            accessorKey: 'name'
         }
     ], [])
 
@@ -25,7 +25,7 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData, dataType}) => {
         const recipesTableData = data.map((dataElement) => (
             {
                 id: dataElement.id,
-                label: dataElement.label
+                name: dataElement.name
             }
         ));
         return recipesTableData
@@ -49,7 +49,7 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData, dataType}) => {
     useEffect(() => {
         if (searchInput.length > 0){
             setFilteredTableData(tableData.filter((row) => {
-                return row.label.match(searchInput)
+                return row.name.match(searchInput)
                     || row.id.toString().match(searchInput)
             }))
         } else{
@@ -89,7 +89,7 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData, dataType}) => {
                     onClick={(event) => {handleClick(event, row.original.id)}}
                     className={(row.original.id === selectedRow) ? 'RP-selected-row' : 'RP-unselected-row'}>
                     <td style={{width: '10%', textAlign: 'center'}}>{row.original.id}</td>
-                    <td style={{width: '90%'}}>{row.original.label}</td>
+                    <td style={{width: '90%'}}>{row.original.name}</td>
                 </tr>))
                 }
                 </tbody>

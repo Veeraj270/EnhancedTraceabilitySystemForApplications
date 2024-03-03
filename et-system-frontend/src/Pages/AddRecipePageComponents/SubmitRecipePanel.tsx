@@ -21,7 +21,6 @@ const SubmitRecipePanel = ({handleChange, handleSubmit}) => {
         <Button color="primary" className={"submit-button"} onClick={handleSubmit}>SUBMIT</Button>
     </div>
     )
-
 }
 
 export default SubmitRecipePanel;

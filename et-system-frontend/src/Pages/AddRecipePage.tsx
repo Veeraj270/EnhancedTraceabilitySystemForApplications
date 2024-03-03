@@ -17,16 +17,16 @@ const AddRecipePage = () => {
         ingredients: []
     })
 
-    const fetchRecipes = async () => {
-        const response = await fetch("http://localhost:8080/api/recipes/fetch-ingredients")
+    const fetchIngredientTypes = async () => {
+        const response = await fetch("http://localhost:8080/api/ingredients/fetch-ingredient-types")
         if (!response.ok){
-            throw new Error("Error fetching recipes")
+            throw new Error("Error fetching ingredient types")
         }
         return await response.json();
     }
 
     useEffect(() => {
-        fetchRecipes().then((ingredientData) =>
+        fetchIngredientTypes().then((ingredientData) =>
         {
             setIngredientsData(ingredientData)
         })

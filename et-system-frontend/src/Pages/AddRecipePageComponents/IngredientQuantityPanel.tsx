@@ -36,7 +36,7 @@ const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient}) => {
             <div className={"ARPPanel-item"}>
                 <p style={{margin: '10px 0 5px 0'}}>
                 <b>Ingredient: </b>
-                    {ingredientQuantity?.ingredient ? ingredientQuantity?.ingredient.label : '   '}
+                    {ingredientQuantity?.ingredient ? ingredientQuantity?.ingredient.name : '   '}
             </p>
                 <Label><b>Quantity: </b></Label>
                 <Input className="quantity-input"
