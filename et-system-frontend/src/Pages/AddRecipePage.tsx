@@ -13,7 +13,7 @@ const AddRecipePage = () => {
     const [selectedIngredient, setSelectedIngredient] = useState({})
     const [recipe, setRecipe] = useState<Recipe>({
         label: '',
-        ingredients: []
+        ingredientQuantities: []
     })
 
     const fetchIngredientTypes = async () => {
@@ -82,7 +82,7 @@ const AddRecipePage = () => {
                     <h2>Added ingredients</h2>
                     <div className={'IGTable'}>
                     <IngredientQuantitiesTable
-                        ingredientQuantities={recipe.ingredients}
+                        ingredientQuantities={recipe.ingredientQuantities}
                     />
                     </div>
                 </div>

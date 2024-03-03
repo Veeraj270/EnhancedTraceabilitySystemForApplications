@@ -8,19 +8,19 @@ const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient}) => {
     const [ingredientQuantity, setIngredientQuantity] = useState<IngredientQuantity>()
 
     const handleIngredientSubmit = (event) => {
-        if (!ingredientQuantity || !ingredientQuantity.quantity || !ingredientQuantity.ingredient) {
+        if (!ingredientQuantity || !ingredientQuantity.quantity || !ingredientQuantity.ingredientType) {
             console.error('Please fill in both quantity and ingredient.');
             return;
         }
 
         event.preventDefault()
-        setRecipe({...recipe, ingredients: [...recipe.ingredients, ingredientQuantity]})
+        setRecipe({...recipe, ingredientQuantities: [...recipe.ingredientQuantities, ingredientQuantity]})
         console.log(ingredientQuantity)
-        setIngredientQuantity({ingredient: undefined, quantity: undefined})
+        setIngredientQuantity({ingredientType: undefined, quantity: undefined})
     }
 
     useEffect(() => {
-        setIngredientQuantity({...ingredientQuantity, ingredient: selectedIngredient})
+        setIngredientQuantity({...ingredientQuantity, ingredientType: selectedIngredient})
         console.log(selectedIngredient)
     }, [selectedIngredient])
 
@@ -36,7 +36,7 @@ const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient}) => {
             <div className={"ARPPanel-item"}>
                 <p style={{margin: '10px 0 5px 0'}}>
                 <b>Ingredient: </b>
-                    {ingredientQuantity?.ingredient ? ingredientQuantity?.ingredient.name : '   '}
+                    {ingredientQuantity?.ingredientType ? ingredientQuantity?.ingredientType.name : '   '}
             </p>
                 <Label><b>Quantity: </b></Label>
                 <Input className="quantity-input"
