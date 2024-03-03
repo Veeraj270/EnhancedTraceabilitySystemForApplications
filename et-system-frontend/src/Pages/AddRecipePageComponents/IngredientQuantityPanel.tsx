@@ -26,8 +26,7 @@ const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient}) => {
 
     const handleChange = (event) => {
         event.preventDefault()
-        const {value} = event.target
-        setIngredientQuantity({...ingredientQuantity, quantity: value})
+        setIngredientQuantity({...ingredientQuantity, quantity: event.target.value})
     }
 
     return(

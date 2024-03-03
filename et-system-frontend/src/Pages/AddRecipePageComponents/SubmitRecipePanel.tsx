@@ -2,7 +2,7 @@ import React from "react";
 import {Button, Input} from "reactstrap";
 import './ARPStylesheet.css'
 
-const SubmitRecipePanel = ({handleChange, handleSubmit}) => {
+const SubmitRecipePanel = ({recipe, handleChange, handleSubmit}) => {
 
     return (
         <div className={'ARP-submit-panel'}>
@@ -10,6 +10,7 @@ const SubmitRecipePanel = ({handleChange, handleSubmit}) => {
         <Input type="text" name="recipe_label" id="recipe_label"
                className = "recipe-name-input"
                onChange={handleChange}
+               value={recipe?.label}
                placeholder={"Name.."}
         />
         <textarea

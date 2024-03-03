@@ -41,6 +41,7 @@ const AddRecipePage = () => {
     }, [selectedIngredientID]);
 
     const handleChange = (event) => {
+        event.preventDefault()
         setRecipe({...recipe, label: event.target.value})
     }
 
@@ -58,7 +59,10 @@ const AddRecipePage = () => {
         if (!response.ok) {
             throw new Error('Failed to add recipe');
         }
-        setRecipe({});
+        setRecipe({
+            label: '',
+            ingredientQuantities: []
+        });
     }
 
     return(
@@ -88,13 +92,12 @@ const AddRecipePage = () => {
                 </div>
                 <div className={'ARP-submit-column'}>
                     <SubmitRecipePanel
+                        recipe = {recipe}
                         handleChange={handleChange}
                         handleSubmit={handleSubmit}
                     />
                 </div>
             </div>
-
-
         </div>
     )
 
