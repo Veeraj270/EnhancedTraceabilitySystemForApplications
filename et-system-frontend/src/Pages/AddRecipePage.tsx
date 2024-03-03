@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from "react";
 import IngredientQuantitiesTable from "./RecipePageComponents/IngredientQuantitiesTable";
-import RecipeTable from "./RecipePageComponents/RecipeTable";
 import "./AddRecipePageComponents/ARPStylesheet.css"
 import IngredientQuantityPanel from "./AddRecipePageComponents/IngredientQuantityPanel";
-import {Button, Input, Label} from "reactstrap";
 import {Recipe} from "./Interfaces/Recipe"
 import SubmitRecipePanel from "./AddRecipePageComponents/SubmitRecipePanel";
+import IngredientsTable from "./AddRecipePageComponents/IngredientsTable";
 
 const AddRecipePage = () => {
 
@@ -67,7 +66,7 @@ const AddRecipePage = () => {
             <h1 className={'ARP-title'}> Add recipe </h1>
             <div className={'ARP-grid-container'}>
                 <div className={'ARP-grid-column'}>
-                    <RecipeTable
+                    <IngredientsTable
                         setSelectedRow={setSelectedIngredientID}
                         selectedRow={selectedIngredientID}
                         rawData={ingredientsData}

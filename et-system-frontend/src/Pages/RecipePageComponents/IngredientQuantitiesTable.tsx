@@ -11,7 +11,7 @@ const IngredientQuantitiesTable = ({ingredientQuantities}) => {
     const columns = useMemo(() => [
         {
             header: "Ingredient",
-            accessorKey: "ingredient"
+            accessorKey: "ingredient type"
         },
         {
             header: "Quantity",
@@ -21,11 +21,11 @@ const IngredientQuantitiesTable = ({ingredientQuantities}) => {
 
     const generateTableData = async (data: any[]) => {
         const tempTableData = data.map((ingredientQuantity: IngredientQuantity) => ({
-                ingredient: ingredientQuantity.ingredient,
+                ingredientType: ingredientQuantity.ingredientType,
                 quantity: ingredientQuantity.quantity
         }))
         console.log(tempTableData)
-        return tempTableData
+        return data
     }
 
     const table = useReactTable({
@@ -57,7 +57,7 @@ const IngredientQuantitiesTable = ({ingredientQuantities}) => {
                     <tbody>
                     {table.getCoreRowModel().rows.map(row => (<tr
                             key={row.id}>
-                            <td style={{width: '50%'}}>{row.original.ingredient.name}</td>
+                            <td style={{width: '50%'}}>{row.original.ingredientType.name}</td>
                             <td style={{width: '50%'}}>{row.original.quantity}</td>
                         </tr>))}
                     </tbody>

@@ -29,20 +29,14 @@ const RecipesPage = () => {
     }, [])
 
     useEffect(() => {
-        let panelPropsData = []
         let ingredientQuantityList: IngredientQuantity[] = []
         if (selectedRecipe !== -1){
             const selected = recipeData.filter((recipe) => recipe.id === selectedRecipe).at(0)
-            ingredientQuantityList = selected.ingredients.map((x: IngredientQuantity) => ({
-                ingredient: x.ingredient.label,
-                quantity: x.quantity
-            }))
-            panelPropsData = selected
             console.log(selected);
             console.log(ingredientQuantityList)
+            setIngredientQuantitiesData(selected.ingredientQuantities)
+            setPanelProps(selected)
         }
-        setIngredientQuantitiesData(ingredientQuantityList)
-        setPanelProps(panelPropsData)
     }, [selectedRecipe]);
 
     return (

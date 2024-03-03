@@ -14,8 +14,8 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData, dataType}) => {
             accessorKey: 'id'
         },
         {
-            header: 'Label',
-            accessorKey: 'label'
+            header: 'Name',
+            accessorKey: 'name'
         }
     ], [])
 
@@ -23,7 +23,7 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData, dataType}) => {
         const recipesTableData = data.map((dataElement) => (
             {
                 id: dataElement.id,
-                label: dataElement.label
+                name: dataElement.name
             }
         ));
         return recipesTableData
@@ -37,7 +37,7 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData, dataType}) => {
     const handleClick = (event: React.MouseEvent, id : number) => {
         if (id !== undefined){
             setSelectedRow(id)
-            console.log("Selected recipe: " + id);
+            console.log("Selected ingredient: " + id);
         }
         else{
             console.log("Empty row clicked");
@@ -47,7 +47,7 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData, dataType}) => {
     useEffect(() => {
         if (searchInput.length > 0){
             setFilteredTableData(tableData.filter((row) => {
-                return row.label.match(searchInput)
+                return row.name.match(searchInput)
                     || row.id.toString().match(searchInput)
             }))
         } else{
@@ -59,9 +59,9 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData, dataType}) => {
         // Have to check if the data is undefined, because there can be no data passed
         if(rawData !== undefined){
             if(rawData.length > 0) {
-                generateTableData(rawData).then(recipesTableData => {
-                    setTableData(recipesTableData)
-                    setFilteredTableData(recipesTableData)
+                generateTableData(rawData).then(ingredientsTableData => {
+                    setTableData(ingredientsTableData)
+                    setFilteredTableData(ingredientsTableData)
                 })
             }
         }
@@ -74,9 +74,9 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData, dataType}) => {
         getCoreRowModel: getCoreRowModel()
     })
 
-    return <div className={'RPTable-grid'}>
+    return <div className={'ARPTable-grid'}>
         <div className={"RPTable-search-container"}>
-            <label>Select a recipe</label>
+            <label>Select an ingredient</label>
             <input placeholder={"Search..."} onChange={handleChange} value={searchInput}/>
         </div>
         <div className={"RPTable-content-div"}>
@@ -87,7 +87,7 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData, dataType}) => {
                     onClick={(event) => {handleClick(event, row.original.id)}}
                     className={(row.original.id === selectedRow) ? 'RP-selected-row' : 'RP-unselected-row'}>
                     <td style={{width: '10%', textAlign: 'center'}}>{row.original.id}</td>
-                    <td style={{width: '90%'}}>{row.original.label}</td>
+                    <td style={{width: '90%'}}>{row.original.name}</td>
                 </tr>))
                 }
                 </tbody>
