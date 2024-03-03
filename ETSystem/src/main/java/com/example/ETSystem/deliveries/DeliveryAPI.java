@@ -2,23 +2,21 @@ package com.example.ETSystem.deliveries;
 
 import com.example.ETSystem.product.Product;
 import com.example.ETSystem.product.ProductRepository;
+import com.example.ETSystem.productData.SuppliedGood;
 import com.example.ETSystem.timeline.CreateEvent;
 import com.example.ETSystem.timeline.TimelineService;
-import com.example.ETSystem.util.Reordered;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("api/deliveries")
-
+@CrossOrigin(origins = "http://localhost:3000")
 public class DeliveryAPI{
 
 	private Logger logger = LoggerFactory.getLogger(DeliveryAPI.class);
@@ -36,7 +34,7 @@ public class DeliveryAPI{
 		this.productRepo = productRepo;
 	}
 	
-	// basic getters
+	// standard getters
 	
 	@GetMapping("/fetch-planned")
 	public List<PlannedDelivery> getPlanned(){
@@ -58,8 +56,14 @@ public class DeliveryAPI{
 		return recordedRepo.findById(id).orElse(null);
 	}
 	
-	// basic adder
-	
+	@GetMapping("/fetch-planned-by-search-query/{search}")
+	public List<PlannedDelivery> getPlannedBySearchQuery(@PathVariable String search){
+		// TODO: fuzzy search? include non-matching results last?
+		return getPlanned().stream().filter(x -> x.getName().contains(search)).toList();
+	}
+
+	// basic adders
+
 	@PostMapping("/add-planned")
 	public PlannedDelivery addPlanned(@RequestBody PlannedDelivery newPlan){
 		return plannedRepo.save(newPlan);
@@ -72,52 +76,44 @@ public class DeliveryAPI{
 		return recordedRepo.save(newRecord);
 	}
 
-	@PostMapping("/set-planned-as-complete/{id}")
-	public void setPlannedStatus(@PathVariable long id ) throws ResourceNotFoundException {
-		Optional<PlannedDelivery> plannedDelivery = plannedRepo.findById(id);
-		if (plannedDelivery.isPresent()){
-			plannedDelivery.get().setComplete(true);
-			plannedRepo.save(plannedDelivery.get());
+	// convenience adders
+	
+	@PostMapping("/add-recorded-with-products")
+	public RecordedDelivery addRecordedWithProducts(@RequestBody RecordedDeliveryInput newRecordInput){
+		//Validation
+		List<Product> savedProducts = new ArrayList<>(newRecordInput.recorded.size());
+		for (SuppliedGood product : newRecordInput.recorded){
+			//Create new Product instance
+			Product newProduct =  new Product();
+			newProduct.setGtin(product.getGtin());
+			newProduct.setLabel(product.getLabel());
+			newProduct.setMaxQuantity(product.getQuantity());
+			newProduct.setCurrentQuantity(product.getQuantity());
+
+			//FIX NEEDED: needs to be updated to use Supplier class
+			//newProduct.setSupplier(product.getSupplier());
+			newProduct.setIngredientType(product.getIngredientType());
+
+			//Save Product
+			productRepo.save(newProduct);
+
+			//Create TimeLineEvent for each new product
+			timelineService.save(new CreateEvent(Instant.now().getEpochSecond(), newProduct));
+			savedProducts.add(newProduct);
 		}
-		else {
-			throw new ResourceNotFoundException(id, "Error: delivery with given id not found");
-		}
+		//Save RecordedDelivery with list of new Products
+		RecordedDelivery newRecord = new RecordedDelivery(
+				newRecordInput.plan,
+				newRecordInput.startTime,
+				newRecordInput.endTime,
+				savedProducts);
+
+		return recordedRepo.save(newRecord);
 	}
-	// convenience getters
 
 	@GetMapping("/fetch-unprocessed-planned")
 	public List<PlannedDelivery> getUnprocessedPlanned(){
 		return getPlanned().stream().filter((plannedDelivery -> (!plannedDelivery.isComplete()))).toList();
-	}
-
-	@GetMapping("/fetch-planned-by-next")
-	public List<PlannedDelivery> getPlannedSortedByNext(){
-		ZonedDateTime now = ZonedDateTime.now();
-		List<PlannedDelivery> all = getPlanned();
-		List<Reordered<PlannedDelivery, ZonedDateTime>> sortedPlans = new ArrayList<>(all.size());
-		sortedPlans.sort(null);
-		return sortedPlans.stream().map(Reordered::data).toList();
-	}
-
-
-	@GetMapping("/fetch-planned-by-search-query/{search}")
-	public List<PlannedDelivery> getPlannedBySearchQuery(@PathVariable String search){
-		// TODO: fuzzy search? include non-matching results last?
-		return getPlanned().stream().filter(x -> x.getName().contains(search)).toList();
-	}
-	
-	// convenience adders
-	
-	@PostMapping("/add-recorded-with-products")
-	public RecordedDelivery addRecordedWithProducts(@RequestBody RecordedDelivery newRecord){
-		// assume constituent products to be valid up to IDs
-		List<Product> savedProducts = new ArrayList<>(newRecord.getRecorded().size());
-		for(Product product : newRecord.getRecorded()){
-			Product saved = productRepo.save(product);
-			savedProducts.add(saved);
-			timelineService.save(new CreateEvent(Instant.now().getEpochSecond(), saved));
-		}
-		return recordedRepo.save(newRecord);
 	}
 
 	@PostMapping("/delete-planned-delivery/{id}")
@@ -127,6 +123,18 @@ public class DeliveryAPI{
 		}
 		else{
 			throw new ResourceNotFoundException(id, "Error: planned delivery with given id not found");
+		}
+	}
+
+	@PostMapping("/set-planned-as-complete/{id}")
+	public void setPlannedStatus(@PathVariable long id ) throws ResourceNotFoundException {
+		Optional<PlannedDelivery> plannedDelivery = plannedRepo.findById(id);
+		if (plannedDelivery.isPresent()){
+			plannedDelivery.get().setComplete(true);
+			plannedRepo.save(plannedDelivery.get());
+		}
+		else {
+			throw new ResourceNotFoundException(id, "Error: delivery with given id not found");
 		}
 	}
 }

@@ -1,8 +1,9 @@
 export interface Product {
     id: number;
+    gtin: string;
     label: string;
     maxQuantity: number;
     currentQuantity: number;
-    intermediariesID: number[];
+    intermediaryIds: number[];
     parentID: number | null;
 }

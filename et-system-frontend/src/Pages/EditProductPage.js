@@ -6,9 +6,6 @@ import EditProductForm from "./EditProductPageComponents/EditProductForm";
 
 
 const EditProductPage = () => {
-
-
-
     const {id} = useParams();
     const [product, setProduct] = useState({
         id: '',
