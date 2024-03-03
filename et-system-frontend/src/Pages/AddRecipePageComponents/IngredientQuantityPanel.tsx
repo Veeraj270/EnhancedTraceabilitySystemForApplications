@@ -5,25 +5,29 @@ import "./ARPStylesheet.css"
 
 const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient}) => {
 
-    const [data, setData] = useState(selectedIngredient)
     const [ingredientQuantity, setIngredientQuantity] = useState<IngredientQuantity>()
 
     const handleIngredientSubmit = (event) => {
+        if (!ingredientQuantity || !ingredientQuantity.quantity || !ingredientQuantity.ingredient) {
+            console.error('Please fill in both quantity and ingredient.');
+            return;
+        }
+
         event.preventDefault()
         setRecipe({...recipe, ingredients: [...recipe.ingredients, ingredientQuantity]})
         console.log(ingredientQuantity)
-        setIngredientQuantity({})
+        setIngredientQuantity({ingredient: undefined, quantity: undefined})
     }
 
     useEffect(() => {
-        setData(selectedIngredient)
         setIngredientQuantity({...ingredientQuantity, ingredient: selectedIngredient})
         console.log(selectedIngredient)
     }, [selectedIngredient])
 
     const handleChange = (event) => {
-        const {name, value} = event.target
-        setIngredientQuantity({...ingredientQuantity, [name]: value})
+        event.preventDefault()
+        const {value} = event.target
+        setIngredientQuantity({...ingredientQuantity, quantity: value})
     }
 
     return(
@@ -32,10 +36,12 @@ const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient}) => {
             <div className={"ARPPanel-item"}>
                 <p style={{margin: '10px 0 5px 0'}}>
                 <b>Ingredient: </b>
-                {data.label}
+                    {ingredientQuantity?.ingredient ? ingredientQuantity?.ingredient.label : '   '}
             </p>
-                <Label for="quantity"><b>Quantity: </b></Label>
-                <Input className="quantity-input" type="number" name="quantity" id="quantity" value={ingredientQuantity?.quantity || {}}
+                <Label><b>Quantity: </b></Label>
+                <Input className="quantity-input"
+                       type="number"
+                       value={ingredientQuantity?.quantity || ' '}
                        onChange={handleChange}/>
             </div>
                 <Button color="primary" onClick={handleIngredientSubmit} className = {'add-to-recipe-button'}>Add to recipe</Button>

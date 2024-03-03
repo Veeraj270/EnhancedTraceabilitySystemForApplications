@@ -5,6 +5,7 @@ import "./AddRecipePageComponents/ARPStylesheet.css"
 import IngredientQuantityPanel from "./AddRecipePageComponents/IngredientQuantityPanel";
 import {Button, Input, Label} from "reactstrap";
 import {Recipe} from "./Interfaces/Recipe"
+import SubmitRecipePanel from "./AddRecipePageComponents/SubmitRecipePanel";
 
 const AddRecipePage = () => {
 
@@ -58,9 +59,7 @@ const AddRecipePage = () => {
         if (!response.ok) {
             throw new Error('Failed to add recipe');
         }
-
         setRecipe({});
-
     }
 
     return(
@@ -89,21 +88,10 @@ const AddRecipePage = () => {
                     </div>
                 </div>
                 <div className={'ARP-submit-column'}>
-                    <div className={'ARP-submit-panel'}>
-                        <p className={'ARP-submit-panel-name'}>Submit recipe</p>
-                            <Input type="text" name="recipe_label" id="recipe_label"
-                                   className = "recipe-name-input"
-                                   onChange={handleChange}
-                                   placeholder={"Name.."}
-                            />
-                            <textarea
-                                id={"recipe_description"}
-                                className="paragraph-input"
-                                onChange={handleChange}
-                                placeholder={"Description..."}
-                            />
-                        <Button color="primary" className={"submit-button"} onClick={handleSubmit}>SUBMIT</Button>
-                    </div>
+                    <SubmitRecipePanel
+                        handleChange={handleChange}
+                        handleSubmit={handleSubmit}
+                    />
                 </div>
             </div>
 
