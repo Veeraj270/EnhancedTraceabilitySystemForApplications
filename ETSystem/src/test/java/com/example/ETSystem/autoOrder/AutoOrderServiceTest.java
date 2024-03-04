@@ -19,13 +19,13 @@ import com.example.ETSystem.suppliers.Supplier;
 import com.example.ETSystem.suppliers.SupplierRepository;
 import com.example.ETSystem.suppliers.SupplierService;
 import jakarta.transaction.Transactional;
-import org.aspectj.lang.annotation.Before;
+import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -123,11 +123,12 @@ public class AutoOrderServiceTest {
         //Check result
         assert result.size() == 2;
 
-        assert result.get(0).getIngredientType().getName().equals("sugar");
-        assert result.get(0).getQuantity() == 900;
-
-        assert result.get(1).getIngredientType().getName().equals("flour");
-        assert result.get(1).getQuantity() == 900;
+        assertThat(result)
+                .extracting((IQ) -> IQ.getIngredientType().getName(), IngredientQuantity::getQuantity)
+                .containsExactlyInAnyOrder(
+                        Tuple.tuple("sugar", 900),
+                        Tuple.tuple("flour", 900)
+                );
     }
 
     @Test
@@ -138,7 +139,7 @@ public class AutoOrderServiceTest {
         float reqAmount = 116.75F;
 
         //Call method to be tested
-        int[] result = autoOrderService.determineNumOfEach(distinctQuantities, reqAmount);
+        int[] result = autoOrderService.getNumOfEachDiQuant(distinctQuantities, reqAmount);
 
         //Check result
         assert result[0] == 0;
@@ -193,10 +194,10 @@ public class AutoOrderServiceTest {
         }
         List<Float> distinctQuantities = matchingGoods.stream().map(SuppliedGood::getQuantity).distinct().sorted().toList();
         float reqAmount = 27.5F;
-        int[] amounts = autoOrderService.determineNumOfEach(distinctQuantities, reqAmount);
+        int[] amounts = autoOrderService.getNumOfEachDiQuant(distinctQuantities, reqAmount);
 
         //Call method to be tested
-        List<SuppliedGood> result = autoOrderService.determineGoods(matchingGoods, distinctQuantities, amounts);
+        List<SuppliedGood> result = autoOrderService.chooseCheapest(matchingGoods, distinctQuantities, amounts);
 
         //Check it matches expected output - (It chooses each suppliedGood with the lower cost)
         List<SuppliedGood> expectedResult = List.of(good2, good5, good5, good4, good7);
@@ -302,16 +303,20 @@ public class AutoOrderServiceTest {
         //Check result against expected output
         List<DeliveryItem>  deliveryItemList = result.get(0).getItems();
 
-        //Total quantities add to 20 - which is required amount
-        assert deliveryItemList.get(0).getLabel().equals("sugar1");
-        assert deliveryItemList.get(1).getLabel().equals("sugar1");
-        assert deliveryItemList.get(2).getLabel().equals("sugar9");
-        assert deliveryItemList.get(3).getLabel().equals("sugar9");
 
-        assert deliveryItemList.get(4).getLabel() == "flour1";
-        assert deliveryItemList.get(5).getLabel() == "flour1";
-        assert deliveryItemList.get(6).getLabel() == "flour9";
-        assert deliveryItemList.get(7).getLabel() == "flour9";
+        //Total quantities add to 20 - which is required amount
+        assertThat(deliveryItemList)
+                .extracting(DeliveryItem::getLabel)
+                .containsExactlyInAnyOrder(
+                        "sugar1",
+                        "sugar1",
+                        "sugar9",
+                        "sugar9",
+                        "flour1",
+                        "flour1",
+                        "flour9",
+                        "flour9"
+                );
     }
 
     @Test
