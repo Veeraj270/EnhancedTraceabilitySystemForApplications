@@ -22,7 +22,7 @@ jobs:
         working-directory: ./ETSystem
         run: |
           chmod +x gradlew
-          ./gradlew testCoverage
+          ./gradlew jacocoTestReport
 
       - name: Add coverage to PR
         uses: Madrapps/jacoco-report@v1.6.1
