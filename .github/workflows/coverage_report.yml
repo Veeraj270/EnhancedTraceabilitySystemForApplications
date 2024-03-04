@@ -19,6 +19,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Run Coverage
+        working-directory: ./ETSystem
         run: |
           chmod +x gradlew
           ./gradlew testCoverage
