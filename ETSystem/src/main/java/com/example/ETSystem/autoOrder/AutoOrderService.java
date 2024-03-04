@@ -67,37 +67,42 @@ public class AutoOrderService {
         //For each IngredientType search each of the suppliers for goods that have the required IngredientType
         List<Supplier> suppliers = supplierService.GetAllSuppliers();
 
+
         for (IngredientQuantity IQ: totals){
-            List<SuppliedGood> matchingGoods = new ArrayList<>();
-
-            int reqAmount = IQ.getQuantity();
-
-            //Find all SuppliedGoods that match the IngredientType
-            IngredientType reqType = IQ.getIngredientType();
-            for (Supplier supplier : suppliers){
-                matchingGoods.addAll(supplier.getGoods().stream()
-                        .filter((good) -> good.getIngredientType().equals(reqType))
-                        .map((good) -> {
-                            good.setSupplier(supplier);
-                            return good;
-                        })
-                        .toList());
-            }
-            //Each matching good now has its @Transient supplier attribute set
-            //Determine the distinct set of matchingGoods's quantity attributes
-            List<Float> distinctQuantities = matchingGoods.stream().map(SuppliedGood::getQuantity).distinct().sorted().toList();
-
-            //Calculate the amount of each distinctQuantity is required
-            int[] amounts = determineNumOfEach(distinctQuantities,reqAmount);
-
-            //Add the cheapest good that matches the required quantity to the toOrder list
-            toOrder.addAll(determineGoods(matchingGoods, distinctQuantities, amounts));
+            toOrder.addAll(getGoodsForIQ(IQ, suppliers));
         }
 
         plannedDeliveries = genOrdersToSuppliers(suppliers, toOrder, order);
         return plannedDeliveries;
     }
 
+    public List<SuppliedGood> getGoodsForIQ(IngredientQuantity IQ, List<Supplier> suppliers){
+        List<SuppliedGood> matchingGoods = new ArrayList<>();
+
+        int reqAmount = IQ.getQuantity();
+
+        IngredientType reqType = IQ.getIngredientType();
+
+        //Find all SuppliedGoods that match the IngredientType
+        for (Supplier supplier : suppliers){
+            matchingGoods.addAll(supplier.getGoods().stream()
+                    .filter((good) -> good.getIngredientType().equals(reqType))
+                    .map((good) -> {
+                        good.setSupplier(supplier);
+                        return good;
+                    })
+                    .toList());
+        }
+        //Each matching good now has its @Transient supplier attribute set
+        //Determine the distinct set of matchingGoods's quantity attributes
+        List<Float> distinctQuantities = matchingGoods.stream().map(SuppliedGood::getQuantity).distinct().sorted().toList();
+
+        //Calculate the amount of each distinctQuantity is required
+        int[] amounts = getNumOfEachDiQuant(distinctQuantities,reqAmount);
+
+        //Add the cheapest good that matches the required quantity to the toOrder list
+        return chooseCheapest(matchingGoods, distinctQuantities, amounts);
+    }
     //Takes the list of suppliedGoods that need to be ordered, and generates the required PlannedDeliveries
     public List<PlannedDelivery> genOrdersToSuppliers(List<Supplier> suppliers ,List<SuppliedGood> toOrder, CustomerOrder order){
         List<PlannedDelivery> plannedDeliveries = new ArrayList<>();
@@ -136,7 +141,7 @@ public class AutoOrderService {
     }
 
     //Determines which goods need to be ordered based on the amount of each distinct quantity needed, and the price of each SuppliedGood
-    public List<SuppliedGood> determineGoods(List<SuppliedGood> matchingGoods, List<Float> distinctQuantities, int[] amounts){
+    public List<SuppliedGood> chooseCheapest(List<SuppliedGood> matchingGoods, List<Float> distinctQuantities, int[] amounts){
         List<SuppliedGood> goods = new ArrayList<>();
 
         for (int i = 0; i < distinctQuantities.size(); i ++){
@@ -152,7 +157,7 @@ public class AutoOrderService {
     }
 
     //Takes a list of distinctQuantities and total required ingredient amount - returns an array containing no. of each distinctQuantity to reach reqAmount
-    public int[] determineNumOfEach(List<Float> distinctQuantities, float reqAmount){
+    public int[] getNumOfEachDiQuant(List<Float> distinctQuantities, float reqAmount){
         //Sort distinctQuantities from smallest to largest
         distinctQuantities = distinctQuantities.stream().sorted().toList();
         int[] amounts = new int[distinctQuantities.size()];
@@ -180,10 +185,9 @@ public class AutoOrderService {
         for (FinalProduct finalProduct : finalProducts){
             int quantity = finalProduct.getQuantity();
             Recipe recipe = finalProduct.getRecipe();
-
             for (IngredientQuantity IQ : recipe.getIngredientQuantities()){
-                IQ.setQuantity(IQ.getQuantity() * quantity);
-                iQuantities.add(IQ);
+                IngredientQuantity newIQ = new IngredientQuantity(IQ.getIngredientType(), IQ.getQuantity() * quantity);
+                iQuantities.add(newIQ);
             }
         }
 

@@ -19,12 +19,10 @@ import com.example.ETSystem.suppliers.Supplier;
 import com.example.ETSystem.suppliers.SupplierRepository;
 import com.example.ETSystem.suppliers.SupplierService;
 import jakarta.transaction.Transactional;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.ZonedDateTime;
@@ -138,7 +136,7 @@ public class AutoOrderServiceTest {
         float reqAmount = 116.75F;
 
         //Call method to be tested
-        int[] result = autoOrderService.determineNumOfEach(distinctQuantities, reqAmount);
+        int[] result = autoOrderService.getNumOfEachDiQuant(distinctQuantities, reqAmount);
 
         //Check result
         assert result[0] == 0;
@@ -193,10 +191,10 @@ public class AutoOrderServiceTest {
         }
         List<Float> distinctQuantities = matchingGoods.stream().map(SuppliedGood::getQuantity).distinct().sorted().toList();
         float reqAmount = 27.5F;
-        int[] amounts = autoOrderService.determineNumOfEach(distinctQuantities, reqAmount);
+        int[] amounts = autoOrderService.getNumOfEachDiQuant(distinctQuantities, reqAmount);
 
         //Call method to be tested
-        List<SuppliedGood> result = autoOrderService.determineGoods(matchingGoods, distinctQuantities, amounts);
+        List<SuppliedGood> result = autoOrderService.chooseCheapest(matchingGoods, distinctQuantities, amounts);
 
         //Check it matches expected output - (It chooses each suppliedGood with the lower cost)
         List<SuppliedGood> expectedResult = List.of(good2, good5, good5, good4, good7);
