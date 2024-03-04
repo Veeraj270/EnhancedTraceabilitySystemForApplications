@@ -11,7 +11,7 @@ Put an **x** in all boxes that apply:
 - [ ] Bugfix
 - [ ] New feature
 - [ ] Enhancement of an existing feature
-- [ ] Additional tests for existing Feature
+- [ ] Additional tests for existing feature
 - [ ] Other (for when none of the above apply)
   
 ## Screenshots (If Applicable)
