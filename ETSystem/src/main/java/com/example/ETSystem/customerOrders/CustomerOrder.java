@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,17 +42,17 @@ public class CustomerOrder {
             name = "date",
             nullable = false
     )
-    @JsonFormat(pattern = "yyyy/MM/dd")
-    private LocalDate date;
+    private ZonedDateTime date;
 
-
+    private ZonedDateTime deliveryDate;
 
     public CustomerOrder() {
     }
 
-    public CustomerOrder(String client, LocalDate date, List<FinalProduct> finalProducts) {
+    public CustomerOrder(String client, ZonedDateTime date, ZonedDateTime deliveryDate, List<FinalProduct> finalProducts) {
         this.client = client;
         this.date = date;
+        this.deliveryDate = deliveryDate;
         this.finalProducts = finalProducts;
     }
 
@@ -67,11 +68,11 @@ public class CustomerOrder {
         this.client = client;
     }
 
-    public LocalDate getDate() {
+    public ZonedDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(ZonedDateTime date) {
         this.date = date;
     }
 
@@ -81,5 +82,13 @@ public class CustomerOrder {
 
     public void setFinalProducts(List<FinalProduct> finalProducts) {
         this.finalProducts = finalProducts;
+    }
+
+    public ZonedDateTime getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(ZonedDateTime deliveryDate) {
+        this.deliveryDate = deliveryDate;
     }
 }

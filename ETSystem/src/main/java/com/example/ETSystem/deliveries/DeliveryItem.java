@@ -6,7 +6,8 @@ import jakarta.persistence.Id;
 
 @Entity
 public class DeliveryItem{
-	
+
+
 	@Id
 	@GeneratedValue
 	private long id;
@@ -14,6 +15,12 @@ public class DeliveryItem{
 	private String label;
 	
 	private String gtin;
+
+	public DeliveryItem(){};
+	public DeliveryItem(String label, String gtin){
+		this.label = label;
+		this.gtin = gtin;
+	}
 	
 	public long getId(){
 		return id;

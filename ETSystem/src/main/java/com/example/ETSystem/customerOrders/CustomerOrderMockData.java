@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,7 @@ public class CustomerOrderMockData {
 
             CustomerOrder customerOrder= new CustomerOrder();
             customerOrder.setClient(client);
-            customerOrder.setDate(localDate);
+            customerOrder.setDate(localDate.atStartOfDay(ZoneOffset.UTC));
             customerOrder.setFinalProducts(finalProducts);
 
             customerOrderRepository.save(customerOrder);

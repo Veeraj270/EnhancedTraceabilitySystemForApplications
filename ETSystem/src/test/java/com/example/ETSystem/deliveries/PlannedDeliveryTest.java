@@ -3,6 +3,7 @@ package com.example.ETSystem.deliveries;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +19,7 @@ public class PlannedDeliveryTest{
 	PlannedDeliveryRepository plannedDeliveries;
 	
 	@Test
+	@Transactional
 	void testJsonRoundtrip() throws JsonProcessingException{
 		PlannedDelivery p = plannedDeliveries.save(new PlannedDelivery("", "", ZonedDateTime.now()));
 		System.out.println(p);

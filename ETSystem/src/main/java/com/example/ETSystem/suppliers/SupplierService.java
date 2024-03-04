@@ -6,6 +6,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class SupplierService {
     final private SupplierRepository supplierRepository;
@@ -20,9 +22,6 @@ public class SupplierService {
     //This should be the only way that SuppliedGoods are added to the suppliedGoodRepository
     @Transactional
     public SuppliedGood AddGoodToSupplier(Supplier supplier, SuppliedGood good){
-        //If good IngredientType is not yet saved, save it.
-
-
         //Save the good to the SuppliedGoodRepository
         SuppliedGood ret = suppliedGoodRepository.save(good);
 
@@ -30,5 +29,9 @@ public class SupplierService {
         supplier.addSuppliedGood(ret);
         supplierRepository.save(supplier);
         return ret;
+    }
+
+    public List<Supplier> GetAllSuppliers(){
+        return supplierRepository.findAll();
     }
 }

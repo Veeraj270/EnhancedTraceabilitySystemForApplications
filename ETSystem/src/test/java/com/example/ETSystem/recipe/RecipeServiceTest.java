@@ -3,6 +3,7 @@ package com.example.ETSystem.recipe;
 import com.example.ETSystem.ingredientType.IngredientType;
 import com.example.ETSystem.ingredientType.IngredientTypeRepository;
 import com.example.ETSystem.ingredientType.IngredientTypeAPI;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -58,6 +59,7 @@ public class RecipeServiceTest {
     }
 
     @Test
+    @Transactional
     void testIngredient(){
         // Correctly saving name of Ingredient
         assertEquals(milk.getName(), "milk");
@@ -69,6 +71,7 @@ public class RecipeServiceTest {
     }
 
     @Test
+    @Transactional
     void testRecipe(){
         IngredientQuantity flour_500 = new IngredientQuantity();
         flour_500.setIngredient(flour);

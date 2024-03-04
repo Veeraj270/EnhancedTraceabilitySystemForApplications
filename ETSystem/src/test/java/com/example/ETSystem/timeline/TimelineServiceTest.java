@@ -1,6 +1,7 @@
 package com.example.ETSystem.timeline;
 
 import com.example.ETSystem.product.Product;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +17,7 @@ class TimelineServiceTest{
 	private TimelineService service;
 	
 	@Test
+	@Transactional
 	void testRoundtrip(){
 		Product owner = service.ownerRepo.save(new Product("a", 1, 1));
 		var e2 = service.save(new CreateEvent(1, owner));

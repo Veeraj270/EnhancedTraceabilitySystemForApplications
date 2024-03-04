@@ -3,6 +3,7 @@ package com.example.ETSystem.suppliers;
 import com.example.ETSystem.ingredientType.IngredientType;
 import com.example.ETSystem.ingredientType.IngredientTypeAPI;
 import com.example.ETSystem.productData.SuppliedGood;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -33,11 +34,12 @@ public class SupplierAPITest {
 	SupplierService supplierService;
 
 	@Test
+	@Transactional
 	void testRoundTrip(){
 		Supplier testSupplier = new Supplier("testing supplier", new ArrayList<>());
 
 		IngredientType eggsType = ingredientTypeAPI.addIngredientType(new IngredientType("Eggs", true, true, false));
-		SuppliedGood inEggsGood = new SuppliedGood("1653317388987","brown-eggs-20-units", eggsType, 20F, "units");
+		SuppliedGood inEggsGood = new SuppliedGood("1653317388987","brown-eggs-20-units", eggsType, 20F, "units", 0);
 
 		supplierService.AddGoodToSupplier(testSupplier, inEggsGood);
 		SuppliedGood outEggsGood = supplierAPI.getGoodById(inEggsGood.getId());
@@ -51,7 +53,7 @@ public class SupplierAPITest {
 
 		Supplier inB = new Supplier();
 		inB.setName("Brown and Orange Eggs. Co");
-		SuppliedGood eggsGood2 =  new SuppliedGood("1653317388988","brown-eggs-20-units", eggsType, 20F, "units");
+		SuppliedGood eggsGood2 =  new SuppliedGood("1653317388988","brown-eggs-20-units", eggsType, 20F, "units", 0);
 		supplierService.AddGoodToSupplier(inB, eggsGood2);
 		supplierAPI.addSupplier(inB);
 
@@ -62,6 +64,7 @@ public class SupplierAPITest {
 	}
 	
 	@Test
+	@Transactional
 	void testSearchByType(){
 		Supplier testSupplier = new Supplier("testing supplier", new ArrayList<>());
 
@@ -71,9 +74,9 @@ public class SupplierAPITest {
 				unobtainable = ingredientTypeAPI.addIngredientType(new IngredientType("Unobtainium", false, false, false));
 		
 		// goods with different types
-		SuppliedGood likeA1 = supplierService.AddGoodToSupplier(testSupplier, new SuppliedGood("0000000000000","A-like 1", uniqA, 10F, "kg")),
-				likeA2 = supplierService.AddGoodToSupplier(testSupplier, new SuppliedGood("0000000000001","A-like 2", uniqA, 10F, "kg")),
-				likeB = supplierService.AddGoodToSupplier(testSupplier, new SuppliedGood("0000000000002","B-like", uniqB, 10F, "kg"));
+		SuppliedGood likeA1 = supplierService.AddGoodToSupplier(testSupplier, new SuppliedGood("0000000000000","A-like 1", uniqA, 10F, "kg", 0)),
+				likeA2 = supplierService.AddGoodToSupplier(testSupplier, new SuppliedGood("0000000000001","A-like 2", uniqA, 10F, "kg", 0)),
+				likeB = supplierService.AddGoodToSupplier(testSupplier, new SuppliedGood("0000000000002","B-like", uniqB, 10F, "kg", 0));
 		
 		assertEquals(List.of(likeA1, likeA2), supplierAPI.getGoodsWithType(uniqA));
 		assertEquals(List.of(likeB), supplierAPI.getGoodsWithType(uniqB));
