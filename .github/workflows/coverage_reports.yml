@@ -1,33 +1,36 @@
-- name: Coverage Report
-  uses: Madrapps/jacoco-report@v1.6.1
+name: Coverage Report
 
-- on:
-    pull_request:
-      branches: [ "dev" ]
-- jobs:
-    build:
-      runs-on: ubuntu-latest
+on:
+  pull_request:
+    branches: [ "dev" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
     permissions:
       pull-requests: write
+
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Setup JDK
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'temurin'
+
       - name: Run Coverage
         run: |
           chmod +x gradlew
           ./gradlew testCoverage
+
       - name: Add coverage to PR
-        id: jacoco
-        uses: madrapps/jacoco-report@v1.6.1
-        token: ${{ secrets.GITHUB_TOKEN }}
+        uses: Madrapps/jacoco-report@v1.6.1
         with:
           paths: |
-            ${{ github.workspace }}/**/build/reports/jacoco/prodNormalDebugCoverage/prodNormalDebugCoverage.xml,
+            ${{ github.workspace }}/**/build/reports/jacoco/prodNormalDebugCoverage/prodNormalDebugCoverage.xml
             ${{ github.workspace }}/**/build/reports/jacoco/**/debugCoverage.xml
           token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 0
           min-coverage-changed-files: 75
-
