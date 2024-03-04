@@ -3,90 +3,90 @@
     "label": "Chocolate Cake",
     "maxQuantity": 5,
     "currentQuantity": 2,
-    "intermediariesId": [5, 3, 4,6 , 11]
+    "intermediaryIds": [5, 3, 4,6 , 11]
   },
   {
     "label": "Vanilla Cake",
     "maxQuantity": 5,
     "currentQuantity": 3,
-    "intermediariesId": [4, 5, 6, 11]
+    "intermediaryIds": [4, 5, 6, 11]
   },
   {
     "label": "Flour",
     "maxQuantity": 20,
     "currentQuantity": 15,
-    "intermediariesId": []
+    "intermediaryIds": []
   },
   {
     "label": "Sugar",
     "maxQuantity": 15,
     "currentQuantity": 10,
-    "intermediariesId": []
+    "intermediaryIds": []
   },
   {
     "label": "Eggs",
     "maxQuantity": 10,
     "currentQuantity": 8,
-    "intermediariesId": []
+    "intermediaryIds": []
   },
   {
     "label": "Butter",
     "maxQuantity": 10,
     "currentQuantity": 5,
-    "intermediariesId": []
+    "intermediaryIds": []
   },
   {
     "label": "Cocoa Powder",
     "maxQuantity": 8,
     "currentQuantity": 6,
-    "intermediariesId": []
+    "intermediaryIds": []
   },
   {
     "label": "Milk",
     "maxQuantity": 12,
     "currentQuantity": 9,
-    "intermediariesId": []
+    "intermediaryIds": []
   },
   {
     "label": "Baking Powder",
     "maxQuantity": 10,
     "currentQuantity": 7,
-    "intermediariesId": [7]
+    "intermediaryIds": [7]
   },
   {
     "label": "Vanilla Extract",
     "maxQuantity": 8,
     "currentQuantity": 5,
-    "intermediariesId": []
+    "intermediaryIds": []
   },
   {
     "label": "Icing Sugar",
     "maxQuantity": 10,
     "currentQuantity": 8,
-    "intermediariesId": [8, 9]
+    "intermediaryIds": [8, 9]
   },
   {
     "label": "Blueberries",
     "maxQuantity": 15,
     "currentQuantity": 12,
-    "intermediariesId": []
+    "intermediaryIds": []
   },
   {
     "label": "Raspberry Jam",
     "maxQuantity": 8,
     "currentQuantity": 4,
-    "intermediariesId": []
+    "intermediaryIds": []
   },
   {
     "label": "Cream",
     "maxQuantity": 10,
     "currentQuantity": 7,
-    "intermediariesId": []
+    "intermediaryIds": []
   },
   {
     "label": "Caramel Sauce",
     "maxQuantity": 8,
     "currentQuantity": 6,
-    "intermediariesId": []
+    "intermediaryIds": []
   }
 ]

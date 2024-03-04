@@ -4,7 +4,7 @@ By Izzeldeen Abumatar, Veeraj Bhagwat, Matthew Cudby, and Josif Trenchovski, und
 
 ## Summary
 
-The goal of the project is to develop a comprehensive system for the tracking of the production of Cakesmiths baked goods from their beginnings as raw ingredients, to their point of sale. 
+The goal of the project is to develop a comprehensive system for the tracking of the production of Cakesmiths baked goods from their beginnings as raw ingredients, to their point of sale.
 
 ## Expectation of Final Product
 The aim is to provide a piece of desktop software that provides accurate tracking of the production process, easy information retrieval, and intuitive visualization on the efficiency of their production lines. Aside from the desktop application, the system will also require an auxiliary platform for the real-time input of data during the production and delivery processes.
@@ -15,26 +15,26 @@ The intended use of the software is for warehouse & factory staff to be able to 
 A simple stock control system that allows users:
 - Add ingredients to the database.
 - Add products, "produced" from these ingredients into the database.
-- View all products currently on the database 
+- View all products currently on the database
 - Use a basic traceability page, that can search for the intermediary ingredients of a product and list them in a tree diagram
 - View the history of any product conceptualised as a series of **events** in chronological order.
 
 ## User Stories
 - As a **warehouse staff member**, I'd like to be able to scan and log the arrival of raw ingredients into the system such
-that we accurately tracker the inventory from the moment it arrives at our premises.
-- As a **production line baker**, I want a user-friendly interface that allows us to pick from a list of previously defined 
-recipes and log exactly which ingredients were used in the production of the product. I'd like to be able to input data
-regarding loss and waste during the production process. 
-- As a **company director**, I want a system that provides key insights into the efficiency of our production process via 
-intuitive data graphics. Also, I want the system to be able to provide in depth traceability data on any finished product
-that was produced on our premises.
+  that we accurately tracker the inventory from the moment it arrives at our premises.
+- As a **production line baker**, I want a user-friendly interface that allows us to pick from a list of previously defined
+  recipes and log exactly which ingredients were used in the production of the product. I'd like to be able to input data
+  regarding loss and waste during the production process.
+- As a **company director**, I want a system that provides key insights into the efficiency of our production process via
+  intuitive data graphics. Also, I want the system to be able to provide in depth traceability data on any finished product
+  that was produced on our premises.
 - As a **user** across all levels, I want the system to have an intuitive graphical interface that makes for easy navigation
-and data interpretation thus reducing the risk of human error and improving overall operational efficiency.
+  and data interpretation thus reducing the risk of human error and improving overall operational efficiency.
 - As a **system administrator**, I want a robust account system with multiple levels of seniority along with robust security
-features that ensure employees are able to and only able to access features relevant to their role.
+  features that ensure employees are able to and only able to access features relevant to their role.
 - As a **government employee**, in the case that a batch of Cakesmiths pbitcoinroducts causes members of the public to fall ill, I
-want the Cakesmiths' directors to be able to produce traceability data that can be proven to have not been doctored. Possible
-use case of blockchain technology.
+  want the Cakesmiths' directors to be able to produce traceability data that can be proven to have not been doctored. Possible
+  use case of blockchain technology.
 
 ## Tech Stack
 ### Frontend
@@ -75,7 +75,7 @@ The database, frontend, and backend can be started in tandem using Docker Compos
 **Prerequisites**
 
 - Docker Engine: <a name="docker-engine">https://docs.docker.com/engine/install/</a>
-  
+
 **Instructions**
 
 Pull the postgres image:
@@ -127,4 +127,3 @@ docker network remove <name of network>
 - Navigate to /et-system-front-end.
 - Run `npm install` to install required dependencies.
 - Run `npm start` to launch graphical user interface.
-

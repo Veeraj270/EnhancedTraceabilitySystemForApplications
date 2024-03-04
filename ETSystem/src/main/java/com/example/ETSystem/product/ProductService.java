@@ -32,9 +32,6 @@ public class ProductService{
 	}
 
 	public void addNewProduct(Product product){
-		for(long productId : product.getIntermediariesId())
-			if(!productRepository.existsById(productId))
-				throw new IllegalArgumentException("At least one of the intermediaries of the new product does not exist");
 		productRepository.save(product);
 	}
 
@@ -46,9 +43,7 @@ public class ProductService{
 	}
 
 	public void recursiveSearch(Product product, List<Product> intermediaries, Product parent){
-		List<Long> cur = product.getIntermediariesId();
-
-		for(long id : cur)
+		for(long id : product.getIntermediaryIds())
 			productRepository.findById(id).ifPresent(value -> recursiveSearch(value, intermediaries, product));
 
 		intermediaries.add(product);
@@ -62,8 +57,6 @@ public class ProductService{
 				.orElseGet(List::of);
 	}
 
-
-
     public Product getProductByID(Long id){
         if(productRepository.findById(id).isPresent()){
             return productRepository.findById(id).get();
@@ -73,18 +66,15 @@ public class ProductService{
         }
     }
 
-
-
     public Product editProduct(Long id, Product product){
         Product existingProduct = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
         existingProduct.setLabel(product.getLabel());
         existingProduct.setParentID(product.getParentID());
-        existingProduct.setIntermediaries(product.getIntermediariesId());
+        existingProduct.setIntermediaryIds(product.getIntermediaryIds());
         existingProduct.setMaxQuantity(product.getMaxQuantity());
         existingProduct.setCurrentQuantity(product.getCurrentQuantity());
 
         return productRepository.save(existingProduct);
-
     }
 }

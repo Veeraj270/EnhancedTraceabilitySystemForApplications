@@ -12,6 +12,7 @@ import TakeDeliveryPage from "./Pages/TakeDeliveryPage";
 import CustomerOrdersPage from "./Pages/CustomerOrdersPage";
 import DeliveriesOverviewPage from "./Pages/DeliveriesOverviewPage";
 import FinalProductPage from "./Pages/FinalProductPage";
+import RecipesPage from "./Pages/RecipesPage";
 
 function App() {
     return (
@@ -32,7 +33,9 @@ function App() {
 
                     </Route>
                     <Route path={"/deliveries"} element={<DeliveriesOverviewPage/>}>
+                    </Route>
 
+                    <Route path={"/recipes"} element={<RecipesPage/>}>
                     </Route>
                     <Route path={"/help"} element={<HelpPage/>}>
 

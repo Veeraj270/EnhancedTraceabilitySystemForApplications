@@ -1,5 +1,6 @@
 package com.example.ETSystem.recipe;
 
+import com.example.ETSystem.ingredientType.IngredientType;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -39,10 +40,10 @@ public class Recipe {
     // cascade = CascadeType.ALL makes sure when saving/deleting/... a Recipe object into the db,
     // the appropriate IngredientQuantity objects are saved/deleted/... as well
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<IngredientQuantity> ingredients;
+    private Set<IngredientQuantity> ingredientQuantities;
 
     @OneToMany(cascade = CascadeType.REFRESH)
-    private Set<Ingredient> allergens;
+    private Set<IngredientType> allergens;
 
     @Column(
             name = "vegan",
@@ -56,21 +57,21 @@ public class Recipe {
     )
     private boolean vegetarian;
 
-    public Recipe(String label, Set<IngredientQuantity> ingredients) {
+    public Recipe(String label, Set<IngredientQuantity> ingredientQuantities) {
         this.label = label;
         // Throws and exception if there are for example 2 milk ingredients
-        if(ingredients.stream().count() != ingredients.stream().map(x -> x.getIngredient()).distinct().count()){
+        if(ingredientQuantities.stream().count() != ingredientQuantities.stream().map(x -> x.getIngredientType()).distinct().count()){
             throw new IllegalArgumentException("You can't have 2 separate identical ingredients in your recipe");
         }
-        this.ingredients = ingredients;
-        this.allergens = ingredients.stream().
-                map(IngredientQuantity::getIngredient)
-                .filter(x -> x.isAllergen())
+        this.ingredientQuantities = ingredientQuantities;
+        this.allergens = ingredientQuantities.stream().
+                map(IngredientQuantity::getIngredientType)
+                .filter(x -> x.getIsAllergen())
                 .collect(Collectors.toSet());
-        this.vegan = ingredients.stream()
-                .allMatch(x -> x.getIngredient().isVegan());
-        this.vegetarian = ingredients.stream()
-                .allMatch(x -> x.getIngredient().isVegetarian());
+        this.vegan = ingredientQuantities.stream()
+                .allMatch(x -> x.getIngredientType().getIsVegan());
+        this.vegetarian = ingredientQuantities.stream()
+                .allMatch(x -> x.getIngredientType().getIsVegetarian());
     }
 
     public Recipe() {
@@ -84,12 +85,12 @@ public class Recipe {
 
         Recipe that = (Recipe) o;
         return Objects.equals(this.getLabel(), that.getLabel()) &&
-                new HashSet<>(this.getIngredients()).equals(new HashSet<>(that.getIngredients()));
+                new HashSet<>(this.getIngredientQuantities()).equals(new HashSet<>(that.getIngredientQuantities()));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(label, new HashSet<>(ingredients));
+        return Objects.hash(label, new HashSet<>(ingredientQuantities));
     }
 
     public Long getId() {
@@ -108,7 +109,7 @@ public class Recipe {
         this.label = label;
     }
 
-    public Set<IngredientQuantity> getIngredients() { return ingredients; }
+    public Set<IngredientQuantity> getIngredientQuantities() { return ingredientQuantities; }
 
 
     public boolean isVegan() {
@@ -119,17 +120,17 @@ public class Recipe {
         return this.vegetarian;
     }
 
-    public Set<Ingredient> getAllergens() { return allergens; }
+    public Set<IngredientType> getAllergens() { return allergens; }
 
-    public void setIngredients(Set<IngredientQuantity> ingredients) {
+    public void setIngredientQuantities(Set<IngredientQuantity> ingredients) {
         this.allergens = ingredients.stream().
-                map(IngredientQuantity::getIngredient)
-                .filter(x -> x.isAllergen())
+                map(IngredientQuantity::getIngredientType)
+                .filter(x -> x.getIsAllergen())
                 .collect(Collectors.toSet());
         this.vegan = ingredients.stream()
-                .allMatch(x -> x.getIngredient().isVegan());
+                .allMatch(x -> x.getIngredientType().getIsVegan());
         this.vegetarian = ingredients.stream()
-                .allMatch(x -> x.getIngredient().isVegetarian());
-        this.ingredients = ingredients;
+                .allMatch(x -> x.getIngredientType().getIsVegetarian());
+        this.ingredientQuantities = ingredients;
     }
 }

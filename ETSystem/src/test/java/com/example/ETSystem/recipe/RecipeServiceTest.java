@@ -1,63 +1,75 @@
 package com.example.ETSystem.recipe;
 
+import com.example.ETSystem.ingredientType.IngredientType;
+import com.example.ETSystem.ingredientType.IngredientTypeRepository;
+import com.example.ETSystem.ingredientType.IngredientTypeAPI;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.Mockito.*;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest
+@TestPropertySource(locations = "/application.properties")
 public class RecipeServiceTest {
-    @Autowired
+    //API & SERVICE
     private RecipeService recipeService;
 
+    private IngredientTypeAPI ingredientTypeAPI;
+
+    //REPOs
     @Autowired
     private RecipeRepository recipeRepository;
 
     @Autowired
-    private IngredientRepository ingredientRepository;
+    private IngredientTypeRepository ingredientTypeRepository;
 
-    private Ingredient milk;
-    private Ingredient flour;
-    private Ingredient chocolate;
-    private Ingredient vanilla;
+    @Autowired
+    private IngredientQuantityRepository ingredientQuantityRepository;
+
+    private IngredientType milk;
+    private IngredientType flour;
+    private IngredientType chocolate;
+    private IngredientType vanilla;
 
     @BeforeAll
     public void setup() {
         // Adding elements to the repository
-        milk = recipeService.addNewIngredient(new Ingredient("MILK", true, true, false));
-        flour = recipeService.addNewIngredient(new Ingredient("fLoUR", false, true, true));
-        chocolate = recipeService.addNewIngredient(new Ingredient("chocolate", true, true, false));
-        vanilla = recipeService.addNewIngredient(new Ingredient("vanilla", false, true, true));
+        recipeService = new RecipeService(recipeRepository, ingredientTypeRepository, ingredientQuantityRepository);
+        ingredientTypeAPI = new IngredientTypeAPI(ingredientTypeRepository);
+
+        milk = ingredientTypeAPI.addIngredientType(new IngredientType("MILK", true, true, false));
+        flour = ingredientTypeAPI.addIngredientType(new IngredientType("fLoUR", false, true, true));
+        chocolate = ingredientTypeAPI.addIngredientType(new IngredientType("chocolate", true, true, false));
+        vanilla = ingredientTypeAPI.addIngredientType(new IngredientType("vanilla", false, true, true));
     }
 
     @Test
     void testIngredient(){
-        // Correctly saving label of Ingredient
-        assertEquals(milk.getLabel(), "milk");
-        assertEquals(flour.getLabel(), "flour");
+        // Correctly saving name of Ingredient
+        assertEquals(milk.getName(), "milk");
+        assertEquals(flour.getName(), "flour");
 
         // Correctly saving ingredient in repository
-        System.out.println(ingredientRepository.findAll().stream().toList());
-
-        //assertEquals(ingredientRepository.findAll().stream().toList(), List.of(milk, flour, chocolate, vanilla)); DOES NOT WORK AS MOCK DATA IS PRESENT ALSO, ADAPTATION IS BELOW:
-        assertTrue(ingredientRepository.findAll().containsAll(List.of(milk, flour, chocolate, vanilla)));
-
-        // Throwing an error for adding the same element
-        assertThrows(IllegalArgumentException.class, () -> {
-            recipeService.addNewIngredient(new Ingredient("flour", false, true, true));
-        });
+        List<IngredientType> list = ingredientTypeRepository.findAll();
+        assertTrue(ingredientTypeRepository.findAll().containsAll(List.of(milk, flour, chocolate, vanilla)));
     }
 
     @Test
     void testRecipe(){
-
         IngredientQuantity flour_500 = new IngredientQuantity();
         flour_500.setIngredient(flour);
         flour_500.setQuantity(500);
@@ -93,12 +105,10 @@ public class RecipeServiceTest {
         assertEquals(true, rec2.isVegetarian());
         assertEquals(false, rec2.isVegan());
 
-        //assertEquals(recipeRepository.findAll().stream().toList(), List.of(rec1, rec2)); DOES NOT WORK AS MOCK DATA IS PRESENT ALSO, ADAPTATION IS BELOW:
-        assertTrue(recipeRepository.findAll().containsAll(List.of(rec1, rec2)));
-
+        assertEquals(recipeRepository.findAll().stream().toList(), List.of(rec1, rec2));
 
         IngredientQuantity mango_invalid = new IngredientQuantity();
-        mango_invalid.setIngredient(new Ingredient("mango", false, true, true));
+        mango_invalid.setIngredient(new IngredientType("mango", false, true, true));
 
         IngredientQuantity milk_100 = new IngredientQuantity();
         milk_100.setIngredient(milk);

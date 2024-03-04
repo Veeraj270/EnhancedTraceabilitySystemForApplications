@@ -4,6 +4,7 @@ import { FaHome } from "react-icons/fa";
 import { FaBookOpen } from "react-icons/fa";
 import { PiTreeStructure } from "react-icons/pi";
 import { IoMdHelp } from "react-icons/io";
+import { FaBirthdayCake } from "react-icons/fa";
 
 export const SideBarData = [
     {
@@ -40,6 +41,12 @@ export const SideBarData = [
         title: ' Customer Orders ',
         path: '/customer-orders',
         icon: <FaBookOpen/>,
+        cName: 'nav-text'
+    },
+    {
+        title: ' Recipes ',
+        path: '/recipes',
+        icon: <FaBirthdayCake/>,
         cName: 'nav-text'
     },
     {
