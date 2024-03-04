@@ -39,9 +39,9 @@ tasks.named<BootJar>("bootJar") {
 tasks.withType<JacocoReport> {
 	dependsOn("test")
 	reports {
-		xml.required.set(false);
-		html.required.set(true);
-		csv.required.set(false);
+		xml.required.set(true)
+		html.required.set(true)
+		csv.required.set(true)
 	}
 }
 
