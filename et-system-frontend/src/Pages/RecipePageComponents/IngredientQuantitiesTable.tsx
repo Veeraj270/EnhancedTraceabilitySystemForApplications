@@ -1,12 +1,9 @@
-import React, {useEffect, useMemo, useState} from "react";
-import {IngredientQuantity} from "../Interfaces/IngredientQuantity";
+import React, {useMemo} from "react";
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import '../ProductPageComponents/TanStackTable/Table.css'
 import './RPStylesheet.css'
 
-const IngredientQuantitiesTable = ({ingredientQuantities}) => {
-
-    const [tableData, setTableData] = useState([])
+const IngredientQuantitiesTable = ({ingredientQuantities, recipe, setRecipe}) => {
 
     const columns = useMemo(() => [
         {
@@ -16,33 +13,22 @@ const IngredientQuantitiesTable = ({ingredientQuantities}) => {
         {
             header: "Quantity",
             accessorKey: "quantity"
+        },
+        {
+            header: "",
+            accessorKey: "delete"
         }
     ], [])
 
-    const generateTableData = async (data: any[]) => {
-        const tempTableData = data.map((ingredientQuantity: IngredientQuantity) => ({
-                ingredientType: ingredientQuantity.ingredientType,
-                quantity: ingredientQuantity.quantity
-        }))
-        console.log(tempTableData)
-        return data
-    }
-
     const table = useReactTable({
-        data: tableData,
+        data: ingredientQuantities,
         columns: columns,
         getCoreRowModel: getCoreRowModel()
     })
 
-    useEffect(() => {
-        if(ingredientQuantities.length > 0){
-            generateTableData(ingredientQuantities)
-                .then(tempTableData => {
-                    setTableData(tempTableData)})
-                .catch(error => console.error("Error generating table data", error));
-        }
-        console.log(ingredientQuantities)
-    }, [ingredientQuantities])
+    const deleteFromTable = (event) => {
+        setRecipe({...recipe, ingredientQuantities: []})
+    }
 
     return (
         <div>
@@ -57,8 +43,9 @@ const IngredientQuantitiesTable = ({ingredientQuantities}) => {
                     <tbody>
                     {table.getCoreRowModel().rows.map(row => (<tr
                             key={row.id}>
-                            <td style={{width: '50%'}}>{row.original.ingredientType.name}</td>
-                            <td style={{width: '50%'}}>{row.original.quantity}</td>
+                            <td style={{width: '55%'}}>{row.original.ingredientType.name}</td>
+                            <td style={{width: '35%'}}>{row.original.quantity}</td>
+                            <td style={{width: '10%'}} onClick={deleteFromTable}>X</td>
                         </tr>))}
                     </tbody>
                 </table>

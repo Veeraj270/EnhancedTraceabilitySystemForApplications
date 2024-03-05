@@ -43,7 +43,7 @@ const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient}) => {
                        value={ingredientQuantity?.quantity || ' '}
                        onChange={handleChange}/>
             </div>
-                <Button color="primary" onClick={handleIngredientSubmit} className = {'add-to-recipe-button'}>Add to recipe</Button>
+                <Button onClick={handleIngredientSubmit} className = {'add-to-recipe-button'}>Add to recipe</Button>
             <div>
                 <i className="arrow down"></i>
             </div>

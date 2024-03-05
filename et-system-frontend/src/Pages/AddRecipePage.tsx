@@ -46,6 +46,11 @@ const AddRecipePage = () => {
     }
 
     const handleSubmit = async (event) => {
+        if (!recipe || recipe.ingredientQuantities.length === 0 || recipe.label.length === 0) {
+            console.error('Name is not filled or table is empty.');
+            return;
+        }
+
         event.preventDefault();
         const response = await fetch('http://localhost:8080/api/recipes/add-recipe', {
             method: 'POST',
@@ -59,10 +64,11 @@ const AddRecipePage = () => {
         if (!response.ok) {
             throw new Error('Failed to add recipe');
         }
-        setRecipe({
+        setRecipe(recipe => ({
+            ...recipe,
             label: '',
             ingredientQuantities: []
-        });
+        }));
     }
 
     return(
@@ -87,6 +93,8 @@ const AddRecipePage = () => {
                     <div className={'IGTable'}>
                     <IngredientQuantitiesTable
                         ingredientQuantities={recipe.ingredientQuantities}
+                        recipe={{recipe}}
+                        setRecipe={setRecipe}
                     />
                     </div>
                 </div>

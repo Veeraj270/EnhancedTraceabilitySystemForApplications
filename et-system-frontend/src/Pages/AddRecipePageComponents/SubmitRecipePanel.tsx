@@ -19,7 +19,7 @@ const SubmitRecipePanel = ({recipe, handleChange, handleSubmit}) => {
             onChange={handleChange}
             placeholder={"Description..."}
         />
-        <Button color="primary" className={"submit-button"} onClick={handleSubmit}>SUBMIT</Button>
+        <Button className={"submit-button"} onClick={handleSubmit}>SUBMIT</Button>
     </div>
     )
 }

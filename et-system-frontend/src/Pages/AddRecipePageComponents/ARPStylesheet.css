@@ -182,3 +182,13 @@ input[type=number]::-webkit-outer-spin-button{
     width: 60px;
     text-align: center;
 }
+
+button:hover {
+    background-color: ghostwhite;
+}
+
+button:active {
+    background-color: antiquewhite;
+    transform: translate(2px);
+    box-shadow: 0 2px #666;
+}
