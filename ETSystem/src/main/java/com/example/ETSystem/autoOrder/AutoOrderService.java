@@ -87,9 +87,8 @@ public class AutoOrderService {
         for (Supplier supplier : suppliers){
             matchingGoods.addAll(supplier.getGoods().stream()
                     .filter((good) -> good.getIngredientType().equals(reqType))
-                    .map((good) -> {
+                    .peek((good) -> {
                         good.setSupplier(supplier);
-                        return good;
                     })
                     .toList());
         }
@@ -171,10 +170,10 @@ public class AutoOrderService {
             int x = ((int) (iDeliveryTotal / distinctQuantities.get(i)));
             if (x == 0){ continue; }
             amounts[i] = x;
-            amounts[0] = amounts[0] - (int)(x * (distinctQuantities.get(i)) / distinctQuantities.get(0));
-            iDeliveryTotal -= distinctQuantities.get(i) * x;
+            amounts[0] = amounts[0]- (int)(x * (distinctQuantities.get(i)) / distinctQuantities.get(0));
+            iDeliveryTotal -= distinctQuantities.get(i)*x;
         }
-        return  amounts;
+        return amounts;
     }
 
     public List<IngredientQuantity> totalIngredients(List<FinalProduct> finalProducts){
