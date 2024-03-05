@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 
-const RPSummaryPanel = (props) => {
+const RPSummaryPanel = (props: any) => {
 
     const [data, setData] = useState(props)
 
@@ -13,11 +13,11 @@ const RPSummaryPanel = (props) => {
         <div className={"RPSummary-grid"}>
             <p className={"RPSummary-name"}>
                 <b>Recipe name: </b>
-                {data.props.label}
-                <b>{data.props.vegan ? ' (V)' : data.props.vegetarian ? ' (Ve)' : ""}</b>
+                {data.label}
+                <b>{data.vegan ? ' (V)' : data.vegetarian ? ' (Ve)' : ""}</b>
             </p>
             <div className={"RPSummary-item"}>
-                <p><b>Allergens: </b>{data.props.allergens ? data.props.allergens.map(ingredient => ingredient.label).join(", ") : ""}</p>
+                <p><b>Allergens: </b>{data.allergens ? data.allergens.map(ingredient => ingredient.label).join(", ") : ""}</p>
             </div>
             <div className={"RPSummary-item"}>
                 <p><b>Description: </b></p>

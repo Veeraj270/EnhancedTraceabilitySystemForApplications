@@ -29,7 +29,7 @@ const RecipesPage = () => {
     }, [])
 
     useEffect(() => {
-        let panelPropsData
+        let panelPropsData = []
         let ingredientQuantityList: IngredientQuantity[] = []
         if (selectedRecipe !== -1){
             const selected = recipeData.filter((recipe) => recipe.id === selectedRecipe).at(0)
