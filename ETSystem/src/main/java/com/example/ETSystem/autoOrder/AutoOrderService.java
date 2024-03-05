@@ -173,7 +173,7 @@ public class AutoOrderService {
             amounts[0] = amounts[0]- (int)(x * (distinctQuantities.get(i)) / distinctQuantities.get(0));
             iDeliveryTotal -= distinctQuantities.get(i)*x;
         }
-        return  amounts;
+        return amounts;
     }
 
     public List<IngredientQuantity> totalIngredients(List<FinalProduct> finalProducts){
