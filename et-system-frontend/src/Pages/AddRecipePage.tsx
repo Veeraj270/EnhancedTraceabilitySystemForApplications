@@ -93,7 +93,7 @@ const AddRecipePage = () => {
                     <div className={'IGTable'}>
                     <IngredientQuantitiesTable
                         ingredientQuantities={recipe.ingredientQuantities}
-                        recipe={{recipe}}
+                        recipe={recipe}
                         setRecipe={setRecipe}
                     />
                     </div>

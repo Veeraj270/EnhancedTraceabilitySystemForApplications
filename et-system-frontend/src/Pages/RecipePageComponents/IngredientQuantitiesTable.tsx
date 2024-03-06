@@ -8,7 +8,7 @@ const IngredientQuantitiesTable = ({ingredientQuantities, recipe, setRecipe}) =>
     const columns = useMemo(() => [
         {
             header: "Ingredient",
-            accessorKey: "ingredient type"
+            accessorKey: "ingredientType"
         },
         {
             header: "Quantity",
@@ -18,7 +18,7 @@ const IngredientQuantitiesTable = ({ingredientQuantities, recipe, setRecipe}) =>
             header: "",
             accessorKey: "delete"
         }
-    ], [])
+    ], [ingredientQuantities])
 
     const table = useReactTable({
         data: ingredientQuantities,
@@ -26,8 +26,14 @@ const IngredientQuantitiesTable = ({ingredientQuantities, recipe, setRecipe}) =>
         getCoreRowModel: getCoreRowModel()
     })
 
+    // Getting the id of the row that's clicked and removing that element.
+    // Not sure if this is the best way but it works for now
     const deleteFromTable = (event) => {
-        setRecipe({...recipe, ingredientQuantities: []})
+        console.log(event.target.parentNode.getAttribute('id'))
+        const newIngredientQuantities = [...recipe.ingredientQuantities]
+            newIngredientQuantities.splice(event.target.parentNode.getAttribute('id'), 1)
+        console.log(newIngredientQuantities)
+        setRecipe({...recipe, ingredientQuantities: newIngredientQuantities})
     }
 
     return (
@@ -42,7 +48,7 @@ const IngredientQuantitiesTable = ({ingredientQuantities, recipe, setRecipe}) =>
                     ))}
                     <tbody>
                     {table.getCoreRowModel().rows.map(row => (<tr
-                            key={row.id}>
+                            id={row.id}>
                             <td style={{width: '55%'}}>{row.original.ingredientType.name}</td>
                             <td style={{width: '35%'}}>{row.original.quantity}</td>
                             <td style={{width: '10%'}} onClick={deleteFromTable}>X</td>
