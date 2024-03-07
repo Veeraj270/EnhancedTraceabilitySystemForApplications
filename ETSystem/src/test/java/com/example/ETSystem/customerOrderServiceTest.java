@@ -60,11 +60,9 @@ public class customerOrderServiceTest {
         ArrayList<FinalProduct> finalProducts2 = new ArrayList<>();
         ArrayList<FinalProduct> finalProducts3 = new ArrayList<>();
 
-
         CustomerOrder order1 = new CustomerOrder("Cafe1", ZonedDateTime.now(), ZonedDateTime.now().plusDays(7), finalProducts);
         CustomerOrder order2 = new CustomerOrder("Cafe2", ZonedDateTime.now(), ZonedDateTime.now().plusDays(7), finalProducts2);
         CustomerOrder order3 = new CustomerOrder("Cafe3", ZonedDateTime.now(), ZonedDateTime.now().plusDays(7), finalProducts3);
-
 
         order1 = customerOrderRepository.save(order1);
         order2 = customerOrderRepository.save(order2);
@@ -108,11 +106,9 @@ public class customerOrderServiceTest {
         ArrayList<FinalProduct> finalProducts2 = new ArrayList<>();
         ArrayList<FinalProduct> finalProducts3 = new ArrayList<>();
 
-
         CustomerOrder order1 = new CustomerOrder("Cafe1", ZonedDateTime.now(), ZonedDateTime.now().plusDays(7), finalProducts);
         CustomerOrder order2 = new CustomerOrder("Cafe2", ZonedDateTime.now(), ZonedDateTime.now().plusDays(7), finalProducts2);
         CustomerOrder order3 = new CustomerOrder("Cafe3", ZonedDateTime.now(), ZonedDateTime.now().plusDays(7), finalProducts3);
-
 
         order1 = customerOrderRepository.save(order1);
         order2 = customerOrderRepository.save(order2);
