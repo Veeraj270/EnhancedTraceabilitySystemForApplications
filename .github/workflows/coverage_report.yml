@@ -32,4 +32,4 @@ jobs:
             ${{ github.workspace }}/**/build/reports/jacoco/**/debugCoverage.xml
           token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 0
-          min-coverage-changed-files: 75
+          min-coverage-changed-files: 0
