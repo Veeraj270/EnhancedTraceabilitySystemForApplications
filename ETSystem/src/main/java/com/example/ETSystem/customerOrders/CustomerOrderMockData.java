@@ -37,7 +37,7 @@ public class CustomerOrderMockData {
             DateTimeFormatter formatter =DateTimeFormatter.ofPattern("yyyy/MM/dd");
             LocalDate localDate = LocalDate.parse(localDateString, formatter);
 
-            List<FinalProduct> finalProducts= new ArrayList<>();
+            ArrayList<FinalProduct> finalProducts= new ArrayList<>();
 
             for(JsonNode finalProductNode : node.get("finalProducts")){
                 Long finalProductId = finalProductNode.asLong();

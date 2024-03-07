@@ -29,6 +29,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -271,7 +272,7 @@ public class AutoOrderServiceTest {
         FinalProduct fProduct1 = new FinalProduct("fProduct1", 1000, recipe, 4);
 
         CustomerOrder order = new CustomerOrder();
-        order.setFinalProducts(List.of(fProduct1));
+        order.setFinalProducts(new ArrayList<>(Arrays.asList(fProduct1)));
         order.setClient("client");
         order.setDate(ZonedDateTime.now());
         order.setDeliveryDate(ZonedDateTime.now().plusDays(7));

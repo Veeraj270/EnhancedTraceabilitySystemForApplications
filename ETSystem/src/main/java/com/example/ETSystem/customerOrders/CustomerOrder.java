@@ -46,19 +46,19 @@ public class CustomerOrder {
 
     private ZonedDateTime deliveryDate;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "customerOrder_Id")
+    private List<FinalProduct> finalProducts = new ArrayList<>();
+
     public CustomerOrder() {
     }
 
-    public CustomerOrder(String client, ZonedDateTime date, ZonedDateTime deliveryDate, List<FinalProduct> finalProducts) {
+    public CustomerOrder(String client, ZonedDateTime date, ZonedDateTime deliveryDate, ArrayList<FinalProduct> finalProducts) {
         this.client = client;
         this.date = date;
         this.deliveryDate = deliveryDate;
         this.finalProducts = finalProducts;
     }
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "customerOrder_Id")
-    private List<FinalProduct> finalProducts = new ArrayList<>();
 
     //Getters
     public long getID(){ return id; }

@@ -20,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -55,9 +56,9 @@ public class customerOrderServiceTest {
     @Transactional
     void testGetCustomerOrders(){
         //Setup
-        List<FinalProduct> finalProducts = new ArrayList<>();
-        List<FinalProduct> finalProducts2 = new ArrayList<>();
-        List<FinalProduct> finalProducts3 = new ArrayList<>();
+        ArrayList<FinalProduct> finalProducts = new ArrayList<>();
+        ArrayList<FinalProduct> finalProducts2 = new ArrayList<>();
+        ArrayList<FinalProduct> finalProducts3 = new ArrayList<>();
 
 
         CustomerOrder order1 = new CustomerOrder("Cafe1", ZonedDateTime.now(), ZonedDateTime.now().plusDays(7), finalProducts);
@@ -85,7 +86,7 @@ public class customerOrderServiceTest {
         String client = "client1";
         ZonedDateTime date = ZonedDateTime.now();
         ZonedDateTime deliveryDate = ZonedDateTime.now().plusDays(7);
-        List<FinalProduct> finalProducts = new ArrayList<>();
+        ArrayList<FinalProduct> finalProducts = new ArrayList<>();
 
         CustomerOrder order1 = new CustomerOrder(client, date, deliveryDate, finalProducts);
 
@@ -103,9 +104,9 @@ public class customerOrderServiceTest {
     @Transactional
     public void testGetCustomerOrderByID_FindsByID() throws Exception {
         //Setup
-        List<FinalProduct> finalProducts = new ArrayList<>();
-        List<FinalProduct> finalProducts2 = new ArrayList<>();
-        List<FinalProduct> finalProducts3 = new ArrayList<>();
+        ArrayList<FinalProduct> finalProducts = new ArrayList<>();
+        ArrayList<FinalProduct> finalProducts2 = new ArrayList<>();
+        ArrayList<FinalProduct> finalProducts3 = new ArrayList<>();
 
 
         CustomerOrder order1 = new CustomerOrder("Cafe1", ZonedDateTime.now(), ZonedDateTime.now().plusDays(7), finalProducts);
@@ -145,7 +146,7 @@ public class customerOrderServiceTest {
        String client = "client1";
         ZonedDateTime date = ZonedDateTime.now();
         ZonedDateTime deliveryDate = ZonedDateTime.now().plusDays(7);
-        List<FinalProduct> finalProducts = new ArrayList<>();
+        ArrayList<FinalProduct> finalProducts = new ArrayList<>();
 
         CustomerOrder order1 = new CustomerOrder(client, date, deliveryDate, finalProducts);
 
@@ -159,19 +160,20 @@ public class customerOrderServiceTest {
         Recipe recipe = recipeRepository.save(new Recipe("recipe", IQs));
         FinalProduct fProduct = finalProductRepository.save( new FinalProduct("label",1, recipe, 1));
 
-        List<FinalProduct> updatedFinalProducts = List.of(fProduct);
+        ArrayList<FinalProduct> updatedFinalProducts = new ArrayList<>(Arrays.asList(fProduct));
 
         //Edit the order
         order1.setClient(updatedClient);
         order1.setFinalProducts(updatedFinalProducts);
-        order1.setId(-1L);
         //Call method to be tested
         customerOrderService.editCustomerOrder(id, order1);
 
         //Check result
         CustomerOrder result = customerOrderRepository.findById(id).get();
 
-        assert result.getClient().equals(updatedFinalProducts);
+        System.out.println();
+
+        assert result.getClient().equals(updatedClient);
         assert result.getFinalProducts().equals(updatedFinalProducts);
     }
 }
