@@ -143,7 +143,7 @@ public class customerOrderServiceTest {
     @Transactional
     public void testEditCustomerOrder_EditsCorrectly(){
         //Setup
-       String client = "client1";
+        String client = "client1";
         ZonedDateTime date = ZonedDateTime.now();
         ZonedDateTime deliveryDate = ZonedDateTime.now().plusDays(7);
         ArrayList<FinalProduct> finalProducts = new ArrayList<>();
@@ -153,25 +153,22 @@ public class customerOrderServiceTest {
         order1 = customerOrderRepository.save(order1);
         long id = order1.getID();
 
-        //New attributes
+        //New values
         String updatedClient = "client2";
-
         Set<IngredientQuantity> IQs = Set.of();
         Recipe recipe = recipeRepository.save(new Recipe("recipe", IQs));
         FinalProduct fProduct = finalProductRepository.save( new FinalProduct("label",1, recipe, 1));
-
         ArrayList<FinalProduct> updatedFinalProducts = new ArrayList<>(Arrays.asList(fProduct));
 
         //Edit the order
         order1.setClient(updatedClient);
         order1.setFinalProducts(updatedFinalProducts);
+
         //Call method to be tested
         customerOrderService.editCustomerOrder(id, order1);
 
         //Check result
         CustomerOrder result = customerOrderRepository.findById(id).get();
-
-        System.out.println();
 
         assert result.getClient().equals(updatedClient);
         assert result.getFinalProducts().equals(updatedFinalProducts);
