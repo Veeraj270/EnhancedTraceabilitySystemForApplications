@@ -1,6 +1,7 @@
 package com.example.ETSystem.customerOrders;
 
 
+import com.example.ETSystem.productData.Exceptions.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
@@ -27,12 +28,12 @@ public class CustomerOrderService {
         customerOrderRepository.save(customerOrder);
     }
 
-    public CustomerOrder getCustomerOrderByID(Long id){
+    public CustomerOrder getCustomerOrderByID(Long id) throws Exception {
         if(customerOrderRepository.findById(id).isPresent()){
             return customerOrderRepository.findById(id).get();
         }
         else{
-            throw new ResponseStatusException(NOT_FOUND, "Unable to find customer order");
+            throw new Exception("Unable to find customer order");
         }
     }
 
@@ -44,7 +45,6 @@ public class CustomerOrderService {
         existingCustomerOrder.setFinalProducts(customerOrder.getFinalProducts());
 
         return customerOrderRepository.save(existingCustomerOrder);
-
     }
 
 
