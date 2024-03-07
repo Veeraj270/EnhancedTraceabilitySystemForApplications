@@ -1,7 +1,10 @@
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
+
+
 plugins {
 	java
+	jacoco
 	id("org.springframework.boot") version "3.1.5"
 	id("io.spring.dependency-management") version "1.1.3"
 }
@@ -32,3 +35,13 @@ tasks.withType<Test> {
 tasks.named<BootJar>("bootJar") {
 	archiveClassifier.set("boot")
 }
+
+tasks.withType<JacocoReport> {
+	dependsOn("test")
+	reports {
+		xml.required.set(true)
+		html.required.set(true)
+		csv.required.set(true)
+	}
+}
+
