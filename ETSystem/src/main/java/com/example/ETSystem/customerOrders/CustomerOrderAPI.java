@@ -23,7 +23,7 @@ public class CustomerOrderAPI {
     }
 
     @GetMapping(path = "/fetch-by-id/{id}")
-    public CustomerOrder getCustomerOrderById(@PathVariable("id") String id){
+    public CustomerOrder getCustomerOrderById(@PathVariable("id") String id) throws Exception {
         return customerOrderService.getCustomerOrderByID(Long.parseLong(id));
     }
 

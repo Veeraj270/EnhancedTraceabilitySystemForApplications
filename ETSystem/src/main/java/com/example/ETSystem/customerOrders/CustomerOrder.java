@@ -46,46 +46,52 @@ public class CustomerOrder {
 
     private ZonedDateTime deliveryDate;
 
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "customerOrder_Id")
+    private List<FinalProduct> finalProducts = new ArrayList<>();
+
     public CustomerOrder() {
     }
 
-    public CustomerOrder(String client, ZonedDateTime date, ZonedDateTime deliveryDate, List<FinalProduct> finalProducts) {
+    public CustomerOrder(String client, ZonedDateTime date, ZonedDateTime deliveryDate, ArrayList<FinalProduct> finalProducts) {
         this.client = client;
         this.date = date;
         this.deliveryDate = deliveryDate;
         this.finalProducts = finalProducts;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "customerOrder_Id")
-    private List<FinalProduct> finalProducts = new ArrayList<>();
+    //Getters
+    public long getID(){ return id; }
 
     public String getClient() {
         return client;
-    }
-
-    public void setClient(String client) {
-        this.client = client;
     }
 
     public ZonedDateTime getDate() {
         return date;
     }
 
-    public void setDate(ZonedDateTime date) {
-        this.date = date;
+    public ZonedDateTime getDeliveryDate() {
+        return deliveryDate;
     }
 
     public List<FinalProduct> getFinalProducts() {
         return finalProducts;
     }
 
-    public void setFinalProducts(List<FinalProduct> finalProducts) {
-        this.finalProducts = finalProducts;
+    //Setters
+    public void setId(long id){ this.id = id;}
+
+    public void setClient(String client) {
+        this.client = client;
     }
 
-    public ZonedDateTime getDeliveryDate() {
-        return deliveryDate;
+    public void setDate(ZonedDateTime date) {
+        this.date = date;
+    }
+
+    public void setFinalProducts(List<FinalProduct> finalProducts) {
+        this.finalProducts = finalProducts;
     }
 
     public void setDeliveryDate(ZonedDateTime deliveryDate) {
