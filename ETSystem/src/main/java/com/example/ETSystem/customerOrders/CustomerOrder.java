@@ -46,7 +46,7 @@ public class CustomerOrder {
 
     private ZonedDateTime deliveryDate;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "customerOrder_Id")
     private List<FinalProduct> finalProducts = new ArrayList<>();
 
