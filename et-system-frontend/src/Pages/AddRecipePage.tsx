@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import IngredientQuantitiesTableARP from "./AddRecipePageComponents/IngredientQuantitiesTableARP";
 import "./AddRecipePageComponents/ARPStylesheet.css"
 import IngredientQuantityPanel from "./AddRecipePageComponents/IngredientQuantityPanel";
-import {Recipe} from "./Interfaces/Recipe"
 import SubmitRecipePanel from "./AddRecipePageComponents/SubmitRecipePanel";
 import IngredientsTable from "./AddRecipePageComponents/IngredientsTable";
 
@@ -11,7 +10,7 @@ const AddRecipePage = () => {
     const [selectedIngredientID, setSelectedIngredientID] = useState(-1)
     const [ingredientsData, setIngredientsData] = useState([])
     const [selectedIngredient, setSelectedIngredient] = useState({})
-    const [recipe, setRecipe] = useState<Recipe>({
+    const [recipe, setRecipe] = useState({
         label: '',
         ingredientQuantities: []
     })
@@ -54,18 +53,19 @@ const AddRecipePage = () => {
         }
 
         event.preventDefault();
-        const response = await fetch('http://localhost:8080/api/recipes/add-recipe', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(recipe)
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to add recipe');
+        try {
+            const response = await fetch('http://localhost:8080/api/recipes/add-recipe', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(recipe)
+            });
+        }catch (e) {
+            console.log("Error adding recipe: " + e)
         }
+
         setRecipe(recipe => ({
             ...recipe,
             label: '',
@@ -92,13 +92,11 @@ const AddRecipePage = () => {
                         selectedIngredient={selectedIngredient}
                     />
                     <h2>Added ingredients</h2>
-                    <div className={'IGTable'}>
                     <IngredientQuantitiesTableARP
                         ingredientQuantities={recipe.ingredientQuantities}
                         recipe={recipe}
                         setRecipe={setRecipe}
                     />
-                    </div>
                 </div>
                 <div className={'ARP-submit-column'}>
                     <SubmitRecipePanel

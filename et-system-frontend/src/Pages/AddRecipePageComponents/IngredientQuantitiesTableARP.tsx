@@ -1,7 +1,6 @@
 import React, {useMemo} from "react";
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
-import '../ProductPageComponents/TanStackTable/Table.css'
-import '../RecipePageComponents/RPStylesheet.css'
+import '../AddRecipePageComponents/ARPStylesheet.css'
 
 const IngredientQuantitiesTableARP = ({ingredientQuantities, recipe, setRecipe}) => {
 
@@ -37,8 +36,9 @@ const IngredientQuantitiesTableARP = ({ingredientQuantities, recipe, setRecipe})
     }
 
     return (
-        <div>
+        <div className={'table-container'}>
                 <table className={'IGTable'}>
+                    <thead>
                     {table.getHeaderGroups().map(headerGroup => (
                         <tr key={headerGroup.id}>
                             {headerGroup.headers.map(header => <th key={header.id}>
@@ -46,6 +46,7 @@ const IngredientQuantitiesTableARP = ({ingredientQuantities, recipe, setRecipe})
                             </th>)}
                         </tr>
                     ))}
+                    </thead>
                     <tbody>
                     {table.getCoreRowModel().rows.map(row => (<tr
                             id={row.id}>

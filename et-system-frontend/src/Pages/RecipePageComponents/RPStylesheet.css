@@ -177,8 +177,14 @@
     text-align: center;
     border-radius: 0.5rem;
     border: var(--border-color) solid 1px;
-    border-collapse: collapse ;
-    background-color: ghostwhite;
+    border-collapse: collapse;
     background-color: #efeeee;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.IGTable tbody{
+    width: 100%;
+    height: 200px;
+    overflow-y: auto;
+    display: block;
 }

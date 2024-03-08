@@ -23,7 +23,9 @@ const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient}) => {
         }
 
         event.preventDefault()
-        setRecipe({...recipe, ingredientQuantities: [...recipe.ingredientQuantities, ingredientQuantity]})
+        setRecipe({...recipe,
+            ingredientQuantities: [...recipe.ingredientQuantities, ingredientQuantity]
+        })
         console.log(ingredientQuantity)
         setIngredientQuantity({ ingredientType: undefined, quantity: undefined})
     }
@@ -31,7 +33,7 @@ const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient}) => {
     useEffect(() => {
         setIngredientQuantity({...ingredientQuantity, ingredientType: selectedIngredient})
         console.log(selectedIngredient)
-    }, [selectedIngredient, ingredientQuantity])
+    }, [selectedIngredient])
 
     const handleChange = (event) => {
         event.preventDefault()
