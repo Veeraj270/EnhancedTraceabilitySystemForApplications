@@ -47,6 +47,7 @@ const AddRecipePage = () => {
 
     const handleSubmit = async (event) => {
         if (!recipe || recipe.ingredientQuantities.length === 0 || recipe.label.length === 0) {
+            alert("Please fill in Name field and add an ingredient to the recipe.")
             console.error('Name is not filled or table is empty.');
             return;
         }

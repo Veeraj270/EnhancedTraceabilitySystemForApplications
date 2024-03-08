@@ -8,21 +8,30 @@ const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient}) => {
     const [ingredientQuantity, setIngredientQuantity] = useState<IngredientQuantity>()
 
     const handleIngredientSubmit = (event) => {
+        // Check if both fields exist before submitting
         if (!ingredientQuantity || !ingredientQuantity.quantity || !ingredientQuantity.ingredientType) {
+            alert('Please fill in both ingredient and quantity fields.')
             console.error('Please fill in both quantity and ingredient.');
+            return;
+        }
+
+        // Check if the ingredient is already in the table before submitting it
+        if (recipe.ingredientQuantities
+            .find(el => el.ingredientType === ingredientQuantity.ingredientType) !== undefined){
+            alert('The ingredient that you are adding is already in the table.')
             return;
         }
 
         event.preventDefault()
         setRecipe({...recipe, ingredientQuantities: [...recipe.ingredientQuantities, ingredientQuantity]})
         console.log(ingredientQuantity)
-        setIngredientQuantity({ingredientType: undefined, quantity: undefined})
+        setIngredientQuantity({ ingredientType: undefined, quantity: undefined})
     }
 
     useEffect(() => {
         setIngredientQuantity({...ingredientQuantity, ingredientType: selectedIngredient})
         console.log(selectedIngredient)
-    }, [selectedIngredient])
+    }, [selectedIngredient, ingredientQuantity])
 
     const handleChange = (event) => {
         event.preventDefault()

@@ -47,7 +47,7 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData, dataType}) => {
     useEffect(() => {
         if (searchInput.length > 0){
             setFilteredTableData(tableData.filter((row) => {
-                return row.label.match(searchInput)
+                return row.label.match(RegExp(searchInput, 'i'))
                     || row.id.toString().match(searchInput)
             }))
         } else{

@@ -2,7 +2,7 @@ import React, {ChangeEvent, useEffect, useMemo, useState} from "react";
 import {getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import "../AddRecipePageComponents/ARPStylesheet.css"
 
-const RecipeTable = ({setSelectedRow, selectedRow, rawData, dataType}) => {
+const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
 
     const [tableData, setTableData] = useState([])
     const [filteredTableData, setFilteredTableData] = useState([])
