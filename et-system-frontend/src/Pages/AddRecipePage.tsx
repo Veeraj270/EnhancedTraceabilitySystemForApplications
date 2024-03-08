@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import IngredientQuantitiesTable from "./RecipePageComponents/IngredientQuantitiesTable";
+import IngredientQuantitiesTableARP from "./AddRecipePageComponents/IngredientQuantitiesTableARP";
 import "./AddRecipePageComponents/ARPStylesheet.css"
 import IngredientQuantityPanel from "./AddRecipePageComponents/IngredientQuantityPanel";
 import {Recipe} from "./Interfaces/Recipe"
@@ -46,6 +46,7 @@ const AddRecipePage = () => {
     }
 
     const handleSubmit = async (event) => {
+        //Check if all fields of recipe are filled
         if (!recipe || recipe.ingredientQuantities.length === 0 || recipe.label.length === 0) {
             alert("Please fill in Name field and add an ingredient to the recipe.")
             console.error('Name is not filled or table is empty.');
@@ -92,7 +93,7 @@ const AddRecipePage = () => {
                     />
                     <h2>Added ingredients</h2>
                     <div className={'IGTable'}>
-                    <IngredientQuantitiesTable
+                    <IngredientQuantitiesTableARP
                         ingredientQuantities={recipe.ingredientQuantities}
                         recipe={recipe}
                         setRecipe={setRecipe}

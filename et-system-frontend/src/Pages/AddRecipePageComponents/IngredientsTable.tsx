@@ -19,16 +19,6 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
         }
     ], [])
 
-    const generateTableData = async (data: any[]) => {
-        const recipesTableData = data.map((dataElement) => (
-            {
-                id: dataElement.id,
-                name: dataElement.name
-            }
-        ));
-        return recipesTableData
-    }
-
     const handleChange = (event : ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
         setSearchInput(event.target.value)
@@ -47,7 +37,7 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
     useEffect(() => {
         if (searchInput.length > 0){
             setFilteredTableData(tableData.filter((row) => {
-                return row.name.match(searchInput)
+                return row.name.match(RegExp(searchInput, 'i'))
                     || row.id.toString().match(searchInput)
             }))
         } else{
@@ -59,10 +49,8 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
         // Have to check if the data is undefined, because there can be no data passed
         if(rawData !== undefined){
             if(rawData.length > 0) {
-                generateTableData(rawData).then(ingredientsTableData => {
-                    setTableData(ingredientsTableData)
-                    setFilteredTableData(ingredientsTableData)
-                })
+                    setTableData(rawData)
+                    setFilteredTableData(rawData)
             }
         }
         console.log(rawData);

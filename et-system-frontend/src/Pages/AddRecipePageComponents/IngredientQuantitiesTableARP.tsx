@@ -1,9 +1,9 @@
 import React, {useMemo} from "react";
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import '../ProductPageComponents/TanStackTable/Table.css'
-import './RPStylesheet.css'
+import '../RecipePageComponents/RPStylesheet.css'
 
-const IngredientQuantitiesTable = ({ingredientQuantities, recipe, setRecipe}) => {
+const IngredientQuantitiesTableARP = ({ingredientQuantities, recipe, setRecipe}) => {
 
     const columns = useMemo(() => [
         {
@@ -59,4 +59,4 @@ const IngredientQuantitiesTable = ({ingredientQuantities, recipe, setRecipe}) =>
     )
 }
 
-export default IngredientQuantitiesTable
+export default IngredientQuantitiesTableARP

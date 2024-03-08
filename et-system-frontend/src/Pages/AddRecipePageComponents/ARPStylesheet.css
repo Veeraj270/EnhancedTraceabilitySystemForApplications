@@ -25,25 +25,6 @@
     border-bottom: solid black 2px;
 }
 
-.ARP-submit-panel{
-    display: grid;
-    align-items: center;
-    justify-items: center;
-    padding: 10px;
-    width: 100%;
-    height: 350px;
-    background-color: ghostwhite;
-    box-shadow: 1px 1px 3px var(--shadow-color);
-    border-radius: 0.5rem;
-    border: var(--border-color) solid 1px
-}
-
-.ARP-submit-panel-name{
-    text-align: center;
-    size: 25px;
-    margin: 10px 0 0 0;
-}
-
 .paragraph-input {
     width: 100%;
     height: 120px;
@@ -69,16 +50,6 @@
 .ARP-grid-column{
     height: 100%;
     width: 100%;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-}
-
-.ARP-submit-column{
-    height: 100%;
-    width: 100%;
-    justify-content: center;
     align-items: center;
     display: flex;
     flex-direction: column;
@@ -124,6 +95,15 @@
     text-align: center;
 }
 
+.add-to-recipe-button{
+    width: 130px;
+    height: 36px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 0.5rem;
+    border: solid black 1px;
+}
+
 .arrow {
     border-radius: 0 5px 0 5px;
     border: solid;
@@ -139,6 +119,50 @@
     -webkit-transform: scale(2.4,1.2) rotate(45deg);
 }
 
+.quantity-input{
+    font-size: 15px;
+    width: 60px;
+    text-align: center;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button{
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.ARP-submit-column{
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+.ARP-submit-panel{
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    padding: 10px;
+    width: 100%;
+    height: 350px;
+    background-color: ghostwhite;
+    box-shadow: 1px 1px 3px var(--shadow-color);
+    border-radius: 0.5rem;
+    border: var(--border-color) solid 1px
+}
+
+.ARP-submit-panel-name{
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: #333;
+    margin: 10px 10px 0px 10px;
+    border-bottom: solid black 1px;
+}
+
 .recipe-name-input{
     width: 100%;
     height: 30px;
@@ -152,35 +176,6 @@
     font-weight: bold;
     border: solid black 2px;
     border-radius: 0.5rem;
-}
-
-.add-to-recipe-button{
-    width: 130px;
-    height: 36px;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 0.5rem;
-    border: solid black 1px;
-}
-
-.ARP-submit-panel-name{
-    font-size: 32px;
-    font-weight: bold;
-    color: #333;
-    margin: 10px 10px 0px 10px;
-    border-bottom: solid black 1px;
-}
-
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button{
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-.quantity-input{
-    font-size: 15px;
-    width: 60px;
-    text-align: center;
 }
 
 button:hover {
