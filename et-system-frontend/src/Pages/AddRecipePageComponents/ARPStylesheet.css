@@ -206,11 +206,18 @@ button:active {
     border-collapse: collapse;
     background-color: #efeeee;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    display: block;
+}
+
+.IGTable thead {
+    width: 100%;
+    display: table;
+    text-align: center;
 }
 
 .IGTable tbody{
     width: 100%;
-    height: 200px;
-    overflow-y: auto;
-    display: block;
+    height: 300px;
+    background-color: whitesmoke;
 }
