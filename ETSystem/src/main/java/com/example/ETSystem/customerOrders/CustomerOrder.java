@@ -2,6 +2,7 @@ package com.example.ETSystem.customerOrders;
 
 import com.example.ETSystem.finalProducts.FinalProduct;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -29,6 +30,7 @@ public class CustomerOrder {
             updatable = false,
             nullable = false
     )
+    @JsonProperty
     private Long id;
 
     @Column(
@@ -36,6 +38,7 @@ public class CustomerOrder {
             nullable = false,
             columnDefinition = "TEXT"
     )
+    @JsonProperty
     private String client;
 
     @Column(

@@ -1,6 +1,7 @@
 import { FaWarehouse } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
 import { FaHome } from "react-icons/fa";
+import { FaBookOpen } from "react-icons/fa";
 import { PiTreeStructure } from "react-icons/pi";
 import { IoMdHelp } from "react-icons/io";
 import { FaBirthdayCake } from "react-icons/fa";
@@ -34,6 +35,12 @@ export const SideBarData = [
         title: ' Deliveries ',
         path: '/deliveries',
         icon: <FaWarehouse/>,
+        cName: 'nav-text'
+    },
+    {
+        title: ' Customer Orders ',
+        path: '/customer-orders',
+        icon: <FaBookOpen/>,
         cName: 'nav-text'
     },
     {
