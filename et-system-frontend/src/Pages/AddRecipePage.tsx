@@ -62,15 +62,19 @@ const AddRecipePage = () => {
                 },
                 body: JSON.stringify(recipe)
             });
+
+            if(response.ok) {
+                setRecipe(recipe => ({
+                    ...recipe,
+                    label: '',
+                    ingredientQuantities: []
+                }));
+            } else{
+                alert("Error adding recipe to database. ")
+            }
         }catch (e) {
             console.log("Error adding recipe: " + e)
         }
-
-        setRecipe(recipe => ({
-            ...recipe,
-            label: '',
-            ingredientQuantities: []
-        }));
     }
 
     return(
