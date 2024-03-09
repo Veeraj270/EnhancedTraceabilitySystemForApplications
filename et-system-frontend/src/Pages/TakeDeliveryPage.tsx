@@ -151,21 +151,18 @@ const TakeDelivery = () => {
         }
     }
 
-    const waitForTrigger = () => {
-        const promise = new Promise<boolean>(() => {})
-        setPopUpPromise(promise);
-        return promise;
+    const onClick_SubmitDelivery = () => {
+        setPopUpVisible(true);
     }
 
+    const onClick_ConfirmSubmit = () => {
+        submitDelivery().then().catch((error) => {
+            console.log("Error occurred within submitDelivery() method:" + error)
+        });
+    }
 
     //Triggered by pressing submit delivery button
     const submitDelivery = async () => {
-        //Set Pop-Up as visible
-        setPopUpVisible(true);
-
-        //Await resolve
-        const ok =  waitForTrigger();
-
         //Create a record of the delivery and push it to the database via POST
         const recordedProducts: any[] =  [...structuredClone(scannedTData), ...structuredClone(unexpectedTData)];
 
@@ -211,7 +208,7 @@ const TakeDelivery = () => {
                 <div className={'TDP-grid-column'}>
                     <TDPMetaDataWindow {...metadata}/>
                     <TDPBarCodeEntry submit={submitBarcode}/>
-                    <TDPSubmitDeliveryButton submit={submitDelivery}/>
+                    <TDPSubmitDeliveryButton submit={onClick_SubmitDelivery}/>
                 </div>
                 <div className={'TDP-grid-column'}>
                     <TDPTable data={expectedTData.reverse()} title={"Expected Items"}/>

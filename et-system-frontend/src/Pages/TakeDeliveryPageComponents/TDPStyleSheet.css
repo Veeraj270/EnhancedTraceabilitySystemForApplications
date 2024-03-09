@@ -194,7 +194,7 @@ TDP-T-content-div th, td {
     border-bottom: solid black 2px;
 }
 
-/*Are you sure? pop-up*/
+/*pop-up*/
 .TDP-pop-up{
     position: absolute;
     top: 0px;
@@ -211,16 +211,15 @@ TDP-T-content-div th, td {
 .TDP-pop-up-inner{
     positon: relative;
     padding: 32px;
-    width: 600px;
-    max-width: 400px;
-    height: 400px;
+    width: 720px;
+    height: 540px;
     border-radius: 0.5rem;
     background-color: ghostwhite;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     border: #bda9a9 solid 2px;
+
+    display: grid;
+    grid-template-rows: 1fr 2fr 0.5fr;
+    grid-row-gap: 10px;
 }
 
 .TDP-pop-up-inner p{
@@ -228,26 +227,57 @@ TDP-T-content-div th, td {
     font-size: 20px;
 }
 
-.TDP-pop-up-button-div{
-    display: flex;
-    flex-direction: row;
-    column-gap: 5%;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
+.TDP-pop-up-upper{
+    background-color: lightgrey;
+    display: grid;
+    grid-template-columns: 0.4fr 1fr 0.2fr;
+    grid-column-gap: 20px;
 }
 
-.TDP-pop-up-button-div button{
-    width: 25%;
-    height: 40px;
+.TDP-percentage-widget{
+    background-color: antiquewhite;
+}
+
+.TDP-meta-data-widget{
+    background-color: antiquewhite;
+
+}
+
+.TDP-cancel-button{
+    height: 20%;
+    font-weight: bolder;
+    background-color: red;
     border-radius: 0.5rem;
-    font-size: 16px;
 }
 
-.TDP-pop-up-button-div .b1{
-    background-color: limegreen;
+.TDP-pop-up-middle{
+    background-color: lightgrey;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 20px;
+    padding: 10px 10px 10px 10px;
 }
-.TDP-pop-up-button-div .b2{
-    background-color: orangered;
+
+.TDP-pop-up-table{
+    background-color: #c0c2d1;
 }
+
+.TDP-pop-up-lower{
+    background-color: lightgrey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.TDP-confirm-button{
+    width: 40%;
+    height: 80%;
+    border-radius: 0.5rem;
+    background-color: lightgreen;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+
+
 
