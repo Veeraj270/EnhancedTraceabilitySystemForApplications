@@ -7,15 +7,18 @@ const IngredientQuantitiesTableARP = ({ingredientQuantities, recipe, setRecipe})
     const columns = useMemo(() => [
         {
             header: "Ingredient",
-            accessorKey: "ingredientType"
+            accessorKey: "ingredientType",
+            size: 55
         },
         {
             header: "Quantity",
-            accessorKey: "quantity"
+            accessorKey: "quantity",
+            size: 35
         },
         {
             header: "",
-            accessorKey: "delete"
+            accessorKey: "delete",
+            size: 10
         }
     ], [ingredientQuantities])
 
@@ -37,25 +40,27 @@ const IngredientQuantitiesTableARP = ({ingredientQuantities, recipe, setRecipe})
 
     return (
         <div className={'table-container'}>
-                <table className={'IGTable'}>
+                <table>
                     <thead>
                     {table.getHeaderGroups().map(headerGroup => (
-                        <tr key={headerGroup.id}>
-                            {headerGroup.headers.map(header => <th key={header.id}>
+                        <tr key={headerGroup.id} >
+                            {headerGroup.headers.map(header => <th key={header.id} style = {{width: `${header.column.getSize()}%`, textAlign: "center"}}>
                                 {flexRender(header.column.columnDef.header, header.getContext())}
                             </th>)}
                         </tr>
                     ))}
                     </thead>
+                </table>
+                    <table className={'IGTable'}>
                     <tbody>
                     {table.getCoreRowModel().rows.map(row => (<tr
                             id={row.id}>
                             <td style={{width: '60%'}}>{row.original.ingredientType.name}</td>
                             <td style={{width: '40%'}}>{row.original.quantity}</td>
-                            <td style={{width: '10%'}} onClick={deleteFromTable}>X</td>
+                            <td onClick={deleteFromTable}><button className={'delete-button'}>X</button></td>
                         </tr>))}
                     </tbody>
-                </table>
+                    </table>
         </div>
     )
 }

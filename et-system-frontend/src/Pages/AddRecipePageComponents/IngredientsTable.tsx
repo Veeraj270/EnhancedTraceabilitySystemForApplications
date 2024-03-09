@@ -10,10 +10,6 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
 
     const columns = useMemo(() => [
         {
-            header: 'ID',
-            accessorKey: 'id'
-        },
-        {
             header: 'Name',
             accessorKey: 'name'
         }
@@ -38,7 +34,6 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
         if (searchInput.length > 0){
             setFilteredTableData(tableData.filter((row) => {
                 return row.name.match(RegExp(searchInput, 'i'))
-                    || row.id.toString().match(searchInput)
             }))
         } else{
             setFilteredTableData(tableData)
@@ -74,8 +69,7 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
                     key={row.id}
                     onClick={(event) => {handleClick(event, row.original.id)}}
                     className={(row.original.id === selectedRow) ? 'RP-selected-row' : 'RP-unselected-row'}>
-                    <td style={{width: '10%', textAlign: 'center'}}>{row.original.id}</td>
-                    <td style={{width: '90%'}}>{row.original.name}</td>
+                    <td style={{paddingLeft: '20px'}}>{row.original.name}</td>
                 </tr>))
                 }
                 </tbody>

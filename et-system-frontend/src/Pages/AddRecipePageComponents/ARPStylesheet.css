@@ -184,9 +184,15 @@ button:hover {
 
 button:active {
     background-color: antiquewhite;
-    transform: translate(2px);
-    box-shadow: 0 2px #666;
+    transform: translate(1px);
+    box-shadow: 0 1px #666;
 }
+
+.delete-button{
+    border-radius: 0.3rem;
+    border: solid black 1px;
+}
+
 
 .table-container {
     max-height: 400px;
