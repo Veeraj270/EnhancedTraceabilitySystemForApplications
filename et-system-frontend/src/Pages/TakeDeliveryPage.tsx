@@ -154,6 +154,11 @@ const TakeDelivery = () => {
         setPopUpVisible(true);
     }
 
+    const onClick_CancelSubmission = () => {
+        setPopUpVisible(false);
+
+    }
+
     const onClick_ConfirmSubmit = () => {
         submitDelivery().then().catch((error) => {
             console.log("Error occurred within submitDelivery() method:" + error)
@@ -201,7 +206,12 @@ const TakeDelivery = () => {
 
     return (
         <div className='take-delivery-page'>
-            <TDPPopUp state={popUpVisible} missingItems={expectedTData} unexpectedItems={unexpectedTData} />
+            <TDPPopUp state={popUpVisible} missingItems={expectedTData}
+                      scannedItems={scannedTData}
+                      unexpectedItems={unexpectedTData}
+                      cancel={onClick_CancelSubmission}
+                      confirm={onClick_ConfirmSubmit}
+            />
             <h1 className={'TDP-title'}>Process Delivery</h1>
             <div className={'TDP-grid-container'}>
                 <div className={'TDP-grid-column'}>

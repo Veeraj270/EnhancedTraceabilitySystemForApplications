@@ -17,6 +17,7 @@ const TDPPopUpTable = ({header , data}) => {
         setTableData(toText(collapseData(data)));
     }, [data]);
 
+
     const collapseData = (data: any): any => {
         let collapsedData: any[] = []
         data.map((item: any) => {
@@ -52,15 +53,17 @@ const TDPPopUpTable = ({header , data}) => {
 
     return (
         <div className={"TDP-pop-up-table"}>
-            <table>
-                {table.getHeaderGroups().map(headerGroup => (
-                    <tr key={headerGroup.id} >
-                        {headerGroup.headers.map(header => <th key={header.id}>
-                            {flexRender(header.column.columnDef.header, header.getContext())}
-                        </th>)}
-                    </tr>
-                ))}
-            </table>
+            <div className={"TDP-pop-up-table-header-div"}>
+                <table>
+                    {table.getHeaderGroups().map(headerGroup => (
+                        <tr key={headerGroup.id} >
+                            {headerGroup.headers.map(header => <th key={header.id}>
+                                {flexRender(header.column.columnDef.header, header.getContext())}
+                            </th>)}
+                        </tr>
+                    ))}
+                </table>
+            </div>
             <div className={"TDP-pop-up-table-content-div"}>
                 <table>
                     <tbody>
