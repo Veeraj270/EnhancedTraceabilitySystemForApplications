@@ -24,22 +24,26 @@ const IngredientQuantitiesTableARP = ({ingredientQuantities}) => {
 
     return (
         <div>
-            <table className={'IGTable'}>
-                {table.getHeaderGroups().map(headerGroup => (
-                    <tr key={headerGroup.id}>
-                        {headerGroup.headers.map(header => <th key={header.id}>
-                            {flexRender(header.column.columnDef.header, header.getContext())}
-                        </th>)}
-                    </tr>
-                ))}
-                <tbody>
-                {table.getCoreRowModel().rows.map(row => (<tr
-                    id={row.id}>
-                    <td style={{width: '50%'}}>{row.original.ingredientType.name}</td>
-                    <td style={{width: '50%'}}>{row.original.quantity}</td>
-                </tr>))}
-                </tbody>
-            </table>
+            <div>
+                <table>
+                    {table.getHeaderGroups().map(headerGroup => (
+                        <tr key={headerGroup.id}>
+                            {headerGroup.headers.map(header => <th key={header.id}>
+                                {flexRender(header.column.columnDef.header, header.getContext())}
+                            </th>)}
+                        </tr>
+                    ))}
+                </table>
+                <table className={'IGTable'}>
+                    <tbody>
+                    {table.getCoreRowModel().rows.map(row => (<tr
+                        key={row.id}>
+                        <td style={{width: '50%'}}>{row.original.ingredientType.name}</td>
+                        <td style={{width: '50%'}}>{row.original.quantity}</td>
+                    </tr>))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     )
 }

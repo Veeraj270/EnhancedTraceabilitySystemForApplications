@@ -20,6 +20,7 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
         setSearchInput(event.target.value)
     }
 
+    // This handles selecting a row
     const handleClick = (event: React.MouseEvent, id : number) => {
         if (id !== undefined){
             setSelectedRow(id)
@@ -30,18 +31,19 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
         }
     }
 
+    // Searches for the ingredients in data
     useEffect(() => {
         if (searchInput.length > 0){
             setFilteredTableData(tableData.filter((row) => {
                 return row.name.match(RegExp(searchInput, 'i'))
             }))
         } else{
+            // if there is no searching show all the tableData
             setFilteredTableData(tableData)
         }
     }, [searchInput]);
 
     useEffect(() => {
-        // Have to check if the data is undefined, because there can be no data passed
         if(rawData !== undefined){
             if(rawData.length > 0) {
                     setTableData(rawData)

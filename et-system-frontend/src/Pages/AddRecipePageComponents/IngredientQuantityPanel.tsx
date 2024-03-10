@@ -7,6 +7,17 @@ const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient}) => {
 
     const [ingredientQuantity, setIngredientQuantity] = useState<IngredientQuantity>()
 
+    useEffect(() => {
+        setIngredientQuantity({...ingredientQuantity, ingredientType: selectedIngredient})
+        console.log(selectedIngredient)
+    }, [selectedIngredient])
+
+    const handleChange = (event) => {
+        event.preventDefault()
+        setIngredientQuantity({...ingredientQuantity, quantity: event.target.value})
+    }
+
+    // This adds the ingredientQuantity object(state) to the recipe
     const handleIngredientSubmit = (event) => {
         // Check if both fields exist before submitting
         if (!ingredientQuantity || !ingredientQuantity.quantity || !ingredientQuantity.ingredientType) {
@@ -30,16 +41,6 @@ const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient}) => {
         setIngredientQuantity({ ingredientType: undefined, quantity: undefined})
     }
 
-    useEffect(() => {
-        setIngredientQuantity({...ingredientQuantity, ingredientType: selectedIngredient})
-        console.log(selectedIngredient)
-    }, [selectedIngredient])
-
-    const handleChange = (event) => {
-        event.preventDefault()
-        setIngredientQuantity({...ingredientQuantity, quantity: event.target.value})
-    }
-
     return(
         <div className={"ARPPanel-grid"}>
             <p className={'ARPPanel-name'}>Add ingredient to recipe</p>
@@ -58,7 +59,6 @@ const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient}) => {
             <div>
                 <i className="arrow down"></i>
             </div>
-
         </div>
     )
 

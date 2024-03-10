@@ -51,7 +51,7 @@ const IngredientQuantitiesTableARP = ({ingredientQuantities, recipe, setRecipe})
                     ))}
                     </thead>
                 </table>
-                    <table className={'IGTable'}>
+                <table className={'IGTable'}>
                     <tbody>
                     {table.getCoreRowModel().rows.map(row => (<tr
                             id={row.id}>
@@ -60,7 +60,7 @@ const IngredientQuantitiesTableARP = ({ingredientQuantities, recipe, setRecipe})
                             <td onClick={deleteFromTable}><button className={'delete-button'}>X</button></td>
                         </tr>))}
                     </tbody>
-                    </table>
+                </table>
         </div>
     )
 }

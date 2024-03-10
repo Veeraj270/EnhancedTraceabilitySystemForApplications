@@ -31,6 +31,7 @@ const AddRecipePage = () => {
             .catch((reason) => {console.error("Error within fetchIngredients" + reason)})
     }, [])
 
+    // The selectedIngredientID data dependency is changed by clicking in the Ingredients table
     useEffect(() => {
         if (selectedIngredientID !== -1){
             const selected = ingredientsData.filter((ingredient) => ingredient.id === selectedIngredientID).at(0)
@@ -39,11 +40,13 @@ const AddRecipePage = () => {
         }
     }, [selectedIngredientID]);
 
+    // This is used in the SubmitPanel
     const handleChange = (event) => {
         event.preventDefault()
         setRecipe({...recipe, label: event.target.value})
     }
 
+    // This is used also in the SubmitPanel
     const handleSubmit = async (event) => {
         //Check if all fields of recipe are filled
         if (!recipe || recipe.ingredientQuantities.length === 0 || recipe.label.length === 0) {
