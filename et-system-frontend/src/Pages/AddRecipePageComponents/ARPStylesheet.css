@@ -196,6 +196,7 @@ button:active {
 
 .table-container {
     max-height: 400px;
+    text-align: center;
     width: 100%;
     border-radius: 0.5rem;
     border: var(--border-color) solid 1px;
@@ -212,8 +213,11 @@ button:active {
     border-collapse: collapse;
     background-color: #efeeee;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
-    display: block;
+}
+
+.IGTable th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
 }
 
 .IGTable thead {
@@ -226,4 +230,8 @@ button:active {
     width: 100%;
     height: 300px;
     background-color: whitesmoke;
+    display: inline-block;
+    overflow-y: auto;
 }
+
+

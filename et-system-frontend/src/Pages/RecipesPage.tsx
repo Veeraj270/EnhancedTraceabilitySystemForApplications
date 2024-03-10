@@ -56,7 +56,6 @@ const RecipesPage = () => {
                     <IngredientQuantitiesTableRP ingredientQuantities={ingredientQuantitiesData}/>
                 </div>
             </div>
-
         </div>
     )
 }

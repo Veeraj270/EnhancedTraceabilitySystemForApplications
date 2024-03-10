@@ -1,9 +1,8 @@
 import React, {useMemo} from "react";
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
-import '../ProductPageComponents/TanStackTable/Table.css'
 import '../RecipePageComponents/RPStylesheet.css'
 
-const IngredientQuantitiesTableARP = ({ingredientQuantities}) => {
+const IngredientQuantitiesTableRP = ({ingredientQuantities}) => {
 
     const columns = useMemo(() => [
         {
@@ -23,29 +22,27 @@ const IngredientQuantitiesTableARP = ({ingredientQuantities}) => {
     })
 
     return (
-        <div>
-            <div>
-                <table>
-                    {table.getHeaderGroups().map(headerGroup => (
-                        <tr key={headerGroup.id}>
-                            {headerGroup.headers.map(header => <th key={header.id}>
-                                {flexRender(header.column.columnDef.header, header.getContext())}
-                            </th>)}
-                        </tr>
-                    ))}
-                </table>
+            <div className={'table-container'}>
                 <table className={'IGTable'}>
+                    <thead>
+                        {table.getHeaderGroups().map(headerGroup => (
+                            <tr key={headerGroup.id}>
+                                {headerGroup.headers.map(header => <th key={header.id}>
+                                    {flexRender(header.column.columnDef.header, header.getContext())}
+                                </th>)}
+                            </tr>
+                        ))}
+                    </thead>
                     <tbody>
-                    {table.getCoreRowModel().rows.map(row => (<tr
-                        key={row.id}>
-                        <td style={{width: '50%'}}>{row.original.ingredientType.name}</td>
-                        <td style={{width: '50%'}}>{row.original.quantity}</td>
-                    </tr>))}
+                        {table.getCoreRowModel().rows.map(row => (<tr
+                            key={row.id}>
+                            <td style={{width: '50%'}}>{row.original.ingredientType.name}</td>
+                            <td style={{width: '50%'}}>{row.original.quantity}</td>
+                        </tr>))}
                     </tbody>
                 </table>
             </div>
-        </div>
     )
 }
 
-export default IngredientQuantitiesTableARP
+export default IngredientQuantitiesTableRP
