@@ -183,7 +183,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.IGTable{
+.IGTableARP{
     width: 100%;
     text-align: center;
     border-radius: 0.5rem;
@@ -193,20 +193,31 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.IGTable th, td {
+.IGTableARP th, td {
     padding: 12px;
     border-bottom: 1px solid #ddd;
 }
 
-.IGTable thead {
+.IGTableARP thead {
     width: 100%;
+    display: table;
     text-align: center;
 }
 
-.IGTable tbody{
+.IGTableARP tbody{
     width: 100%;
     height: 300px;
     background-color: whitesmoke;
     display: inline-block;
     overflow-y: auto;
+}
+
+.IGTableARP tbody tr{
+    width: 100%;
+    display: block;
+}
+
+.IGTableARP tbody tr td{
+    width: 50%;
+    display: inline-block;
 }
