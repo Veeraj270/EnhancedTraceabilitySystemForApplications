@@ -41,6 +41,8 @@ public class MockDataGenerator {
         for (String name : supplierNames){
             suppliers.add(new Supplier(name, new ArrayList<SuppliedGood>()));
         }
+
+        int unitPrice = 10000;
         //INGREDIENTS
         //Flours
         List<String> flours = List.of(
@@ -154,16 +156,16 @@ public class MockDataGenerator {
             for (Float quantity : quantities){
                 for (String name : flours){
                     barcode ++;
-                    genTableRow(barcode, name, quantity, unit, supplier);
+                    genTableRow(barcode, name, quantity, unit, supplier, (int) (unitPrice * quantity));
                 }
                 for (String name : sugars){
                     barcode ++;
-                    genTableRow(barcode, name, quantity, unit, supplier);
+                    genTableRow(barcode, name, quantity, unit, supplier, (int)(unitPrice * quantity));
 
                 }
                 for (String name : fruitAndVeg){
                     barcode ++;
-                    genTableRow(barcode, name, quantity, unit, supplier);
+                    genTableRow(barcode, name, quantity, unit, supplier,(int) (unitPrice * quantity));
                 }
             }
 
@@ -173,15 +175,15 @@ public class MockDataGenerator {
             for (Float quantity : quantities){
                 for (String name : buttersAndCream){
                     barcode ++;
-                    genTableRow(barcode, name, quantity, unit, supplier);
+                    genTableRow(barcode, name, quantity, unit, supplier, (int) (unitPrice * quantity));
                 }
                 for (String name : chocolates){
                     barcode ++;
-                    genTableRow(barcode, name, quantity, unit, supplier);
+                    genTableRow(barcode, name, quantity, unit, supplier, (int) (unitPrice * quantity));
                 }
                 for (String name : nuts){
                     barcode ++;
-                    genTableRow(barcode, name, quantity, unit, supplier);
+                    genTableRow(barcode, name, quantity, unit, supplier, (int) (unitPrice * quantity));
                 }
             }
 
@@ -191,12 +193,12 @@ public class MockDataGenerator {
             for (Float quantity : quantities){
                 for (String name : liquids){
                     barcode ++;
-                    genTableRow(barcode, name, quantity, unit, supplier);
+                    genTableRow(barcode, name, quantity, unit, supplier, (int) (unitPrice * quantity));
                 }
             }
         }
     }
-     public void genTableRow(Long barcode,String name, Float quantity, String unit, Supplier supplier){
+     public void genTableRow(Long barcode,String name, Float quantity, String unit, Supplier supplier, int price){
          //Format label
          String label = String.format("%s-%s-%s", name.replace(" ","-").toLowerCase(), quantity, unit);
          String ingredientTypeName = name.replace(" ","-").toLowerCase();
@@ -218,7 +220,8 @@ public class MockDataGenerator {
                  label,
                  ingredientType,
                  quantity,
-                 unit
+                 unit,
+                 price
          );
 
          //The suppliedGood is saved to the suppliedGood repo within this method

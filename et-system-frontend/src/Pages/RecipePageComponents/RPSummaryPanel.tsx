@@ -1,4 +1,3 @@
-
 const RPSummaryPanel = ({props}) => {
 
     return(
