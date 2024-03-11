@@ -48,6 +48,15 @@ public class SuppliedGood {
         this.weight = weight;
     }
 
+    public SuppliedGood(String gtin, String label, IngredientType ingredientType, float quantity, String units, int price){
+        this.gtin = gtin;
+        this.label = label;
+        this.ingredientType = ingredientType;
+        this.quantity = quantity;
+        this.units = units;
+        this.price = price;
+    }
+
     //Getters
     public Long getId() {
         return id;
