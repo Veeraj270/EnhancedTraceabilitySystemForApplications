@@ -9,6 +9,7 @@ const TDPPopUp = ( {state, missingItems, unexpectedItems, scannedItems, cancel, 
     const [visible, setVisible] = useState(false);
     const [percentage, setPercentage] = useState(0);
     const [fraction, setFraction] = useState("");
+    const [totalWeight, setTotalWeight ] = useState(0);
 
     useEffect(() => {
         setVisible(state);
@@ -21,6 +22,21 @@ const TDPPopUp = ( {state, missingItems, unexpectedItems, scannedItems, cancel, 
         }
     }, [missingItems, scannedItems]);
 
+    //Recalculate total weight of scannedItems
+    useEffect(() => {
+        let totalItems = [...scannedItems, ...unexpectedItems];
+        let tWeight = 0;
+        totalItems.map((item) => {
+            tWeight += item.weight;
+        });
+        setTotalWeight(tWeight);
+    }, [scannedItems, unexpectedItems])
+
+    //Debugging
+    useEffect(() => {
+        console.log("total weight: " + totalWeight)
+    }, [totalWeight]);
+
     return (
         visible ? (
             <div className={"TDP-pop-up"}>
@@ -30,12 +46,19 @@ const TDPPopUp = ( {state, missingItems, unexpectedItems, scannedItems, cancel, 
                         <TDPMetaDataWidget
                             startTime={startTime}
                             visible={visible}
+                            totalWeight={totalWeight}
                         />
                         <button className={"TDP-cancel-button"} onClick={cancel}>Cancel</button>
                     </div>
                     <div className={"TDP-pop-up-middle"}>
-                        <TDPPopUpTable header={"Missing Items"} data={missingItems}/>
-                        <TDPPopUpTable header={"Unexpected Items"} data={unexpectedItems}/>
+                        <TDPPopUpTable header={"Missing Items"}
+                                       data={missingItems}
+                                       iconColor={"red"}
+                        />
+                        <TDPPopUpTable header={"Unexpected Items"}
+                                       data={unexpectedItems}
+                                       iconColor={"orange"}
+                        />
                     </div>
                     <div className={"TDP-pop-up-lower"}>
                         <button className={"TDP-confirm-button"} onClick={confirm}>Confirm Delivery</button>

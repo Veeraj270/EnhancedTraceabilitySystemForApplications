@@ -30,18 +30,22 @@ public class SuppliedGood {
     @Column // In Pence
     private int price;
 
+    @Column
+    private float weight;
+
     @Transient //Not stored in database but attribute used in AutoOrderService
     private Supplier supplier;
 
     public SuppliedGood(){};
 
-    public SuppliedGood(String gtin, String label, IngredientType ingredientType, float quantity, String units, int price){
+    public SuppliedGood(String gtin, String label, IngredientType ingredientType, float quantity, String units, int price, float weight){
         this.gtin = gtin;
         this.label = label;
         this.ingredientType = ingredientType;
         this.quantity = quantity;
         this.units = units;
         this.price = price;
+        this.weight = weight;
     }
 
     //Getters
@@ -73,9 +77,12 @@ public class SuppliedGood {
         return this.price;
     }
 
+    public float getWeight(){ return this.weight; }
+
     public Supplier getSupplier(){
         return this.supplier;
     }
+
 
     //Setters
     public void setId(Long id){
@@ -105,6 +112,8 @@ public class SuppliedGood {
     public void setPrice(int price){
         this.price = price;
     }
+
+    public void setWeight(float weight){ this.weight = weight; }
 
     public void setSupplier(Supplier supplier){
         this.supplier = supplier;

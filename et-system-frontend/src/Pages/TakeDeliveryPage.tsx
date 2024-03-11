@@ -44,10 +44,6 @@ const TakeDelivery = () => {
     const [startTime, setStartTime] = useState(new Date());
 
     const [popUpVisible, setPopUpVisible] = useState(false);
-    //Debugging
-    useEffect(() => {
-        console.log(expectedTData);
-    }, [expectedTData]);
 
     //Triggered upon initial render of the page
     useEffect(() => {
@@ -206,7 +202,8 @@ const TakeDelivery = () => {
 
     return (
         <div className='take-delivery-page'>
-            <TDPPopUp state={popUpVisible} missingItems={expectedTData}
+            <TDPPopUp state={popUpVisible}
+                      missingItems={expectedTData}
                       scannedItems={scannedTData}
                       unexpectedItems={unexpectedTData}
                       cancel={onClick_CancelSubmission}

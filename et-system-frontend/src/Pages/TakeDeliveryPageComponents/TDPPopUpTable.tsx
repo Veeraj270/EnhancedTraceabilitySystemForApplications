@@ -1,8 +1,11 @@
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import React, {useEffect, useMemo, useState} from "react";
+import { CiCircleAlert } from "react-icons/ci";
+import { IoIosAlert } from "react-icons/io";
+import {CircularProgressbar} from "react-circular-progressbar";
 
 // @ts-ignore
-const TDPPopUpTable = ({header , data}) => {
+const TDPPopUpTable = ({header , data, iconColor}) => {
 
     const [tableData, setTableData] = useState(data)
 
@@ -34,14 +37,12 @@ const TDPPopUpTable = ({header , data}) => {
                     });
             }
         })
-        console.log(collapsedData);
         return collapsedData;
     }
 
     const toText = (data: any) => {
         let output: any[] = [];
         data.forEach((row: any) => output.push( {text: `${row.quantity} x ${row.label}`}));
-        console.log(output);
         return output;
     }
 
@@ -66,11 +67,12 @@ const TDPPopUpTable = ({header , data}) => {
             </div>
             <div className={"TDP-pop-up-table-content-div"}>
                 <table>
-                    <tbody>
+                    <tbody className={"TDP-pop-up-table-tbody"}>
                     {table.getRowModel().rows.map(row => (<tr key={row.id}>
                         {row.getVisibleCells().map(cell => (
                             <td>
-                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                <p>{flexRender(cell.column.columnDef.cell, cell.getContext())}</p>
+                                <p className={"TDP-symbol"}><CiCircleAlert style={{fill: iconColor, stroke: iconColor, strokeWidth: 1}}/></p>
                             </td>
                         ))}
                     </tr>))

@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 
 
 // @ts-ignore
-const TDPMetaDataWidget = ( {startTime, visible} )=> {
+const TDPMetaDataWidget = ( {startTime, visible, totalWeight} )=> {
     //Strings for display
     const [timeElapsedText, setTimeElapsedText] = useState("");
     const [currentTimeText, setCurrentTimeText] = useState("");
@@ -25,7 +25,6 @@ const TDPMetaDataWidget = ( {startTime, visible} )=> {
             setVisibleTime(now);
         }
         let seconds = Math.trunc((now.getTime() - startTime.getTime())/1000); //Divided by 1000 since getTime() returns milliseconds
-        console.log("seconds: " + seconds);
         setTimeElapsed_Seconds(seconds);
 
         const interval = setInterval(() => {
@@ -48,8 +47,6 @@ const TDPMetaDataWidget = ( {startTime, visible} )=> {
             + ((seconds < 10) ?  "0" + seconds : seconds);
 
         setTimeElapsedText(text);
-
-
     }
 
     useEffect(() => {
@@ -59,8 +56,9 @@ const TDPMetaDataWidget = ( {startTime, visible} )=> {
 
     return (
         <div className={"TDP-meta-data-widget"}>
-            <p><b>Start Time:</b> {startTimeText}</p>
-            <p><b>Time Elapsed Seconds</b> {timeElapsedText}</p>
+            <p ><b>Start Time: &nbsp;</b>{startTimeText}</p>
+            <p><b>Time Elapsed Seconds: &nbsp;</b>  {timeElapsedText}</p>
+            <p><b>Scanned Items Total Weight: &nbsp;</b> {totalWeight + "kg"}</p>
         </div>
     )
 }

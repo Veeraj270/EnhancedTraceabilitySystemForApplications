@@ -242,14 +242,26 @@ TDP-T-content-div th, td {
     flex-direction: column;
     padding: 10px;
     text-align: center;
+    border-radius: 0.5rem;
 }
 
 .TDP-percentage-widget p{
     font-weight: bold;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    margin: 0px auto;
+
 }
 .TDP-meta-data-widget{
     background-color: #f3f3ff;
+    border-radius: 0.5rem;
+    padding-top: 26px;
+}
 
+.TDP-meta-data-widget p{
+    padding-left: 10px;
+    margin: 0px;
+    padding-bottom: 10px;
 
 }
 
@@ -258,6 +270,10 @@ TDP-T-content-div th, td {
     font-weight: bolder;
     background-color: lightgrey;
     border-radius: 0.5rem;
+}
+
+.TDP-cancel-button:hover{
+    background-color: #e7e6e6;
 }
 
 
@@ -310,6 +326,19 @@ TDP-T-content-div th, td {
     height: calc(100% - 50px);
 }
 
+.TDP-pop-up-table-tbody td, p{
+    display: flex;
+    flex-direction: row;
+    margin: 0px;
+}
+
+.TDP-symbol{
+    margin-left: auto;
+    font-size: 20px;
+    padding-bottom: 1px;
+    font-size: bold;
+}
+
 
 /*Lower Section*/
 .TDP-pop-up-lower{
@@ -325,6 +354,10 @@ TDP-T-content-div th, td {
     background-color: lightsteelblue;
     font-weight: bold;
     font-size: 18px;
+}
+
+.TDP-confirm-button:hover{
+    background-color: lightcyan;
 }
 
 
