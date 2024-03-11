@@ -41,7 +41,7 @@ const TakeDelivery = () => {
     const [plannedDelivery, setPlannedDelivery] = useState({});
 
     const [deliveryId, setDeliveryId] = useState(id)
-    const [startTime, setStartTime] = useState((new Date()).toISOString());
+    const [startTime, setStartTime] = useState(new Date());
 
     const [popUpVisible, setPopUpVisible] = useState(false);
     //Debugging
@@ -52,7 +52,7 @@ const TakeDelivery = () => {
     //Triggered upon initial render of the page
     useEffect(() => {
         fetchDeliveryData(deliveryId).then((data: Delivery) => {
-            const time = startTime.match(/[0-9]{2}:[0-9]{2}:[0-9]{2}/)?.at(0)
+            const time = startTime.toISOString().match(/[0-9]{2}:[0-9]{2}:[0-9]{2}/)?.at(0)
             const newMetadata : Metadata  =  {
                 name: data.name,
                 supplier: "N/A", //Placeholder
@@ -211,6 +211,7 @@ const TakeDelivery = () => {
                       unexpectedItems={unexpectedTData}
                       cancel={onClick_CancelSubmission}
                       confirm={onClick_ConfirmSubmit}
+                      startTime={startTime}
             />
             <h1 className={'TDP-title'}>Process Delivery</h1>
             <div className={'TDP-grid-container'}>

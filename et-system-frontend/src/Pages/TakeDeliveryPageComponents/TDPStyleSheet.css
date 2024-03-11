@@ -226,6 +226,7 @@ TDP-T-content-div th, td {
     box-sizing: border-box;
 }
 
+/*Upper Section*/
 .TDP-pop-up-upper{
     display: grid;
     grid-template-columns: 0.4fr 1fr 0.2fr;
@@ -259,6 +260,8 @@ TDP-T-content-div th, td {
     border-radius: 0.5rem;
 }
 
+
+/*Middle Section*/
 .TDP-pop-up-middle{
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -307,6 +310,8 @@ TDP-T-content-div th, td {
     height: calc(100% - 50px);
 }
 
+
+/*Lower Section*/
 .TDP-pop-up-lower{
     display: flex;
     justify-content: center;
@@ -321,6 +326,8 @@ TDP-T-content-div th, td {
     font-weight: bold;
     font-size: 18px;
 }
+
+
 
 
 

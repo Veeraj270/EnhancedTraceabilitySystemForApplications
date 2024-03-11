@@ -2,9 +2,10 @@ import {useEffect, useState} from "react";
 import {Button} from "reactstrap";
 import TDPPopUpTable from "./TDPPopUpTable";
 import TDPPercentageWidget from "./TDPPercentageWidget";
+import TDPMetaDataWidget from "./TDPMetaDataWidget";
 
 // @ts-ignore
-const TDPPopUp = ( {state, missingItems, unexpectedItems, scannedItems, cancel, confirm} ) => {
+const TDPPopUp = ( {state, missingItems, unexpectedItems, scannedItems, cancel, confirm, startTime} ) => {
     const [visible, setVisible] = useState(false);
     const [percentage, setPercentage] = useState(0);
     const [fraction, setFraction] = useState("");
@@ -14,10 +15,8 @@ const TDPPopUp = ( {state, missingItems, unexpectedItems, scannedItems, cancel, 
     }, [state]);
 
     useEffect(() => {
-        console.log(scannedItems.length)
-        console.log(missingItems.length)
         if (scannedItems && unexpectedItems && scannedItems){
-            setPercentage((scannedItems.length/ missingItems.length + scannedItems.length) * 100);
+            setPercentage((scannedItems.length / (missingItems.length + scannedItems.length)) * 100);
             setFraction(`${scannedItems.length} / ${scannedItems.length + missingItems.length}`)
         }
     }, [missingItems, scannedItems]);
@@ -27,8 +26,11 @@ const TDPPopUp = ( {state, missingItems, unexpectedItems, scannedItems, cancel, 
             <div className={"TDP-pop-up"}>
                 <div className={"TDP-pop-up-inner"}>
                     <div className={"TDP-pop-up-upper"}>
-                        <TDPPercentageWidget percentage={percentage} fraction={fraction}/>
-                        <div className={"TDP-meta-data-widget"}></div>
+                        <TDPPercentageWidget percentage_={percentage} fraction_={fraction}/>
+                        <TDPMetaDataWidget
+                            startTime={startTime}
+                            visible={visible}
+                        />
                         <button className={"TDP-cancel-button"} onClick={cancel}>Cancel</button>
                     </div>
                     <div className={"TDP-pop-up-middle"}>
