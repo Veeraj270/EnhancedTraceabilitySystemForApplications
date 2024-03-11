@@ -2,8 +2,8 @@ import "./RecipePageComponents/RPStylesheet.css"
 import RecipeTable from "./RecipePageComponents/RecipeTable";
 import {useEffect, useState} from "react";
 import RPSummaryPanel from "./RecipePageComponents/RPSummaryPanel";
-import IngredientQuantitiesTable from "./RecipePageComponents/IngredientQuantitiesTable";
 import {IngredientQuantity} from "./Interfaces/IngredientQuantity";
+import IngredientQuantitiesTableRP from "./RecipePageComponents/IngredientQuantitiesTableRP";
 
 const RecipesPage = () => {
 
@@ -29,17 +29,14 @@ const RecipesPage = () => {
     }, [])
 
     useEffect(() => {
-        let panelPropsData = []
         let ingredientQuantityList: IngredientQuantity[] = []
         if (selectedRecipe !== -1){
             const selected = recipeData.filter((recipe) => recipe.id === selectedRecipe).at(0)
-            ingredientQuantityList = selected.ingredients
-            panelPropsData = selected
             console.log(selected);
             console.log(ingredientQuantityList)
+            setIngredientQuantitiesData(selected.ingredientQuantities)
+            setPanelProps(selected)
         }
-        setIngredientQuantitiesData(ingredientQuantityList)
-        setPanelProps(panelPropsData)
     }, [selectedRecipe]);
 
     return (
@@ -51,14 +48,14 @@ const RecipesPage = () => {
                         setSelectedRow={setSelectedRecipe}
                         selectedRow={selectedRecipe}
                         rawData = {recipeData}
+                        dataType={'recipe'}
                     />
                 </div>
                 <div className={'RP-grid-column'}>
                     <RPSummaryPanel props={panelProps}/>
-                    <IngredientQuantitiesTable ingredientQuantities={ingredientQuantitiesData}/>
+                    <IngredientQuantitiesTableRP ingredientQuantities={ingredientQuantitiesData}/>
                 </div>
             </div>
-
         </div>
     )
 }

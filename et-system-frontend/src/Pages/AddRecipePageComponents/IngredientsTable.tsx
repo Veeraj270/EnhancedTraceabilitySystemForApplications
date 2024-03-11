@@ -2,7 +2,7 @@ import React, {ChangeEvent, useEffect, useMemo, useState} from "react";
 import {getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import "../AddRecipePageComponents/ARPStylesheet.css"
 
-const RecipeTable = ({setSelectedRow, selectedRow, rawData, dataType}) => {
+const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
 
     const [tableData, setTableData] = useState([])
     const [filteredTableData, setFilteredTableData] = useState([])
@@ -10,59 +10,44 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData, dataType}) => {
 
     const columns = useMemo(() => [
         {
-            header: 'ID',
-            accessorKey: 'id'
-        },
-        {
-            header: 'Label',
-            accessorKey: 'label'
+            header: 'Name',
+            accessorKey: 'name'
         }
     ], [])
-
-    const generateTableData = async (data: any[]) => {
-        const recipesTableData = data.map((dataElement) => (
-            {
-                id: dataElement.id,
-                label: dataElement.label
-            }
-        ));
-        return recipesTableData
-    }
 
     const handleChange = (event : ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
         setSearchInput(event.target.value)
     }
 
+    // This handles selecting a row
     const handleClick = (event: React.MouseEvent, id : number) => {
         if (id !== undefined){
             setSelectedRow(id)
-            console.log("Selected recipe: " + id);
+            console.log("Selected ingredient: " + id);
         }
         else{
             console.log("Empty row clicked");
         }
     }
 
+    // Searches for the ingredients in data
     useEffect(() => {
         if (searchInput.length > 0){
             setFilteredTableData(tableData.filter((row) => {
-                return row.label.match(RegExp(searchInput, 'i'))
-                    || row.id.toString().match(searchInput)
+                return row.name.match(RegExp(searchInput, 'i'))
             }))
         } else{
+            // if there is no searching show all the tableData
             setFilteredTableData(tableData)
         }
     }, [searchInput]);
 
     useEffect(() => {
-        // Have to check if the data is undefined, because there can be no data passed
         if(rawData !== undefined){
             if(rawData.length > 0) {
-                generateTableData(rawData).then(recipesTableData => {
-                    setTableData(recipesTableData)
-                    setFilteredTableData(recipesTableData)
-                })
+                    setTableData(rawData)
+                    setFilteredTableData(rawData)
             }
         }
         console.log(rawData);
@@ -74,9 +59,9 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData, dataType}) => {
         getCoreRowModel: getCoreRowModel()
     })
 
-    return <div className={'RPTable-grid'}>
+    return <div className={'ARPTable-grid'}>
         <div className={"RPTable-search-container"}>
-            <label>Select a recipe</label>
+            <label>Select an ingredient</label>
             <input placeholder={"Search..."} onChange={handleChange} value={searchInput}/>
         </div>
         <div className={"RPTable-content-div"}>
@@ -86,8 +71,7 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData, dataType}) => {
                     key={row.id}
                     onClick={(event) => {handleClick(event, row.original.id)}}
                     className={(row.original.id === selectedRow) ? 'RP-selected-row' : 'RP-unselected-row'}>
-                    <td style={{width: '10%', textAlign: 'center'}}>{row.original.id}</td>
-                    <td style={{width: '90%'}}>{row.original.label}</td>
+                    <td style={{paddingLeft: '20px'}}>{row.original.name}</td>
                 </tr>))
                 }
                 </tbody>
