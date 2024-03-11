@@ -6,7 +6,7 @@ import {CircularProgressbar} from "react-circular-progressbar";
 
 // @ts-ignore
 const TDPPopUpTable = ({header , data, iconColor}) => {
-
+    //State variables
     const [tableData, setTableData] = useState(data)
 
     const columns= useMemo(()=> [
@@ -16,6 +16,7 @@ const TDPPopUpTable = ({header , data, iconColor}) => {
         },
     ],[])
 
+    //Update table whenever table data changes
     useEffect(() => {
         setTableData(toText(collapseData(data)));
     }, [data]);
@@ -40,12 +41,14 @@ const TDPPopUpTable = ({header , data, iconColor}) => {
         return collapsedData;
     }
 
+
     const toText = (data: any) => {
         let output: any[] = [];
         data.forEach((row: any) => output.push( {text: `${row.quantity} x ${row.label}`}));
         return output;
     }
 
+    //Define table
     const table = useReactTable({
         data: tableData ,
         columns: columns ,
@@ -78,7 +81,6 @@ const TDPPopUpTable = ({header , data, iconColor}) => {
                     </tr>))
                     }
                     </tbody>
-
                 </table>
             </div>
         </div>

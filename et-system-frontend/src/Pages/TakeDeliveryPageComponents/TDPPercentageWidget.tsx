@@ -4,9 +4,11 @@ import {useEffect, useState} from "react";
 
 // @ts-ignore
 const TDPPercentageWidget = ({ percentage_, fraction_ }) => {
+    //State variables
     const [ percentage, setPercentage ] = useState(0);
     const [ fraction, setFraction ] = useState("");
 
+    //Update the widget whenever relevant data changes
     useEffect(() => {
         setPercentage(percentage_);
         setFraction(fraction_);
@@ -18,9 +20,6 @@ const TDPPercentageWidget = ({ percentage_, fraction_ }) => {
             <CircularProgressbar
                 value={percentage}
                 text={fraction}
-                styles={buildStyles({
-
-                })}
             />
         </div>
     )

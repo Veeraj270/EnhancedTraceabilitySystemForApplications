@@ -37,6 +37,7 @@ const TDPPopUp = ( {state, missingItems, unexpectedItems, scannedItems, cancel, 
         console.log("total weight: " + totalWeight)
     }, [totalWeight]);
 
+    //Render
     return (
         visible ? (
             <div className={"TDP-pop-up"}>

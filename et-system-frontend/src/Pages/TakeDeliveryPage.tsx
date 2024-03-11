@@ -39,10 +39,8 @@ const TakeDelivery = () => {
     const [scannedTData, setScannedTData] = useState(emptyData);
     const [unexpectedTData, setUnexpectedTData] = useState(emptyData);
     const [plannedDelivery, setPlannedDelivery] = useState({});
-
     const [deliveryId, setDeliveryId] = useState(id)
     const [startTime, setStartTime] = useState(new Date());
-
     const [popUpVisible, setPopUpVisible] = useState(false);
 
     //Triggered upon initial render of the page
@@ -74,6 +72,7 @@ const TakeDelivery = () => {
         })
         return await Promise.all(promises);
     }
+
     const fetchDeliveryData = async (deliveryId: number) : Promise<Delivery> => {
         try {
             const response = await fetch(`http://localhost:8080/api/deliveries/fetch-planned-by-id/${deliveryId}`);
@@ -95,7 +94,6 @@ const TakeDelivery = () => {
             };
         }
     }
-
 
     //Triggered by pressing button to right of input field or by pressing enter on input field
     const submitBarcode = async (barcode: string) => {
@@ -200,6 +198,7 @@ const TakeDelivery = () => {
         window.location.href = '/deliveries'
     }
 
+    //Render
     return (
         <div className='take-delivery-page'>
             <TDPPopUp state={popUpVisible}
@@ -227,7 +226,6 @@ const TakeDelivery = () => {
                     <TDPTable data={unexpectedTData.reverse()} title={"Unexpected Items"}/>
                 </div>
             </div>
-
         </div>
     )
 }
