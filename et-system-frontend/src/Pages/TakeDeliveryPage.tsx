@@ -31,7 +31,8 @@ const TakeDelivery = () => {
     //Navigation
     const location = useLocation();
     const { selectedPDelivery } = location.state || {};
-    const id = selectedPDelivery;
+
+    const deliveryId = selectedPDelivery;
 
     //State variables
     const [metadata, setMetadata] = useState(emptyMetadata);
@@ -39,7 +40,6 @@ const TakeDelivery = () => {
     const [scannedTData, setScannedTData] = useState(emptyData);
     const [unexpectedTData, setUnexpectedTData] = useState(emptyData);
     const [plannedDelivery, setPlannedDelivery] = useState({});
-    const [deliveryId, setDeliveryId] = useState(id)
     const [startTime, setStartTime] = useState(new Date());
     const [popUpVisible, setPopUpVisible] = useState(false);
 

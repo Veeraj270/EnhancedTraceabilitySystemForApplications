@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import {Button} from "reactstrap";
 import TDPPopUpTable from "./TDPPopUpTable";
 import TDPPercentageWidget from "./TDPPercentageWidget";
 import TDPMetaDataWidget from "./TDPMetaDataWidget";
@@ -31,11 +30,6 @@ const TDPPopUp = ( {state, missingItems, unexpectedItems, scannedItems, cancel, 
         });
         setTotalWeight(tWeight);
     }, [scannedItems, unexpectedItems])
-
-    //Debugging
-    useEffect(() => {
-        console.log("total weight: " + totalWeight)
-    }, [totalWeight]);
 
     //Render
     return (

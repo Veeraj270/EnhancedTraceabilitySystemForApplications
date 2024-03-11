@@ -1,8 +1,6 @@
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import React, {useEffect, useMemo, useState} from "react";
 import { CiCircleAlert } from "react-icons/ci";
-import { IoIosAlert } from "react-icons/io";
-import {CircularProgressbar} from "react-circular-progressbar";
 
 // @ts-ignore
 const TDPPopUpTable = ({header , data, iconColor}) => {
