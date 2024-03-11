@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from "react";
-import {IngredientQuantity} from "../Interfaces/IngredientQuantity";
 import {Button, Input, Label} from "reactstrap";
 import "./ARPStylesheet.css"
 
 const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient}) => {
 
-    const [ingredientQuantity, setIngredientQuantity] = useState<IngredientQuantity>()
+    const [ingredientQuantity, setIngredientQuantity] = useState()
 
     useEffect(() => {
         setIngredientQuantity({...ingredientQuantity, ingredientType: selectedIngredient})
@@ -35,10 +34,10 @@ const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient}) => {
 
         event.preventDefault()
         setRecipe({...recipe,
-            ingredientQuantities: [...recipe.ingredientQuantities, ingredientQuantity]
+            ingredientQuantities: [ingredientQuantity, ...recipe.ingredientQuantities]
         })
         console.log(ingredientQuantity)
-        setIngredientQuantity({ ingredientType: undefined, quantity: undefined})
+        setIngredientQuantity(undefined)
     }
 
     return(
