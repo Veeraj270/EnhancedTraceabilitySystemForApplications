@@ -62,6 +62,7 @@ public class AutoOrderService {
         for (PlannedDelivery plan : savedDeliveries){
             boolean ok = makeOrder(plan);   //Exists to mimic the behaviour of making an order to our suppliers via their own APIs
             if (ok){
+                plan.setAssociatedCustomerOrder(savedOrder);
                 plannedDeliveryRepo.save(plan);
             }
             else { return false; }
@@ -71,7 +72,7 @@ public class AutoOrderService {
 
     public void reserveProductsForOrder(){
         for (Product product: savedProducts){
-            product.setAssociatedOrder(savedOrder);
+            product.setAssociatedCustomerOrder(savedOrder);
             productRepository.save(product);
         }
     }
@@ -91,7 +92,7 @@ public class AutoOrderService {
             if (useStoredProducts){
                 //Check whether there's Products within productRepository that match the required IType and have no associatedOrder
                 List<Product> matchingProducts = productRepository.findAll().stream()
-                        .filter(product -> product.getAssociatedOrder() == null && product.getIngredientType().equals(IQ.getIngredientType()))
+                        .filter(product -> product.getAssociatedCustomerOrder() == null && product.getIngredientType().equals(IQ.getIngredientType()))
                         .sorted(Comparator.comparing(Product::getCurrentQuantity))
                         .toList();
 

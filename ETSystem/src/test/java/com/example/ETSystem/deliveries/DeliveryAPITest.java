@@ -10,7 +10,6 @@ import com.example.ETSystem.productData.SuppliedGood;
 import com.example.ETSystem.timeline.TimelineService;
 import jakarta.transaction.Transactional;
 import org.assertj.core.groups.Tuple;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,7 +105,7 @@ public class DeliveryAPITest {
         //Check result
         List<Product> savedProducts = productRepository.findAll();
 
-        assertThat(savedProducts).extracting(Product::getGtin, Product::getAssociatedOrder).containsExactlyInAnyOrder(
+        assertThat(savedProducts).extracting(Product::getGtin, Product::getAssociatedCustomerOrder).containsExactlyInAnyOrder(
                 Tuple.tuple("10001", customerOrder),
                 Tuple.tuple("10001", null),
                 Tuple.tuple("10002", customerOrder),

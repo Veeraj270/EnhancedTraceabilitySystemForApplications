@@ -38,7 +38,7 @@ public class Product{
 	private IngredientType ingredientType;
 
 	@ManyToOne
-	private CustomerOrder associatedOrder;
+	private CustomerOrder associatedCustomerOrder;
 
 	@Transient
 	private transient long parentID;
@@ -98,7 +98,7 @@ public class Product{
 		return this.parentID;
 	}
 
-	public CustomerOrder getAssociatedOrder(){ return this.associatedOrder; }
+	public CustomerOrder getAssociatedCustomerOrder(){ return this.associatedCustomerOrder; }
 	
 	//Setters
 	public void setLabel(String label){
@@ -129,7 +129,7 @@ public class Product{
 		this.parentID = id;
 	}
 
-	public void setAssociatedOrder(CustomerOrder customerOrder){ this.associatedOrder = customerOrder; }
+	public void setAssociatedCustomerOrder(CustomerOrder customerOrder){ this.associatedCustomerOrder = customerOrder; }
 
 	//Utility
 	

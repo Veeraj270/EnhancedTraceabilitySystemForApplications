@@ -93,7 +93,7 @@ public class DeliveryAPI{
 			for (DeliveryItem eItem: expectedItems){
 				if (eItem.getGtin().equals(product.getGtin())){
 					//Item is expected therefore set associatedDelivery to that of the plannedDelivery
-					newProduct.setAssociatedOrder(plan.getAssociatedCustomerOrder());
+					newProduct.setAssociatedCustomerOrder(plan.getAssociatedCustomerOrder());
 					expectedItems.remove(eItem);
 					break;
 				}
