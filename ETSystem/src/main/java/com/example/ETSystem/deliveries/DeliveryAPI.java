@@ -78,23 +78,23 @@ public class DeliveryAPI{
 	}
 
 	// convenience adders
-	
+
 	@PostMapping("/add-recorded-with-products")
 	public RecordedDelivery addRecordedWithProducts(@RequestBody RecordedDeliveryInput newRecordInput){
 		List<Product> savedProducts = new ArrayList<>(newRecordInput.recorded.size());
 		PlannedDelivery plan = newRecordInput.getPlan();
-		Iterator<DeliveryItem> iterator = newRecordInput.getPlan().getItems().iterator();
+		Iterator<DeliveryItem> iterator = (new ArrayList<>(newRecordInput.getPlan().getItems())).iterator();
+		ArrayList<DeliveryItem> expectedItems = new ArrayList<>(newRecordInput.getPlan().getItems());
 
 		for (SuppliedGood product : newRecordInput.getRecorded()){
 			Product newProduct =  new Product(); //New product instance to be saved to repo
 
 			//Search for that product in the expectedItems
-			while(iterator.hasNext()){
-				DeliveryItem eItem = iterator.next();
+			for (DeliveryItem eItem: expectedItems){
 				if (eItem.getGtin().equals(product.getGtin())){
 					//Item is expected therefore set associatedDelivery to that of the plannedDelivery
 					newProduct.setAssociatedOrder(plan.getAssociatedCustomerOrder());
-					iterator.remove();
+					expectedItems.remove(eItem);
 					break;
 				}
 			}
@@ -112,6 +112,7 @@ public class DeliveryAPI{
 			//Create TimeLineEvent for each new product
 			timelineService.save(new CreateEvent(Instant.now().getEpochSecond(), newProduct));
 			savedProducts.add(newProduct);
+
 		}
 
 		//Save RecordedDelivery with list of new Products
