@@ -21,19 +21,39 @@ public class AutoOrderAPI {
 
     @GetMapping(path = "/auto-gen-orders")
     public List<PlannedDelivery> getAutoGenOrders(@RequestBody CustomerOrder order){
-        List<PlannedDelivery> planned = autoOrderService.generateRequiredOrders(order);
+        autoOrderService.setSavedOrder(order);
+        List<PlannedDelivery> planned = autoOrderService.generateRequiredOrders(order, false);
         autoOrderService.setSavedDeliveries(planned);
         return planned;
     }
 
+    @GetMapping(path = "/auto-gen-orders-plus")
+    public List<PlannedDelivery> getAutoGenOrdersPlus(@RequestBody CustomerOrder order){
+        autoOrderService.setSavedOrder(order);
+        List<PlannedDelivery> planned = autoOrderService.generateRequiredOrders(order, true);
+        autoOrderService.setSavedDeliveries(planned);
+        return planned;
+    }
+
+
     @RequestMapping(path = "/auto-gen-orders/confirm")
-    public boolean confirmAutoGenResult(){
-        return autoOrderService.confirmSavedOrders();
+    public void confirmAutoGenResult(){
+        autoOrderService.confirmSavedOrders();
+        autoOrderService.reserveProductsForOrder();
+
+        //Reset autoOrderService
+        autoOrderService.setSavedDeliveries(null);
+        autoOrderService.setSavedProducts(null);
+        autoOrderService.setSavedOrder(null);
+
     }
 
     @RequestMapping(path = "/auto-gen-orders/cancel")
     public boolean cancelAutoGenResult(){
+        //Reset autoOrderService
         autoOrderService.setSavedDeliveries(null);
+        autoOrderService.setSavedProducts(null);
+        autoOrderService.setSavedOrder(null);
         return false;
     }
 }

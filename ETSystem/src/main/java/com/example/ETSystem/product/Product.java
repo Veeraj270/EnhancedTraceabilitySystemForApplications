@@ -43,16 +43,24 @@ public class Product{
 	@Transient
 	private transient long parentID;
 	
-	public Product(String label, int maxQuantity, List<Long> intermediaryIds){
+	public Product(String label, float maxQuantity, List<Long> intermediaryIds){
 		this.label = label;
 		this.maxQuantity = maxQuantity;
+		this.currentQuantity = maxQuantity;
 		this.intermediaryIds = intermediaryIds;
 	}
 	
-	public Product(String label, int maxQuantity, int currentQuantity){
+	public Product(String label, float maxQuantity,float currentQuantity){
 		this.label = label;
 		this.maxQuantity = maxQuantity;
 		this.currentQuantity = currentQuantity;
+	}
+
+	public Product(String label, float maxQuantity, float currentQuantity, IngredientType iType){
+		this.label = label;
+		this.maxQuantity = maxQuantity;
+		this.currentQuantity = currentQuantity;
+		this.ingredientType = iType;
 	}
 	
 	public Product(){}
