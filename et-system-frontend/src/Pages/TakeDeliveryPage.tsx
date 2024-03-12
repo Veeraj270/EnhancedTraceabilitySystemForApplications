@@ -31,7 +31,8 @@ const TakeDelivery = () => {
     //Navigation
     const location = useLocation();
     const { selectedPDelivery } = location.state || {};
-    const id = selectedPDelivery;
+
+    const deliveryId = selectedPDelivery;
 
     //State variables
     const [metadata, setMetadata] = useState(emptyMetadata);
@@ -39,21 +40,13 @@ const TakeDelivery = () => {
     const [scannedTData, setScannedTData] = useState(emptyData);
     const [unexpectedTData, setUnexpectedTData] = useState(emptyData);
     const [plannedDelivery, setPlannedDelivery] = useState({});
-
-    const [deliveryId, setDeliveryId] = useState(id)
-    const [startTime, setStartTime] = useState((new Date()).toISOString());
-
+    const [startTime, setStartTime] = useState(new Date());
     const [popUpVisible, setPopUpVisible] = useState(false);
-    const [popUpPromise, setPopUpPromise] = useState(new Promise(() => {}));
-    //Debugging
-    useEffect(() => {
-        console.log(expectedTData);
-    }, [expectedTData]);
 
     //Triggered upon initial render of the page
     useEffect(() => {
         fetchDeliveryData(deliveryId).then((data: Delivery) => {
-            const time = startTime.match(/[0-9]{2}:[0-9]{2}:[0-9]{2}/)?.at(0)
+            const time = startTime.toISOString().match(/[0-9]{2}:[0-9]{2}:[0-9]{2}/)?.at(0)
             const newMetadata : Metadata  =  {
                 name: data.name,
                 supplier: "N/A", //Placeholder
@@ -79,6 +72,7 @@ const TakeDelivery = () => {
         })
         return await Promise.all(promises);
     }
+
     const fetchDeliveryData = async (deliveryId: number) : Promise<Delivery> => {
         try {
             const response = await fetch(`http://localhost:8080/api/deliveries/fetch-planned-by-id/${deliveryId}`);
@@ -100,7 +94,6 @@ const TakeDelivery = () => {
             };
         }
     }
-
 
     //Triggered by pressing button to right of input field or by pressing enter on input field
     const submitBarcode = async (barcode: string) => {
@@ -151,21 +144,23 @@ const TakeDelivery = () => {
         }
     }
 
-    const waitForTrigger = () => {
-        const promise = new Promise<boolean>(() => {})
-        setPopUpPromise(promise);
-        return promise;
+    const onClick_SubmitDelivery = () => {
+        setPopUpVisible(true);
     }
 
+    const onClick_CancelSubmission = () => {
+        setPopUpVisible(false);
+
+    }
+
+    const onClick_ConfirmSubmit = () => {
+        submitDelivery().then().catch((error) => {
+            console.log("Error occurred within submitDelivery() method:" + error)
+        });
+    }
 
     //Triggered by pressing submit delivery button
     const submitDelivery = async () => {
-        //Set Pop-Up as visible
-        setPopUpVisible(true);
-
-        //Await resolve
-        const ok =  waitForTrigger();
-
         //Create a record of the delivery and push it to the database via POST
         const recordedProducts: any[] =  [...structuredClone(scannedTData), ...structuredClone(unexpectedTData)];
 
@@ -203,15 +198,23 @@ const TakeDelivery = () => {
         window.location.href = '/deliveries'
     }
 
+    //Render
     return (
         <div className='take-delivery-page'>
-            <TDPPopUp state={popUpVisible}/>
+            <TDPPopUp state={popUpVisible}
+                      missingItems={expectedTData}
+                      scannedItems={scannedTData}
+                      unexpectedItems={unexpectedTData}
+                      cancel={onClick_CancelSubmission}
+                      confirm={onClick_ConfirmSubmit}
+                      startTime={startTime}
+            />
             <h1 className={'TDP-title'}>Process Delivery</h1>
             <div className={'TDP-grid-container'}>
                 <div className={'TDP-grid-column'}>
                     <TDPMetaDataWindow {...metadata}/>
                     <TDPBarCodeEntry submit={submitBarcode}/>
-                    <TDPSubmitDeliveryButton submit={submitDelivery}/>
+                    <TDPSubmitDeliveryButton submit={onClick_SubmitDelivery}/>
                 </div>
                 <div className={'TDP-grid-column'}>
                     <TDPTable data={expectedTData.reverse()} title={"Expected Items"}/>
@@ -223,7 +226,6 @@ const TakeDelivery = () => {
                     <TDPTable data={unexpectedTData.reverse()} title={"Unexpected Items"}/>
                 </div>
             </div>
-
         </div>
     )
 }

@@ -194,7 +194,7 @@ TDP-T-content-div th, td {
     border-bottom: solid black 2px;
 }
 
-/*Are you sure? pop-up*/
+/*pop-up*/
 .TDP-pop-up{
     position: absolute;
     top: 0px;
@@ -211,43 +211,157 @@ TDP-T-content-div th, td {
 .TDP-pop-up-inner{
     positon: relative;
     padding: 32px;
-    width: 600px;
-    max-width: 400px;
-    height: 400px;
+    width: 720px;
+    height: 800px;
     border-radius: 0.5rem;
     background-color: ghostwhite;
+    border: #bda9a9 solid 2px;
+
+    display: grid;
+    grid-template-rows: 1fr 2fr 0.3fr;
+    grid-row-gap: 10px;
+}
+
+.TDP-pop-up-inner *{
+    box-sizing: border-box;
+}
+
+/*Upper Section*/
+.TDP-pop-up-upper{
+    display: grid;
+    grid-template-columns: 0.4fr 1fr 0.2fr;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+}
+
+.TDP-percentage-widget {
+    background-color: #f3f3ff;
+    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: #bda9a9 solid 2px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 0.5rem;
 }
 
-.TDP-pop-up-inner p{
-    margin-top: 0px;
-    font-size: 20px;
+.TDP-percentage-widget p{
+    font-weight: bold;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    margin: 0px auto;
+
+}
+.TDP-meta-data-widget{
+    background-color: #f3f3ff;
+    border-radius: 0.5rem;
+    padding-top: 26px;
 }
 
-.TDP-pop-up-button-div{
+.TDP-meta-data-widget p{
+    padding-left: 10px;
+    margin: 0px;
+    padding-bottom: 10px;
+
+}
+
+.TDP-cancel-button{
+    height: 20%;
+    font-weight: bolder;
+    background-color: lightgrey;
+    border-radius: 0.5rem;
+}
+
+.TDP-cancel-button:hover{
+    background-color: #e7e6e6;
+}
+
+
+/*Middle Section*/
+.TDP-pop-up-middle{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 20px;
+    padding: 10px 10px 10px 10px;
+}
+
+.TDP-pop-up-table{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    max-height: 450px;
+    background-color: #f3f3ff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+}
+
+.TDP-pop-up-table td, th{
+    border: none;
+    padding-left: 20px;
+    font-size: 14px;
+    box-shadow: none;
+    background-color: #f3f3ff;
+}
+
+.TDP-pop-up-table th{
+    border-bottom: 1px #cfcfd0 solid;
+    border-top: 1px #cfcfd0 solid;
+}
+
+
+.TDP-pop-up-table table{
+    box-shadow: none;
+}
+.TDP-pop-up-table-header-div{
+   height: 50px;
+}
+.TDP-pop-up-table-header-div th{
+    height: 100%;
+}
+
+
+.TDP-pop-up-table-content-div{
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: calc(100% - 50px);
+}
+
+.TDP-pop-up-table-tbody td, p{
     display: flex;
     flex-direction: row;
-    column-gap: 5%;
-    width: 100%;
-    align-items: center;
+    margin: 0px;
+}
+
+.TDP-symbol{
+    margin-left: auto;
+    font-size: 20px;
+    padding-bottom: 1px;
+    font-size: bold;
+}
+
+
+/*Lower Section*/
+.TDP-pop-up-lower{
+    display: flex;
     justify-content: center;
+    align-items: center;
 }
 
-.TDP-pop-up-button-div button{
-    width: 25%;
-    height: 40px;
+.TDP-confirm-button{
+    width: 40%;
+    height: 80%;
     border-radius: 0.5rem;
-    font-size: 16px;
+    background-color: lightsteelblue;
+    font-weight: bold;
+    font-size: 18px;
 }
 
-.TDP-pop-up-button-div .b1{
-    background-color: limegreen;
+.TDP-confirm-button:hover{
+    background-color: lightcyan;
 }
-.TDP-pop-up-button-div .b2{
-    background-color: orangered;
-}
+
+
+
+
+
 

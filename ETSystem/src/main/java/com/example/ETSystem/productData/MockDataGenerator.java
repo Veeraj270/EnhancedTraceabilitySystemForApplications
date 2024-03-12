@@ -215,13 +215,17 @@ public class MockDataGenerator {
              ingredientType = list.get(0);
          }
 
+         //Crude implementation:
+         float weight = quantity; //Will result in inaccurate weights for liquids with density != density of water
+
          SuppliedGood entry = new SuppliedGood(
                  barcode.toString(),
                  label,
                  ingredientType,
                  quantity,
                  unit,
-                 price
+                 price,
+                 weight
          );
 
          //The suppliedGood is saved to the suppliedGood repo within this method
