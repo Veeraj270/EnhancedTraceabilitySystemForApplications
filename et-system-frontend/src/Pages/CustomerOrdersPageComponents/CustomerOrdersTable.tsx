@@ -14,6 +14,29 @@ const CustomerOrdersTable = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
 
+    type PlannedDelivery = {
+        id: number;
+        name: string;
+        description: string;
+
+    };
+
+    type FinalProduct = {
+        id: number;
+        label: string;
+        cost: number;
+        quantity: number;
+    };
+
+    type CustomerOrder = {
+        id: number;
+        client: string;
+        date: string;
+        deliveryDate: string;
+        finalProducts: FinalProduct[];
+    };
+
+
     const columns = useMemo(() => [
         {
             header: 'ID',
@@ -57,6 +80,7 @@ const CustomerOrdersTable = () => {
         },
     ], []);
 
+    //Calls the AutoGenAPI to gen
     const handleGenerateClick = async (order: CustomerOrder) => {
         setCurrentOrder(order);
         setIsLoading(true);
@@ -84,6 +108,7 @@ const CustomerOrdersTable = () => {
         }
     };
 
+    //Calls Confirm on AutoGen API
     const handleConfirm = async () => {
         try {
             const response = await fetch('http://localhost:8080/api/auto-order/auto-gen-orders/confirm', {
@@ -108,6 +133,7 @@ const CustomerOrdersTable = () => {
 
     };
 
+    //Calls Cancel on AutoGen API
     const handleCancel = async () => {
         try{
             const response = await fetch('http://localhost:8080/api/auto-order/auto-gen-orders/cancel', {
@@ -130,28 +156,7 @@ const CustomerOrdersTable = () => {
         }
     };
 
-
-    type PlannedDelivery = {
-      id: number;
-      name: string;
-      description: string;
-
-    };
-
-    type FinalProduct = {
-        id: number;
-        label: string;
-        cost: number;
-        quantity: number;
-    };
-
-    type CustomerOrder = {
-        id: number;
-        client: string;
-        date: string;
-        deliveryDate: string;
-        finalProducts: FinalProduct[];
-    };
+    //Fetches data for customerOrders table
 
     const fetchData = async (): Promise<void> => {
         try {
