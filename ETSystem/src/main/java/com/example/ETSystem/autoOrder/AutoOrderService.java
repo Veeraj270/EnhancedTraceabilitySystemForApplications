@@ -82,10 +82,12 @@ public class AutoOrderService {
         int reqAmount = IQ.getQuantity();
 
         IngredientType reqType = IQ.getIngredientType();
+        System.out.println("ReqType:" + reqType);
 
         //Find all SuppliedGoods that match the IngredientType
         for (Supplier supplier : suppliers){
             matchingGoods.addAll(supplier.getGoods().stream()
+                            .peek(good -> System.out.println("Good processed" + good.getIngredientType()))
                     .filter((good) -> good.getIngredientType().equals(reqType))
                     .peek((good) -> {
                         good.setSupplier(supplier);
@@ -97,6 +99,7 @@ public class AutoOrderService {
         List<Float> distinctQuantities = matchingGoods.stream().map(SuppliedGood::getQuantity).distinct().sorted().toList();
 
         //Calculate the amount of each distinctQuantity is required
+        System.out.println("MatchingGoodsSize:" + matchingGoods.size());
         int[] amounts = getNumOfEachDiQuant(distinctQuantities,reqAmount);
 
         //Add the cheapest good that matches the required quantity to the toOrder list
@@ -160,6 +163,8 @@ public class AutoOrderService {
         //Sort distinctQuantities from smallest to largest
         distinctQuantities = distinctQuantities.stream().sorted().toList();
         int[] amounts = new int[distinctQuantities.size()];
+        System.out.println("Distinct quantities size:" + distinctQuantities.size());
+
 
         int a = (int) ceil((reqAmount/ distinctQuantities.get(0)));
         float iDeliveryTotal = distinctQuantities.get(0) * a;
