@@ -30,7 +30,7 @@
     display: grid;
     grid-template-columns: 0.4fr 0.6fr;
     width: 100%;
-    height: 100%;
+    height: 600px;
     column-gap: 60px;
 }
 
@@ -99,7 +99,7 @@
 }
 
 .RPTable-content-div{
-    height: 600px;
+    height: 590px;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -172,10 +172,9 @@
     text-align: left;
 }
 
-.table-container {
-    max-height: 400px;
-    text-align: center;
+.RPTable-container {
     width: 100%;
+    text-align: center;
     border-radius: 0.5rem;
     border: var(--border-color) solid 1px;
     background-color: ghostwhite;
@@ -183,7 +182,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.IGTableARP{
+.IGTableRP{
     width: 100%;
     text-align: center;
     border-radius: 0.5rem;
@@ -193,31 +192,31 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.IGTableARP th, td {
+.IGTableRP th, td {
     padding: 12px;
     border-bottom: 1px solid #ddd;
 }
 
-.IGTableARP thead {
+.IGTableRP thead {
     width: 100%;
     display: table;
     text-align: center;
 }
 
-.IGTableARP tbody{
+.IGTableRP tbody{
+    height: 255px;
     width: 100%;
-    height: 300px;
     background-color: whitesmoke;
     display: inline-block;
     overflow-y: auto;
 }
 
-.IGTableARP tbody tr{
+.IGTableRP tbody tr{
     width: 100%;
     display: block;
 }
 
-.IGTableARP tbody tr td{
+.IGTableRP tbody tr td{
     width: 50%;
     display: inline-block;
 }
