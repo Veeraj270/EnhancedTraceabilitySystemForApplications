@@ -1,30 +1,20 @@
-import {useEffect, useState} from "react";
-
-const RPSummaryPanel = (props: any) => {
-
-    const [data, setData] = useState(props)
-
-    useEffect(() => {
-        setData(props)
-        console.log(props)
-    }, [props])
+const RPSummaryPanel = ({props}) => {
 
     return(
         <div className={"RPSummary-grid"}>
             <p className={"RPSummary-name"}>
                 <b>Recipe name: </b>
-                {data.label}
-                <b>{data.vegan ? ' (V)' : data.vegetarian ? ' (Ve)' : ""}</b>
+                 {props.label}
+                <b>{props.vegan ? ' (V)' : props.vegetarian ? ' (Ve)' : ""}</b>
             </p>
             <div className={"RPSummary-item"}>
-                <p><b>Allergens: </b>{data.allergens ? data.allergens.map(ingredient => ingredient.label).join(", ") : ""}</p>
+                <p><b>Allergens: </b>{props.allergens ? props.allergens.map(ingredientType => ingredientType.name).join(", ") : ""}</p>
             </div>
             <div className={"RPSummary-item"}>
                 <p><b>Description: </b></p>
             </div>
         </div>
     )
-
 }
 
 export default RPSummaryPanel;

@@ -13,6 +13,7 @@ import CustomerOrdersPage from "./Pages/CustomerOrdersPage";
 import DeliveriesOverviewPage from "./Pages/DeliveriesOverviewPage";
 import FinalProductPage from "./Pages/FinalProductPage";
 import RecipesPage from "./Pages/RecipesPage";
+import AddRecipePage from "./Pages/AddRecipePage";
 
 function App() {
     return (
@@ -37,6 +38,10 @@ function App() {
 
                     <Route path={"/recipes"} element={<RecipesPage/>}>
                     </Route>
+
+                    <Route path={"/add-recipe"} element={<AddRecipePage/>}>
+                    </Route>
+
                     <Route path={"/help"} element={<HelpPage/>}>
 
                     </Route>
