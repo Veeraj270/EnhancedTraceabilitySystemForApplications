@@ -26,7 +26,7 @@ const AddRecipePage = () => {
     useEffect(() => {
         fetchIngredientTypes().then((ingredientData) =>
         {
-            setIngredientsData(ingredientData)
+            setIngredientsData(ingredientData.sort((a, b) => a.name.localeCompare(b.name)))
         })
             .catch((reason) => {console.error("Error within fetchIngredients" + reason)})
     }, [])
@@ -97,12 +97,16 @@ const AddRecipePage = () => {
                         recipe={recipe}
                         setRecipe={setRecipe}
                         selectedIngredient={selectedIngredient}
+                        ingredientsData={ingredientsData}
+                        setIngredientsData={setIngredientsData}
                     />
                     <h2>Added ingredients</h2>
                     <IngredientQuantitiesTableARP
                         ingredientQuantities={recipe.ingredientQuantities}
                         recipe={recipe}
                         setRecipe={setRecipe}
+                        ingredientsData={ingredientsData}
+                        setIngredientsData={setIngredientsData}
                     />
                 </div>
                 <div className={'ARP-submit-column'}>

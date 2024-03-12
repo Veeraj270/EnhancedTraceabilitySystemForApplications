@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Button, Input, Label} from "reactstrap";
 import "./ARPStylesheet.css"
 
-const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient}) => {
+const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient, ingredientsData,setIngredientsData}) => {
 
     const [ingredientQuantity, setIngredientQuantity] = useState()
 
@@ -31,6 +31,9 @@ const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient}) => {
             alert('The ingredient that you are adding is already in the table.')
             return;
         }
+
+        const newIngredientsData = ingredientsData.filter(ing => ing !== selectedIngredient)
+        setIngredientsData(newIngredientsData)
 
         event.preventDefault()
         setRecipe({...recipe,

@@ -2,7 +2,7 @@ import React, {useMemo} from "react";
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import '../AddRecipePageComponents/ARPStylesheet.css'
 
-const IngredientQuantitiesTableARP = ({ingredientQuantities, recipe, setRecipe}) => {
+const IngredientQuantitiesTableARP = ({ingredientQuantities, recipe, setRecipe, ingredientsData, setIngredientsData}) => {
 
     const columns = useMemo(() => [
         {
@@ -32,8 +32,10 @@ const IngredientQuantitiesTableARP = ({ingredientQuantities, recipe, setRecipe})
     // Not sure if this is the best way, but it works for now
     const deleteFromTable = (event: any) => {
         console.log(event.target.parentNode.parentNode.getAttribute('id'))
+        const deletedRowID = event.target.parentNode.parentNode.getAttribute('id')
+        setIngredientsData([...ingredientsData, ingredientQuantities[deletedRowID].ingredientType].sort((a, b) => a.name.localeCompare(b.name)))
         const newIngredientQuantities = [...recipe.ingredientQuantities]
-            newIngredientQuantities.splice(event.target.parentNode.parentNode.getAttribute('id'), 1)
+            newIngredientQuantities.splice(deletedRowID, 1)
         console.log(newIngredientQuantities)
         setRecipe({...recipe, ingredientQuantities: newIngredientQuantities})
     }
