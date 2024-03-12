@@ -100,8 +100,22 @@
 
 .RPTable-content-div{
     height: 600px;
+}
+
+.RPTable-content-div tbody{
+    height: 590px;
+    width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
+    display: inline-block;
+}
+
+.RPTable-content-div tr{
+    display: inline-block;
+}
+
+.RPTable-content-div tr td{
+    display: block;
 }
 
 .RPTable-content-div td{
