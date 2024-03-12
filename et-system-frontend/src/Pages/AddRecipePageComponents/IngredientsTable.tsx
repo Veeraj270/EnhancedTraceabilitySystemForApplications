@@ -64,7 +64,8 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
             <label>Select an ingredient</label>
             <input placeholder={"Search..."} onChange={handleChange} value={searchInput}/>
         </div>
-            <table className={"RPTable-content-div"}>
+        <div className={"RPTable-content-div"}>
+            <table>
                 <tbody>
                 {table.getRowModel().rows.map(row => (<tr
                     key={row.id}
@@ -75,6 +76,7 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
                 }
                 </tbody>
             </table>
+        </div>
     </div>
 }
 
