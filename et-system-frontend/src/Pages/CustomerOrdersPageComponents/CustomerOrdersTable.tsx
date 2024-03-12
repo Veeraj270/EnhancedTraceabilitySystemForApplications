@@ -11,6 +11,7 @@ const CustomerOrdersTable = () => {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [plannedDeliveries, setPlannedDeliveries] = useState<PlannedDelivery[]>([]);
     const [currentOrder, setCurrentOrder] = useState<CustomerOrder | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
 
     const columns = useMemo(() => [
@@ -32,6 +33,10 @@ const CustomerOrdersTable = () => {
             header: 'Date',
             accessorKey: "date",
         },
+        {
+            header: 'DeliveryDate',
+            accessorKey: "deliveryDate",
+        },
 
         {
             header: 'Order Size',
@@ -44,7 +49,9 @@ const CustomerOrdersTable = () => {
             header: 'Generate',
             id: 'generate',
             cell: ({row}) => (
-                <button onClick={() => handleGenerateClick(row.original)}></button>
+                isLoading
+                    ? <p>Loading...</p>
+                    : <button onClick={() => handleGenerateClick(row.original)}></button>
             ),
 
         },
@@ -52,6 +59,7 @@ const CustomerOrdersTable = () => {
 
     const handleGenerateClick = async (order: CustomerOrder) => {
         setCurrentOrder(order);
+        setIsLoading(true);
 
         try {
             const response = await fetch('http://localhost:8080/api/auto-order/auto-gen-orders', {
@@ -70,6 +78,9 @@ const CustomerOrdersTable = () => {
             setShowModal(true);
         } catch (error) {
             console.error(error);
+        } finally{
+            setIsLoading(false);
+
         }
     };
 
@@ -119,12 +130,6 @@ const CustomerOrdersTable = () => {
         }
     };
 
-    type ModalProps = {
-        plannedDeliveries: PlannedDelivery[];
-        onConfirm: () => void;
-        onCancel: () => void;
-
-    }
 
     type PlannedDelivery = {
       id: number;
@@ -144,6 +149,7 @@ const CustomerOrdersTable = () => {
         id: number;
         client: string;
         date: string;
+        deliveryDate: string;
         finalProducts: FinalProduct[];
     };
 

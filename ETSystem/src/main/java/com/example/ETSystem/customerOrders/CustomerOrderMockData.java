@@ -12,7 +12,6 @@ import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class CustomerOrderMockData {
@@ -34,8 +33,10 @@ public class CustomerOrderMockData {
         for(JsonNode node : root) {
             String client = node.get("client").asText();
             String localDateString = node.get("date").asText();
+            String deliveryDateString = node.get("deliveryDate").asText();
             DateTimeFormatter formatter =DateTimeFormatter.ofPattern("yyyy/MM/dd");
             LocalDate localDate = LocalDate.parse(localDateString, formatter);
+            LocalDate deliveryDate = LocalDate.parse(deliveryDateString, formatter);
 
             ArrayList<FinalProduct> finalProducts= new ArrayList<>();
 
@@ -49,6 +50,7 @@ public class CustomerOrderMockData {
             CustomerOrder customerOrder= new CustomerOrder();
             customerOrder.setClient(client);
             customerOrder.setDate(localDate.atStartOfDay(ZoneOffset.UTC));
+            customerOrder.setDeliveryDate(deliveryDate.atStartOfDay(ZoneOffset.UTC));
             customerOrder.setFinalProducts(finalProducts);
 
             customerOrderRepository.save(customerOrder);
