@@ -1,5 +1,6 @@
 package com.example.ETSystem.product;
 
+import com.example.ETSystem.customerOrders.CustomerOrder;
 import com.example.ETSystem.ingredientType.IngredientType;
 import jakarta.persistence.*;
 
@@ -35,6 +36,9 @@ public class Product{
 
 	@ManyToOne
 	private IngredientType ingredientType;
+
+	@ManyToOne
+	private CustomerOrder associatedOrder;
 
 	@Transient
 	private transient long parentID;
@@ -85,6 +89,8 @@ public class Product{
 	public long getParentID(){
 		return this.parentID;
 	}
+
+	public CustomerOrder getAssociatedOrder(){ return this.associatedOrder; }
 	
 	//Setters
 	public void setLabel(String label){
@@ -114,6 +120,10 @@ public class Product{
 	public void setParentID(long id){
 		this.parentID = id;
 	}
+
+	public void setAssociatedOrder(CustomerOrder customerOrder){ this.associatedOrder = customerOrder; }
+
+	//Utility
 	
 	public boolean equals(Object obj){
 		return obj instanceof Product other && Objects.equals(other.id, id);
