@@ -2,15 +2,14 @@ import "./RecipePageComponents/RPStylesheet.css"
 import RecipeTable from "./RecipePageComponents/RecipeTable";
 import {useEffect, useState} from "react";
 import RPSummaryPanel from "./RecipePageComponents/RPSummaryPanel";
-import {IngredientQuantity} from "./Interfaces/IngredientQuantity";
 import IngredientQuantitiesTableRP from "./RecipePageComponents/IngredientQuantitiesTableRP";
 
 const RecipesPage = () => {
 
     const [recipeData, setRecipesData] = useState([])
     const [ingredientQuantitiesData, setIngredientQuantitiesData] = useState([])
-    const [selectedRecipe, setSelectedRecipe] = useState(-1)
-    const [panelProps, setPanelProps] = useState({})
+    const [selectedRecipeID, setSelectedRecipeID] = useState(-1)
+    const [selectedRecipe, setSelectedRecipe] = useState({})
 
     const fetchRecipes = async () => {
         const response = await fetch("http://localhost:8080/api/recipes/fetch-recipes")
@@ -29,15 +28,12 @@ const RecipesPage = () => {
     }, [])
 
     useEffect(() => {
-        let ingredientQuantityList: IngredientQuantity[] = []
-        if (selectedRecipe !== -1){
-            const selected = recipeData.filter((recipe) => recipe.id === selectedRecipe).at(0)
-            console.log(selected);
-            console.log(ingredientQuantityList)
+        if (selectedRecipeID !== -1){
+            const selected = recipeData.filter((recipe) => recipe.id === selectedRecipeID).at(0)
             setIngredientQuantitiesData(selected.ingredientQuantities)
-            setPanelProps(selected)
+            setSelectedRecipe(selected)
         }
-    }, [selectedRecipe]);
+    }, [selectedRecipeID]);
 
     return (
         <div className='recipe-page'>
@@ -45,14 +41,15 @@ const RecipesPage = () => {
             <div className={'RP-grid-container'}>
                 <div className={'RP-grid-column'}>
                     <RecipeTable
-                        setSelectedRow={setSelectedRecipe}
-                        selectedRow={selectedRecipe}
+                        setSelectedRow={setSelectedRecipeID}
+                        selectedRow={selectedRecipeID}
                         rawData = {recipeData}
-                        dataType={'recipe'}
                     />
                 </div>
                 <div className={'RP-grid-column'}>
-                    <RPSummaryPanel props={panelProps}/>
+                    <RPSummaryPanel
+                        props={selectedRecipe}
+                    />
                     <IngredientQuantitiesTableRP ingredientQuantities={ingredientQuantitiesData}/>
                 </div>
             </div>
