@@ -1,6 +1,11 @@
 import React, {useEffect, useState} from "react";
 
-const SearchBarWidget = ( props ) => {
+interface propsType{
+    onChange: (event: React.ChangeEvent) => void;
+}
+
+
+const SearchBarWidget = ( props : propsType ) => {
     const [placeHolder, setPlaceHolder] = useState("");
     const [input, setInput] = useState("");
     const [selectedButton, setSelectedButtonId] = useState(0);
@@ -32,7 +37,7 @@ const SearchBarWidget = ( props ) => {
                 <input
                     className={"PDP-search-bar-input"}
                     placeholder={placeHolder}
-                    onChange={props.onChange}
+                    onChange={(e) => props.onChange(e)}
                     value={input}
                 />
             </div>

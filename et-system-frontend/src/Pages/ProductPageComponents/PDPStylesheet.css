@@ -9,6 +9,8 @@
     display: flex;
     flex-direction: column;
     row-gap: 20px;
+
+    --scroll: 0;
 }
 
 .product-database-page * {
@@ -21,9 +23,13 @@
 }
 
 .PDP-upper-container{
-    background-color: whitesmoke;
-    height: 80px;
-}
+
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+
+    }
 
 .PDP-search-bar-container{
     display: flex;
@@ -66,11 +72,49 @@
     border-radius: 0.25rem;
     border: 1px black solid;
 }
-.PDP-lower-container{
-    background-color: whitesmoke;
 
+.PDP-lower-container{
     height: calc(100% - 200px);
+
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    grid-column-gap: 20px;
 }
+
+.PDP-r-column{
+    width: 100%;
+    position: relative;
+}
+
+.PDP-details-view{
+    position: absolute;
+    background-color: whitesmoke;
+    top: 0;
+    height: 60vh;
+    width: 100%;
+    border-radius: 0.5rem;
+
+    border: 1px orange solid;
+}
+
+.table-style {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse ;
+    background-color: ghostwhite;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table-style thead {
+    background-color: powderblue;
+}
+
+.table-style th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+
 
 
 
