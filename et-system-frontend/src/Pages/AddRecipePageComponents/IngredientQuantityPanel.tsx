@@ -8,7 +8,6 @@ const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient, ingredi
 
     useEffect(() => {
         setIngredientQuantity({...ingredientQuantity, ingredientType: selectedIngredient})
-        console.log(selectedIngredient)
     }, [selectedIngredient])
 
     const handleChange = (event) => {

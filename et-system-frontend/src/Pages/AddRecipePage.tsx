@@ -36,7 +36,6 @@ const AddRecipePage = () => {
     useEffect(() => {
         if (selectedIngredientID !== -1){
             const selected = ingredientsData.filter((ingredient) => ingredient.id === selectedIngredientID).at(0)
-            console.log(selected);
             setSelectedIngredient(selected)
         }
     }, [selectedIngredientID]);
@@ -44,7 +43,6 @@ const AddRecipePage = () => {
     // This is used in the SubmitPanel
     const handleChange = (event) => {
         const {name, value} = event.target
-
         event.preventDefault()
         if(name === 'label') {
             setRecipe({...recipe, label: value})

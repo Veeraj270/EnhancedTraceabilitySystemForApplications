@@ -24,10 +24,8 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
     const handleClick = (event: React.MouseEvent, id : number) => {
         if (id !== undefined){
             setSelectedRow(id)
-            console.log("Selected ingredient: " + id);
         }
         else{
-            console.log("Empty row clicked");
         }
     }
 
@@ -50,7 +48,6 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
                     setFilteredTableData(rawData)
             }
         }
-        console.log(rawData);
     }, [rawData]);
 
     const table = useReactTable({

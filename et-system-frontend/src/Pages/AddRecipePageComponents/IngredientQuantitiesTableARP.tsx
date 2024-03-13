@@ -31,12 +31,12 @@ const IngredientQuantitiesTableARP = ({ingredientQuantities, recipe, setRecipe, 
     // Getting the id of the row that's clicked and removing that element.
     // Not sure if this is the best way, but it works for now
     const deleteFromTable = (event: any) => {
-        console.log(event.target.parentNode.parentNode.getAttribute('id'))
         const deletedRowID = event.target.parentNode.parentNode.getAttribute('id')
+
         setIngredientsData([...ingredientsData, ingredientQuantities[deletedRowID].ingredientType].sort((a, b) => a.name.localeCompare(b.name)))
+
         const newIngredientQuantities = [...recipe.ingredientQuantities]
             newIngredientQuantities.splice(deletedRowID, 1)
-        console.log(newIngredientQuantities)
         setRecipe({...recipe, ingredientQuantities: newIngredientQuantities})
     }
 
