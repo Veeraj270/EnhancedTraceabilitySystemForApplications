@@ -38,8 +38,6 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
         if (id !== undefined){
             setSelectedRow(id)
         }
-        else{
-        }
     }
 
     useEffect(() => {

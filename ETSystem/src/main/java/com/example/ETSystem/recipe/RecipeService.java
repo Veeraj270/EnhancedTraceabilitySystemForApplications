@@ -40,7 +40,7 @@ public class RecipeService {
                 throw new IllegalArgumentException("At least one of the ingredients of the new recipe does not exist.");
             }
         }
-        if (recipeRepository.findByLabel(recipe.getLabel()).isPresent()){
+        if (recipeRepository.findByLabelIgnoreCase(recipe.getLabel()).isPresent()){
             throw new IllegalArgumentException("A recipe with an identical label already exists.");
         }
         this.recipeRepository.save(recipe);

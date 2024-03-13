@@ -64,7 +64,7 @@ public class Recipe {
     private String description;
 
     public Recipe(String label, Set<IngredientQuantity> ingredientQuantities, String description) {
-        this.label = label;
+        this.label = label.trim();
         this.description = description;
         // Throws and exception if there are for example 2 milk ingredients
         if(ingredientQuantities.stream().count() != ingredientQuantities.stream().map(x -> x.getIngredientType()).distinct().count()){
@@ -116,7 +116,7 @@ public class Recipe {
     }
 
     public void setLabel(String label) {
-        this.label = label;
+        this.label = label.trim();
     }
 
     public Set<IngredientQuantity> getIngredientQuantities() { return ingredientQuantities; }

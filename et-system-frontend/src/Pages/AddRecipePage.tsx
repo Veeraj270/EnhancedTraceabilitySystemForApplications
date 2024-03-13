@@ -45,9 +45,9 @@ const AddRecipePage = () => {
         const {name, value} = event.target
         event.preventDefault()
         if(name === 'label') {
-            setRecipe({...recipe, label: value})
+            setRecipe({...recipe, [name]: value})
         } else {
-            setRecipe({...recipe, description: value})
+            setRecipe({...recipe, [name]: value})
         }
     }
 

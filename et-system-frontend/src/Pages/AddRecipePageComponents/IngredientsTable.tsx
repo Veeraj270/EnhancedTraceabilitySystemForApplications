@@ -25,8 +25,6 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
         if (id !== undefined){
             setSelectedRow(id)
         }
-        else{
-        }
     }
 
     // Searches for the ingredients in data
