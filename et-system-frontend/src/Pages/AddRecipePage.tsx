@@ -12,7 +12,8 @@ const AddRecipePage = () => {
     const [selectedIngredient, setSelectedIngredient] = useState({})
     const [recipe, setRecipe] = useState({
         label: '',
-        ingredientQuantities: []
+        ingredientQuantities: [],
+        description: ''
     })
 
     const fetchIngredientTypes = async () => {
@@ -42,8 +43,14 @@ const AddRecipePage = () => {
 
     // This is used in the SubmitPanel
     const handleChange = (event) => {
+        const {name, value} = event.target
+
         event.preventDefault()
-        setRecipe({...recipe, label: event.target.value})
+        if(name === 'label') {
+            setRecipe({...recipe, label: value})
+        } else {
+            setRecipe({...recipe, description: value})
+        }
     }
 
     // This is used also in the SubmitPanel
@@ -67,11 +74,11 @@ const AddRecipePage = () => {
             });
 
             if(response.ok) {
-                setRecipe(recipe => ({
-                    ...recipe,
+                setRecipe({...recipe,
                     label: '',
-                    ingredientQuantities: []
-                }));
+                    ingredientQuantities: [],
+                    description: ''
+            });
             } else{
                 alert("Error adding recipe to database. ")
             }
@@ -102,7 +109,7 @@ const AddRecipePage = () => {
                     />
                     <h2>Added ingredients</h2>
                     <IngredientQuantitiesTableARP
-                        ingredientQuantities={recipe.ingredientQuantities}
+                        ingredientQuantities={recipe?.ingredientQuantities}
                         recipe={recipe}
                         setRecipe={setRecipe}
                         ingredientsData={ingredientsData}

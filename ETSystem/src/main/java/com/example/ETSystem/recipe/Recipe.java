@@ -57,8 +57,15 @@ public class Recipe {
     )
     private boolean vegetarian;
 
-    public Recipe(String label, Set<IngredientQuantity> ingredientQuantities) {
+    @Column(
+            name = "description",
+            nullable = true
+    )
+    private String description;
+
+    public Recipe(String label, Set<IngredientQuantity> ingredientQuantities, String description) {
         this.label = label;
+        this.description = description;
         // Throws and exception if there are for example 2 milk ingredients
         if(ingredientQuantities.stream().count() != ingredientQuantities.stream().map(x -> x.getIngredientType()).distinct().count()){
             throw new IllegalArgumentException("You can't have 2 separate identical ingredients in your recipe");
@@ -72,6 +79,9 @@ public class Recipe {
                 .allMatch(x -> x.getIngredientType().getIsVegan());
         this.vegetarian = ingredientQuantities.stream()
                 .allMatch(x -> x.getIngredientType().getIsVegetarian());
+    }
+    public Recipe(String label, Set<IngredientQuantity> ingredientQuantities) {
+        this(label, ingredientQuantities, null);
     }
 
     public Recipe() {
@@ -132,5 +142,13 @@ public class Recipe {
         this.vegetarian = ingredients.stream()
                 .allMatch(x -> x.getIngredientType().getIsVegetarian());
         this.ingredientQuantities = ingredients;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
