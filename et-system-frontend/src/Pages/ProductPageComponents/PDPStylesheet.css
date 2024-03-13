@@ -1,0 +1,76 @@
+.product-database-page{
+    background-color: ghostwhite;
+    /*Take into account padding*/
+    width: calc(100% - 100px);
+    height: 100%;
+    padding-left:  50px;
+    padding-right: 50px;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
+.product-database-page * {
+    box-sizing: border-box;
+}
+.PDP-title{
+    margin: 0px;
+    padding: 0px 0px 4px 0px;
+    border-bottom: solid black 2px;
+}
+
+.PDP-upper-container{
+    background-color: whitesmoke;
+    height: 80px;
+}
+
+.PDP-search-bar-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 50px;
+    background-color: orange;
+    padding: 4px;
+    width: fit-content;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    column-gap: 2px;
+    border: black solid 0.1rem;
+}
+
+.PDP-search-bar-input{
+    padding: 10px;
+    border-radius: 0.5rem;
+}
+
+.PDP-search-bar-p{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.PDP-button{
+    height: calc(100% - 5px);
+    min-width: 50px;
+    margin-right: 2px;
+    border-radius: 0.25rem;
+    border: 1px white solid;
+
+}
+
+.PDP-button-selected{
+    height: calc(100% - 5px);
+    min-width: 50px;
+    margin-right: 2px;
+    background-color: whitesmoke;
+    border-radius: 0.25rem;
+    border: 1px black solid;
+}
+.PDP-lower-container{
+    background-color: whitesmoke;
+
+    height: calc(100% - 200px);
+}
+
+
+
