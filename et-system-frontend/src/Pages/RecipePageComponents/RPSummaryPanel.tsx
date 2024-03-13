@@ -3,7 +3,7 @@ const RPSummaryPanel = ({props}) => {
     return(
         <div className={"RPSummary-grid"}>
             <p className={"RPSummary-name"}>
-                <b>Recipe name: </b>
+                <b>Recipe name:&nbsp;</b>
                  {props.label}
                 <b>{props.vegan ? ' (V)' : props.vegetarian ? ' (Ve)' : ""}</b>
             </p>
