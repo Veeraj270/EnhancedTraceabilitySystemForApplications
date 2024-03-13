@@ -112,7 +112,6 @@ public class DeliveryAPI{
 			//Create TimeLineEvent for each new product
 			timelineService.save(new CreateEvent(Instant.now().getEpochSecond(), newProduct));
 			savedProducts.add(newProduct);
-
 		}
 
 		//Save RecordedDelivery with list of new Products
