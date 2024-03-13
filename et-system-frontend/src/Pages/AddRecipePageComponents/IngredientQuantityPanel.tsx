@@ -2,13 +2,12 @@ import React, {useEffect, useState} from "react";
 import {Button, Input, Label} from "reactstrap";
 import "./ARPStylesheet.css"
 
-const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient}) => {
+const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient, ingredientsData,setIngredientsData}) => {
 
     const [ingredientQuantity, setIngredientQuantity] = useState()
 
     useEffect(() => {
         setIngredientQuantity({...ingredientQuantity, ingredientType: selectedIngredient})
-        console.log(selectedIngredient)
     }, [selectedIngredient])
 
     const handleChange = (event) => {
@@ -32,6 +31,9 @@ const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient}) => {
             return;
         }
 
+        const newIngredientsData = ingredientsData.filter(ing => ing !== selectedIngredient)
+        setIngredientsData(newIngredientsData)
+
         event.preventDefault()
         setRecipe({...recipe,
             ingredientQuantities: [ingredientQuantity, ...recipe.ingredientQuantities]
@@ -45,7 +47,7 @@ const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient}) => {
             <p className={'ARPPanel-name'}>Add ingredient to recipe</p>
             <div className={"ARPPanel-item"}>
                 <p style={{margin: '10px 0 5px 0'}}>
-                <b>Ingredient: </b>
+                <b>Ingredient:&nbsp;</b>
                     {ingredientQuantity?.ingredientType ? ingredientQuantity?.ingredientType.name : '   '}
             </p>
                 <Label><b>Quantity: </b></Label>

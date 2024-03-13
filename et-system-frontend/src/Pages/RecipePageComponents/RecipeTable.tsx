@@ -2,7 +2,7 @@ import React, {ChangeEvent, useEffect, useMemo, useState} from "react";
 import {getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import "../AddRecipePageComponents/ARPStylesheet.css"
 
-const RecipeTable = ({setSelectedRow, selectedRow, rawData, dataType}) => {
+const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
 
     const [tableData, setTableData] = useState([])
     const [filteredTableData, setFilteredTableData] = useState([])
@@ -37,10 +37,6 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData, dataType}) => {
     const handleClick = (event: React.MouseEvent, id : number) => {
         if (id !== undefined){
             setSelectedRow(id)
-            console.log("Selected recipe: " + id);
-        }
-        else{
-            console.log("Empty row clicked");
         }
     }
 
@@ -65,7 +61,6 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData, dataType}) => {
                 })
             }
         }
-        console.log(rawData);
     }, [rawData]);
 
     const table = useReactTable({

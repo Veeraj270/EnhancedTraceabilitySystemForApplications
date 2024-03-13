@@ -22,8 +22,8 @@ const IngredientQuantitiesTableRP = ({ingredientQuantities}) => {
     })
 
     return (
-            <div className={'table-container'}>
-                <table className={'IGTableARP'}>
+            <div className={'RPTable-container'}>
+                <table className={'IGTableRP'}>
                     <thead>
                         {table.getHeaderGroups().map(headerGroup => (
                             <tr key={headerGroup.id}>
