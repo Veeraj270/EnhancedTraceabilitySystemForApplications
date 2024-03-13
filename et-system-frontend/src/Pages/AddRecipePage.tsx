@@ -78,7 +78,7 @@ const AddRecipePage = () => {
                     description: ''
             });
             } else{
-                alert("Error adding recipe to database. ")
+                alert("Error adding recipe to database. There might already be a recipe with that name")
             }
         }catch (e) {
             console.log("Error adding recipe: " + e)
