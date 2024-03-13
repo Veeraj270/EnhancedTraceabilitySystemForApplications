@@ -27,7 +27,7 @@ const AddRecipePage = () => {
     useEffect(() => {
         fetchIngredientTypes().then((ingredientData) =>
         {
-            setIngredientsData(ingredientData.sort((a, b) => a.name.localeCompare(b.name)))
+            setIngredientsData(ingredientData.sort((a: any, b: any) => a.name.localeCompare(b.name)))
         })
             .catch((reason) => {console.error("Error within fetchIngredients" + reason)})
     }, [])
@@ -41,7 +41,7 @@ const AddRecipePage = () => {
     }, [selectedIngredientID]);
 
     // This is used in the SubmitPanel
-    const handleChange = (event) => {
+    const handleChange = (event: any) => {
         const {name, value} = event.target
         event.preventDefault()
         if(name === 'label') {
@@ -52,7 +52,7 @@ const AddRecipePage = () => {
     }
 
     // This is used also in the SubmitPanel
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event: any) => {
         //Check if all fields of recipe are filled
         if (!recipe || recipe.ingredientQuantities.length === 0 || recipe.label.length === 0) {
             alert("Please fill in Name field and add an ingredient to the recipe.")
@@ -94,7 +94,6 @@ const AddRecipePage = () => {
                         setSelectedRow={setSelectedIngredientID}
                         selectedRow={selectedIngredientID}
                         rawData={ingredientsData}
-                        dataType={"ingredient"}
                         />
                 </div>
                 <div className={'ARP-grid-column'}>

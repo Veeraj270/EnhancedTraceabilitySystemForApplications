@@ -2,6 +2,7 @@ import React, {useMemo} from "react";
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import '../AddRecipePageComponents/ARPStylesheet.css'
 
+// @ts-ignore
 const IngredientQuantitiesTableARP = ({ingredientQuantities, recipe, setRecipe, ingredientsData, setIngredientsData}) => {
 
     const columns = useMemo(() => [
@@ -30,14 +31,27 @@ const IngredientQuantitiesTableARP = ({ingredientQuantities, recipe, setRecipe, 
 
     // Getting the id of the row that's clicked and removing that element.
     // Not sure if this is the best way, but it works for now
-    const deleteFromTable = (event: any) => {
-        const deletedRowID = event.target.parentNode.parentNode.getAttribute('id')
+    const deleteFromTable = (event: React.MouseEvent<HTMLButtonElement>) => {
+        //Get index of the IQ within the ingredientQuantities array
+        const target = event.target as HTMLElement
+        let deleteRowId = target.getAttribute("data-id");
 
-        setIngredientsData([...ingredientsData, ingredientQuantities[deletedRowID].ingredientType].sort((a, b) => a.name.localeCompare(b.name)))
+        if (deleteRowId){
+            let iType = ingredientQuantities[deleteRowId].ingredientType;
 
-        const newIngredientQuantities = [...recipe.ingredientQuantities]
-            newIngredientQuantities.splice(deletedRowID, 1)
-        setRecipe({...recipe, ingredientQuantities: newIngredientQuantities})
+            //Re-add iType to IngredientType table
+            setIngredientsData([...ingredientsData, iType].sort((a, b) => a.name.localeCompare(b.name)))
+
+            //Remove IngredientQuantity from the recipe and thus the table
+            const newIngredientQuantities = ingredientQuantities.filter((IQ: any) : boolean => IQ.ingredientType.id != iType.id);
+
+            setRecipe({...recipe,
+                ingredientQuantities: newIngredientQuantities
+            })
+        }
+        else {
+            console.log("Error within deleteFromTable(): deleteRowId is undefined")
+        }
     }
 
     return (
@@ -57,7 +71,7 @@ const IngredientQuantitiesTableARP = ({ingredientQuantities, recipe, setRecipe, 
                                 id={row.id}>
                                 <td style={{width: '60%'}}>{row.original.ingredientType.name}</td>
                                 <td style={{width: '40%'}}>{row.original.quantity}</td>
-                                <td onClick={deleteFromTable}><button className={'delete-button'}>X</button></td>
+                                <td ><button className={'delete-button'} onClick={deleteFromTable} data-id={row.id}>X</button></td>
                             </tr>))}
                 </tbody>
             </table>
