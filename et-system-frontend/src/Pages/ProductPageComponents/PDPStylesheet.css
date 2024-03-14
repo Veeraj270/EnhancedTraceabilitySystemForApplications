@@ -10,7 +10,6 @@
     flex-direction: column;
     row-gap: 20px;
 
-    --scroll: 0;
 }
 
 .product-database-page * {
@@ -61,7 +60,7 @@
     margin-right: 2px;
     border-radius: 0.25rem;
     border: 1px white solid;
-
+    cursor: pointer;
 }
 
 .PDP-button-selected{
@@ -71,6 +70,7 @@
     background-color: whitesmoke;
     border-radius: 0.25rem;
     border: 1px black solid;
+    cursor: pointer;
 }
 
 .PDP-lower-container{
@@ -88,16 +88,47 @@
 
 .PDP-details-view{
     position: absolute;
-    background-color: whitesmoke;
+    background-color: ghostwhite;
     top: 0;
     height: 60vh;
     width: 100%;
     border-radius: 0.5rem;
-
-    border: 1px orange solid;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 12px;
 }
 
-.table-style {
+.PDP-percentage-widget{
+    display: flex;
+    background-color: #f3f3ff;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    border-radius: 0.5rem;
+    margin: auto;
+    padding: 0px 10px 10px;
+}
+
+.PDP-percentage-widget p{
+    font-weight: bold;
+    font-size: 15px;
+    padding: 0 0 10px;
+    justify-content: center;
+}
+
+.PDP-details-view p{
+    font-size: 16px;
+    padding-top: 10px;
+}
+
+.PDP-product-name{
+    margin: auto;
+    font-weight: bold;
+    font-size: 15px;
+    padding: 0 0 6px 0px;
+}
+
+.PDP-table table{
     width: 100%;
     text-align: left;
     border-collapse: collapse ;
@@ -105,16 +136,20 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.table-style thead {
-    background-color: powderblue;
-}
-
-.table-style th, td {
+.PDP-table th, td{
     padding: 12px;
     border-bottom: 1px solid #ddd;
 }
 
+.PDP-selected-row{
+    background-color: orange;
+}
 
+.PDP-row{
+    cursor: pointer;
+}
 
+.PDP-table thead{
+    background-color: powderblue;
 
-
+}

@@ -3,12 +3,17 @@ import {
     flexRender,
     useReactTable,
 } from '@tanstack/react-table'
-import {useEffect, useMemo, useState} from "react";
-import {Link, useFetchers} from "react-router-dom";
-import * as string_decoder from "string_decoder";
 
-const PDPTable = () => {
-    //Hooks should be called at the top level in the body of a function component
+import React, {useEffect, useMemo, useState} from "react";
+import Product from "../../Interfaces/Product";
+
+interface propType{
+    setSelected: (n : any) => void;
+    selected: any;
+    fetchRawData: () => any;
+}
+
+const PDPTable = ( props: propType ) => {
     const emptyData: tableRow[] = [];
     const [ tableData , setTableData ] = useState(emptyData)
 
@@ -19,7 +24,18 @@ const PDPTable = () => {
         label: string
         ingredientType: string
         quantity: string
+        rawData: Product
     }
+
+    //REACT HOOKS
+    //fetch all products upon initial render
+    useEffect(() => {
+        fetchRawData().then((rawData) => {
+                let formattedRows  = formatRows(rawData);
+                setTableData(formattedRows)
+            }
+        )
+    }, [])
 
     //Column definition
     const columns = useMemo( () => [
@@ -46,6 +62,7 @@ const PDPTable = () => {
         },
     ], [])
 
+    //Fetch all products from the product repo
     const fetchRawData = async () => {
         const res = await fetch("http://localhost:8080/api/products/fetch-products")
         if (!res.ok){
@@ -54,10 +71,8 @@ const PDPTable = () => {
         return await res.json();
     }
 
-
+    //Format the raw JSON into displayable content - store reference to the original raw JSON
     const formatRows = ( rawData: any ): tableRow[] => {
-        console.log(rawData);
-
         let rows : tableRow[] = [];
 
         rawData.forEach((product: any) => {
@@ -66,25 +81,21 @@ const PDPTable = () => {
                 gtin: product.gtin,
                 label: product.label,
                 ingredientType: product.ingredientType ? product.ingredientType.name : "",
-                quantity: `${product.currentQuantity}/${product.maxQuantity}`
+                quantity: `${product.currentQuantity}/${product.maxQuantity}`,
+                rawData: product
             }
-
             rows.push(newRow);
         })
 
         return rows;
     }
 
-    useEffect(() => {
-        fetchRawData().then((rawData) => {
-                let formattedRows  = formatRows(rawData);
-                setTableData(formattedRows)
-            }
-        )
-    }, [])
+    //Implements selectable rows
+    const handleClick = (event: React.MouseEvent, product: Product) => {
+        props.setSelected(product);
+    }
 
-    //Here table is the core table object that contains the table state and APIs
-    //This is the bare minimum for table initialisation
+    //Tanstack table definition
     const table = useReactTable({
         data: tableData,
         columns: columns,
@@ -93,7 +104,7 @@ const PDPTable = () => {
 
     //Rendering of table
     return (
-        <div className={'tan-table'}>
+        <div className={'PDP-table'}>
             {tableData ?
                 <table className={'table-style'}>
                     {table.getHeaderGroups().map(headerGroup => (
@@ -104,7 +115,11 @@ const PDPTable = () => {
                         </tr>
                     ))}
                     <tbody>
-                    {table.getRowModel().rows.map(row => (<tr key={row.id}>
+                    {table.getRowModel().rows.map(row => (<tr
+                        key={row.id}
+                        className={(props.selected && row.original.id == props.selected.id.toString()) ? "PDP-selected-row" : "PDP-row"}
+                        onClick={(e) => {handleClick(e, row.original.rawData)}}
+                    >
                         {row.getVisibleCells().map(cell => (
                             <td>
                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}

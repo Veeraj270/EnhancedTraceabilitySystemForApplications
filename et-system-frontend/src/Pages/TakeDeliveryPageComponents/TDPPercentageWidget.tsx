@@ -3,13 +3,13 @@ import 'react-circular-progressbar/dist/styles.css';
 import {useEffect, useState} from "react";
 
 // @ts-ignore
-const TDPPercentageWidget = ({ percentage_, fraction_ }) => {
+const TDPPercentageWidget = ({ percentage, fraction }) => {
     return (
         <div className={"TDP-percentage-widget"}>
             <p>Expected Items</p>
             <CircularProgressbar
-                value={percentage_}
-                text={fraction_}
+                value={percentage}
+                text={fraction}
             />
         </div>
     )

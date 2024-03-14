@@ -1,8 +1,16 @@
 import PDPTable from "./ProductPageComponents/TanStackTable/PDPTable";
 import './ProductPageComponents/PDPStylesheet.css'
 import SearchBarWidget from "./ProductPageComponents/SearchBarWidget";
+import {useEffect, useState} from "react";
+import PDPDetailsView from "./ProductPageComponents/PDPDetailsView";
+import Product from "./Interfaces/Product"
+import {Event} from "./Interfaces/Event";
+
 
 const ProductsPage = () => {
+    //State variables
+    const nullProduct: Product = {id: -1, currentQuantity: 0, maxQuantity: 0}
+    const [selected, setSelected] = useState(null);
 
     //Related to scroll animations
     const setScrollVar = () => {
@@ -14,12 +22,39 @@ const ProductsPage = () => {
         }
     }
 
+
+    useEffect(() => {
+        //Update details
+        console.log(selected)
+
+        //Update history
+        if (selected !== null){
+            console.log(selected);
+            fetchHistory(selected.id).then((history) => {
+                console.log(history);
+            }).catch((err) => {
+                console.log("Error occurred within fetchHistory(): " + err)
+            })
+        }
+    }, [selected]);
+
+    const fetchHistory = async (id: number) => {
+        const res = await fetch(`http://localhost:8080/api/products/fetch-product-history/${id}`);
+        if (!res.ok){
+            throw new Error("fetch-product-history response was not ok")
+        }
+        return await res.json()
+    }
+
     window.addEventListener("scroll", setScrollVar)
 
     //Functions passed to child components
     const onChange = () => {
 
     }
+
+    //Temp variables
+    const label = "self-raising-flour-25.0-kg"
 
     return (
         <div className='product-database-page'>
@@ -30,9 +65,14 @@ const ProductsPage = () => {
                 />
             </div>
             <div className={"PDP-lower-container"}>
-                <PDPTable/>
+                <PDPTable
+                    setSelected={setSelected}
+                    selected={selected}
+                />
                 <div className={"PDP-r-column"}>
-                    <div className={"PDP-details-view"}>Details View</div>
+                    <PDPDetailsView
+                        product={selected}
+                    />
                 </div>
             </div>
 

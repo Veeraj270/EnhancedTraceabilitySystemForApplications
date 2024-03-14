@@ -1,9 +1,10 @@
-export interface Product {
+export default interface Product {
     id: number;
-    gtin: string;
-    label: string;
-    maxQuantity: number;
+    gtin?: string;
+    label?: string;
     currentQuantity: number;
+    maxQuantity: number;
+    ingredientType?: any;
     intermediaryIds: number[];
-    parentID: number | null;
+    parentID?: number;
 }
