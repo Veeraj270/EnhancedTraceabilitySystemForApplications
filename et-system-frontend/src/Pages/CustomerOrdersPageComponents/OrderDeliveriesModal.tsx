@@ -11,9 +11,15 @@ type PlannedDelivery = {
     id: number;
     name: string;
     description: string;
+    items: DeliveryItem[];
 
 };
 
+type DeliveryItem = {
+    id: number;
+    label: string;
+    gtin: string;
+}
 
 const OrderDeliveriesModal: React.FC<ModalProps> = ({plannedDeliveries, onConfirm, onCancel }) => {
     return(
@@ -21,7 +27,14 @@ const OrderDeliveriesModal: React.FC<ModalProps> = ({plannedDeliveries, onConfir
           <h2>Planned Deliveries</h2>
           <ul>
               {plannedDeliveries.map(delivery => (
-                  <li key={(delivery.id)}>{delivery.name} - {delivery.description}</li>
+                  <li key={(delivery.id)}>
+                      <strong>{delivery.name} - {delivery.description}</strong>
+                      <ul>
+                          {delivery.items.map((item) => (
+                              <li key={item.id}>{item.label} (GTIN: {item.gtin})</li>
+                          ))}
+                      </ul>
+                  </li>
               ))
               }
           </ul>

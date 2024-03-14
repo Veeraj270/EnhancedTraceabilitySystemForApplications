@@ -18,8 +18,16 @@ const CustomerOrdersTable = () => {
         id: number;
         name: string;
         description: string;
+        items: DeliveryItem[];
 
     };
+
+    type DeliveryItem = {
+        id: number;
+        label: string;
+        gtin: string;
+    }
+
 
     type FinalProduct = {
         id: number;
