@@ -2,6 +2,7 @@ import {defer} from "react-router";
 import DPDPercentageWidget from "./DPDPercentageWidget";
 import Product from "../Interfaces/Product";
 import {useEffect, useState} from "react";
+import PDPRecentEventsView from "./PDPRecentEventsView";
 
 interface propsType{
     product: Product | null;
@@ -33,7 +34,7 @@ const PDPDetailsView = ( props: propsType) => {
             />
             <div>Product Type: {type}</div>
             <div>Allergens: </div>
-            <div>Most Recent Events: </div>
+            <PDPRecentEventsView/>
         </div>
     )
 }

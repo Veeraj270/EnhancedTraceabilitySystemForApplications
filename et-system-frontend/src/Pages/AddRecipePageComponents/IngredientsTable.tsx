@@ -18,6 +18,7 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
     const handleChange = (event : ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
         setSearchInput(event.target.value)
+        event.stopPropagation();
     }
 
     // This handles selecting a row

@@ -6,16 +6,20 @@ import {
 
 import React, {useEffect, useMemo, useState} from "react";
 import Product from "../../Interfaces/Product";
+import searchBar from "../../TracePageComponents/SearchBar";
 
 interface propType{
     setSelected: (n : any) => void;
     selected: any;
-    fetchRawData: () => any;
+    searchBarContents: string;
+    filter: string;
+
 }
 
 const PDPTable = ( props: propType ) => {
     const emptyData: tableRow[] = [];
     const [ tableData , setTableData ] = useState(emptyData)
+    const [ filteredTableData, setFilteredTable] = useState(emptyData)
 
     //Data type for table row
     type tableRow = {
@@ -32,10 +36,39 @@ const PDPTable = ( props: propType ) => {
     useEffect(() => {
         fetchRawData().then((rawData) => {
                 let formattedRows  = formatRows(rawData);
-                setTableData(formattedRows)
+                setTableData(formattedRows);
+                setFilteredTable(formattedRows);
             }
         )
     }, [])
+
+    useEffect(() => {
+        let matches = [];
+        if (props.searchBarContents.length > 0){
+            switch (props.filter){
+                case "id":
+                    setFilteredTable(tableData.filter((row: tableRow) => {
+                        return row.id.toString() == props.searchBarContents
+                    }))
+                    break;
+                case "gtin":
+                    setFilteredTable(tableData.filter((row: tableRow) => {
+                        return row.gtin?.match(props.searchBarContents)
+                    }))
+                    break;
+                case "label":
+                    setFilteredTable(tableData.filter((row: tableRow) => {
+                        return row.label?.match(props.searchBarContents)
+                    }))
+                    break;
+                default:
+                    setFilteredTable(tableData);
+                    break;
+            }
+        } else {
+            setFilteredTable(tableData);
+        }
+    }, [props.searchBarContents, props.filter]);
 
     //Column definition
     const columns = useMemo( () => [
@@ -86,7 +119,6 @@ const PDPTable = ( props: propType ) => {
             }
             rows.push(newRow);
         })
-
         return rows;
     }
 
@@ -97,7 +129,7 @@ const PDPTable = ( props: propType ) => {
 
     //Tanstack table definition
     const table = useReactTable({
-        data: tableData,
+        data: filteredTableData,
         columns: columns,
         getCoreRowModel: getCoreRowModel(),
     })
@@ -105,7 +137,7 @@ const PDPTable = ( props: propType ) => {
     //Rendering of table
     return (
         <div className={'PDP-table'}>
-            {tableData ?
+            {filteredTableData ?
                 <table className={'table-style'}>
                     {table.getHeaderGroups().map(headerGroup => (
                         <tr key={headerGroup.id}>

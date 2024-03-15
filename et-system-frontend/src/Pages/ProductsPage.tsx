@@ -4,13 +4,24 @@ import SearchBarWidget from "./ProductPageComponents/SearchBarWidget";
 import {useEffect, useState} from "react";
 import PDPDetailsView from "./ProductPageComponents/PDPDetailsView";
 import Product from "./Interfaces/Product"
-import {Event} from "./Interfaces/Event";
 
 
 const ProductsPage = () => {
     //State variables
-    const nullProduct: Product = {id: -1, currentQuantity: 0, maxQuantity: 0}
-    const [selected, setSelected] = useState(null);
+    const emptyProduct: Product = {
+        id: -1,
+        gtin: "",
+        label: "",
+        currentQuantity: -1,
+        maxQuantity: -1,
+        intermediaryIds: [],
+    };
+
+    const [selected, setSelected] = useState(emptyProduct);
+    const [filterBy, setFilterBy] = useState("");
+
+    //Search bar contents
+    const [input, setInput] = useState("");
 
     //Related to scroll animations
     const setScrollVar = () => {
@@ -22,14 +33,9 @@ const ProductsPage = () => {
         }
     }
 
-
     useEffect(() => {
-        //Update details
-        console.log(selected)
-
         //Update history
-        if (selected !== null){
-            console.log(selected);
+        if (selected.id){
             fetchHistory(selected.id).then((history) => {
                 console.log(history);
             }).catch((err) => {
@@ -48,26 +54,22 @@ const ProductsPage = () => {
 
     window.addEventListener("scroll", setScrollVar)
 
-    //Functions passed to child components
-    const onChange = () => {
-
-    }
-
-    //Temp variables
-    const label = "self-raising-flour-25.0-kg"
-
     return (
         <div className='product-database-page'>
             <h1 className={'PDP-title'}>Product Database</h1>
             <div className={"PDP-upper-container"}>
                 <SearchBarWidget
-                    onChange={onChange}
+                    input={input}
+                    setInput={setInput}
+                    setFilter={setFilterBy}
                 />
             </div>
             <div className={"PDP-lower-container"}>
                 <PDPTable
                     setSelected={setSelected}
                     selected={selected}
+                    searchBarContents={input}
+                    filter={filterBy}
                 />
                 <div className={"PDP-r-column"}>
                     <PDPDetailsView
@@ -75,7 +77,6 @@ const ProductsPage = () => {
                     />
                 </div>
             </div>
-
         </div>
     )
 }
