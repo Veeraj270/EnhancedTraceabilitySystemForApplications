@@ -59,12 +59,14 @@ const PDPRecentEventsView = ( props: PropType ) =>{
     }
 
     const genGraph = (events : any[]) : void => {
-        let trimmedEvents = events.splice(0, maxEventsVisible);
+        let trimmedEvents = events.reverse().splice(0, maxEventsVisible);
         let localNodes: CustomNode[] = [];
         let localLinks: Link[] = [];
         let X = 10;
         let Y = 10;
         let gap = 20;
+
+        console.log(events);
 
         if (trimmedEvents.length > 0){
             //Add a node for each event

@@ -39,9 +39,9 @@ const PDPDetailsView = ( props: propsType) => {
             />
             <div className={"PDP-details"}>
                 <p><b>Product Type: </b>&nbsp;{type}</p>
-                <p><b>{type === "Composite" ? "Allergens:" : "Allergen: "}</b></p>
-                <p><b>Vegan:</b></p>
-                <p><b>Vegetarian:</b></p>
+                <p><b>{type === "Composite" ? "Allergens:" : "Allergen: "}&nbsp;</b>N/A</p>
+                <p><b>Vegan: &nbsp;</b>N/A</p>
+                <p><b>Vegetarian: &nbsp;</b>N/A</p>
             </div>
             <PDPRecentEventsView
                 selectedId={props.product?.id}
