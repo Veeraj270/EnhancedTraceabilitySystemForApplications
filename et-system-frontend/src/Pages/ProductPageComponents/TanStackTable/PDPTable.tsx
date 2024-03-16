@@ -134,7 +134,8 @@ const PDPTable = ( props: propType ) => {
 
     //Tanstack table definition
     const table = useReactTable({
-        data: filteredTableData,
+        //Quick fix for sorted table - needs rework
+        data: filteredTableData.sort((a: tableRow, b:tableRow) => parseInt(a.id,10) - parseInt(b.id,10)),
         columns: columns,
         getCoreRowModel: getCoreRowModel(),
     })

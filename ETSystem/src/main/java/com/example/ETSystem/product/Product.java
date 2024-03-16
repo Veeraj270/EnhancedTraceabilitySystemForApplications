@@ -23,12 +23,6 @@ public class Product{
 
     @Column
 	private float maxQuantity, currentQuantity;
-	
-	@Column(name = "intermediaries_id")
-	@ElementCollection(targetClass = Long.class, fetch = FetchType.EAGER)
-	@CollectionTable(name = "intermediaries_id", joinColumns = @JoinColumn(name = "product_id"))
-	private List<Long> intermediariesIds = new ArrayList<>();
-
 
 	@ElementCollection
 	private List<Long> intermediaryIds = new ArrayList<>();
@@ -36,9 +30,13 @@ public class Product{
 	@ManyToOne
 	private IngredientType ingredientType;
 
+
+
 	@Transient
 	private transient long parentID;
-	
+
+	public Product(){}
+
 	public Product(String label, int maxQuantity, List<Long> intermediaryIds){
 		this.label = label;
 		this.maxQuantity = maxQuantity;
@@ -50,8 +48,16 @@ public class Product{
 		this.maxQuantity = maxQuantity;
 		this.currentQuantity = currentQuantity;
 	}
-	
-	public Product(){}
+
+	public Product(Long id, String gtin, String label, float maxQuantity, float currentQuantity, List<Long> intermediaryIds, IngredientType ingredientType) {
+		this.id = id;
+		this.gtin = gtin;
+		this.label = label;
+		this.maxQuantity = maxQuantity;
+		this.currentQuantity = currentQuantity;
+		this.intermediaryIds = intermediaryIds;
+		this.ingredientType = ingredientType;
+	}
 	
 	//Getters
 	public long getId(){

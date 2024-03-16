@@ -74,7 +74,7 @@ const TraceabilityPage = () => {
             nodes.push(currentNode);
 
             //Search for parent node, add itself as a child
-            if (currentNode.product.parentID != null){
+            if (currentNode.product.parentID !== 0){
                 //Attempt to find parentNode within the array
                 let parentNode : Node | undefined = nodes.filter((node : Node) => node.product.id === currentNode.product.parentID).at(0);
                 if (parentNode instanceof Node){
