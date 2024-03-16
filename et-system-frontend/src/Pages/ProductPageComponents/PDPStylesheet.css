@@ -99,11 +99,12 @@
 
     display: grid;
     row-gap: 8px;
+    border: lightgrey solid 1px;
+
 }
 
 .PDP-percentage-widget{
     display: flex;
-    background-color: #f3f3ff;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -111,6 +112,7 @@
     border-radius: 0.5rem;
     margin: auto;
     padding: 0px 10px 10px;
+    border: lightgrey solid 1px;
 }
 
 .PDP-progress-bar-wrapper{
@@ -167,6 +169,7 @@
 /*Table Styling*/
 
 .PDP-table table{
+    table-layout: fixed;
     width: 100%;
     text-align: left;
     border-collapse: collapse ;

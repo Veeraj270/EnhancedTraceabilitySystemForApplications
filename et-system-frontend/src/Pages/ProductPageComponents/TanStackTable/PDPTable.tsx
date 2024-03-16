@@ -58,7 +58,7 @@ const PDPTable = ( props: propType ) => {
                     break;
                 case "label":
                     setFilteredTable(tableData.filter((row: tableRow) => {
-                        return row.label?.match(props.searchBarContents)
+                        return row.label.toLowerCase()?.match(props.searchBarContents)
                     }))
                     break;
                 default:
@@ -75,23 +75,28 @@ const PDPTable = ( props: propType ) => {
         {
             header: 'Id',
             accessorKey: 'id',
+            size: 20
         },
         {
             header: 'GTIN',
-            accessorKey: 'gtin'
+            accessorKey: 'gtin',
+            size: 20
         },
         {
             header: 'Label',
-            accessorKey: 'label'
-        },
-        {
-            header:'Ingredient Type',
-            accessorKey: 'ingredientType'
+            accessorKey: 'label',
+            size: 20
 
         },
         {
+            header:'Ingredient Type',
+            accessorKey: 'ingredientType',
+            size: 20
+        },
+        {
             header: 'Quantity',
-            accessorKey: 'quantity'
+            accessorKey: 'quantity',
+            size: 20
         },
     ], [])
 
@@ -141,7 +146,7 @@ const PDPTable = ( props: propType ) => {
                 <table className={'table-style'}>
                     {table.getHeaderGroups().map(headerGroup => (
                         <tr key={headerGroup.id}>
-                            {headerGroup.headers.map(header => <th key={header.id}>
+                            {headerGroup.headers.map(header => <th key={header.id} style={{width: `${header.column.getSize()}%`, maxWidth:`${header.column.getSize}%`}}>
                                 {flexRender(header.column.columnDef.header, header.getContext())}
                             </th>)}
                         </tr>
@@ -153,7 +158,7 @@ const PDPTable = ( props: propType ) => {
                         onClick={(e) => {handleClick(e, row.original.rawData)}}
                     >
                         {row.getVisibleCells().map(cell => (
-                            <td>
+                            <td style = {{width: `${cell.column.getSize()}%`}}>
                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
                             </td>
                         ))}
