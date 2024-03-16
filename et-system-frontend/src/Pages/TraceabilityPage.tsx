@@ -3,6 +3,7 @@ import React, {useEffect, useState} from "react";
 import ProductHistory from "./TracePageComponents/ProductHistory";
 import Product from "./Interfaces/Product";
 import {Event} from "./Interfaces/Event";
+import './TracePageComponents/TPStylesheet.css'
 
 class Node{
     children: Node[];
@@ -33,20 +34,13 @@ const TraceabilityPage = () => {
             fetchProductIntermediaries(id)
                 .then((products: Product[]) => {
                     //Build the intermediaries tree using the list of Products
-                    const root: Node | null = buildGraph(products.reverse());
+                    const root: Node | undefined = buildGraph(products.reverse());
                     setRoot(root);
                 })
                 .catch((err) => console.log(err))
         }
 
     }, [input]);
-
-    const getData = (products : Product[] | null) : void => {
-        if (products !== null){
-            const root : Node | undefined = buildGraph(products);
-            setRoot(root);
-        }
-    }
 
     const clickHandler = (event : React.MouseEvent, product: Product) : void => {
         //If already selected then unselect
@@ -102,10 +96,8 @@ const TraceabilityPage = () => {
                     throw new Error("Unable to find parent node within provided array")
                 }
             }
-        }
-        )
-        let localRoot : Node  | undefined = nodes.at(0);
-        return localRoot;
+        })
+        return nodes.at(0);
     }
 
     const buildGraphDisplay = (root : Node) => {

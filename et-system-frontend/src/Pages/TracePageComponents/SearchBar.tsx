@@ -1,7 +1,6 @@
 import {FaSearch} from "react-icons/fa"
 import './SearchBar.css'
-import React, {ChangeEvent, useEffect, useState} from "react"
-import Product from "../Interfaces/Product";
+import React, {ChangeEvent} from "react"
 
 interface PropType {
     setInput: (input: string) => void;
