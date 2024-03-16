@@ -20,6 +20,12 @@ interface Link{
     stroke: string;
 }
 
+interface Text{
+    x: number;
+    y: number;
+    content: string;
+}
+
 const PDPRecentEventsView = ( props: PropType ) =>{
     //State Variables
     const [nodes, setNodes] = useState<CustomNode[]>([]);
@@ -29,8 +35,9 @@ const PDPRecentEventsView = ( props: PropType ) =>{
     const viewBoxHeight = 100;
     const viewBoxWidth = 100;
     const maxEventsVisible = 5;
-    const radius = 4;
+    const radius = 3.5;
     const stroke = "lightblue";
+    const textOffset = 10;
 
     useEffect(() => {
         if (props.selectedId){
@@ -57,7 +64,7 @@ const PDPRecentEventsView = ( props: PropType ) =>{
         let localLinks: Link[] = [];
         let X = 10;
         let Y = 10;
-        let gap = 18;
+        let gap = 20;
 
         if (trimmedEvents.length > 0){
             //Add a node for each event
@@ -66,7 +73,8 @@ const PDPRecentEventsView = ( props: PropType ) =>{
                     {
                         x: X,
                         y: Y,
-                        r: radius
+                        r: radius,
+                        text: extractEventText(event)
                     });
                 Y += gap;
             })
@@ -84,12 +92,29 @@ const PDPRecentEventsView = ( props: PropType ) =>{
                     stroke: stroke
                 });
             }
+
+            //Add Text {Date}-{Time}-{EventType}
+            trimmedEvents.forEach((event) => {
+                let timestamp = event.timestamp;
+                let date = timestamp.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/)?.at(0);
+                let time = timestamp.match(/[0-9]{2}:[0-9]{2}:[0-9]{2}/)?.at(0);
+                let eventType = event.type;
+                console.log(`${date}  ${time}  ${eventType}`)
+            })
+
             setNodes(localNodes);
             setLinks(localLinks);
         } else {
             setNodes([]);
             setLinks([]);
         }
+    }
+
+    const extractEventText = (event: any): string => {
+        let date = event.timestamp.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/)?.at(0);
+        let time = event.timestamp.match(/[0-9]{2}:[0-9]{2}:[0-9]{2}/)?.at(0);
+        let eventType = event.type;
+        return `${date}  ${time}  ${eventType}`;
     }
 
     const renderNodes = () => {
@@ -117,17 +142,33 @@ const PDPRecentEventsView = ( props: PropType ) =>{
         )))
     }
 
+    const renderText = () => {
+        return (
+            nodes.map((n: CustomNode) => (
+                <text
+                    x={n.x + textOffset}
+                    y={n.y + 0.5*n.r}
+                    className={"PDP-svg-text-style"}
+                >{n.text}</text>
+            ))
+        )
+    }
     const renderEventText = () => {
         //To Be Completed:
 
     }
     return (
         <div className={"PDP-recent-events-view"}>
-            <svg viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`}>
-                {renderNodes()}
-                {renderLinks()}
-            </svg>
+            <div className={"PDP-svg-wrapper"}>
+                <b>Recent Events:</b>
+                <svg viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`}>
+                    {renderNodes()}
+                    {renderLinks()}
+                    {renderText()}
+                </svg>
+            </div>
         </div>
+
     )
 }
 

@@ -1,4 +1,4 @@
-import {CircularProgressbar} from "react-circular-progressbar";
+import {buildStyles, CircularProgressbar} from "react-circular-progressbar";
 
 interface propType{
     percentage: number;
@@ -13,6 +13,12 @@ const DPDPercentageWidget = ( props: propType) => {
                 <CircularProgressbar
                     value={props.percentage}
                     text={props.fraction}
+                    strokeWidth={6}
+                    styles={buildStyles({
+                            pathColor: "#6CA0DC",
+                            strokeLinecap: 'butt'
+                    }
+                    )}
                 />
             </div>
         </div>

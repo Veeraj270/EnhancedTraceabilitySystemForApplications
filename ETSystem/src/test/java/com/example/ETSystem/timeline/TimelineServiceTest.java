@@ -25,7 +25,6 @@ class TimelineServiceTest{
 	@Transactional
 	void testRoundtrip(){
 		Product owner = service.ownerRepo.save(new Product("a", 1, 1));
-
 		ZonedDateTime epochUTC = ZonedDateTime.ofInstant(Instant.EPOCH, ZoneId.of("UTC"));
 
 		var e2 = service.save(new CreateEvent(epochUTC.plusDays(1), owner));

@@ -98,7 +98,7 @@
     padding: 12px;
 
     display: grid;
-    grid-template-rows: 40px 1fr 40px 1fr;
+    row-gap: 8px;
 }
 
 .PDP-percentage-widget{
@@ -120,27 +120,47 @@
 
 .PDP-percentage-widget p{
     font-weight: bold;
-    font-size: 15px;
-    padding: 0 0 10px;
+    font-size: 14px;
+    padding: 10px 0;
     justify-content: center;
 }
 
-.PDP-details-view p{
+.PDP-product-name{
+    font-weight: bold;
     font-size: 16px;
-    padding-top: 10px;
+    padding-top: 0px;
 }
 
-.PDP-product-name{
-    margin: auto;
-    font-weight: bold;
-    font-size: 15px;
-    padding: 0 0 6px 0px;
+.PDP-details {
 }
 
 .PDP-recent-events-view{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+.PDP-recent-events-view b{
+    margin: auto;
+}
+
+.PDP-svg-wrapper{
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
     background-color: ghostwhite;
     border: solid lightgrey 1px;
     border-radius: 0.5rem;
+}
+
+.PDP-svg-wrapper b{;
+    margin: auto;
+}
+
+
+.PDP-svg-text-style{
+    font-size: 4px;
+    fill: darkslategrey;
 }
 
 

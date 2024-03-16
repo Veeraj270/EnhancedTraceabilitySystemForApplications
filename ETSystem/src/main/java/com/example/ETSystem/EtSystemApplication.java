@@ -78,11 +78,11 @@ public class EtSystemApplication{
 			List<TimelineEvent> list = new ArrayList<>();
 			list.add(new CreateEvent(ZonedDateTime.now().plusDays(1), eventOwner));
 			list.add(new MoveEvent(ZonedDateTime.now().plusDays(2), eventOwner));
-			list.add(new UseEvent(ZonedDateTime.now().plusDays(2), eventOwner));
-			list.add(new MoveEvent(ZonedDateTime.now().plusDays(2), eventOwner));
-			list.add(new UseEvent(ZonedDateTime.now().plusDays(2), eventOwner));
-			list.add(new MoveEvent(ZonedDateTime.now().plusDays(2), eventOwner));
-			list.add(new UseEvent(ZonedDateTime.now().plusDays(2), eventOwner));
+			list.add(new UseEvent(ZonedDateTime.now().plusDays(3), eventOwner));
+			list.add(new MoveEvent(ZonedDateTime.now().plusDays(4), eventOwner));
+			list.add(new UseEvent(ZonedDateTime.now().plusDays(5), eventOwner));
+			list.add(new MoveEvent(ZonedDateTime.now().plusDays(6), eventOwner));
+			list.add(new UseEvent(ZonedDateTime.now().plusDays(7), eventOwner));
 			timelineService.saveAll(list);
 
 

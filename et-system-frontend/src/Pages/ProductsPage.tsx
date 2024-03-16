@@ -8,16 +8,7 @@ import Product from "./Interfaces/Product"
 
 const ProductsPage = () => {
     //State variables
-    const emptyProduct: Product = {
-        id: -1,
-        gtin: "",
-        label: "",
-        currentQuantity: -1,
-        maxQuantity: -1,
-        intermediaryIds: [],
-    };
-
-    const [selected, setSelected] = useState(emptyProduct);
+    const [selected, setSelected] = useState<Product | undefined>();
     const [filterBy, setFilterBy] = useState("");
 
     //Search bar contents
@@ -33,7 +24,7 @@ const ProductsPage = () => {
 
     useEffect(() => {
         //Update history
-        if (selected.id){
+        if (selected){
             fetchHistory(selected.id).then((history) => {
                 console.log(history);
             }).catch((err) => {
