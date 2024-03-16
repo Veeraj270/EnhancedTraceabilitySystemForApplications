@@ -76,13 +76,13 @@ public class EtSystemApplication{
 			// Add some mock event data - needs further improvement
 			Product eventOwner = productRepository.findById(1L).get();
 			List<TimelineEvent> list = new ArrayList<>();
-			list.add(new CreateEvent(1200L, eventOwner));
-			list.add(new MoveEvent(1230L, eventOwner));
-			list.add(new UseEvent(1300L, eventOwner));
-			list.add(new MoveEvent(1400L, eventOwner));
-			list.add(new UseEvent(1430L, eventOwner));
-			list.add(new MoveEvent(1530L, eventOwner));
-			list.add(new UseEvent(1600L, eventOwner));
+			list.add(new CreateEvent(ZonedDateTime.now().plusDays(1), eventOwner));
+			list.add(new MoveEvent(ZonedDateTime.now().plusDays(2), eventOwner));
+			list.add(new UseEvent(ZonedDateTime.now().plusDays(2), eventOwner));
+			list.add(new MoveEvent(ZonedDateTime.now().plusDays(2), eventOwner));
+			list.add(new UseEvent(ZonedDateTime.now().plusDays(2), eventOwner));
+			list.add(new MoveEvent(ZonedDateTime.now().plusDays(2), eventOwner));
+			list.add(new UseEvent(ZonedDateTime.now().plusDays(2), eventOwner));
 			timelineService.saveAll(list);
 
 

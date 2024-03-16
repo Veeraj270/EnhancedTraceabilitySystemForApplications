@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +19,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:3000")
 public class DeliveryAPI{
 
-	private Logger logger = LoggerFactory.getLogger(DeliveryAPI.class);
+	private final Logger logger = LoggerFactory.getLogger(DeliveryAPI.class);
 
 	private final PlannedDeliveryRepository plannedRepo;
 	private final RecordedDeliveryRepository recordedRepo;
@@ -45,7 +45,7 @@ public class DeliveryAPI{
 	public List<RecordedDelivery> getRecorded(){
 		return recordedRepo.findAll();
 	}
-a
+
 	@GetMapping("/fetch-planned-by-id/{id}")
 	public PlannedDelivery getPlannedById(@PathVariable long id){
 		return plannedRepo.findById(id).orElse(null);
@@ -98,7 +98,7 @@ a
 			productRepo.save(newProduct);
 
 			//Create TimeLineEvent for each new product
-			timelineService.save(new CreateEvent(Instant.now().getEpochSecond(), newProduct));
+			timelineService.save(new CreateEvent(ZonedDateTime.now(), newProduct));
 			savedProducts.add(newProduct);
 		}
 		//Save RecordedDelivery with list of new Products

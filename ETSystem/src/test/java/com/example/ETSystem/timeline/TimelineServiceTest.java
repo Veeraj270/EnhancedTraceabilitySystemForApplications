@@ -6,7 +6,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.ZonedDateTime;
 import java.util.List;
+
+import java.time.ZonedDateTime;
+import java.time.ZoneId;
+import java.time.Instant;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -20,15 +25,18 @@ class TimelineServiceTest{
 	@Transactional
 	void testRoundtrip(){
 		Product owner = service.ownerRepo.save(new Product("a", 1, 1));
-		var e2 = service.save(new CreateEvent(1, owner));
-		var e3 = service.save(new MoveEvent(2, owner));
-		var e1 = service.save(new CreateEvent(0, owner));
-		var e4 = service.save(new UseEvent(4, owner));
+
+		ZonedDateTime epochUTC = ZonedDateTime.ofInstant(Instant.EPOCH, ZoneId.of("UTC"));
+
+		var e2 = service.save(new CreateEvent(epochUTC.plusDays(1), owner));
+		var e3 = service.save(new MoveEvent(epochUTC.plusDays(2), owner));
+		var e1 = service.save(new CreateEvent(epochUTC, owner));
+		var e4 = service.save(new UseEvent(epochUTC.plusDays(4), owner));
 		assertEquals(service.findAllByProductSorted(owner).toList(), List.of(e1, e2, e3, e4));
 		
 		Product owner2 = service.ownerRepo.save(new Product("b", 1, 1));
-		var e5 = service.save(new CreateEvent(2, owner2));
-		var e6 = service.save(new MoveEvent(1, owner2));
+		var e5 = service.save(new CreateEvent(epochUTC.plusDays(2), owner2));
+		var e6 = service.save(new MoveEvent(epochUTC.plusDays(1), owner2));
 		assertEquals(service.findAllByProductSorted(owner).toList(), List.of(e1, e2, e3, e4));
 		assertEquals(service.findAllByProductSorted(owner2).toList(), List.of(e6, e5));
 	}
