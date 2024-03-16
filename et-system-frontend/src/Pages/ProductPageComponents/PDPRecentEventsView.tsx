@@ -155,10 +155,7 @@ const PDPRecentEventsView = ( props: PropType ) =>{
             ))
         )
     }
-    const renderEventText = () => {
-        //To Be Completed:
 
-    }
     return (
         <div className={"PDP-recent-events-view"}>
             <div className={"PDP-svg-wrapper"}>
