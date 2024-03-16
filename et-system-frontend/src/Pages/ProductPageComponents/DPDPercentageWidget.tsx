@@ -9,10 +9,12 @@ const DPDPercentageWidget = ( props: propType) => {
     return(
         <div className={"PDP-percentage-widget"}>
             <p>Quantity</p>
-            <CircularProgressbar
-                value={props.percentage}
-                text={props.fraction}
-            />
+            <div className={"PDP-progress-bar-wrapper"}>
+                <CircularProgressbar
+                    value={props.percentage}
+                    text={props.fraction}
+                />
+            </div>
         </div>
     )
 }

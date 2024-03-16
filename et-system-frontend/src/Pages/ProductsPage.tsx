@@ -26,9 +26,7 @@ const ProductsPage = () => {
     //Related to scroll animations
     const setScrollVar = () => {
         const detailsView = document.querySelector('.PDP-details-view') as HTMLElement;
-
         if (detailsView) {
-            detailsView.style.position = 'absolute'; // Ensure the position is set to absolute
             detailsView.style.top = `${window.scrollY}px`;
         }
     }

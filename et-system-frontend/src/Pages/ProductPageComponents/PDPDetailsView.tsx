@@ -31,10 +31,14 @@ const PDPDetailsView = ( props: propsType) => {
             <DPDPercentageWidget
                 fraction={fraction}
                 percentage={percentage}
+
             />
-            <div>Product Type: {type}</div>
-            <div>Allergens: </div>
-            <PDPRecentEventsView/>
+            <div>
+                <div>Product Type: {type}</div>
+            </div>
+            <PDPRecentEventsView
+                selectedId={props.product?.id}
+            />
         </div>
     )
 }
