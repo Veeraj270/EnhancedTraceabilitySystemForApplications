@@ -33,7 +33,7 @@ public class TimelineService{
 	}
 	
 	public Stream<TimelineEvent> findAllSorted(){
-		return findAll().sorted(Comparator.comparingLong(TimelineEvent::getTimestamp));
+		return findAll().sorted(Comparator.comparing(TimelineEvent::getTimestamp));
 	}
 	
 	public Stream<TimelineEvent> findAllByProduct(Product p){
@@ -41,7 +41,7 @@ public class TimelineService{
 	}
 	
 	public Stream<TimelineEvent> findAllByProductSorted(Product p){
-		return findAllByProduct(p).sorted(Comparator.comparingLong(TimelineEvent::getTimestamp));
+		return findAllByProduct(p).sorted(Comparator.comparing(TimelineEvent::getTimestamp));
 	}
 	
 	public TimelineEvent save(TimelineEvent in){

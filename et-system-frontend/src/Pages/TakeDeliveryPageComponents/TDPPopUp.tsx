@@ -37,7 +37,7 @@ const TDPPopUp = ( {state, missingItems, unexpectedItems, scannedItems, cancel, 
             <div className={"TDP-pop-up"}>
                 <div className={"TDP-pop-up-inner"}>
                     <div className={"TDP-pop-up-upper"}>
-                        <TDPPercentageWidget percentage_={percentage} fraction_={fraction}/>
+                        <TDPPercentageWidget percentage={percentage} fraction={fraction}/>
                         <TDPMetaDataWidget
                             startTime={startTime}
                             visible={visible}
