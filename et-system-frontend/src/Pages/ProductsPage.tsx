@@ -25,8 +25,8 @@ const ProductsPage = () => {
     useEffect(() => {
         //Update history
         if (selected){
+            console.log(selected)
             fetchHistory(selected.id).then((history) => {
-                console.log(history);
             }).catch((err) => {
                 console.log("Error occurred within fetchHistory(): " + err)
             })

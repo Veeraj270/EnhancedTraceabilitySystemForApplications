@@ -12,7 +12,7 @@ const TDPPopUpTable = ({header , data, iconColor}) => {
             header: header,
             accessorKey : 'text',
         },
-    ],[])
+    ],[header])
 
     //Update table whenever table data changes
     useEffect(() => {

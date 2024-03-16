@@ -13,7 +13,8 @@ const Sidebar = () => {
                     <li key={index} className={item.cName}>
                         <Link to={item.path}>
                             {item.icon}
-                            <span>{item.title}</span>
+                            <b>&nbsp;{item.title}</b>
+
                         </Link>
                     </li>
                 )

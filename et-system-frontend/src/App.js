@@ -21,9 +21,6 @@ function App() {
             <div className="container">
                 <Sidebar/>
                 <Routes>
-                    <Route path={"/"} element={<HomePage/>}>
-
-                    </Route>
                     <Route path={"/products"} element={<ProductsPage/>} >
 
                     </Route>
@@ -42,9 +39,6 @@ function App() {
                     <Route path={"/add-recipe"} element={<AddRecipePage/>}>
                     </Route>
 
-                    <Route path={"/help"} element={<HelpPage/>}>
-
-                    </Route>
                     <Route path={"/add"} element={<AddProductsPage/>}>
 
                     </Route>

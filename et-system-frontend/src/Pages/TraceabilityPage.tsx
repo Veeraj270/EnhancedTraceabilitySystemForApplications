@@ -1,7 +1,7 @@
 import SearchBar from "./TracePageComponents/SearchBar";
 import React, {useEffect, useState} from "react";
 import ProductHistory from "./TracePageComponents/ProductHistory";
-import {Product} from "./Interfaces/Product";
+import Product from "./Interfaces/Product";
 import {Event} from "./Interfaces/Event";
 
 class Node{
@@ -59,7 +59,6 @@ const TraceabilityPage = () => {
             }
             const updatedHistory : Event[] = await res.json();
             setHistory(updatedHistory);
-            console.log(history);
         } catch(error) {
             console.log("Error occurred with fetchHistory(): ", error)
         }

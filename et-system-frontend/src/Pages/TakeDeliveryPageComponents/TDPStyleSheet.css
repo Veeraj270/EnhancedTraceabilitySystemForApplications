@@ -191,7 +191,6 @@ TDP-T-content-div th, td {
 .TDP-title{
     margin: 0px;
     padding: 0px 0px 4px 0px;
-    border-bottom: solid black 2px;
 }
 
 /*pop-up*/
@@ -297,7 +296,7 @@ TDP-T-content-div th, td {
 
 .TDP-pop-up-table td, th{
     border: none;
-    padding-left: 20px;
+    padding: 12px;
     font-size: 14px;
     box-shadow: none;
     background-color: #f3f3ff;
@@ -310,6 +309,12 @@ TDP-T-content-div th, td {
 
 
 .TDP-pop-up-table table{
+    table-layout: fixed;
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse ;
+    background-color: ghostwhite;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     box-shadow: none;
 }
 .TDP-pop-up-table-header-div{

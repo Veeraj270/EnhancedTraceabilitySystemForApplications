@@ -48,17 +48,17 @@ const PDPTable = ( props: propType ) => {
             switch (props.filter){
                 case "id":
                     setFilteredTable(tableData.filter((row: tableRow) => {
-                        return row.id.toString() == props.searchBarContents
+                        return row.id.toString() == props.searchBarContents.toLowerCase();
                     }))
                     break;
                 case "gtin":
                     setFilteredTable(tableData.filter((row: tableRow) => {
-                        return row.gtin?.match(props.searchBarContents)
+                        return row.gtin?.match(props.searchBarContents.toLowerCase())
                     }))
                     break;
                 case "label":
                     setFilteredTable(tableData.filter((row: tableRow) => {
-                        return row.label.toLowerCase()?.match(props.searchBarContents)
+                        return row.label.toLowerCase()?.match(props.searchBarContents.toLowerCase())
                     }))
                     break;
                 default:

@@ -17,7 +17,7 @@ const DOPTable2 = ( {setSelected, selected, rawData} ) => {
             let formattedTableData: any[] = [];
             rawData.map((recordedDelivery: any) => {
                 //Extract date via regex
-                const recordedDate : string | undefined = recordedDelivery.endTime.match(regex)?.at(0)
+                const recordedDate : string | undefined = recordedDelivery.endTime.match(regex)?.at(0).replaceAll("-","/");
                 formattedTableData.push({
                     id: recordedDelivery.id,
                     name: (recordedDelivery.plan.name + " [Record]"),
