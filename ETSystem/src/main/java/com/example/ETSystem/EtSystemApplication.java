@@ -1,7 +1,6 @@
 package com.example.ETSystem;
 
 import com.example.ETSystem.ingredientType.IngredientTypeRepository;
-import com.example.ETSystem.product.ProductService;
 import com.example.ETSystem.productData.SuppliedGoodRepository;
 import com.example.ETSystem.productData.MockDataGenerator;
 import com.example.ETSystem.customerOrders.CustomerOrderMockData;
@@ -14,8 +13,6 @@ import com.example.ETSystem.recipe.IngredientQuantityMockData;
 import com.example.ETSystem.recipe.RecipeMockData;
 import com.example.ETSystem.suppliers.SupplierService;
 import com.example.ETSystem.timeline.*;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -23,7 +20,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 
-import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -68,7 +64,6 @@ public class EtSystemApplication{
 			mockDataGenerator.generateMockData();
 			mockDataGenerator.generateMockProductData();
 
-
 			//Add some mock planned deliveries to the database - for development purposes
 			for (int x = 0; x < 6; x ++){
 				PlannedDelivery plannedDelivery = new PlannedDelivery("Delivery " + x, "A mock delivery for development purposes", ZonedDateTime.now().plusDays(x));
@@ -89,7 +84,7 @@ public class EtSystemApplication{
 				PlannedDelivery plannedDelivery = new PlannedDelivery("Test-Delivery ", "description",ZonedDateTime.now().plusDays(x - 4));
 				plannedDelivery.setComplete(true);
 				plannedDeliveryRepository.save(plannedDelivery);
-				RecordedDelivery recordedDelivery = new RecordedDelivery(plannedDelivery, Instant.now(), Instant.now().plusSeconds(500), new ArrayList<Product>());
+				RecordedDelivery recordedDelivery = new RecordedDelivery(plannedDelivery, Instant.now(), Instant.now().plusSeconds(500), new ArrayList<>());
 				recordedDeliveryRepository.save(recordedDelivery);
 			}
 		};

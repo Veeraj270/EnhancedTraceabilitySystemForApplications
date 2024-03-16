@@ -278,13 +278,31 @@ public class MockDataGenerator {
         product3.setCurrentQuantity(product3.getCurrentQuantity() * (10 - events.size())/10);
         productRepository.save(product3);
         timelineService.saveAll(events);
+
+        //Add a cake to showcase intermediaries feature
+        IngredientType iType = new IngredientType("irish cream cheesecake", false, false, false);
+        iType = ingredientTypeRepository.save(iType);
+
+         Product cake = new Product(
+                "5000000000001",
+                "irish cream cheesecake",
+                20,
+                20,
+                List.of(1L,2L,3L),
+                iType
+         );
+
+         productService.addNewProduct(cake);
+
+         TimelineEvent creationEvent = new CreateEvent(ZonedDateTime.now(), cake);
+         timelineService.save(creationEvent);
+
      }
 
      public void addProductFromSuppliedGood(SuppliedGood good){
         ZonedDateTime epochUTC = ZonedDateTime.ofInstant(Instant.EPOCH, ZoneId.of("UTC"));
 
         Product newProduct = new Product(
-                good.getId(),
                 good.getGtin(),
                 good.getLabel(),
                 good.getQuantity(),

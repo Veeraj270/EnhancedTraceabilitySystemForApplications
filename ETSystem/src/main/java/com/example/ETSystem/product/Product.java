@@ -49,8 +49,7 @@ public class Product{
 		this.currentQuantity = currentQuantity;
 	}
 
-	public Product(Long id, String gtin, String label, float maxQuantity, float currentQuantity, List<Long> intermediaryIds, IngredientType ingredientType) {
-		this.id = id;
+	public Product(String gtin, String label, float maxQuantity, float currentQuantity, List<Long> intermediaryIds, IngredientType ingredientType) {
 		this.gtin = gtin;
 		this.label = label;
 		this.maxQuantity = maxQuantity;
