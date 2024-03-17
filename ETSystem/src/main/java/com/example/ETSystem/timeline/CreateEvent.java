@@ -52,7 +52,6 @@ public non-sealed class CreateEvent implements TimelineEvent{
 		this.owner = owner;
 	}
 
-	//Needs fixing
 	public String toString(){
 		return "CreateEvent[id=" + id + ", ownerId=" + owner.getId() + ", timestamp=" + timestamp + "]";
 	}

@@ -1,5 +1,6 @@
 package com.example.ETSystem.deliveries;
 
+import com.example.ETSystem.customerOrders.CustomerOrder;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
@@ -24,7 +25,10 @@ public class PlannedDelivery{
 	//True - Delivery has been processed (Delivery has been "taken")
 	//False - Delivery has not yet been processed
 	private boolean complete;
-	
+
+	@ManyToOne
+	private CustomerOrder associatedCustomerOrder;
+
 	public PlannedDelivery(){}
 
 	public PlannedDelivery(String name, String description, ZonedDateTime deliveryTime){
@@ -33,56 +37,40 @@ public class PlannedDelivery{
 		this.deliveryTime = deliveryTime;
 		this.complete = false;
 	}
-	
-	// getters, setters, and default methods
-	
-	public long getId(){
-		return id;
-	}
-	
-	public String getName(){
-		return name;
-	}
-	
-	public String getDescription(){
-		return description;
-	}
 
-	public boolean isComplete() {
-		return complete;
-	}
+	//Getters
+	
+	public long getId(){ return id;	}
+	
+	public String getName(){ return name; }
+	
+	public String getDescription(){ return description;	}
 
-	public void setComplete(boolean complete) {
-		this.complete = complete;
-	}
-	
-	public ZonedDateTime getDeliveryTime(){
-		return deliveryTime;
-	}
+	public boolean isComplete(){ return complete; }
 
-	public List<DeliveryItem> getItems(){
-		return items;
-	}
+	public ZonedDateTime getDeliveryTime(){	return deliveryTime; }
+
+	public List<DeliveryItem> getItems(){ return items;	}
+
+	public CustomerOrder getAssociatedCustomerOrder(){ return associatedCustomerOrder; }
+
+	//Setters
+
+	public void setId(long id){ this.id = id; }
 	
-	public void setId(long id){
-		this.id = id;
-	}
+	public void setName(String name){ this.name = name;	}
 	
-	public void setName(String name){
-		this.name = name;
-	}
+	public void setDescription(String description){	this.description = description;	}
 	
-	public void setDescription(String description){
-		this.description = description;
-	}
+	public void setDeliveryTime(ZonedDateTime deliveryTime){ this.deliveryTime = deliveryTime; }
 	
-	public void setDeliveryTime(ZonedDateTime deliveryTime){
-		this.deliveryTime = deliveryTime;
-	}
-	
-	public void setItems(List<DeliveryItem> items){
-		this.items = items;
-	}
+	public void setItems(List<DeliveryItem> items){ this.items = items;	}
+
+	public void setComplete(boolean complete){ this.complete = complete; }
+
+	public void setAssociatedCustomerOrder(CustomerOrder order){ this.associatedCustomerOrder  = order;	}
+
+	//Utility
 
 	public boolean equals(Object obj){
 		return obj instanceof PlannedDelivery other && other.id == id;

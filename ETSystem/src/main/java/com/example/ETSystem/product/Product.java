@@ -1,5 +1,6 @@
 package com.example.ETSystem.product;
 
+import com.example.ETSystem.customerOrders.CustomerOrder;
 import com.example.ETSystem.ingredientType.IngredientType;
 import jakarta.persistence.*;
 
@@ -23,35 +24,49 @@ public class Product{
 
     @Column
 	private float maxQuantity, currentQuantity;
-	
-	@Column(name = "intermediaries_id")
-	@ElementCollection(targetClass = Long.class, fetch = FetchType.EAGER)
-	@CollectionTable(name = "intermediaries_id", joinColumns = @JoinColumn(name = "product_id"))
-	private List<Long> intermediariesIds = new ArrayList<>();
-
 
 	@ElementCollection
 	private List<Long> intermediaryIds = new ArrayList<>();
 
 	@ManyToOne
 	private IngredientType ingredientType;
+  
+    @ManyToOne
+	private CustomerOrder associatedCustomerOrder;
 
 	@Transient
 	private transient long parentID;
-	
-	public Product(String label, int maxQuantity, List<Long> intermediaryIds){
+
+  public Product(){}
+  
+	public Product(String label, float maxQuantity, List<Long> intermediaryIds){
 		this.label = label;
 		this.maxQuantity = maxQuantity;
+		this.currentQuantity = maxQuantity;
 		this.intermediaryIds = intermediaryIds;
 	}
 	
-	public Product(String label, int maxQuantity, int currentQuantity){
+	public Product(String label, float maxQuantity,float currentQuantity){
 		this.label = label;
 		this.maxQuantity = maxQuantity;
 		this.currentQuantity = currentQuantity;
 	}
-	
-	public Product(){}
+
+	public Product(String label, float maxQuantity, float currentQuantity, IngredientType iType){
+		this.label = label;
+		this.maxQuantity = maxQuantity;
+		this.currentQuantity = currentQuantity;
+		this.ingredientType = iType;
+	}
+
+	public Product(String gtin, String label, float maxQuantity, float currentQuantity, List<Long> intermediaryIds, IngredientType ingredientType) {
+		this.gtin = gtin;
+		this.label = label;
+		this.maxQuantity = maxQuantity;
+		this.currentQuantity = currentQuantity;
+		this.intermediaryIds = intermediaryIds;
+		this.ingredientType = ingredientType;
+	}
 	
 	//Getters
 	public long getId(){
@@ -85,6 +100,8 @@ public class Product{
 	public long getParentID(){
 		return this.parentID;
 	}
+
+	public CustomerOrder getAssociatedCustomerOrder(){ return this.associatedCustomerOrder; }
 	
 	//Setters
 	public void setLabel(String label){
@@ -114,6 +131,10 @@ public class Product{
 	public void setParentID(long id){
 		this.parentID = id;
 	}
+
+	public void setAssociatedCustomerOrder(CustomerOrder customerOrder){ this.associatedCustomerOrder = customerOrder; }
+
+	//Utility
 	
 	public boolean equals(Object obj){
 		return obj instanceof Product other && Objects.equals(other.id, id);

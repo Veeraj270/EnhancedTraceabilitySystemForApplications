@@ -22,11 +22,11 @@ public class IngredientQuantity {
     private IngredientType ingredientType;
 
     @Column
-    private Integer quantity;
+    private float quantity;
 
     public IngredientQuantity(){};
 
-    public IngredientQuantity(IngredientType type, int quantity){
+    public IngredientQuantity(IngredientType type, float quantity){
         this.ingredientType = type;
         this.quantity = quantity;
     };
@@ -61,9 +61,9 @@ public class IngredientQuantity {
 
     public void setIngredient(IngredientType ingredientType) { this.ingredientType = ingredientType; }
 
-    public Integer getQuantity() { return quantity; }
+    public float getQuantity() { return quantity; }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(float quantity) {
         this.quantity = quantity;
     }
 }

@@ -3,13 +3,10 @@
     /*Take into account padding*/
     width: calc(100% - 100px);
     height: 100%;
-    padding-left:  50px;
-    padding-right: 50px;
-    padding-top: 20px;
     display: flex;
     flex-direction: column;
     row-gap: 20px;
-
+    padding: 20px 50px 50px;
 }
 
 .product-database-page * {
