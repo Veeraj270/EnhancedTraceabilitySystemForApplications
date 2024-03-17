@@ -197,7 +197,7 @@ public class MockDataGenerator {
                 }
             }
 
-            unit = "kg";
+            List<String> units = List.of("kg", "kg", "kg", "kg", "L");
             for(int g = 1; g < 6; g++){
                 IngredientType ingredient = ingredientTypeRepository.findById((long)g)
                         .orElseThrow(() -> new RuntimeException("When applying suppliers to the ingredient mockdata from the ingredients file, the ingredients could not be found"));
@@ -207,7 +207,7 @@ public class MockDataGenerator {
                         ingredient.getName(),
                         ingredient,
                         quantities.get(1),
-                        unit,
+                        units.get(g - 1),
                         (int) (unitPrice * quantities.get(1))
 
                 );
