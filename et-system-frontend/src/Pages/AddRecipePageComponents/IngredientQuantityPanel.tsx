@@ -1,5 +1,4 @@
 import React, {useEffect, useRef, useState} from "react";
-import {Button, Input, Label} from "reactstrap";
 import "./ARPStylesheet.css"
 import {IngredientType} from "../Interfaces/IngredientType";
 import {IngredientQuantity} from "../Interfaces/IngredientQuantity";
@@ -96,13 +95,13 @@ const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient, ingredi
                         <option value="" disabled selected>Select an ingredient</option>
                     </select>
                 </p>
-                <Label><b>Quantity: </b></Label>
-                <Input className="quantity-input"
+                <label><b>Quantity: </b></label>
+                <input className="quantity-input"
                        type="number"
                        value={ingredientQuantity?.quantity || ' '}
                        onChange={handleChangeQuantity}/>
             </div>
-                <Button onClick={handleIngredientSubmit} className = 'add-to-recipe-button'>Add to recipe</Button>
+                <button onClick={handleIngredientSubmit} className = 'add-to-recipe-button'>Add to recipe</button>
             <div>
                 <i className="arrow down"></i>
             </div>
