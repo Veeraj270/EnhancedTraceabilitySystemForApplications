@@ -31,7 +31,7 @@ public class Product{
 	@ManyToOne
 	private IngredientType ingredientType;
   
-  ManyToOne
+    @ManyToOne
 	private CustomerOrder associatedCustomerOrder;
 
 	@Transient
