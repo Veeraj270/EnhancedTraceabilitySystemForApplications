@@ -3,6 +3,7 @@ import IngredientQuantitiesTableARP from "./AddRecipePageComponents/IngredientQu
 import "./AddRecipePageComponents/ARPStylesheet.css"
 import IngredientQuantityPanel from "./AddRecipePageComponents/IngredientQuantityPanel";
 import SubmitRecipePanel from "./AddRecipePageComponents/SubmitRecipePanel";
+import {IngredientType} from "./Interfaces/IngredientType";
 
 const AddRecipePage = () => {
 
@@ -80,10 +81,15 @@ const AddRecipePage = () => {
         }
     }
 
-    const handleChangeIngredient = (event) => {
+    const handleChangeIngredient = (event: any) => {
         if(event.target.value !== "") {
-            const ingredientType = ingredientsData.filter(ingredient => ingredient.name === event.target.value).at(0)
-            setSelectedIngredient(ingredientType)
+            const ingredientType = ingredientsData
+                .filter((ingredient: IngredientType) => ingredient.name === event.target.value).at(0)
+            if(ingredientType) {
+                setSelectedIngredient(ingredientType)
+            } else{
+                alert("Ingredient doesn't exist in the database.")
+            }
         }
     }
 

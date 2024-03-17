@@ -1,5 +1,5 @@
 import React, {useMemo} from "react";
-import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
+import {flexRender, getCoreRowModel, Header, HeaderGroup, RowModel, useReactTable} from "@tanstack/react-table";
 import '../AddRecipePageComponents/ARPStylesheet.css'
 
 // @ts-ignore
@@ -58,16 +58,16 @@ const IngredientQuantitiesTableARP = ({ingredientQuantities, recipe, setRecipe, 
         <div className={'table-container'}>
             <table className={'IGTable'}>
                 <thead>
-                        {table.getHeaderGroups().map(headerGroup => (
+                        {table.getHeaderGroups().map((headerGroup: HeaderGroup) => (
                             <tr key={headerGroup.id}>
-                                {headerGroup.headers.map(header => <th key={header.id} style = {{width: `${header.column.getSize()}%`, textAlign: "center"}}>
+                                {headerGroup.headers.map((header: Header) => <th key={header.id} style = {{width: `${header.column.getSize()}%`, textAlign: "center"}}>
                                     {flexRender(header.column.columnDef.header, header.getContext())}
                                 </th>)}
                             </tr>
                         ))}
                 </thead>
                 <tbody>
-                        {table.getCoreRowModel().rows.map(row => (<tr
+                        {table.getCoreRowModel().rows.map((row: RowModel) => (<tr
                                 id={row.id}>
                                 <td style={{width: '60%'}}>{row.original.ingredientType.name}</td>
                                 <td style={{width: '40%'}}>{row.original.quantity}</td>

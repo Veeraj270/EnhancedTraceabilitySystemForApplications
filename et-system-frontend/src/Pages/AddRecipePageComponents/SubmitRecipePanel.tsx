@@ -2,6 +2,7 @@ import React from "react";
 import {Button, Input} from "reactstrap";
 import './ARPStylesheet.css'
 
+// @ts-ignore
 const SubmitRecipePanel = ({recipe, handleChange, handleSubmit}) => {
 
     // "handleChange" changes the label of the "recipe" which are both passed as props
