@@ -84,7 +84,6 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
                     className={(row.original.id === selectedRow) ? 'RP-selected-row' : 'RP-unselected-row'}>
                     <td style={{width: '10%', textAlign: 'center'}}>{row.original.id}</td>
                     <td style={{width: '90%'}}>{row.original.label}</td>
-                    <td><button className={'edit-recipe-button'}>EDIT</button></td>
                 </tr>))
                 }
                 </tbody>

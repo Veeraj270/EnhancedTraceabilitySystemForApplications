@@ -50,12 +50,6 @@ export const SideBarData = [
         cName: 'nav-text'
     },
     {
-        title: ' Add recipe ',
-        path: '/add-recipe',
-        icon: <FaPlus/>,
-        cName: 'nav-text'
-    },
-    {
         title: ' Help ',
         path: '/help',
         icon: <IoMdHelp/>,

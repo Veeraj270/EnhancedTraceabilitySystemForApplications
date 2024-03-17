@@ -76,7 +76,12 @@ const AddRecipePage = () => {
                     label: '',
                     ingredientQuantities: [],
                     description: ''
-            });
+                });
+                fetchIngredientTypes().then((ingredientData) =>
+                {
+                    setIngredientsData(ingredientData.sort((a: any, b: any) => a.name.localeCompare(b.name)))
+                })
+                    .catch((reason) => {console.error("Error within fetchIngredients" + reason)})
             } else{
                 alert("Error adding recipe to database. There might already be a recipe with that name")
             }
@@ -86,23 +91,17 @@ const AddRecipePage = () => {
     }
 
     const handleChangeIngredient = (event) => {
-        const ingredientType = ingredientsData.filter(ingredient => ingredient.name === event.target.value).at(0)
         console.log(event.target.value)
-        setSelectedIngredient(ingredientType)
-        console.log(ingredientType)
+        if(event.target.value !== "") {
+            const ingredientType = ingredientsData.filter(ingredient => ingredient.name === event.target.value).at(0)
+            setSelectedIngredient(ingredientType)
+        }
     }
 
     return(
         <div className={'add-recipe-page'}>
             <h1 className={'ARP-title'}> Add recipe </h1>
             <div className={'ARP-grid-container'}>
-                <div className={'ARP-grid-column'}>
-                    <IngredientsTable
-                        setSelectedRow={setSelectedIngredientID}
-                        selectedRow={selectedIngredientID}
-                        rawData={ingredientsData}
-                        />
-                </div>
                 <div className={'ARP-grid-column'}>
                     <IngredientQuantityPanel
                         recipe={recipe}
