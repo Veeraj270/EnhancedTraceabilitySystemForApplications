@@ -2,11 +2,22 @@ package com.example.ETSystem.productData;
 
 import com.example.ETSystem.ingredientType.IngredientType;
 import com.example.ETSystem.ingredientType.IngredientTypeRepository;
+import com.example.ETSystem.product.Product;
+import com.example.ETSystem.product.ProductRepository;
+import com.example.ETSystem.product.ProductService;
 import com.example.ETSystem.suppliers.Supplier;
 import com.example.ETSystem.suppliers.SupplierService;
+import com.example.ETSystem.timeline.CreateEvent;
+import com.example.ETSystem.timeline.TimelineEvent;
+import com.example.ETSystem.timeline.TimelineService;
+import com.example.ETSystem.timeline.UseEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.sql.Time;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,18 +26,27 @@ public class MockDataGenerator {
     private final SuppliedGoodRepository suppliedGoodRepository;
     private final IngredientTypeRepository ingredientTypeRepository;
     private final SupplierService supplierService;
+    private final ProductService productService;
+    private final TimelineService timelineService;
+    private final ProductRepository productRepository;
 
     @Autowired
     public MockDataGenerator(SuppliedGoodRepository suppliedGoodRepository,
                              IngredientTypeRepository ingredientTypeRepository,
-                             SupplierService supplierService
+                             SupplierService supplierService,
+                             ProductService productService,
+                             TimelineService timelineService,
+                             ProductRepository productRepository
     ){
         this.suppliedGoodRepository = suppliedGoodRepository;
         this.ingredientTypeRepository = ingredientTypeRepository;
         this.supplierService = supplierService;
+        this.productService = productService;
+        this.timelineService = timelineService;
+        this.productRepository = productRepository;
     }
 
-    public void GenerateMockData(){
+    public void generateMockData(){
         //Starting Barcode - 13 digits to fit EAC format
         //SUPPLIERS
         List<String> supplierNames = List.of(
@@ -230,6 +250,78 @@ public class MockDataGenerator {
 
          //The suppliedGood is saved to the suppliedGood repo within this method
          supplierService.AddGoodToSupplier(supplier, entry);
+     }
+
+     public void generateMockProductData(){
+        Supplier supplier1 = supplierService.GetAllSuppliers().get(0);
+
+        //Add a Product for every instance of SuppliedGood held by supplier1
+        for (SuppliedGood good: supplier1.getGoods()){
+            addProductFromSuppliedGood(good);
+        }
+
+        //Add some custom data that has some actual events for the Viva Presentation
+        Product product1 = productRepository.findById(1L).get();
+        List<TimelineEvent> events = addSomeUseEvents(product1,  9);
+        product1.setCurrentQuantity(product1.getCurrentQuantity() * (10 - events.size())/10);
+        productRepository.save(product1);
+        timelineService.saveAll(events);
+
+        Product product2 = productRepository.findById(2L).get();
+        events = addSomeUseEvents(product2,  4);
+        product2.setCurrentQuantity(product2.getCurrentQuantity() * (10 - events.size())/10);
+        productRepository.save(product2);
+        timelineService.saveAll(events);
+
+        Product product3 = productRepository.findById(3L).get();
+        events = addSomeUseEvents(product3,  7);
+        product3.setCurrentQuantity(product3.getCurrentQuantity() * (10 - events.size())/10);
+        productRepository.save(product3);
+        timelineService.saveAll(events);
+
+        //Add a cake to showcase intermediaries feature
+        IngredientType iType = new IngredientType("irish cream cheesecake", false, false, false);
+        iType = ingredientTypeRepository.save(iType);
+
+         Product cake = new Product(
+                "5000000000001",
+                "irish cream cheesecake",
+                20,
+                20,
+                List.of(1L,2L,3L),
+                iType
+         );
+
+         productService.addNewProduct(cake);
+
+         TimelineEvent creationEvent = new CreateEvent(ZonedDateTime.now(), cake);
+         timelineService.save(creationEvent);
+
+     }
+
+     public void addProductFromSuppliedGood(SuppliedGood good){
+        ZonedDateTime epochUTC = ZonedDateTime.ofInstant(Instant.EPOCH, ZoneId.of("UTC"));
+
+        Product newProduct = new Product(
+                good.getGtin(),
+                good.getLabel(),
+                good.getQuantity(),
+                good.getQuantity(),
+                List.of(),
+                good.getIngredientType()
+        );
+
+        productService.addNewProduct(newProduct);
+        TimelineEvent creationEvent = new CreateEvent(epochUTC, newProduct);
+        timelineService.save(creationEvent);
+     }
+
+     public List<TimelineEvent> addSomeUseEvents(Product product, int num){
+        List<TimelineEvent> events = new ArrayList<>();
+        for (int i = 0; i < num; i ++){
+            events.add(new UseEvent(ZonedDateTime.now().minusDays(i), product));
+        }
+        return events;
      }
 }
 
