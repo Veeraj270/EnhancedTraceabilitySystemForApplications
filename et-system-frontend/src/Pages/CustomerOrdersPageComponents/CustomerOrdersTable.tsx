@@ -18,6 +18,7 @@ const CustomerOrdersTable = () => {
         id: number;
         name: string;
         description: string;
+        deliveryTime: string;
         items: DeliveryItem[];
 
     };
@@ -44,6 +45,11 @@ const CustomerOrdersTable = () => {
         finalProducts: FinalProduct[];
     };
 
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month:'numeric', day:'numeric'};
+        return new Date(dateString).toLocaleDateString(undefined, options)
+    }
+
 
     const columns = useMemo(() => [
         {
@@ -63,10 +69,12 @@ const CustomerOrdersTable = () => {
         {
             header: 'Date',
             accessorKey: "date",
+            cell: ({getValue}) => formatDate(getValue()),
         },
         {
             header: 'DeliveryDate',
             accessorKey: "deliveryDate",
+            cell: ({getValue}) => formatDate(getValue()),
         },
 
         {

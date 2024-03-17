@@ -11,6 +11,7 @@ type PlannedDelivery = {
     id: number;
     name: string;
     description: string;
+    deliveryTime: string;
     items: DeliveryItem[];
 
 };
@@ -24,6 +25,11 @@ type DeliveryItem = {
 
 
 const OrderDeliveriesModal: React.FC<ModalProps> = ({plannedDeliveries, onConfirm, onCancel }) => {
+
+    const formatDateTime = (dateTime) => {
+        const options = {year: 'numeric', month: 'numeric', day:'numeric', hour: '2-digit', minute: '2-digit', hour12: false };
+        return new Date(dateTime).toLocaleDateString(undefined, options);
+    }
 
     const aggregatedDeliveryItems = useMemo(() => plannedDeliveries.map(delivery => {
         const labelCount = delivery.items.reduce((acc, item) => {
@@ -48,7 +54,7 @@ const OrderDeliveriesModal: React.FC<ModalProps> = ({plannedDeliveries, onConfir
           <ul>
               {aggregatedDeliveryItems.map(delivery => (
                   <li key={(delivery.id)}>
-                      <strong>{delivery.name} - {delivery.description}</strong>
+                      <strong>{delivery.name} - {formatDateTime(delivery.deliveryTime)} : {delivery.description}</strong>
                       <ul>
                           {delivery.items.map((item, index) => (
                               <li key={index}>{item.label} (Quantity: {item.quantity})</li>
