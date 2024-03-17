@@ -85,6 +85,13 @@ const AddRecipePage = () => {
         }
     }
 
+    const handleChangeIngredient = (event) => {
+        const ingredientType = ingredientsData.filter(ingredient => ingredient.name === event.target.value).at(0)
+        console.log(event.target.value)
+        setSelectedIngredient(ingredientType)
+        console.log(ingredientType)
+    }
+
     return(
         <div className={'add-recipe-page'}>
             <h1 className={'ARP-title'}> Add recipe </h1>
@@ -103,6 +110,7 @@ const AddRecipePage = () => {
                         selectedIngredient={selectedIngredient}
                         ingredientsData={ingredientsData}
                         setIngredientsData={setIngredientsData}
+                        handleChangeIngredient={handleChangeIngredient}
                     />
                     <h2>Added ingredients</h2>
                     <IngredientQuantitiesTableARP

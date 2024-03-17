@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {Button, Input, Label} from "reactstrap";
 import "./ARPStylesheet.css"
+import {IngredientType} from "../Interfaces/IngredientType";
 
-const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient, ingredientsData,setIngredientsData}) => {
+const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient, ingredientsData,setIngredientsData, handleChangeIngredient}) => {
 
     const [ingredientQuantity, setIngredientQuantity] = useState()
 
@@ -42,12 +43,25 @@ const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient, ingredi
         setIngredientQuantity(undefined)
     }
 
+    function createOption(ingredient: IngredientType){
+        var option = document.createElement('option')
+        option.value = ingredient
+        option.text = ingredient.name
+        return option
+    }
+
+    var selectIngredient = document.getElementById('select-ingredient')
+    ingredientsData.forEach(x => selectIngredient.appendChild(createOption(x)))
+
     return(
         <div className={"ARPPanel-grid"}>
             <p className={'ARPPanel-name'}>Add ingredient to recipe</p>
             <div className={"ARPPanel-item"}>
                 <p style={{margin: '10px 0 5px 0'}}>
                 <b>Ingredient:&nbsp;</b>
+                    <select id={'select-ingredient'} onChange={handleChangeIngredient}>
+
+                    </select>
                     {ingredientQuantity?.ingredientType ? ingredientQuantity?.ingredientType.name : '   '}
             </p>
                 <Label><b>Quantity: </b></Label>
