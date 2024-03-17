@@ -1,7 +1,7 @@
 import {FaSearch} from "react-icons/fa"
 import './SearchBar.css'
 import React, {useEffect, useState} from "react"
-import {Product} from "../Interfaces/Product";
+import Product from "../Interfaces/Product";
 
 interface SearchBarProps {
     onUpdate: (products: Product[] | null) => void;

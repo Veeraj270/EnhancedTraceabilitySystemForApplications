@@ -2,13 +2,14 @@ package com.example.ETSystem.timeline;
 
 import com.example.ETSystem.product.Product;
 
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 
 public sealed interface TimelineEvent permits CreateEvent, MoveEvent, UseEvent{
 	
 	long getId();
 	
-	long getTimestamp();
+	ZonedDateTime getTimestamp();
 	
 	Product getOwner();
 	

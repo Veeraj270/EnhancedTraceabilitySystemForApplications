@@ -1,5 +1,6 @@
 package com.example.ETSystem.timeline;
 
+import java.time.ZonedDateTime;
 import java.util.Map;
 
 /**
@@ -13,7 +14,7 @@ import java.util.Map;
  */
 public record TimelineData(
 		long id,
-		long timestamp,
+		ZonedDateTime timestamp,
 		long ownerId,
 		String type,
 		Map<String, String> data

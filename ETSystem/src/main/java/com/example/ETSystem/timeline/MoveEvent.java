@@ -3,6 +3,7 @@ package com.example.ETSystem.timeline;
 import com.example.ETSystem.product.Product;
 import jakarta.persistence.*;
 
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
 @Entity
@@ -13,7 +14,7 @@ public non-sealed class MoveEvent implements TimelineEvent{
 	private long id;
 	
 	@Column(name = "timestamp", nullable = false)
-	private long timestamp;
+	private ZonedDateTime timestamp;
 	
 	@ManyToOne
 	@JoinColumn(name = "owner", nullable = false)
@@ -21,7 +22,7 @@ public non-sealed class MoveEvent implements TimelineEvent{
 	
 	public MoveEvent(){}
 	
-	public MoveEvent(long timestamp, Product owner){
+	public MoveEvent(ZonedDateTime timestamp, Product owner){
 		this.timestamp = timestamp;
 		this.owner = owner;
 	}
@@ -34,11 +35,11 @@ public non-sealed class MoveEvent implements TimelineEvent{
 		this.id = id;
 	}
 	
-	public long getTimestamp(){
+	public ZonedDateTime getTimestamp(){
 		return timestamp;
 	}
 	
-	public void setTimestamp(long timestamp){
+	public void setTimestamp(ZonedDateTime timestamp){
 		this.timestamp = timestamp;
 	}
 	

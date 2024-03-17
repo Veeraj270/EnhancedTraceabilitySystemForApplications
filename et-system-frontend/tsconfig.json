@@ -8,7 +8,6 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "target": "esnext",
-    "watch": true,
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
