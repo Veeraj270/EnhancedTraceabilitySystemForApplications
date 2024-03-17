@@ -3,11 +3,9 @@ import IngredientQuantitiesTableARP from "./AddRecipePageComponents/IngredientQu
 import "./AddRecipePageComponents/ARPStylesheet.css"
 import IngredientQuantityPanel from "./AddRecipePageComponents/IngredientQuantityPanel";
 import SubmitRecipePanel from "./AddRecipePageComponents/SubmitRecipePanel";
-import IngredientsTable from "./AddRecipePageComponents/IngredientsTable";
 
 const AddRecipePage = () => {
 
-    const [selectedIngredientID, setSelectedIngredientID] = useState(-1)
     const [ingredientsData, setIngredientsData] = useState([])
     const [selectedIngredient, setSelectedIngredient] = useState({})
     const [recipe, setRecipe] = useState({
@@ -31,14 +29,6 @@ const AddRecipePage = () => {
         })
             .catch((reason) => {console.error("Error within fetchIngredients" + reason)})
     }, [])
-
-    // The selectedIngredientID data dependency is changed by clicking in the Ingredients table
-    useEffect(() => {
-        if (selectedIngredientID !== -1){
-            const selected = ingredientsData.filter((ingredient) => ingredient.id === selectedIngredientID).at(0)
-            setSelectedIngredient(selected)
-        }
-    }, [selectedIngredientID]);
 
     // This is used in the SubmitPanel
     const handleChange = (event: any) => {
@@ -91,7 +81,6 @@ const AddRecipePage = () => {
     }
 
     const handleChangeIngredient = (event) => {
-        console.log(event.target.value)
         if(event.target.value !== "") {
             const ingredientType = ingredientsData.filter(ingredient => ingredient.name === event.target.value).at(0)
             setSelectedIngredient(ingredientType)

@@ -11,6 +11,8 @@ const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient, ingredi
         setIngredientQuantity({...ingredientQuantity, ingredientType: selectedIngredient})
     }, [selectedIngredient])
 
+    // Getting rid of the previous options because otherwise for every change in the ingredients data
+    // it would keep adding the options
     useEffect(() => {
         if(selectIngredient) {
             while (selectIngredient.options.length > 1) {
@@ -20,7 +22,7 @@ const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient, ingredi
         ingredientsData.forEach(x => selectIngredient.appendChild(createOption(x)))
     }, [ingredientsData])
 
-    const handleChange = (event) => {
+    const handleChangeQuantity = (event) => {
         event.preventDefault()
         setIngredientQuantity({...ingredientQuantity, quantity: event.target.value})
     }
@@ -90,7 +92,7 @@ const IngredientQuantityPanel = ({recipe, setRecipe, selectedIngredient, ingredi
                 <Input className="quantity-input"
                        type="number"
                        value={ingredientQuantity?.quantity || ' '}
-                       onChange={handleChange}/>
+                       onChange={handleChangeQuantity}/>
             </div>
                 <Button onClick={handleIngredientSubmit} className = {'add-to-recipe-button'}>Add to recipe</Button>
             <div>
