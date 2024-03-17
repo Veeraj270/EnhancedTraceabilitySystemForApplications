@@ -1,5 +1,6 @@
 package com.example.ETSystem.product;
 
+import com.example.ETSystem.customerOrders.CustomerOrder;
 import com.example.ETSystem.ingredientType.IngredientType;
 import jakarta.persistence.*;
 
@@ -36,19 +37,30 @@ public class Product{
 	@ManyToOne
 	private IngredientType ingredientType;
 
+	@ManyToOne
+	private CustomerOrder associatedCustomerOrder;
+
 	@Transient
 	private transient long parentID;
 	
-	public Product(String label, int maxQuantity, List<Long> intermediaryIds){
+	public Product(String label, float maxQuantity, List<Long> intermediaryIds){
 		this.label = label;
 		this.maxQuantity = maxQuantity;
+		this.currentQuantity = maxQuantity;
 		this.intermediaryIds = intermediaryIds;
 	}
 	
-	public Product(String label, int maxQuantity, int currentQuantity){
+	public Product(String label, float maxQuantity,float currentQuantity){
 		this.label = label;
 		this.maxQuantity = maxQuantity;
 		this.currentQuantity = currentQuantity;
+	}
+
+	public Product(String label, float maxQuantity, float currentQuantity, IngredientType iType){
+		this.label = label;
+		this.maxQuantity = maxQuantity;
+		this.currentQuantity = currentQuantity;
+		this.ingredientType = iType;
 	}
 	
 	public Product(){}
@@ -85,6 +97,8 @@ public class Product{
 	public long getParentID(){
 		return this.parentID;
 	}
+
+	public CustomerOrder getAssociatedCustomerOrder(){ return this.associatedCustomerOrder; }
 	
 	//Setters
 	public void setLabel(String label){
@@ -114,6 +128,10 @@ public class Product{
 	public void setParentID(long id){
 		this.parentID = id;
 	}
+
+	public void setAssociatedCustomerOrder(CustomerOrder customerOrder){ this.associatedCustomerOrder = customerOrder; }
+
+	//Utility
 	
 	public boolean equals(Object obj){
 		return obj instanceof Product other && Objects.equals(other.id, id);

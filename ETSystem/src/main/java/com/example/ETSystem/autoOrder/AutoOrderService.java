@@ -8,6 +8,8 @@ import com.example.ETSystem.deliveries.PlannedDelivery;
 import com.example.ETSystem.deliveries.PlannedDeliveryRepository;
 import com.example.ETSystem.finalProducts.FinalProduct;
 import com.example.ETSystem.ingredientType.IngredientType;
+import com.example.ETSystem.product.Product;
+import com.example.ETSystem.product.ProductRepository;
 import com.example.ETSystem.productData.SuppliedGood;
 import com.example.ETSystem.recipe.IngredientQuantity;
 import com.example.ETSystem.recipe.Recipe;
@@ -29,19 +31,30 @@ public class AutoOrderService {
     private final SupplierService supplierService;
     private final PlannedDeliveryRepository plannedDeliveryRepo;
     private final DeliveryItemRepository deliveryItemRepository;
+    private final ProductRepository productRepository;
+
     private List<PlannedDelivery> savedDeliveries;
+
+    //List of products to be associated with current order if generated orders (plus) is confirmed
+    private List<Product> savedProducts;
+
+    private CustomerOrder savedOrder;
 
     @Autowired
     public AutoOrderService(
             CustomerOrderService customerOrderService,
             SupplierService supplierService,
             PlannedDeliveryRepository plannedDeliveryRepo,
-            DeliveryItemRepository deliveryItemRepository
+            DeliveryItemRepository deliveryItemRepository,
+            ProductRepository productRepository
             ){
         this.customerOrderService = customerOrderService;
         this.supplierService = supplierService;
         this.plannedDeliveryRepo = plannedDeliveryRepo;
         this.deliveryItemRepository = deliveryItemRepository;
+        this.productRepository = productRepository;
+
+        this.savedProducts = new ArrayList<>();
     }
 
     //Once confirmation that the generated orders are ok is received this is called to "make" orders to suppliers and save the planned deliveries
@@ -49,6 +62,7 @@ public class AutoOrderService {
         for (PlannedDelivery plan : savedDeliveries){
             boolean ok = makeOrder(plan);   //Exists to mimic the behaviour of making an order to our suppliers via their own APIs
             if (ok){
+                plan.setAssociatedCustomerOrder(savedOrder);
                 plannedDeliveryRepo.save(plan);
             }
             else { return false; }
@@ -56,7 +70,14 @@ public class AutoOrderService {
         return true;
     }
 
-    public List<PlannedDelivery> generateRequiredOrders(CustomerOrder order){
+    public void reserveProductsForOrder(){
+        for (Product product: savedProducts){
+            product.setAssociatedCustomerOrder(savedOrder);
+            productRepository.save(product);
+        }
+    }
+
+    public List<PlannedDelivery> generateRequiredOrders(CustomerOrder order, boolean useStoredProducts){
         //Local Variables
         List<SuppliedGood>  toOrder = new ArrayList<>();
         List<PlannedDelivery> plannedDeliveries = new ArrayList<>();
@@ -67,9 +88,28 @@ public class AutoOrderService {
         //For each IngredientType search each of the suppliers for goods that have the required IngredientType
         List<Supplier> suppliers = supplierService.GetAllSuppliers();
 
-
         for (IngredientQuantity IQ: totals){
-            toOrder.addAll(getGoodsForIQ(IQ, suppliers));
+            if (useStoredProducts){
+                //Check whether there's Products within productRepository that match the required IType and have no associatedOrder
+                List<Product> matchingProducts = productRepository.findAll().stream()
+                        .filter(product -> product.getAssociatedCustomerOrder() == null && product.getIngredientType().equals(IQ.getIngredientType()))
+                        .sorted(Comparator.comparing(Product::getCurrentQuantity))
+                        .toList();
+
+                int i = 0;
+                int len = matchingProducts.size();
+                while(IQ.getQuantity() > 0 && i < len){
+                    Product mProduct = matchingProducts.get(i);
+                    IQ.setQuantity(IQ.getQuantity() - mProduct.getCurrentQuantity());
+                    savedProducts.add(mProduct);
+                    i++;
+                }
+            }
+
+            //If there's still quantity that needs fulfilling, order new goods
+            if (IQ.getQuantity() > 0){
+                toOrder.addAll(getGoodsForIQ(IQ, suppliers));
+            }
         }
 
         plannedDeliveries = genOrdersToSuppliers(suppliers, toOrder, order);
@@ -79,7 +119,7 @@ public class AutoOrderService {
     public List<SuppliedGood> getGoodsForIQ(IngredientQuantity IQ, List<Supplier> suppliers){
         List<SuppliedGood> matchingGoods = new ArrayList<>();
 
-        int reqAmount = IQ.getQuantity();
+        float reqAmount = IQ.getQuantity();
 
         IngredientType reqType = IQ.getIngredientType();
 
@@ -102,6 +142,7 @@ public class AutoOrderService {
         //Add the cheapest good that matches the required quantity to the toOrder list
         return chooseCheapest(matchingGoods, distinctQuantities, amounts);
     }
+
     //Takes the list of suppliedGoods that need to be ordered, and generates the required PlannedDeliveries
     public List<PlannedDelivery> genOrdersToSuppliers(List<Supplier> suppliers ,List<SuppliedGood> toOrder, CustomerOrder order){
         List<PlannedDelivery> plannedDeliveries = new ArrayList<>();
@@ -114,8 +155,8 @@ public class AutoOrderService {
                     order.getClient().toLowerCase(),
                     order.getDate().getDayOfMonth(),
                     order.getDate().getMonth().toString().toLowerCase()
-
             );
+
             String description = "Auto generated delivery";
 
             ZonedDateTime deliveryTime = order.getDeliveryDate().minusDays(4); //Want ingredients delivered 4 days before CustomerOrder is due
@@ -195,7 +236,7 @@ public class AutoOrderService {
             IngredientQuantity IQ = iQuantities.get(i);
             if (IQ == null){ continue; }
             IngredientType type = IQ.getIngredientType();
-            int total = IQ.getQuantity();
+            float total = IQ.getQuantity();
             for (int x = i + 1; x < iQuantities.size(); x ++){
                 if (iQuantities.get(x) != null && iQuantities.get(x).getIngredientType().equals(iQuantities.get(i).getIngredientType())){
                     total += iQuantities.get(x).getQuantity();
@@ -216,4 +257,11 @@ public class AutoOrderService {
     public void setSavedDeliveries(List<PlannedDelivery> savedDeliveries) {
         this.savedDeliveries = savedDeliveries;
     }
+
+    public List<Product> getSavedProducts(){ return savedProducts; }
+
+    public void setSavedProducts(List<Product> list){ this.savedProducts = list; }
+
+    public void setSavedOrder(CustomerOrder order){ this.savedOrder = order; }
+
 }

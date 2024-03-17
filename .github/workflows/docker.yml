@@ -1,6 +1,7 @@
 name: Docker CI
 
-# on:
+
+#on:
 #  push:
 #    branches: [ "dev" ]
 #  pull_request:

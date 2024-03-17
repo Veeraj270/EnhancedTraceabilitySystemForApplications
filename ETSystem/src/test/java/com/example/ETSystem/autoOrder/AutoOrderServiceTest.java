@@ -10,6 +10,8 @@ import com.example.ETSystem.deliveries.PlannedDeliveryRepository;
 import com.example.ETSystem.finalProducts.FinalProduct;
 import com.example.ETSystem.ingredientType.IngredientType;
 import com.example.ETSystem.ingredientType.IngredientTypeRepository;
+import com.example.ETSystem.product.Product;
+import com.example.ETSystem.product.ProductRepository;
 import com.example.ETSystem.productData.SuppliedGood;
 import com.example.ETSystem.productData.SuppliedGoodRepository;
 import com.example.ETSystem.recipe.IngredientQuantity;
@@ -47,6 +49,8 @@ public class AutoOrderServiceTest {
     private final IngredientQuantityRepository ingredientQuantityRepository;
     private final DeliveryItemRepository deliveryItemRepository;
     private final CustomerOrderRepository customerOrderRepository;
+    private final ProductRepository productRepository;
+
     //Constructor based dependency injection
     @Autowired
     public AutoOrderServiceTest(
@@ -56,7 +60,8 @@ public class AutoOrderServiceTest {
             IngredientTypeRepository ingredientTypeRepository,
             IngredientQuantityRepository ingredientQuantityRepository,
             CustomerOrderRepository customerOrderRepository,
-            DeliveryItemRepository deliveryItemRepository
+            DeliveryItemRepository deliveryItemRepository,
+            ProductRepository productRepository
     ){
         this.plannedDeliveryRepository = plannedDeliveryRepository;
         this.supplierRepository = supplierRepository;
@@ -65,10 +70,11 @@ public class AutoOrderServiceTest {
         this.ingredientQuantityRepository = ingredientQuantityRepository;
         this.customerOrderRepository  = customerOrderRepository;
         this.deliveryItemRepository = deliveryItemRepository;
+        this.productRepository = productRepository;
 
         this.customerOrderService = new CustomerOrderService(customerOrderRepository);
         this.supplierService = new SupplierService(supplierRepository, suppliedGoodRepository);
-        this.autoOrderService = new AutoOrderService(this.customerOrderService, this.supplierService, plannedDeliveryRepository, deliveryItemRepository);
+        this.autoOrderService = new AutoOrderService(this.customerOrderService, this.supplierService, plannedDeliveryRepository, deliveryItemRepository, productRepository);
     }
 
     @BeforeAll
@@ -127,8 +133,8 @@ public class AutoOrderServiceTest {
         assertThat(result)
                 .extracting((IQ) -> IQ.getIngredientType().getName(), IngredientQuantity::getQuantity)
                 .containsExactlyInAnyOrder(
-                        Tuple.tuple("sugar", 900),
-                        Tuple.tuple("flour", 900)
+                        Tuple.tuple("sugar", 900.0f),
+                        Tuple.tuple("flour", 900.0f)
                 );
     }
 
@@ -257,7 +263,7 @@ public class AutoOrderServiceTest {
 
     @Test
     @Transactional
-    void testGenerateRequiredOrders(){
+    void testGenerateRequiredOrders_useStoredProductsSetToFalse(){
         //Setup
         IngredientType flour = new IngredientType("flour", false, false, false); flour.setId(1);
         IngredientType sugar = new IngredientType("sugar", false,false, false); sugar.setId(2);
@@ -299,7 +305,7 @@ public class AutoOrderServiceTest {
         supplierService.AddGoodToSupplier(supplier, sugar9);
 
         //Call method to be tested
-        List<PlannedDelivery> result = autoOrderService.generateRequiredOrders(order);
+        List<PlannedDelivery> result = autoOrderService.generateRequiredOrders(order, false);
 
         //Check result against expected output
         List<DeliveryItem>  deliveryItemList = result.get(0).getItems();
@@ -319,6 +325,77 @@ public class AutoOrderServiceTest {
                         "flour9"
                 );
     }
+
+    @Test
+    @Transactional
+
+    void testGenerateRequiredOrders_usesStoredProducts(){
+        //Setup
+        IngredientType flour = new IngredientType("flour", false, false, false); flour.setId(1);
+        IngredientType sugar = new IngredientType("sugar", false,false, false); sugar.setId(2);
+
+        flour = ingredientTypeRepository.save(flour);
+        sugar = ingredientTypeRepository.save(sugar);
+
+        IngredientQuantity iQuantity1 = new IngredientQuantity(flour, 5);
+        IngredientQuantity iQuantity2 = new IngredientQuantity(sugar,5);
+
+        Recipe recipe = new Recipe("recipe1", Set.of(iQuantity1, iQuantity2));
+        FinalProduct fProduct1 = new FinalProduct("fProduct1", 1000, recipe, 4);
+
+        CustomerOrder order = new CustomerOrder();
+        order.setFinalProducts(new ArrayList<>(Arrays.asList(fProduct1)));
+        order.setClient("client");
+        order.setDate(ZonedDateTime.now());
+        order.setDeliveryDate(ZonedDateTime.now().plusDays(7));
+
+        //Add some SuppliedGoods that match requirements
+        SuppliedGood flour1 = new SuppliedGood(); flour1.setIngredientType(flour); flour1.setQuantity(1); flour1.setLabel("flour1");
+        SuppliedGood flour3 = new SuppliedGood(); flour3.setIngredientType(flour); flour3.setQuantity(3); flour3.setLabel("flour3");
+        SuppliedGood flour9 = new SuppliedGood(); flour9.setIngredientType(flour); flour9.setQuantity(9); flour9.setLabel("flour9");
+
+        SuppliedGood sugar1 = new SuppliedGood(); sugar1.setIngredientType(sugar); sugar1.setQuantity(1); sugar1.setLabel("sugar1");
+        SuppliedGood sugar3 = new SuppliedGood(); sugar3.setIngredientType(sugar); sugar3.setQuantity(3); sugar3.setLabel("sugar3");
+        SuppliedGood sugar9 = new SuppliedGood(); sugar9.setIngredientType(sugar); sugar9.setQuantity(9); sugar9.setLabel("sugar9");
+
+        suppliedGoodRepository.saveAll(List.of(flour1, flour3, flour9, sugar1, sugar3, sugar9));
+
+        Supplier supplier = new Supplier();
+        supplier = supplierRepository.save(supplier);
+
+        supplierService.AddGoodToSupplier(supplier, flour1);
+        supplierService.AddGoodToSupplier(supplier, flour3);
+        supplierService.AddGoodToSupplier(supplier, flour9);
+        supplierService.AddGoodToSupplier(supplier, sugar1);
+        supplierService.AddGoodToSupplier(supplier, sugar3);
+        supplierService.AddGoodToSupplier(supplier, sugar9);
+
+        //Add some Products to the productRepository that can be used to fulfill the order
+        Product product1 = new Product("", 2.5f, 2.5f, flour);
+        Product product2 = new Product("", 2.5f, 2.5f, flour);
+        Product product3 = new Product("", 21f, 21f, sugar);
+
+        productRepository.saveAll(List.of(product1, product2, product3));
+
+        //Call method to be tested
+        List<PlannedDelivery> result = autoOrderService.generateRequiredOrders(order, true);
+
+        //Check result against expected output
+        List<DeliveryItem>  deliveryItemList = result.get(0).getItems();
+
+        //Check that it saved the two products that were expected to be used
+        assertThat(autoOrderService.getSavedProducts()).containsAll(List.of(product1, product2, product3));
+
+        //Total quantities of savedProducts and deliveryItems sum to 20 - which is required amount
+        assertThat(deliveryItemList)
+                .extracting(DeliveryItem::getLabel)
+                .containsExactlyInAnyOrder(
+                        "flour3",
+                        "flour3",
+                        "flour9"
+                );
+    }
+
 
     @Test
     @Transactional
