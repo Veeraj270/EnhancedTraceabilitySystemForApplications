@@ -20,6 +20,7 @@ public class AutoOrderAPI {
     }
     //Need method for generating the orders and sending them to the front-end
 
+    //Two auto order gen methods - ("plus" allows for the reservation of currently stored products, the other does not)
     @GetMapping(path = "/auto-gen-orders")
     public List<PlannedDelivery> getAutoGenOrders(@RequestBody CustomerOrder order){
         autoOrderService.setSavedOrder(order);
