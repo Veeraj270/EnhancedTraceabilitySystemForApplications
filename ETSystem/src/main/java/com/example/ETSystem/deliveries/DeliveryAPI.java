@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,21 +78,32 @@ public class DeliveryAPI{
 	}
 
 	// convenience adders
-	
+
 	@PostMapping("/add-recorded-with-products")
 	public RecordedDelivery addRecordedWithProducts(@RequestBody RecordedDeliveryInput newRecordInput){
-		//Validation
 		List<Product> savedProducts = new ArrayList<>(newRecordInput.recorded.size());
-		for (SuppliedGood product : newRecordInput.recorded){
-			//Create new Product instance
-			Product newProduct =  new Product();
+		PlannedDelivery plan = newRecordInput.getPlan();
+		Iterator<DeliveryItem> iterator = (new ArrayList<>(newRecordInput.getPlan().getItems())).iterator();
+		ArrayList<DeliveryItem> expectedItems = new ArrayList<>(newRecordInput.getPlan().getItems());
+
+		for (SuppliedGood product : newRecordInput.getRecorded()){
+			Product newProduct =  new Product(); //New product instance to be saved to repo
+
+			//Search for that product in the expectedItems
+			for (DeliveryItem eItem: expectedItems){
+				if (eItem.getGtin().equals(product.getGtin())){
+					//Item is expected therefore set associatedDelivery to that of the plannedDelivery
+					newProduct.setAssociatedCustomerOrder(plan.getAssociatedCustomerOrder());
+					expectedItems.remove(eItem);
+					break;
+				}
+			}
+
+			//Add rest of required information
 			newProduct.setGtin(product.getGtin());
 			newProduct.setLabel(product.getLabel());
 			newProduct.setMaxQuantity(product.getQuantity());
 			newProduct.setCurrentQuantity(product.getQuantity());
-
-			//FIX NEEDED: needs to be updated to use Supplier class
-			//newProduct.setSupplier(product.getSupplier());
 			newProduct.setIngredientType(product.getIngredientType());
 
 			//Save Product
@@ -101,6 +113,7 @@ public class DeliveryAPI{
 			timelineService.save(new CreateEvent(Instant.now().getEpochSecond(), newProduct));
 			savedProducts.add(newProduct);
 		}
+
 		//Save RecordedDelivery with list of new Products
 		RecordedDelivery newRecord = new RecordedDelivery(
 				newRecordInput.plan,
