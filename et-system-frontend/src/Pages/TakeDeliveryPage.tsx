@@ -46,6 +46,7 @@ const TakeDelivery = () => {
     //Triggered upon initial render of the page
     useEffect(() => {
         fetchDeliveryData(deliveryId).then((data: Delivery) => {
+            setPlannedDelivery(data);
             const time = startTime.toISOString().match(/[0-9]{2}:[0-9]{2}:[0-9]{2}/)?.at(0)
             const newMetadata : Metadata  =  {
                 name: data.name,
@@ -54,10 +55,11 @@ const TakeDelivery = () => {
                 startTime: time ? time : "N/A",
             }
             setMetadata(newMetadata)
-            return data
-        }).then(
-            (data) => fetchExpectedItemsData(data.items).then(
-            (expectedItems: any[]) => {setExpectedTData(expectedItems); console.log(expectedItems)}))
+            fetchExpectedItemsData(data.items).then((expectedItems: any[]) => {
+                    setExpectedTData(expectedItems);
+                }
+            )
+        }).catch((err) => console.log(err))
     }, []);
 
     const fetchExpectedItemsData = async (items: any[]): Promise<any[]> => {
@@ -74,25 +76,11 @@ const TakeDelivery = () => {
     }
 
     const fetchDeliveryData = async (deliveryId: number) : Promise<Delivery> => {
-        try {
-            const response = await fetch(`http://localhost:8080/api/deliveries/fetch-planned-by-id/${deliveryId}`);
-            if (!response.ok) {
-                throw new Error('fetch-planned-by-id response was not ok');
-            }
-            const data = await response.json();
-            setPlannedDelivery(data);
-            return data;
-        } catch (error) {
-            console.error("Error: ", error);
-            return {
-                name: "error",
-                deliveryInterval: "error",
-                deliveryTime: "error",
-                description: "error",
-                id: -1,
-                items: []
-            };
+        const response = await fetch(`http://localhost:8080/api/deliveries/fetch-planned-by-id/${deliveryId}`);
+        if (!response.ok) {
+            throw new Error('fetch-planned-by-id response was not ok');
         }
+        return response.json();
     }
 
     //Triggered by pressing button to right of input field or by pressing enter on input field

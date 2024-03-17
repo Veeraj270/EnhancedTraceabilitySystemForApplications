@@ -7,8 +7,8 @@ import {PlannedDelivery} from "../Interfaces/PlannedDelivery";
 // @ts-ignore
 const DOPTable1 = ( {setSelected, selected, rawData} ) => {
 
-    const [tableData, setTableData] = useState([])
-    const [filteredTableData, setFilteredTableData] = useState([])
+    const [tableData, setTableData] = useState<any[]>([])
+    const [filteredTableData, setFilteredTableData] = useState<any[]>([])
     const [searchInput, setSearchInput] = useState("")
 
     const generateTableData = async (data: any[]) => {
@@ -21,7 +21,7 @@ const DOPTable1 = ( {setSelected, selected, rawData} ) => {
                 formattedTableData.push({
                     id: plannedDelivery.id,
                     name: plannedDelivery.name,
-                    dateDue: dateDue ? dateDue : "error",
+                    dateDue: dateDue ? dateDue.replaceAll("-","/") : "error",
                     status: "Unknown", //Placeholder
                 });
             })
@@ -95,10 +95,6 @@ const DOPTable1 = ( {setSelected, selected, rawData} ) => {
     const handleClick = (event: React.MouseEvent, id : number) => {
         if (id !== undefined){
             setSelected(id)
-            console.log("Selected Delivery: " + id);
-        }
-        else{
-            console.log("Empty row clicked");
         }
     }
 

@@ -125,7 +125,6 @@ const AddRecipePage = () => {
             </div>
         </div>
     )
-
 }
 
 export default AddRecipePage
