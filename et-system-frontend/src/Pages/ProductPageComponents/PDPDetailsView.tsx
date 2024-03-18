@@ -1,4 +1,3 @@
-import {defer} from "react-router";
 import DPDPercentageWidget from "./DPDPercentageWidget";
 import Product from "../Interfaces/Product";
 import {useEffect, useState} from "react";

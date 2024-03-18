@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {Event} from "../Interfaces/Event";
 
 interface PropType{
     selectedId: number | undefined;

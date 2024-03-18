@@ -17,7 +17,7 @@ const FinalProductTable = () => {
             accessorKey: 'id',
         },
         {
-            header: 'Label',
+            header: 'Product',
             accessorKey: 'label',
         },
 

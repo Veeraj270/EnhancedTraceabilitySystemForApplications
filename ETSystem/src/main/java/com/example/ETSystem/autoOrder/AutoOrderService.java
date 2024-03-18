@@ -15,8 +15,10 @@ import com.example.ETSystem.recipe.IngredientQuantity;
 import com.example.ETSystem.recipe.Recipe;
 import com.example.ETSystem.suppliers.Supplier;
 import com.example.ETSystem.suppliers.SupplierService;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -34,6 +36,8 @@ public class AutoOrderService {
     private final ProductRepository productRepository;
 
     private List<PlannedDelivery> savedDeliveries;
+    private static final Logger logger = LoggerFactory.getLogger(AutoOrderAPI.class);
+
 
     //List of products to be associated with current order if generated orders (plus) is confirmed
     private List<Product> savedProducts;
@@ -122,10 +126,12 @@ public class AutoOrderService {
         float reqAmount = IQ.getQuantity();
 
         IngredientType reqType = IQ.getIngredientType();
+        logger.info("ReqType:" + reqType);
 
         //Find all SuppliedGoods that match the IngredientType
         for (Supplier supplier : suppliers){
             matchingGoods.addAll(supplier.getGoods().stream()
+                            .peek(good -> logger.info("Good processed" + good.getIngredientType()))
                     .filter((good) -> good.getIngredientType().equals(reqType))
                     .peek((good) -> {
                         good.setSupplier(supplier);
@@ -137,6 +143,7 @@ public class AutoOrderService {
         List<Float> distinctQuantities = matchingGoods.stream().map(SuppliedGood::getQuantity).distinct().sorted().toList();
 
         //Calculate the amount of each distinctQuantity is required
+        logger.info("MatchingGoodsSize:" + matchingGoods.size());
         int[] amounts = getNumOfEachDiQuant(distinctQuantities,reqAmount);
 
         //Add the cheapest good that matches the required quantity to the toOrder list
@@ -201,6 +208,8 @@ public class AutoOrderService {
         //Sort distinctQuantities from smallest to largest
         distinctQuantities = distinctQuantities.stream().sorted().toList();
         int[] amounts = new int[distinctQuantities.size()];
+        logger.info("Distinct quantities size:" + distinctQuantities.size());
+
 
         int a = (int) ceil((reqAmount/ distinctQuantities.get(0)));
         float iDeliveryTotal = distinctQuantities.get(0) * a;

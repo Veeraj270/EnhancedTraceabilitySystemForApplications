@@ -1,7 +1,7 @@
 [
-  {"ingredient": 1, "quantity": 500},
-  {"ingredient": 2, "quantity": 300},
-  {"ingredient": 3, "quantity": 250},
-  {"ingredient": 4, "quantity": 100},
-  {"ingredient": 5, "quantity": 100}
+  {"ingredient": 1, "quantity": 1},
+  {"ingredient": 2, "quantity": 1},
+  {"ingredient": 3, "quantity": 1},
+  {"ingredient": 4, "quantity": 1},
+  {"ingredient": 5, "quantity": 1}
 ]

@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/auto-order")
+@CrossOrigin(origins = "http://localhost:3000")
 public class AutoOrderAPI {
 
     private final AutoOrderService autoOrderService;
@@ -21,7 +22,7 @@ public class AutoOrderAPI {
     //Need method for generating the orders and sending them to the front-end
 
     //Two auto order gen methods - ("plus" allows for the reservation of currently stored products, the other does not)
-    @GetMapping(path = "/auto-gen-orders")
+    @PostMapping(path = "/auto-gen-orders")
     public List<PlannedDelivery> getAutoGenOrders(@RequestBody CustomerOrder order){
         autoOrderService.setSavedOrder(order);
         List<PlannedDelivery> planned = autoOrderService.generateRequiredOrders(order, false);
@@ -44,7 +45,7 @@ public class AutoOrderAPI {
     }
 
 
-    @RequestMapping(path = "/auto-gen-orders/confirm")
+    @PostMapping(path = "/auto-gen-orders/confirm")
     public void confirmAutoGenResult(){
         autoOrderService.confirmSavedOrders();
         autoOrderService.reserveProductsForOrder();
@@ -55,7 +56,7 @@ public class AutoOrderAPI {
         autoOrderService.setSavedOrder(null);
     }
 
-    @RequestMapping(path = "/auto-gen-orders/cancel")
+    @PostMapping(path = "/auto-gen-orders/cancel")
     public boolean cancelAutoGenResult(){
         //Reset autoOrderService
         autoOrderService.setSavedDeliveries(null);
