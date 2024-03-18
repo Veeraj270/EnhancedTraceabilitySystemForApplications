@@ -33,12 +33,6 @@ export const SideBarData = [
         cName: 'nav-text'
     },
     {
-        title: 'Add recipe',
-        path: '/add-recipe',
-        icon: <FaPlus/>,
-        cName: 'nav-text'
-    },
-    {
         title: 'Add Products',
         path: '/add',
         icon: <FaPlus/>,

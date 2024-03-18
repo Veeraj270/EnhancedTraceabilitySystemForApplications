@@ -43,6 +43,7 @@
     display: flex;
     flex-direction: column;
     row-gap: 20px;
+    align-items: center;
 }
 
 .RPTable-grid{
@@ -50,7 +51,7 @@
     grid-template-rows: 70px 60px;
     box-shadow: 1px 1px 3px var(--shadow-color);
     width: 100%;
-    height: 600px;
+    height: 510px;
     border-radius: 0.5rem;
     background-color: ghostwhite;
     border: solid var(--border-color)  2px;
@@ -98,7 +99,7 @@
 }
 
 .RPTable-content-div{
-    height: 525px;
+    height: 438px;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -137,6 +138,18 @@
 
 .RP-selected-row{
     background-color: orange;
+}
+
+.add-recipe-button{
+    font-size: 24px;
+    font-weight: bolder;
+    background-color: powderblue;
+    color: darkslategray;
+    width: 250px;
+    padding: 10px;
+    border: solid black 1px;
+    border-radius: 1rem;
+    border-radius: 0.5rem;
 }
 
 .RPSummary-grid{

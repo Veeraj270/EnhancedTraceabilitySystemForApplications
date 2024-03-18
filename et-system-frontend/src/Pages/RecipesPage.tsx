@@ -1,8 +1,9 @@
 import "./RecipePageComponents/RPStylesheet.css"
 import RecipeTable from "./RecipePageComponents/RecipeTable";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import RPSummaryPanel from "./RecipePageComponents/RPSummaryPanel";
 import IngredientQuantitiesTableRP from "./RecipePageComponents/IngredientQuantitiesTableRP";
+import {Link} from "react-router-dom";
 
 const RecipesPage = () => {
 
@@ -45,6 +46,7 @@ const RecipesPage = () => {
                         selectedRow={selectedRecipeID}
                         rawData = {recipeData}
                     />
+                    <Link to={'/add-recipe'}><button className={'add-recipe-button'}>Add new recipe</button></Link>
                 </div>
                 <div className={'RP-grid-column'}>
                     <RPSummaryPanel

@@ -3,11 +3,10 @@ import IngredientQuantitiesTableARP from "./AddRecipePageComponents/IngredientQu
 import "./AddRecipePageComponents/ARPStylesheet.css"
 import IngredientQuantityPanel from "./AddRecipePageComponents/IngredientQuantityPanel";
 import SubmitRecipePanel from "./AddRecipePageComponents/SubmitRecipePanel";
-import IngredientsTable from "./AddRecipePageComponents/IngredientsTable";
+import {IngredientType} from "./Interfaces/IngredientType";
 
 const AddRecipePage = () => {
 
-    const [selectedIngredientID, setSelectedIngredientID] = useState(-1)
     const [ingredientsData, setIngredientsData] = useState([])
     const [selectedIngredient, setSelectedIngredient] = useState({})
     const [recipe, setRecipe] = useState({
@@ -31,14 +30,6 @@ const AddRecipePage = () => {
         })
             .catch((reason) => {console.error("Error within fetchIngredients" + reason)})
     }, [])
-
-    // The selectedIngredientID data dependency is changed by clicking in the Ingredients table
-    useEffect(() => {
-        if (selectedIngredientID !== -1){
-            const selected = ingredientsData.filter((ingredient) => ingredient.id === selectedIngredientID).at(0)
-            setSelectedIngredient(selected)
-        }
-    }, [selectedIngredientID]);
 
     // This is used in the SubmitPanel
     const handleChange = (event: any) => {
@@ -76,7 +67,12 @@ const AddRecipePage = () => {
                     label: '',
                     ingredientQuantities: [],
                     description: ''
-            });
+                });
+                fetchIngredientTypes().then((ingredientData) =>
+                {
+                    setIngredientsData(ingredientData.sort((a: any, b: any) => a.name.localeCompare(b.name)))
+                })
+                    .catch((reason) => {console.error("Error within fetchIngredients" + reason)})
             } else{
                 alert("Error adding recipe to database. There might already be a recipe with that name")
             }
@@ -85,17 +81,22 @@ const AddRecipePage = () => {
         }
     }
 
+    const handleChangeIngredient = (event: any) => {
+        if(event.target.value !== "") {
+            const ingredientType = ingredientsData
+                .filter((ingredient: IngredientType) => ingredient.name === event.target.value).at(0)
+            if(ingredientType) {
+                setSelectedIngredient(ingredientType)
+            } else{
+                alert("Ingredient doesn't exist in the database.")
+            }
+        }
+    }
+
     return(
         <div className={'add-recipe-page'}>
             <h1 className={'ARP-title'}> Add recipe </h1>
             <div className={'ARP-grid-container'}>
-                <div className={'ARP-grid-column'}>
-                    <IngredientsTable
-                        setSelectedRow={setSelectedIngredientID}
-                        selectedRow={selectedIngredientID}
-                        rawData={ingredientsData}
-                        />
-                </div>
                 <div className={'ARP-grid-column'}>
                     <IngredientQuantityPanel
                         recipe={recipe}
@@ -103,6 +104,7 @@ const AddRecipePage = () => {
                         selectedIngredient={selectedIngredient}
                         ingredientsData={ingredientsData}
                         setIngredientsData={setIngredientsData}
+                        handleChangeIngredient={handleChangeIngredient}
                     />
                     <h2>Added ingredients</h2>
                     <IngredientQuantitiesTableARP

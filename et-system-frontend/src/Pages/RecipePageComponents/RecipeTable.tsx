@@ -1,6 +1,7 @@
 import React, {ChangeEvent, useEffect, useMemo, useState} from "react";
 import {getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import "../AddRecipePageComponents/ARPStylesheet.css"
+import {Link} from "react-router-dom";
 
 const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
 
