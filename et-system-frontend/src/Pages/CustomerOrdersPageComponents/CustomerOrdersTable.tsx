@@ -90,7 +90,7 @@ const CustomerOrdersTable = () => {
             cell: ({row}) => (
                 isLoading
                     ? <p>Loading...</p>
-                    : <button onClick={() => handleGenerateClick(row.original)}></button>
+                    : <button onClick={() => handleGenerateClick(row.original)}> "Generate" </button>
             ),
 
         },
