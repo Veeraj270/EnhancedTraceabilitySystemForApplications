@@ -35,7 +35,7 @@ services:
       options:
          awslogs-group: ets
          awslogs-region: eu-west-2
-         awslogs-stream-prefix: frontend
+         awslogs-stream-prefix: backend
   db:
     image: 'postgres:13.1-alpine'
     mem_limit: 1024m
@@ -49,4 +49,4 @@ services:
       options:
          awslogs-group: ets
          awslogs-region: eu-west-2
-         awslogs-stream-prefix: frontend
+         awslogs-stream-prefix: db
