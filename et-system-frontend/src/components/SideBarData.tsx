@@ -5,60 +5,49 @@ import { FaBookOpen } from "react-icons/fa";
 import { PiTreeStructure } from "react-icons/pi";
 import { IoMdHelp } from "react-icons/io";
 import { FaBirthdayCake } from "react-icons/fa";
+import {GiWoodenCrate} from "react-icons/gi";
 
 export const SideBarData = [
     {
-        title: ' Home ',
-        path: '/',
-        icon: <FaHome/>,
-        cName: 'nav-text'
-    },
-    {
-        title: ' Products ',
-        path: '/products',
-        icon: <FaWarehouse/>,
-        cName: 'nav-text'
-    },
-    {
-        title: ' Add Products ',
-        path: '/add',
-        icon: <FaPlus/>,
-        cName: 'nav-text'
-    },
-    {
-        title: ' Traceability ',
-        path: '/traceability',
-        icon: <PiTreeStructure/>,
-        cName: 'nav-text'
-    },
-    {
-        title: ' Deliveries ',
-        path: '/deliveries',
-        icon: <FaWarehouse/>,
-        cName: 'nav-text'
-    },
-    {
-        title: ' Customer Orders ',
+        title: 'Customer Orders',
         path: '/customer-orders',
         icon: <FaBookOpen/>,
         cName: 'nav-text'
     },
     {
-        title: ' Recipes ',
+        title: 'Inventory',
+        path: '/products',
+        icon: <GiWoodenCrate/>,
+        cName: 'nav-text'
+    },
+    {
+        title: 'Deliveries ',
+        path: '/deliveries',
+        icon: <FaWarehouse/>,
+        cName: 'nav-text'
+    },
+    {
+        title: 'Recipes',
         path: '/recipes',
         icon: <FaBirthdayCake/>,
         cName: 'nav-text'
     },
     {
-        title: ' Add recipe ',
+        title: 'Add recipe',
         path: '/add-recipe',
         icon: <FaPlus/>,
         cName: 'nav-text'
     },
     {
-        title: ' Help ',
-        path: '/help',
-        icon: <IoMdHelp/>,
+        title: 'Add Products',
+        path: '/add',
+        icon: <FaPlus/>,
+        cName: 'nav-text'
+    },
+    {
+        title: 'Traceability',
+        path: '/traceability',
+        icon: <PiTreeStructure/>,
         cName: 'nav-text'
     },
 ]

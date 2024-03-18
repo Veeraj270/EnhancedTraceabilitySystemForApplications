@@ -2,10 +2,12 @@ import React, {ChangeEvent, useEffect, useMemo, useState} from "react";
 import {getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import "../AddRecipePageComponents/ARPStylesheet.css"
 
+
+// @ts-ignore
 const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
 
-    const [tableData, setTableData] = useState([])
-    const [filteredTableData, setFilteredTableData] = useState([])
+    const [tableData, setTableData] = useState<any[]>([])
+    const [filteredTableData, setFilteredTableData] = useState<any[]>([])
     const [searchInput, setSearchInput] = useState("")
 
     const columns = useMemo(() => [
@@ -18,16 +20,13 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
     const handleChange = (event : ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
         setSearchInput(event.target.value)
+        event.stopPropagation();
     }
 
     // This handles selecting a row
     const handleClick = (event: React.MouseEvent, id : number) => {
         if (id !== undefined){
             setSelectedRow(id)
-            console.log("Selected ingredient: " + id);
-        }
-        else{
-            console.log("Empty row clicked");
         }
     }
 
@@ -50,7 +49,6 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
                     setFilteredTableData(rawData)
             }
         }
-        console.log(rawData);
     }, [rawData]);
 
     const table = useReactTable({
@@ -64,7 +62,7 @@ const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
             <label>Select an ingredient</label>
             <input placeholder={"Search..."} onChange={handleChange} value={searchInput}/>
         </div>
-        <div className={"RPTable-content-div"}>
+        <div className={"ARPTable-content-div"}>
             <table>
                 <tbody>
                 {table.getRowModel().rows.map(row => (<tr

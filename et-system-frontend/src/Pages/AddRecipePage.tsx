@@ -12,7 +12,8 @@ const AddRecipePage = () => {
     const [selectedIngredient, setSelectedIngredient] = useState({})
     const [recipe, setRecipe] = useState({
         label: '',
-        ingredientQuantities: []
+        ingredientQuantities: [],
+        description: ''
     })
 
     const fetchIngredientTypes = async () => {
@@ -26,7 +27,7 @@ const AddRecipePage = () => {
     useEffect(() => {
         fetchIngredientTypes().then((ingredientData) =>
         {
-            setIngredientsData(ingredientData)
+            setIngredientsData(ingredientData.sort((a: any, b: any) => a.name.localeCompare(b.name)))
         })
             .catch((reason) => {console.error("Error within fetchIngredients" + reason)})
     }, [])
@@ -35,19 +36,23 @@ const AddRecipePage = () => {
     useEffect(() => {
         if (selectedIngredientID !== -1){
             const selected = ingredientsData.filter((ingredient) => ingredient.id === selectedIngredientID).at(0)
-            console.log(selected);
             setSelectedIngredient(selected)
         }
     }, [selectedIngredientID]);
 
     // This is used in the SubmitPanel
-    const handleChange = (event) => {
+    const handleChange = (event: any) => {
+        const {name, value} = event.target
         event.preventDefault()
-        setRecipe({...recipe, label: event.target.value})
+        if(name === 'label') {
+            setRecipe({...recipe, [name]: value})
+        } else {
+            setRecipe({...recipe, [name]: value})
+        }
     }
 
     // This is used also in the SubmitPanel
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event: any) => {
         //Check if all fields of recipe are filled
         if (!recipe || recipe.ingredientQuantities.length === 0 || recipe.label.length === 0) {
             alert("Please fill in Name field and add an ingredient to the recipe.")
@@ -67,13 +72,13 @@ const AddRecipePage = () => {
             });
 
             if(response.ok) {
-                setRecipe(recipe => ({
-                    ...recipe,
+                setRecipe({...recipe,
                     label: '',
-                    ingredientQuantities: []
-                }));
+                    ingredientQuantities: [],
+                    description: ''
+            });
             } else{
-                alert("Error adding recipe to database. ")
+                alert("Error adding recipe to database. There might already be a recipe with that name")
             }
         }catch (e) {
             console.log("Error adding recipe: " + e)
@@ -89,7 +94,6 @@ const AddRecipePage = () => {
                         setSelectedRow={setSelectedIngredientID}
                         selectedRow={selectedIngredientID}
                         rawData={ingredientsData}
-                        dataType={"ingredient"}
                         />
                 </div>
                 <div className={'ARP-grid-column'}>
@@ -97,12 +101,16 @@ const AddRecipePage = () => {
                         recipe={recipe}
                         setRecipe={setRecipe}
                         selectedIngredient={selectedIngredient}
+                        ingredientsData={ingredientsData}
+                        setIngredientsData={setIngredientsData}
                     />
                     <h2>Added ingredients</h2>
                     <IngredientQuantitiesTableARP
-                        ingredientQuantities={recipe.ingredientQuantities}
+                        ingredientQuantities={recipe?.ingredientQuantities}
                         recipe={recipe}
                         setRecipe={setRecipe}
+                        ingredientsData={ingredientsData}
+                        setIngredientsData={setIngredientsData}
                     />
                 </div>
                 <div className={'ARP-submit-column'}>
@@ -115,7 +123,6 @@ const AddRecipePage = () => {
             </div>
         </div>
     )
-
 }
 
 export default AddRecipePage

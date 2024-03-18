@@ -13,18 +13,13 @@ import com.example.ETSystem.recipe.IngredientQuantityMockData;
 import com.example.ETSystem.recipe.RecipeMockData;
 import com.example.ETSystem.suppliers.SupplierService;
 import com.example.ETSystem.timeline.*;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Profile;
 
-import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -41,6 +36,7 @@ public class EtSystemApplication{
 			prefix = "command-line-runner", name = "enabled"
 	)
 	@Bean
+	@Autowired
 	CommandLineRunner commandLineRunner(ProductRepository productRepository,
                                         TimelineService timelineService,
                                         PlannedDeliveryRepository plannedDeliveryRepository,
@@ -53,7 +49,9 @@ public class EtSystemApplication{
 										IngredientQuantityMockData ingredientQuantityMockData,
 										RecipeMockData recipeMockData,
 										FinalProductMockData finalProductMockData,
-										CustomerOrderMockData customerOrderMockData
+										CustomerOrderMockData customerOrderMockData,
+										MockDataGenerator mockDataGenerator
+
 	){
 		return args -> {
             ingredientMockData.processIngredients();
@@ -63,28 +61,8 @@ public class EtSystemApplication{
             customerOrderMockData.processCustomerOrder();
 
 			//Generate internal gtin database contents
-			MockDataGenerator mockDataGenerator = new MockDataGenerator(suppliedGoodRepository, ingredientTypeRepository, supplierService);
-			mockDataGenerator.GenerateMockData();
-
-			// Read from MOCK_DATA.json and save all entries to productRepo
-			ObjectMapper objectMapper = new ObjectMapper();
-			byte[] bytes = EtSystemApplication.class.getClassLoader().getResourceAsStream("MOCK_DATA.json").readAllBytes();
-			String string = new String(bytes, StandardCharsets.UTF_8);
-			List<Product> products = objectMapper.readValue(string, new TypeReference<>(){ /* keep type info */ });
-			productRepository.saveAll(products);
-			
-			// Add some mock event data - needs further improvement
-			Product eventOwner = productRepository.findById(1L).get();
-			List<TimelineEvent> list = new ArrayList<>();
-			list.add(new CreateEvent(1200L, eventOwner));
-			list.add(new MoveEvent(1230L, eventOwner));
-			list.add(new UseEvent(1300L, eventOwner));
-			list.add(new MoveEvent(1400L, eventOwner));
-			list.add(new UseEvent(1430L, eventOwner));
-			list.add(new MoveEvent(1530L, eventOwner));
-			list.add(new UseEvent(1600L, eventOwner));
-			timelineService.saveAll(list);
-
+			mockDataGenerator.generateMockData();
+			mockDataGenerator.generateMockProductData();
 
 			//Add some mock planned deliveries to the database - for development purposes
 			for (int x = 0; x < 6; x ++){
@@ -106,7 +84,7 @@ public class EtSystemApplication{
 				PlannedDelivery plannedDelivery = new PlannedDelivery("Test-Delivery ", "description",ZonedDateTime.now().plusDays(x - 4));
 				plannedDelivery.setComplete(true);
 				plannedDeliveryRepository.save(plannedDelivery);
-				RecordedDelivery recordedDelivery = new RecordedDelivery(plannedDelivery, Instant.now(), Instant.now().plusSeconds(500), new ArrayList<Product>());
+				RecordedDelivery recordedDelivery = new RecordedDelivery(plannedDelivery, Instant.now(), Instant.now().plusSeconds(500), new ArrayList<>());
 				recordedDeliveryRepository.save(recordedDelivery);
 			}
 		};

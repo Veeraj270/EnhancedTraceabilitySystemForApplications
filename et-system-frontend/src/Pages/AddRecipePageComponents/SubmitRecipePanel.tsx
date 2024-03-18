@@ -9,15 +9,17 @@ const SubmitRecipePanel = ({recipe, handleChange, handleSubmit}) => {
     return (
         <div className={'ARP-submit-panel'}>
             <p className={'ARP-submit-panel-name'}>Submit recipe</p>
-            <Input type="text" name="recipe_label" id="recipe_label"
+            <Input type="text" name="label" id="label"
                className = "recipe-name-input"
                onChange={handleChange}
                value={recipe?.label}
                placeholder={"Name.."}
             />
             <textarea
-                id={"recipe_description"}
+                id={"description"}
+                name={"description"}
                 className="paragraph-input"
+                value={recipe?.description}
                 onChange={handleChange}
                 placeholder={"Description..."}
             />

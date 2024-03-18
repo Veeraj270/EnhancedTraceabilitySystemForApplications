@@ -4,7 +4,7 @@ By Izzeldeen Abumatar, Veeraj Bhagwat, Matthew Cudby, and Josif Trenchovski, und
 
 ## Summary
 
-The goal of the project is to develop a comprehensive system for the tracking of the production of Cakesmiths baked goods from their beginnings as raw ingredients, to their point of sale.
+The goal of the project is to develop a comprehensive system for the tracking of the production of Cakesmiths baked goods from their beginnings as raw ingredients, to their point of sale, to aid in conforming to the [Government's Standards for Traceability](https://www.food.gov.uk/business-guidance/managing-food-safety#traceability).
 
 ## Expectation of Final Product
 The aim is to provide a piece of desktop software that provides accurate tracking of the production process, easy information retrieval, and intuitive visualization on the efficiency of their production lines. Aside from the desktop application, the system will also require an auxiliary platform for the real-time input of data during the production and delivery processes.
@@ -118,12 +118,16 @@ docker network remove <name of network>
 
 ### Manually Starting Backend
 
-- Navigate to /ETSystem
-- Clean the build directory and then build the project from scratch:  `./gradlew clean build`
-- Run ETSystem via: `./gradlew bootRun`
-- The back end should now be running
+- Navigate to `./ETSystem`.
+- Clean the build directory and then build the project from scratch:  `./gradlew clean build`.
+- Run ETSystem via: `./gradlew bootRun`.
+- The back end should now be running.
 
 ### Manually Starting the Front-End
-- Navigate to /et-system-front-end.
+
+- Navigate to `./et-system-front-end`.
 - Run `npm install` to install required dependencies.
-- Run `npm start` to launch graphical user interface.
+- Run `npm start` to start the website.
+- Open `localhost:3000` to access the website.
+
+A manually started frontend also supports *hot-reloading*: when source files are changed, the website will automatically reload the files and refresh.
