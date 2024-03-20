@@ -19,7 +19,7 @@ const FinalProductPage = () => {
     useEffect(() => {
         const fetchData = async (): Promise<void> => {
             try {
-                const response = await fetch(`http://localhost:8080/api/customerorders/fetch-by-id/${orderId}`);
+                const response = await fetch(`http://backend:8080/api/customerorders/fetch-by-id/${orderId}`);
                 console.log("Fetch Request!")
                 if (!response.ok) {
                     throw new Error("Fetch customerOrders request was not ok");

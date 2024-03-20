@@ -68,7 +68,7 @@ const TraceabilityPage = () => {
     }
 
     const fetchHistory = async (id: number) : Promise<Event[]> => {
-        const res = await fetch(`http://localhost:8080/api/products/fetch-product-history/${id}`);
+        const res = await fetch(`http://backend:8080/api/products/fetch-product-history/${id}`);
         if (!res.ok){
             throw new Error("fetch-product-history response was not ok")
         }
@@ -139,7 +139,7 @@ const TraceabilityPage = () => {
 
     //Fetches the product intermediaries
     const fetchProductIntermediaries = async (id : number) : Promise<Product[]> => {
-        const res = await fetch(`http://localhost:8080/api/products/fetch-product-intermediaries/${id}`);
+        const res = await fetch(`http://backend:8080/api/products/fetch-product-intermediaries/${id}`);
         if (!res.ok){
             throw new Error("fetch-product-intermediaries response was not ok");
         }

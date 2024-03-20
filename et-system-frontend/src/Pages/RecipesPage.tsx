@@ -13,7 +13,7 @@ const RecipesPage = () => {
     const [selectedRecipe, setSelectedRecipe] = useState({})
 
     const fetchRecipes = async () => {
-        const response = await fetch("http://localhost:8080/api/recipes/fetch-recipes")
+        const response = await fetch("http://backend:8080/api/recipes/fetch-recipes")
         if (!response.ok){
             throw new Error("Error fetching recipes")
         }

@@ -34,7 +34,7 @@ const ProductsPage = () => {
     }, [selected]);
 
     const fetchHistory = async (id: number) => {
-        const res = await fetch(`http://localhost:8080/api/products/fetch-product-history/${id}`);
+        const res = await fetch(`http://backend:8080/api/products/fetch-product-history/${id}`);
         if (!res.ok){
             throw new Error("fetch-product-history response was not ok")
         }
