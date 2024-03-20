@@ -20,6 +20,11 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: arn:aws:iam::992382812807:role/gh-actions-worker
+        aws-region: eu-west-2
     - name: Build Backend Jar with Gradle
       uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
       with:
@@ -31,11 +36,6 @@ jobs:
         docker tag docker-frontend 992382812807.dkr.ecr.eu-west-2.amazonaws.com/ets-frontend:latest
         docker tag docker-backend 992382812807.dkr.ecr.eu-west-2.amazonaws.com/ets-backend:latest
       working-directory: "./docker/"
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: arn:aws:iam::992382812807:role/gh-actions-worker
-        aws-region: eu-west-2
     - name: Login to ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v2
