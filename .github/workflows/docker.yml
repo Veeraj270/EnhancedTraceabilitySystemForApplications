@@ -1,12 +1,13 @@
 name: Docker CI
 
-#on:
-#  push:
-#    branches: [ "dev" ]
-#  pull_request:
-#    branches: [ "dev" ]
+on:
+  push:
+    branches: [ "dev" ]
+  pull_request:
+    branches: [ "dev" ]
 
 permissions:
+  id-token: write
   contents: read
 
 jobs:
@@ -24,17 +25,21 @@ jobs:
       with:
         arguments: bootJar
         build-root-directory: ETSystem
-    - name: Build Docker Images
-      run: docker compose build
+    - name: Build & Tag Docker Images
+      run: |
+        docker compose build
+        docker tag docker-frontend 992382812807.dkr.ecr.eu-west-2.amazonaws.com/ets-frontend:latest
+        docker tag docker-backend 992382812807.dkr.ecr.eu-west-2.amazonaws.com/ets-backend:latest
       working-directory: "./docker/"
-    - name: Save Frontend Image
-      run: docker save --output frontend-image.tar docker-frontend
-      working-directory: "./docker/"
-    - name: Save Backend Image
-      run: docker save --output backend-image.tar docker-backend
-      working-directory: "./docker/"
-    - name: Upload Images
-      uses: actions/upload-artifact@v4
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
       with:
-        name: images
-        path: "./docker/*-image.tar"
+        role-to-assume: arn:aws:iam::992382812807:role/gh-actions-worker
+        aws-region: eu-west-2
+    - name: Login to ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+    - name: Push Images to ECR
+      run: |
+        docker push 992382812807.dkr.ecr.eu-west-2.amazonaws.com/ets-frontend:latest
+        docker push 992382812807.dkr.ecr.eu-west-2.amazonaws.com/ets-backend:latest

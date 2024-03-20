@@ -2,7 +2,7 @@ version: '2'
 
 services:
   frontend:
-    image: 992382812807.dkr.ecr.eu-west-2.amazonaws.com/ets-frontend:v0.0.1
+    image: 992382812807.dkr.ecr.eu-west-2.amazonaws.com/ets-frontend:latest
     mem_limit: 1500m
     depends_on:
       - backend
@@ -17,7 +17,7 @@ services:
          awslogs-region: eu-west-2
          awslogs-stream-prefix: frontend
   backend:
-    image: 992382812807.dkr.ecr.eu-west-2.amazonaws.com/ets-backend:v0.0.1
+    image: 992382812807.dkr.ecr.eu-west-2.amazonaws.com/ets-backend:latest
     mem_limit: 1024m
     depends_on:
       - db
