@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("api/deliveries")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class DeliveryAPI{
 
 	private final Logger logger = LoggerFactory.getLogger(DeliveryAPI.class);
