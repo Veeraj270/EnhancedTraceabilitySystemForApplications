@@ -1,0 +1,193 @@
+.product-database-page{
+    background-color: ghostwhite;
+    /*Take into account padding*/
+    width: calc(100% - 100px);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    padding: 20px 50px 50px;
+}
+
+.product-database-page * {
+    box-sizing: border-box;
+}
+.PDP-title{
+    margin: 0px;
+    padding: 0px 0px 4px 0px;
+}
+
+.PDP-upper-container{
+
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+
+    }
+
+.PDP-search-bar-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 50px;
+    background-color: orange;
+    padding: 4px;
+    width: fit-content;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    column-gap: 2px;
+    border: black solid 0.1rem;
+}
+
+.PDP-search-bar-input{
+    padding: 10px;
+    border-radius: 0.5rem;
+}
+
+.PDP-search-bar-p{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.PDP-button{
+    height: calc(100% - 5px);
+    min-width: 50px;
+    margin-right: 2px;
+    border-radius: 0.25rem;
+    border: 1px white solid;
+    cursor: pointer;
+}
+
+.PDP-button-selected{
+    height: calc(100% - 5px);
+    min-width: 50px;
+    margin-right: 2px;
+    background-color: whitesmoke;
+    border-radius: 0.25rem;
+    border: 1px black solid;
+    cursor: pointer;
+}
+
+.PDP-lower-container{
+    height: calc(100% - 200px);
+
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    grid-column-gap: 20px;
+}
+
+.PDP-r-column{
+    width: 100%;
+    position: relative;
+}
+
+.PDP-details-view{
+    position: absolute;
+    background-color: ghostwhite;
+    top: 0;
+    height: fit-content;
+    max-height: 80vh;
+    width: 100%;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 12px;
+
+    display: grid;
+    row-gap: 8px;
+    border: lightgrey solid 1px;
+
+}
+
+.PDP-percentage-widget{
+    display: flex;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    border-radius: 0.5rem;
+    margin: auto;
+    padding: 0px 10px 10px;
+    border: lightgrey solid 1px;
+}
+
+.PDP-progress-bar-wrapper{
+    width: 50%;
+    margin: auto;
+}
+
+.PDP-percentage-widget p{
+    font-weight: bold;
+    font-size: 14px;
+    padding: 10px 0;
+    justify-content: center;
+}
+
+.PDP-product-name{
+    font-weight: bold;
+    font-size: 16px;
+    padding-top: 0px;
+}
+
+.PDP-details {
+}
+
+.PDP-recent-events-view{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+.PDP-recent-events-view b{
+    margin: auto;
+}
+
+.PDP-svg-wrapper{
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    background-color: ghostwhite;
+    border: solid lightgrey 1px;
+    border-radius: 0.5rem;
+}
+
+.PDP-svg-wrapper b{;
+    margin: auto;
+}
+
+
+.PDP-svg-text-style{
+    font-size: 4px;
+    fill: darkslategrey;
+}
+
+
+/*Table Styling*/
+
+.PDP-table table{
+    table-layout: fixed;
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse ;
+    background-color: ghostwhite;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.PDP-table th, td{
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.PDP-selected-row{
+    background-color: orange;
+    cursor: pointer;
+}
+
+.PDP-row{
+    cursor: pointer;
+}
+
+.PDP-table thead{
+    background-color: powderblue;
+
+}

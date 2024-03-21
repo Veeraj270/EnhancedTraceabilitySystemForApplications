@@ -1,0 +1,55 @@
+
+
+.menu-bar{
+    margin-left: 2rem;
+    font-size: 2rem;
+    background: none;
+}
+
+.side-bar-menu{
+    background-color: grey;
+    width: 250px;
+    height: 100%;
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+}
+
+.side-bar-menu h2{
+    font-size: 36px;
+    padding: 0;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-bottom: 0;
+}
+.side-bar-menu h3{
+    font-size: 14px;
+    padding: 0;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+.nav-text{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: 8px 8px 8px 16px;
+    height: 60px;
+}
+
+.nav-text a{
+    text-decoration: none;
+    color: whitesmoke;
+    font-size: 18px;
+    width: 95%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    border-radius: 4px;
+}
+
+.nav-text a:hover{
+    background-color: steelblue;
+}
+

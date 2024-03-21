@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: ../et-system-frontend/
+    container_name: frontend
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+  backend:
+    build: ../ETSystem/
+    container_name: backend
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
+      - SPRING_DATASOURCE_USERNAME=compose-postgres
+      - SPRING_DATASOURCE_PASSWORD=compose-postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+    ports:
+      - "8080:8080"
+  db:
+    image: 'postgres:13.1-alpine'
+    container_name: db
+    environment:
+      - POSTGRES_USER=compose-postgres
+      - POSTGRES_PASSWORD=compose-postgres
+    ports:
+      - "5432"

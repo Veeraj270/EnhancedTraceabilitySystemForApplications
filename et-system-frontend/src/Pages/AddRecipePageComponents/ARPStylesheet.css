@@ -1,0 +1,227 @@
+.add-recipe-page{
+    width: calc(100% - 100px);
+    height: 100%;
+    padding-left:  50px;
+    padding-right: 50px;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: azure;
+    row-gap: 20px;
+
+    --border-color: powderblue;
+    --button-color: lightcyan;
+    --shadow-color: rgb(0,0,0,0.4);
+}
+
+.add-recipe-page *{
+    font-family: "Roboto";
+    color: black;
+}
+
+.ARP-title{
+    margin: 0px;
+    padding: 0px 0px 4px 0px;
+}
+
+.ARP-grid-container{
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    width: 94%;
+    height: 660px;
+    padding-inline: 3%;
+    column-gap: 50px;
+}
+
+.ARP-grid-container * {
+    box-sizing: border-box;
+}
+
+.ARP-grid-column{
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+.ARPPanel-grid{
+    display: grid;
+    text-align: center;
+    justify-items: center;
+    row-gap: 12px;
+    padding: 10px;
+    width: 350px;
+    height: 230px;
+    background-color: ghostwhite;
+    box-shadow: 1px 1px 3px var(--shadow-color);
+    border-radius: 0.5rem;
+    border: var(--border-color) solid 1px
+}
+
+.ARPPanel-name{
+    text-align: center;
+    font-weight: bold;
+    font-size: 25px;
+    margin: 10px 0 0 0;
+    border-bottom: solid black 1px;
+}
+
+.ARPPanel-item{
+    font-size: 18px;
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+.add-to-recipe-button{
+    width: 130px;
+    height: 36px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 0.5rem;
+    border: solid black 1px;
+}
+
+.arrow {
+    border-radius: 0 5px 0 5px;
+    border: solid;
+    border-color: slategrey;
+    border-width: 0 6px 6px 0;
+    display: inline-block;
+    padding: 6px;
+    margin: 10px;
+}
+
+.down {
+    transform: scale(2.4,1.2) rotate(45deg);
+    -webkit-transform: scale(2.4,1.2) rotate(45deg);
+}
+
+.quantity-input{
+    font-size: 15px;
+    width: 60px;
+    text-align: center;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button{
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.ARP-submit-column{
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+.ARP-submit-panel{
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    padding: 10px;
+    width: 100%;
+    height: 350px;
+    background-color: ghostwhite;
+    box-shadow: 1px 1px 3px var(--shadow-color);
+    border-radius: 0.5rem;
+    border: var(--border-color) solid 1px
+}
+
+.ARP-submit-panel-name{
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: #333;
+    margin: 10px 10px 0px 10px;
+    border-bottom: solid black 1px;
+}
+
+.recipe-name-input{
+    font-size: 14px;
+    width: 100%;
+    height: 30px;
+    padding: 8px;
+}
+
+.paragraph-input {
+    width: 100%;
+    height: 120px;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+.submit-button{
+    width: 50%;
+    height: 50px;
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border: solid black 2px;
+    border-radius: 0.5rem;
+}
+
+button:hover {
+    background-color: ghostwhite;
+}
+
+button:active {
+    background-color: antiquewhite;
+    transform: translate(1px);
+    box-shadow: 0 1px #666;
+}
+
+.delete-button{
+    border-radius: 0.3rem;
+    border: solid black 1px;
+}
+
+.table-container {
+    max-height: 400px;
+    text-align: center;
+    width: 100%;
+    border-radius: 0.5rem;
+    border: var(--border-color) solid 1px;
+    background-color: ghostwhite;
+    background-color: #efeeee;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.IGTable{
+    width: 100%;
+    text-align: center;
+    border-radius: 0.5rem;
+    border: var(--border-color) solid 1px;
+    border-collapse: collapse;
+    background-color: #efeeee;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.IGTable th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.IGTable thead {
+    width: 100%;
+    display: table;
+    text-align: center;
+}
+
+.IGTable tbody{
+    width: 100%;
+    height: 300px;
+    background-color: whitesmoke;
+    display: inline-block;
+    overflow-y: auto;
+}
+
+

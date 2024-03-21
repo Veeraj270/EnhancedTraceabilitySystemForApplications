@@ -1,0 +1,13 @@
+.DS_STORE
+
+/.idea
+
+ETSystem/build/
+ETSystem/.gradle/
+!ETSystem/gradle/wrapper/gradle-wrapper.jar
+
+et-system-frontend/node_modules
+et-system-frontend/.pnp
+et-system-frontend/.pnp.js
+et-system-frontend/coverage/
+et-system-frontend/build/
