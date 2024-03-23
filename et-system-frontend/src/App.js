@@ -14,6 +14,7 @@ import DeliveriesOverviewPage from "./Pages/DeliveriesOverviewPage";
 import FinalProductPage from "./Pages/FinalProductPage";
 import RecipesPage from "./Pages/RecipesPage";
 import AddRecipePage from "./Pages/AddRecipePage";
+import TracePage from "./Pages/TracePage";
 
 function App() {
     return (
@@ -40,16 +41,21 @@ function App() {
                     </Route>
 
                     <Route path={"/add"} element={<AddProductsPage/>}>
-
                     </Route>
+
                     <Route path={"/edit-product/:id"} element={<EditProductPage/>}>
                     </Route>
+
                     <Route path={"/customer-orders"} element={<CustomerOrdersPage/>}>
                     </Route>
+
                     <Route path={"/customerorderdetails/:orderId"} element={<FinalProductPage/>}>
                     </Route>
 
-
+                    <Route
+                        path={"/trace-page-new"}
+                        element={<TracePage/>}>
+                    </Route>
                 </Routes>
             </div>
         </Router>
