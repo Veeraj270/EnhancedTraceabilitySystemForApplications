@@ -1,6 +1,8 @@
 import React, {useEffect, useRef} from "react";
 import { Network } from 'vis-network/peer'
 import { DataSet } from 'vis-data/peer'
+import {allOptions} from "vis-network/declarations/network/options";
+import {clear} from "@testing-library/user-event/dist/clear";
 
 const NodeLinkGraph = () => {
 
@@ -25,19 +27,29 @@ const NodeLinkGraph = () => {
         edges: edges
     };
 
-
     const containerRef = useRef(null);
+
+    const options = {
+        edges: {
+            smooth: true
+        },
+        layout: {
+            hierarchical: {
+                direction: "UD",
+                sortMethod: "directed",
+                shakeTowards: "roots"
+            }
+        },
+        physics: false
+    }
 
     //triggers after the first render
     useEffect(() => {
         if (containerRef.current){
-            console.log("container ref set!!")
-            console.log(containerRef.current as HTMLElement)
-            const network = new Network(containerRef.current, data, {});
+            const network: Network = new Network(containerRef.current, data, options);
+            network.focus(1, {scale: 1.2, offset: {x: -60, y: -100}})
         }
-
         }, []);
-
 
     return (
         <div ref={containerRef} className={"TP-node-link-graph"}></div>
