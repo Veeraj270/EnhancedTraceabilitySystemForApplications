@@ -52,6 +52,12 @@ public class ProductAPI{
     public Product getProductById(@PathVariable("id") String id){
         return productService.getProductByID(Long.parseLong(id));
     }
+
+	@GetMapping(path = "/fetch-graph/{id}")
+	public ProductService.Graph getGraph(@PathVariable("id") String id){
+		Product product = productService.getProductByID(Long.parseLong(id));
+		return productService.getGraph(product);
+	}
 }
 
 

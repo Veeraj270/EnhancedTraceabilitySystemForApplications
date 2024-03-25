@@ -77,4 +77,47 @@ public class ProductService{
 
         return productRepository.save(existingProduct);
     }
+
+	public record Edge(Long source, Long target){};
+
+	public record Node(Long id){};
+
+	public record Graph(List<Node> nodes, List<Edge> edges){};
+
+	public Graph getGraph(Product product){
+		ArrayList <Node> nodes = new ArrayList<>();
+		ArrayList <Edge> edges = new ArrayList<>();
+
+		//Call recursive method to find all intermediaries and produce a graph
+		findIntermediaries(product, nodes, edges);
+
+		return new Graph(nodes, edges);
+	}
+
+	public void findIntermediaries( Product currentNode, ArrayList<Node> nodes, ArrayList<Edge> edges){
+		//Add node to nodes array
+		nodes.add(new Node(currentNode.getId()));
+
+		//Base Case
+		if (currentNode.getIntermediaryIds().size() == 0){
+			return;
+		}
+
+		//Recursive Case
+		List<Long> intermediaries = currentNode.getIntermediaryIds();
+
+		for (Long id : intermediaries){
+			for (Node node : nodes){
+				if (id == node.id()){
+					//Then node is already discovered
+					break;
+				}
+			}
+			//Node is not already discovered therefore add edge, then recursive call
+			edges.add(new Edge(id, currentNode.getId()));
+
+			findIntermediaries(productRepository.findById(id).get(), nodes, edges);
+		}
+	}
 }
+

@@ -104,6 +104,8 @@ public class Product{
 	public CustomerOrder getAssociatedCustomerOrder(){ return this.associatedCustomerOrder; }
 	
 	//Setters
+	public void setId(Long id){ this.id = id; }
+
 	public void setLabel(String label){
 		this.label = label;
 	}
