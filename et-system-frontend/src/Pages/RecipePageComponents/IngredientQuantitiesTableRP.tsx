@@ -7,11 +7,13 @@ const IngredientQuantitiesTableRP = ({ingredientQuantities}) => {
     const columns = useMemo(() => [
         {
             header: "Ingredient",
-            accessorKey: "ingredientType"
+            accessorKey: "ingredientType",
+            size: 50
         },
         {
             header: "Quantity",
-            accessorKey: "quantity"
+            accessorKey: "quantity",
+            size: 50
         }
     ], [ingredientQuantities])
 
@@ -27,7 +29,7 @@ const IngredientQuantitiesTableRP = ({ingredientQuantities}) => {
                     <thead>
                         {table.getHeaderGroups().map(headerGroup => (
                             <tr key={headerGroup.id}>
-                                {headerGroup.headers.map(header => <th key={header.id}>
+                                {headerGroup.headers.map(header => <th key={header.id} style = {{width: `${header.column.getSize()}%`}}>
                                     {flexRender(header.column.columnDef.header, header.getContext())}
                                 </th>)}
                             </tr>
