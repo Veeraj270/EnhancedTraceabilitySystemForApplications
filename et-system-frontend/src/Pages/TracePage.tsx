@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import './TracePageComponentsNew/TPStyleSheet.css'
 import NodeLinkGraph from "./TracePageComponentsNew/NodeLinkGraph";
+import DetailsWidget from "./TracePageComponentsNew/DetailsWidget";
 
 const TracePage = () => {
     //State Variables
@@ -16,7 +17,7 @@ const TracePage = () => {
                     />
                 </div>
                 <div className={"TP-content-col2"}>
-                    <div className={"TP-details-widget"}>Details Widget</div>
+                    <DetailsWidget/>
                     <div className={"TP-event-history-widget"}>Event History Widget</div>
                     <div className={"TP-event-details-widget"}>Event Details Widget</div>
                 </div>

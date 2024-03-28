@@ -56,7 +56,7 @@ const NodeLinkGraph = ( props : PropTypes) => {
         if (json.nodes && json.edges){
             console.log(json.nodes);
             console.log(json.edges);
-            json.nodes.forEach((node: number) => {
+            json.nodes.forEach((node: any) => {
                 nodes.push({
                         id: node.id,
                         label: `${node.id}`
@@ -82,7 +82,6 @@ const NodeLinkGraph = ( props : PropTypes) => {
     useEffect(() => {
         console.log(data);
     }, [data]);
-
 
     const containerRef = useRef(null);
 

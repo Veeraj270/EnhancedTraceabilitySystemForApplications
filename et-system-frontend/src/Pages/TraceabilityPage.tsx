@@ -5,6 +5,7 @@ import Product from "./Interfaces/Product";
 import {Event} from "./Interfaces/Event";
 import './TracePageComponents/TPStylesheet.css'
 
+
 class Node{
     children: Node[];
     product: Product;
