@@ -6,12 +6,20 @@ import { PiTreeStructure } from "react-icons/pi";
 import { IoMdHelp } from "react-icons/io";
 import { FaBirthdayCake } from "react-icons/fa";
 import {GiWoodenCrate} from "react-icons/gi";
+import {MdBakeryDining} from "react-icons/md";
+import React from "react";
 
 export const SideBarData = [
     {
         title: 'Customer Orders',
         path: '/customer-orders',
         icon: <FaBookOpen/>,
+        cName: 'nav-text'
+    },
+    {
+        title: 'Bake',
+        path: '/baking-system-1',
+        icon: <MdBakeryDining/>,
         cName: 'nav-text'
     },
     {
