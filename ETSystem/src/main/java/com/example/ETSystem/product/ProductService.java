@@ -7,11 +7,13 @@ import com.example.ETSystem.timeline.TimelineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -118,6 +120,54 @@ public class ProductService{
 
 			findIntermediaries(productRepository.findById(id).get(), nodes, edges);
 		}
+	}
+
+	public record TraceData(Graph graph,
+						   String label,
+						   String DateCreated,
+						   ArrayList<String> Allergens
+	){ }
+
+	public TraceData getTraceabilityData(String id) throws Exception {
+		//Check if the id is a valid number
+		Product product = null;
+		if (isLong(id)){
+			//Query database
+			Optional<Product> optional = productRepository.findById(Long.parseLong(id));
+			if (optional.isEmpty()){
+				throw new Exception("product with given id not found");
+			}
+			product = optional.get();
+		}
+
+		//Extract allergens
+		ArrayList<String> allergens = extractAllergens(product);
+
+		//Extract graph
+		Graph graph = getGraph(product);
+
+		//Extract other details
+		String label = product.getLabel();;
+
+		String date = "";
+
+		//Return all data as record
+		return new TraceData(graph, label, date, allergens);
+	}
+	
+	public ArrayList<String> extractAllergens(Product product){
+		//To be implemented:
+
+		return new ArrayList<>();
+	}
+	public static boolean isLong(String strNum){
+		if (strNum == null){ return false; }
+		try {
+			double l = Long.parseLong(strNum);
+		} catch (NumberFormatException nfe){
+			return false;
+		}
+		return true;
 	}
 }
 

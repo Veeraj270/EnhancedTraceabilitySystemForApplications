@@ -58,6 +58,20 @@ public class ProductAPI{
 		Product product = productService.getProductByID(Long.parseLong(id));
 		return productService.getGraph(product);
 	}
+
+	//Used by the new traceability page
+	@GetMapping(path = "fetch-details&graph/{id}")
+	public ProductService.TraceData getTraceAbilityData(@PathVariable("id") String id){
+		try {
+			return productService.getTraceabilityData(id);
+		} catch (Exception e){
+			//handle exception by formatting an error response
+
+
+		}
+
+	}
+
 }
 
 
