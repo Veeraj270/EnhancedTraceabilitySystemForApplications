@@ -1,6 +1,7 @@
 package com.example.ETSystem.product;
 
 
+import com.example.ETSystem.ingredientType.IngredientType;
 import com.example.ETSystem.timeline.TimelineData;
 import com.example.ETSystem.timeline.TimelineEvent;
 import com.example.ETSystem.timeline.TimelineService;
@@ -141,7 +142,7 @@ public class ProductService{
 		}
 
 		//Extract allergens
-		ArrayList<String> allergens = extractAllergens(product);
+		//ArrayList<String> allergens = extractAllergens(product);
 
 		//Extract graph
 		Graph graph = getGraph(product);
@@ -152,13 +153,46 @@ public class ProductService{
 		String date = "";
 
 		//Return all data as record
-		return new TraceData(graph, label, date, allergens);
+		//return new TraceData(graph, label, date, allergens);
+		return new TraceData(graph, label, date, new ArrayList<String>());
 	}
 	
-	public ArrayList<String> extractAllergens(Product product){
+	public void extractAllergens(Product product, ArrayList<String> allergens, ArrayList<Long> explored) throws Exception {
 		//To be implemented:
 
-		return new ArrayList<>();
+		//Each product has a corresponding IngredientType: ""
+
+		//Each IngredientType has an isAllergen attribute which is either true of false
+
+		//Can recursively search through all intermediaries and add the IngredientType.name if isAllergen to an array of strings
+
+		//Base case
+		explored.add(product.getId());
+
+		if (product.getIntermediaryIds().size() == 0){
+			return;
+		}
+
+		//Recursive case:
+		for (Long i : product.getIntermediaryIds()){
+			if (explored.contains(i)){ continue; }
+
+			//Find product
+			Optional<Product> p = productRepository.findById(i);
+			if (p.isEmpty()){
+				throw new Exception("intermediary product not found by id");
+			}
+			try {
+				Product P = p.get();
+				extractAllergens(P, allergens, explored);
+				IngredientType iType = P.getIngredientType();
+				if (iType.isAllergen()){
+					allergens.add(iType.getName());
+				}
+			} catch (Exception e){
+				throw e;
+			}
+		}
 	}
 	public static boolean isLong(String strNum){
 		if (strNum == null){ return false; }
