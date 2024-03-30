@@ -37,6 +37,7 @@
     min-width: 0;
     min-height: 0;
     overflow: hidden;
+    border-radius: 1rem;
 
 }
 
@@ -52,7 +53,7 @@
     height: 100%;
     width: 100%;
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 2fr;
     row-gap: 20px;
 }
 
@@ -96,11 +97,22 @@
     height: 100%;
 }
 
-.TP-event-history-widget{
-    border: 1px solid black;
+.TP-events-wrapper{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    min-width: 0;
+    min-height: 0;
+    background-color: azure;
+    box-shadow: 1px 1px 3px var(--shadow-color);
+    padding: 10px;
+    column-gap: 10px;
+    border-radius: 0.5rem;
+}
 
+.TP-event-history-widget{
+    border: 2px solid #eae7e7;
+    border-radius: 0.5rem;
 }
 
 .TP-event-details-widget{
-    border: 1px solid black;
 }

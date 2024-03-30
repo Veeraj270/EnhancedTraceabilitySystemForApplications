@@ -4,16 +4,20 @@ import {json} from "react-router-dom";
 
 interface PropTypes{
     setGraphData: any;
+    setDetailsData: any;
 }
 
 interface ResponseType{
     present: boolean;
     graph: any;
+    label: string;
+    allergens: string[];
 }
 
 const SearchBar = (props : PropTypes) => {
     //destructure props
     const setGraphData = props.setGraphData;
+    const setDetailsData = props.setDetailsData;
 
     //state variables
     const [input, setInput] = useState<string>("");
@@ -39,6 +43,7 @@ const SearchBar = (props : PropTypes) => {
         return await res.json();
 
     }
+
     const queryBackend = async () => {
         let input = inputRef.current;
         const re = /^\d+$/
@@ -50,10 +55,17 @@ const SearchBar = (props : PropTypes) => {
 
             if (!data.present) {
                 setGraphData(null);
+                setDetailsData();
+                return;
             }
 
             //Update the graph data
             setGraphData(data.graph);
+
+            setDetailsData({
+                label: data.label,
+                allergens: data.allergens,
+            })
 
             //Update the details widget
 

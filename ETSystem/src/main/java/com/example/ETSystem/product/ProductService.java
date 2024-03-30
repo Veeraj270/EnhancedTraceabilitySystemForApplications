@@ -126,7 +126,7 @@ public class ProductService{
 	public record TraceData(boolean present,
 							Graph graph,
 						    String label,
-						    ArrayList<String> Allergens
+						    ArrayList<String> allergens
 	){ }
 
 	public TraceData getTraceabilityData(String id) throws Exception {

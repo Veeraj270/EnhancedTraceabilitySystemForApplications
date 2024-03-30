@@ -17,6 +17,12 @@ const NodeLinkGraph = ( props : PropTypes) => {
         if (props.graphData){
             buildGraph(props.graphData);
         }
+        else {
+            setGraph({
+                nodes: [],
+                edges: []
+            });
+        }
     }, [props.graphData]);
 
     useEffect(() => {

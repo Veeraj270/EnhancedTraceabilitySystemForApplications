@@ -23,8 +23,15 @@ const TracePage = () => {
                     <DetailsWidget
                         setGraphData={setGraphData}
                     />
-                    <div className={"TP-event-history-widget"}>Event History Widget</div>
-                    <div className={"TP-event-details-widget"}>Event Details Widget</div>
+                    <div className={"TP-events-wrapper"}>
+                        <div className={"TP-event-history-widget"}></div>
+                        <div className={"TP-event-details-widget"}>
+                            <h3><b>Event Details</b></h3>
+                            <p><b>Date:</b></p>
+                            <p><b>Author:</b></p>
+                            <p><b>Event Type:</b></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
