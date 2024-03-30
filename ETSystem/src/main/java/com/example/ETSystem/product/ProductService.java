@@ -123,10 +123,10 @@ public class ProductService{
 		}
 	}
 
-	public record TraceData(Graph graph,
-						   String label,
-						   String DateCreated,
-						   ArrayList<String> Allergens
+	public record TraceData(boolean present,
+							Graph graph,
+						    String label,
+						    ArrayList<String> Allergens
 	){ }
 
 	public TraceData getTraceabilityData(String id) throws Exception {
@@ -136,13 +136,15 @@ public class ProductService{
 			//Query database
 			Optional<Product> optional = productRepository.findById(Long.parseLong(id));
 			if (optional.isEmpty()){
-				throw new Exception("product with given id not found");
+				throw new Exception("product not found");
 			}
 			product = optional.get();
 		}
 
 		//Extract allergens
-		//ArrayList<String> allergens = extractAllergens(product);
+		ArrayList<String> allergens = new ArrayList<>();
+		ArrayList<Long> explored = new ArrayList<>();
+		extractAllergens(product, allergens, explored);
 
 		//Extract graph
 		Graph graph = getGraph(product);
@@ -150,25 +152,15 @@ public class ProductService{
 		//Extract other details
 		String label = product.getLabel();;
 
-		String date = "";
-
 		//Return all data as record
-		//return new TraceData(graph, label, date, allergens);
-		return new TraceData(graph, label, date, new ArrayList<String>());
+		return new TraceData(true ,graph, label, allergens);
 	}
 	
 	public void extractAllergens(Product product, ArrayList<String> allergens, ArrayList<Long> explored) throws Exception {
-		//To be implemented:
-
-		//Each product has a corresponding IngredientType: ""
-
-		//Each IngredientType has an isAllergen attribute which is either true of false
-
-		//Can recursively search through all intermediaries and add the IngredientType.name if isAllergen to an array of strings
-
-		//Base case
+		//Mark product as explored
 		explored.add(product.getId());
 
+		//Base case
 		if (product.getIntermediaryIds().size() == 0){
 			return;
 		}

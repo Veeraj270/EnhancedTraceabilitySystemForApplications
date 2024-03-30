@@ -3,49 +3,45 @@ import { Network } from 'vis-network/peer'
 import { DataSet } from 'vis-data/peer'
 
 
+import {Node, Edge, Graph} from "./Interfaces/GraphInterface";
+
 interface PropTypes{
-    productID: number | null;
+    graphData: any;
 }
-
-interface Node{
-    id: number;
-    label: string;
-}
-
-interface Edge{
-    id: string;
-    from: number;
-    to: number;
-}
-
-interface Data{
-    nodes: Node[],
-    edges: Edge[]
-}
-
 const NodeLinkGraph = ( props : PropTypes) => {
     //State Variables
-    const [ data, setData ] = useState<Data | null>(null);
-
-    //Destructure props
-    const productID = props.productID;
+    const [ graph, setGraph ] = useState<Graph | null>(null);
 
     //Hooks
     useEffect(() => {
-        if (productID){
-            fetchGraph(productID).then((json) => {
-                buildGraph(json);
-            })
+        if (props.graphData){
+            buildGraph(props.graphData);
         }
-    }, [props.productID]);
+    }, [props.graphData]);
 
-    //Fetch graph
-    const fetchGraph = async (id : number) => {
-        const res= await fetch(`http://localhost:8080/api/products/fetch-graph/${id}`);
-        if (!res.ok){
-            throw new Error("fetch-graph response was not ok");
+    useEffect(() => {
+        if (containerRef.current && graph){
+            const network: Network = new Network(containerRef.current, graph, options);
+            network.focus(1, {scale: 1.2, offset: {x: -60, y: -100}})
         }
-        return await res.json();
+    }, [graph]);
+
+    //Ref for the container
+    const containerRef = useRef(null);
+
+    //vis.js options
+    const options = {
+        edges: {
+            smooth: true
+        },
+        layout: {
+            hierarchical: {
+                direction: "UD",
+                sortMethod: "directed",
+                shakeTowards: "roots"
+            }
+        },
+        physics: false
     }
 
     //Extract the nodes and edges from the JSON
@@ -71,41 +67,12 @@ const NodeLinkGraph = ( props : PropTypes) => {
                 });
             })
 
-            setData({
+            setGraph({
                 nodes: nodes,
                 edges: edges
             })
         }
     }
-
-    //Debugging
-    useEffect(() => {
-        console.log(data);
-    }, [data]);
-
-    const containerRef = useRef(null);
-
-    const options = {
-        edges: {
-            smooth: true
-        },
-        layout: {
-            hierarchical: {
-                direction: "UD",
-                sortMethod: "directed",
-                shakeTowards: "roots"
-            }
-        },
-        physics: false
-    }
-
-    //triggers after the first render
-    useEffect(() => {
-        if (containerRef.current && data){
-            const network: Network = new Network(containerRef.current, data, options);
-            network.focus(1, {scale: 1.2, offset: {x: -60, y: -100}})
-        }
-        }, [data]);
 
     return (
         <div ref={containerRef} className={"TP-node-link-graph"}></div>

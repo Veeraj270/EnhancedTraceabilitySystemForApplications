@@ -60,17 +60,18 @@ public class ProductAPI{
 	}
 
 	//Used by the new traceability page
-	@GetMapping(path = "fetch-details&graph/{id}")
-	public ProductService.TraceData getTraceAbilityData(@PathVariable("id") String id){
+	@GetMapping(path = "fetch-trace-data/{id}")
+	public ProductService.TraceData getTraceAbilityData(@PathVariable("id") String id) throws Exception {
 		try {
 			return productService.getTraceabilityData(id);
 		} catch (Exception e){
-			//handle exception by formatting an error response
-
-
+			//This is expected to happen if the product is not found
+			if (e.getMessage().equals("product not found")) {
+				return new ProductService.TraceData(false,null, null, null);
+			}
+			//Something back has occurred
+			throw new Exception("Exception thrown in getTraceAbilityData: " + e.getMessage());
 		}
-
-		return null;
 	}
 
 }

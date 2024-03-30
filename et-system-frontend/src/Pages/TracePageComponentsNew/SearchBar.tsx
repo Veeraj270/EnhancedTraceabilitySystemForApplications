@@ -1,15 +1,27 @@
-import React, {ChangeEvent, useCallback, useEffect, useState} from "react";
+import React, {ChangeEvent, useCallback, useEffect, useRef, useState} from "react";
 import {clear} from "@testing-library/user-event/dist/clear";
+import {json} from "react-router-dom";
 
-const SearchBar = () => {
+interface PropTypes{
+    setGraphData: any;
+}
+
+interface ResponseType{
+    present: boolean;
+    graph: any;
+}
+
+const SearchBar = (props : PropTypes) => {
+    //destructure props
+    const setGraphData = props.setGraphData;
+
     //state variables
-    const [input, setInput] = useState<string | null>();
+    const [input, setInput] = useState<string>("");
+    const inputRef = useRef(input);
 
-    //When search bar value is updated
-
-    //Send request to back-end to check if the id matches one within the system
-
-    //If it does, send requests for node-link graph and product details
+    useEffect(() => {
+        inputRef.current = input;
+    }, [input]);
 
     const debounce = (cb : any, delay : number) => {
         let timeout : ReturnType<typeof setTimeout> | undefined
@@ -19,17 +31,41 @@ const SearchBar = () => {
         }
     }
 
+    const fetchTraceData = async (id : string) => {
+        const res = await fetch(`http://localhost:8080/api/products/fetch-trace-data/${id}`);
+        if (!res.ok){
+            throw new Error("fetch-trace-data response was not ok")
+        }
+        return await res.json();
+
+    }
+    const queryBackend = async () => {
+        let input = inputRef.current;
+        const re = /^\d+$/
+        if (input.match(re) === null) {
+            return;
+        }
+        fetchTraceData(input).then((data : ResponseType) => {
+            console.log(data);
+
+            if (!data.present) {
+                setGraphData(null);
+            }
+
+            //Update the graph data
+            setGraphData(data.graph);
+
+            //Update the details widget
+
+        }).catch((e) => console.log(e));
+    }
+
+    //Runs when search bar input updates
+    const queryBackendDebounced = useCallback(debounce(queryBackend, 1000),[]);
+
     useEffect(() => {
-        verify();
-    }, [input]);
-
-    const verify = useCallback(debounce( (input: any) => {
-        //Send request to back-end for the node-link graph data and the product details
-
-
-        }, 500)
-    ,[]);
-
+        queryBackendDebounced();
+    }, [input])
 
     //Handle change method for <input>
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {

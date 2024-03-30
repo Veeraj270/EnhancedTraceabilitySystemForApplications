@@ -1,16 +1,21 @@
 import React from "react";
 import SearchBar from "./SearchBar";
 
-const DetailsWidget = () => {
+interface PropTypes{
+    setGraphData: any;
+}
+
+const DetailsWidget = ( props : PropTypes) => {
 
     return (
         <div className={"TP-details-widget"}>
-            <SearchBar/>
+            <SearchBar
+                setGraphData={props.setGraphData}
+            />
             <div className={"TP-details-widget-inner"}>
                 <div className={"TP-details-widget-inner-details"}>
                     <p><b>Label: &nbsp;</b></p>
-                    <p>Date of Creation: &nbsp;</p>
-                    <p>Allergens: &nbsp;</p>
+                    <p><b>Allergens: &nbsp;</b></p>
                 </div>
                 <div className={"TP-details-widget-buttons"}>
                     <button>Produce Report</button>
