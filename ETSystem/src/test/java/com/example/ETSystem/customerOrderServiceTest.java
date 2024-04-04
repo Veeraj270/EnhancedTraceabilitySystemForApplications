@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest
@@ -168,5 +168,43 @@ public class customerOrderServiceTest {
 
         assert result.getClient().equals(updatedClient);
         assert result.getFinalProducts().equals(updatedFinalProducts);
+    }
+
+    @Test
+    @Transactional
+    public void testGetOrderedFinalProducts(){
+
+        ArrayList<FinalProduct> finalProducts = new ArrayList<>();
+
+        CustomerOrder order1 = new CustomerOrder("Cafe1", ZonedDateTime.now(), ZonedDateTime.now().plusDays(7), finalProducts);
+
+        order1 = customerOrderRepository.save(order1);
+
+        CustomerOrder result1 = customerOrderRepository.findById(order1.getID()).get();
+
+        assertArrayEquals(result1.getFinalProducts().toArray(), finalProducts.toArray());
+
+        FinalProduct finalProduct1 = new FinalProduct();
+        FinalProduct finalProduct2 = new FinalProduct();
+        FinalProduct finalProduct3 = new FinalProduct();
+
+        ArrayList<FinalProduct> finalProducts2 = new ArrayList<>();
+        finalProducts2.add(finalProduct1);
+        ArrayList<FinalProduct> finalProducts3 = new ArrayList<>();
+        finalProducts3.add(finalProduct2);
+        finalProducts3.add(finalProduct3);
+
+        CustomerOrder order2 = new CustomerOrder("Cafe2", ZonedDateTime.now(), ZonedDateTime.now().plusDays(7), finalProducts2);
+        CustomerOrder order3 = new CustomerOrder("Cafe3", ZonedDateTime.now(), ZonedDateTime.now().plusDays(7), finalProducts3);
+
+        order2 = customerOrderRepository.save(order2);
+        order3 = customerOrderRepository.save(order3);
+
+        CustomerOrder result2 = customerOrderRepository.findById(order2.getID()).get();
+        CustomerOrder result3 = customerOrderRepository.findById(order3.getID()).get();
+
+        assertArrayEquals(result2.getFinalProducts().toArray(), finalProducts2.toArray());
+        assertArrayEquals(result3.getFinalProducts().toArray(), finalProducts3.toArray());
+
     }
 }
