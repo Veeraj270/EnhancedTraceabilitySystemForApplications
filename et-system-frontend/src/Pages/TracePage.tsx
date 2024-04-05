@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './TracePageComponentsNew/TPStyleSheet.css'
 import NodeLinkGraph from "./TracePageComponentsNew/NodeLinkGraph";
 import DetailsWidget from "./TracePageComponentsNew/DetailsWidget";
+import EventHistoryWidget from "./TracePageComponentsNew/EventHistoryWidget";
 
 
 const TracePage = () => {
@@ -24,7 +25,7 @@ const TracePage = () => {
                         setGraphData={setGraphData}
                     />
                     <div className={"TP-events-wrapper"}>
-                        <div className={"TP-event-history-widget"}></div>
+                        <EventHistoryWidget/>
                         <div className={"TP-event-details-widget"}>
                             <h3><b>Event Details</b></h3>
                             <p><b>Date:</b></p>

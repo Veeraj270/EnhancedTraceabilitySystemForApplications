@@ -55,6 +55,8 @@
     display: grid;
     grid-template-rows: 1fr 2fr;
     row-gap: 20px;
+    min-height: 0px;
+    min-width: 0px;
 }
 
 .TP-details-widget{
@@ -110,8 +112,26 @@
 }
 
 .TP-event-history-widget{
+    display: grid;
     border: 2px solid #eae7e7;
     border-radius: 0.5rem;
+    height: 100%;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    overflow-y: scroll;
+    /*Scroll bar styling*/
+    scrollbar-width: thin;
+    scrollbar-color: #d9d9d9 rgba(248, 248, 255, 0);
+    scrollbar-arrow-color: rgba(221, 221, 221, 0);
+
+}
+
+.TP-svg-window{
+    display: grid;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
 }
 
 .TP-event-details-widget{
