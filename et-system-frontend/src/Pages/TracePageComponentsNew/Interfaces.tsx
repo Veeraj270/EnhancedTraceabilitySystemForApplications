@@ -14,3 +14,8 @@ export interface Graph{
     edges: Edge[]
 }
 
+export interface EventDetails{
+    timestamp?: string;
+    type?: string;
+    author?: string;
+}

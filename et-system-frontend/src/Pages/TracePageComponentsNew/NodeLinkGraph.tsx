@@ -3,7 +3,7 @@ import { Network } from 'vis-network/peer'
 import { DataSet } from 'vis-data/peer'
 
 
-import {Node, Edge, Graph} from "./Interfaces/GraphInterface";
+import {Node, Edge, Graph} from "./Interfaces";
 
 interface PropTypes{
     graphData: any;

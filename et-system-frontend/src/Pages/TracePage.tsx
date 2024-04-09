@@ -3,6 +3,8 @@ import './TracePageComponentsNew/TPStyleSheet.css'
 import NodeLinkGraph from "./TracePageComponentsNew/NodeLinkGraph";
 import DetailsWidget from "./TracePageComponentsNew/DetailsWidget";
 import EventHistoryWidget from "./TracePageComponentsNew/EventHistoryWidget";
+import EventDetailsWidget from "./TracePageComponentsNew/EventDetailsWidget";
+import EventsWidget from "./TracePageComponentsNew/EventsWidget";
 
 
 const TracePage = () => {
@@ -10,7 +12,6 @@ const TracePage = () => {
     //const [ productID, setProductID ] = useState<number | null>(290);
 
     const [ graphData, setGraphData ] = useState<any | null>(null);
-
     return (
         <div className={"trace-page-container"}>
             <h1>Trace Page</h1>
@@ -24,15 +25,7 @@ const TracePage = () => {
                     <DetailsWidget
                         setGraphData={setGraphData}
                     />
-                    <div className={"TP-events-wrapper"}>
-                        <EventHistoryWidget/>
-                        <div className={"TP-event-details-widget"}>
-                            <h3><b>Event Details</b></h3>
-                            <p><b>Date:</b></p>
-                            <p><b>Author:</b></p>
-                            <p><b>Event Type:</b></p>
-                        </div>
-                    </div>
+                    <EventsWidget/>
                 </div>
             </div>
         </div>
