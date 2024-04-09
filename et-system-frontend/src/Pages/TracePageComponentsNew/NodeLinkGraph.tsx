@@ -7,8 +7,13 @@ import {Node, Edge, Graph} from "./Interfaces";
 
 interface PropTypes{
     graphData: any;
+    setSelectedProductID: (productID: number | null) => void;
 }
+
 const NodeLinkGraph = ( props : PropTypes) => {
+    //Destructure props
+    const setSelectedProductID = props.setSelectedProductID;
+
     //State Variables
     const [ graph, setGraph ] = useState<Graph | null>(null);
 
@@ -29,7 +34,15 @@ const NodeLinkGraph = ( props : PropTypes) => {
         if (containerRef.current && graph){
             const network: Network = new Network(containerRef.current, graph, options);
             network.focus(1, {scale: 1.2, offset: {x: -60, y: -100}})
+            network.on("click", (properties) => {
+                let nodeId = network.getNodeAt(properties.pointer.DOM)
+                if (nodeId){
+                    setSelectedProductID(parseInt(nodeId.toString(), 10));
+                }
+            })
         }
+
+        setSelectedProductID(graph?.nodes[0].id ? graph.nodes[0].id : null)
     }, [graph]);
 
     //Ref for the container
@@ -56,12 +69,10 @@ const NodeLinkGraph = ( props : PropTypes) => {
         let edges: Edge[] = [];
 
         if (json.nodes && json.edges){
-            console.log(json.nodes);
-            console.log(json.edges);
             json.nodes.forEach((node: any) => {
                 nodes.push({
                         id: node.id,
-                        label: `${node.id}`
+                        label: `${node.id}`,
                     })
             })
 

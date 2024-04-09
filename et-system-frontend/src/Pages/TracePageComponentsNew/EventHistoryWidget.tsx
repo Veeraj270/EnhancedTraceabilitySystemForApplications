@@ -31,19 +31,18 @@ interface Chain{
 
 interface PropTypes{
     setEventDetails: (details: EventDetails) => void;
+    selectedProductID: number | null;
 }
 
 const EventHistoryWidget = (props : PropTypes) => {
     //Destructure props
     const setEventDetails = props.setEventDetails;
+    const productID = props.selectedProductID;
 
     //Related to svg view box
-    const svgGridHeight = useRef<number>(100);
+    const svgGridHeight = useRef<number | null>(null);
     const svgGridWidth = 100;
     const svgRef = useRef(null);
-
-    //Temporary (for development)
-    const productID = 1;
 
     //Related to node-link chain
     const [chain, setChain] = useState<Chain>({nodes: [],links: []})
@@ -74,6 +73,9 @@ const EventHistoryWidget = (props : PropTypes) => {
 
     //Fetch product history when productID state variable changes or upon initial render
     useEffect(() => {
+        console.log("productID updated!!")
+        if (!productID) return;
+
         fetchProductHistory(productID).then((data: Event[]) => {
             events.current = data.reverse();
             console.log("events.current:", events.current);
@@ -148,6 +150,7 @@ const EventHistoryWidget = (props : PropTypes) => {
 
     //Render nodes
     const renderNodes = () => {
+        if (!svgGridHeight.current) return;
         return (
             chain.nodes.map((n: CustomNode) => (
                 <circle
@@ -164,6 +167,7 @@ const EventHistoryWidget = (props : PropTypes) => {
 
     //Render links
     const renderLinks = () => {
+        if (!svgGridHeight.current) return;
         return (
             chain.links.map((l: Link) => (
                 <line
@@ -179,6 +183,7 @@ const EventHistoryWidget = (props : PropTypes) => {
 
     //Render date text
     const renderLabels = () => {
+        if (!svgGridHeight.current) return;
         return (
             chain.nodes.map((n: CustomNode) => (
                 <text
