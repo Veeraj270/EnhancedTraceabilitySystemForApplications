@@ -37,7 +37,7 @@ const BakingSystemPage1 = () => {
         fetchFinalProducts().then((finalProductsData) => {
             const data = filterFinalProductsData(finalProductsData);
             setFinalProductsData(data)
-            console.log(data)
+            console.log("data in BSP: " + data)
         })
             .catch((reason) => {console.error("Error setting final products data." + reason)})
     })

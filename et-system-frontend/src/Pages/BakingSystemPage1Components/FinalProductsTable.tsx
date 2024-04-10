@@ -24,13 +24,14 @@ const FinalProductsTable = ({rawData}) => {
             header: "Add or Delete",
             accessorKey: "addOrDelete"
         }
-    ], [tableData])
+    ], [])
 
     const generateTableData = async (data: Map<any, number>) => {
-        const tableData = Array.from(data).forEach((value, key) => (
+        console.log("data: " + Array.from(data))
+        const tableData = Array.from(data).map((key, value) => (
             {
-                finalProduct: key.first.label,
-                associatedOrder: key.second.client,
+                associatedOrder: key.at(0).first.client,
+                finalProduct: key.at(0).second.label,
                 quantity: value
             }
         ))
@@ -48,7 +49,7 @@ const FinalProductsTable = ({rawData}) => {
                 )
             }
         }
-    })
+    }, [rawData])
 
     const table = useReactTable({
         data: tableData,
