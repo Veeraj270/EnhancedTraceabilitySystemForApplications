@@ -2,6 +2,7 @@ package com.example.ETSystem.customerOrders;
 
 import com.example.ETSystem.finalProducts.FinalProduct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,7 @@ public class CustomerOrderAPI {
     }
 
     @GetMapping(path = "/fetch-ordered-final-products")
-    public List<FinalProduct> getOrderedFinalProducts() {
+    public List<Pair<CustomerOrder, FinalProduct>> getOrderedFinalProducts() {
         return customerOrderService.getOrderedFinalProducts();
     }
 

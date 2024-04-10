@@ -10,13 +10,12 @@ import com.example.ETSystem.recipe.IngredientQuantity;
 import com.example.ETSystem.recipe.Recipe;
 import com.example.ETSystem.recipe.RecipeRepository;
 import jakarta.transaction.Transactional;
-import org.antlr.v4.runtime.misc.Array2DHashSet;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.data.util.Pair;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -180,9 +179,7 @@ public class customerOrderServiceTest {
 
         order1 = customerOrderRepository.save(order1);
 
-        CustomerOrder result1 = customerOrderRepository.findById(order1.getID()).get();
-
-        assertArrayEquals(result1.getFinalProducts().toArray(), finalProducts.toArray());
+        assertEquals(customerOrderService.getOrderedFinalProducts(), List.of());
 
         FinalProduct finalProduct1 = new FinalProduct();
         FinalProduct finalProduct2 = new FinalProduct();
@@ -198,13 +195,12 @@ public class customerOrderServiceTest {
         CustomerOrder order3 = new CustomerOrder("Cafe3", ZonedDateTime.now(), ZonedDateTime.now().plusDays(7), finalProducts3);
 
         order2 = customerOrderRepository.save(order2);
+
+        assertEquals(customerOrderService.getOrderedFinalProducts(), List.of(Pair.of(order2, finalProduct1)));
+
         order3 = customerOrderRepository.save(order3);
 
-        CustomerOrder result2 = customerOrderRepository.findById(order2.getID()).get();
-        CustomerOrder result3 = customerOrderRepository.findById(order3.getID()).get();
-
-        assertArrayEquals(result2.getFinalProducts().toArray(), finalProducts2.toArray());
-        assertArrayEquals(result3.getFinalProducts().toArray(), finalProducts3.toArray());
+        assertEquals(customerOrderService.getOrderedFinalProducts(), List.of(Pair.of(order2, finalProduct1), Pair.of(order3, finalProduct2), Pair.of(order3, finalProduct3)));
 
     }
 }

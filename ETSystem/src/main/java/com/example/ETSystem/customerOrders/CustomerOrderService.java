@@ -2,15 +2,12 @@ package com.example.ETSystem.customerOrders;
 
 
 import com.example.ETSystem.finalProducts.FinalProduct;
-import com.example.ETSystem.productData.Exceptions.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Component
 public class CustomerOrderService {
@@ -26,8 +23,9 @@ public class CustomerOrderService {
         return customerOrderRepository.findAll();
     }
 
-    public List<FinalProduct> getOrderedFinalProducts(){
-        return getCustomerOrders().stream().flatMap(order -> order.getFinalProducts().stream()).collect(Collectors.toList());
+    public List<Pair<CustomerOrder, FinalProduct>> getOrderedFinalProducts(){
+        return getCustomerOrders().stream().flatMap(order -> { return
+            order.getFinalProducts().stream().map(finalProduct -> Pair.of(order, finalProduct));}).collect(Collectors.toList());
     }
 
     public void addNewCustomerOrder(CustomerOrder customerOrder){
