@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import "./BakingSystemPage1Components/BS1Stylesheet.css"
 import {OrderedFinalProduct} from "./Interfaces/OrderedFinalProduct";
+import FinalProductsTable from "./BakingSystemPage1Components/FinalProductsTable";
 
 const BakingSystemPage1 = () => {
 
@@ -14,8 +15,8 @@ const BakingSystemPage1 = () => {
         return await response.json();
     }
 
-    function filterFinalProductsData(finalProductsData: any): Map<OrderedFinalProduct, number> {
-        const map = new Map<OrderedFinalProduct, number>();
+    function filterFinalProductsData(finalProductsData: any): Map<any, number> {
+        const map = new Map<any, number>();
 
         // Iterate over each final product
             finalProductsData.forEach(product => {
@@ -32,11 +33,11 @@ const BakingSystemPage1 = () => {
         return map;
     }
 
-
     useEffect(() => {
         fetchFinalProducts().then((finalProductsData) => {
             const data = filterFinalProductsData(finalProductsData);
             setFinalProductsData(data)
+            console.log(data)
         })
             .catch((reason) => {console.error("Error setting final products data." + reason)})
     })
@@ -45,7 +46,9 @@ const BakingSystemPage1 = () => {
         <div className="BS1-page">
             <h1 className='BS1-title'>Baking System</h1>
             <div className="BS1-grid-container">
-
+                <FinalProductsTable
+                    rawData={finalProductsData}
+                />
             </div>
         </div>
     )

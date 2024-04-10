@@ -26,14 +26,16 @@ const FinalProductsTable = ({rawData}) => {
         }
     ], [tableData])
 
-    const generateTableData = async (data: Map<OrderedFinalProduct, number>) => {
-        return data.forEach((value, key) => (
+    const generateTableData = async (data: Map<any, number>) => {
+        const tableData = Array.from(data).forEach((value, key) => (
             {
-                finalProduct: key.finalProduct,
-                associatedOrder: key.customerOrder,
+                finalProduct: key.first.label,
+                associatedOrder: key.second.client,
                 quantity: value
             }
         ))
+        console.log(tableData)
+        return tableData
     }
 
     useEffect(() => {
@@ -41,6 +43,7 @@ const FinalProductsTable = ({rawData}) => {
             if (rawData.size > 0) {
                 generateTableData(rawData).then(finalProductsTableData => {
                         setTableData(finalProductsTableData)
+                    console.log(tableData)
                     }
                 )
             }
@@ -60,16 +63,16 @@ const FinalProductsTable = ({rawData}) => {
 
                 </thead>
                 <tbody>
-                {table.getCoreRowModel().rows.map(row => (<tr
-                        key={row.id}>
-                        {row.getVisibleCells().map(cell => (
-                            <td style={{width: `${cell.column.getSize()}%`,textAlign:"center"}}>
-                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                            </td>
-                        ))}
-                    </tr>)
-                )
-                }
+                {/*{table.getCoreRowModel().rows.map(row => (<tr*/}
+                {/*        key={row.id}>*/}
+                {/*        {row.getVisibleCells().map(cell => (*/}
+                {/*            <td style={{width: `${cell.column.getSize()}%`,textAlign:"center"}}>*/}
+                {/*                {flexRender(cell.column.columnDef.cell, cell.getContext())}*/}
+                {/*            </td>*/}
+                {/*        ))}*/}
+                {/*    </tr>)*/}
+                {/*)*/}
+                {/*}*/}
                 </tbody>
             </table>
         </div>
