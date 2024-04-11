@@ -4,7 +4,7 @@ import React from "react";
 
 const FinalProductsTable = ({rawData}) => {
 
-    const [tableData, setTableData] = useState();
+    const [tableData, setTableData] = useState([]);
 
     const columns = useMemo(() => [
         {
@@ -17,10 +17,10 @@ const FinalProductsTable = ({rawData}) => {
         },
         {
             header: "Associated order",
-            accessorKey: "associatedOrder"
+            accessorKey: "customerOrder"
         },
         {
-            header: "Add or Delete",
+            header: " ",
             accessorKey: "addOrDelete"
         }
     ], [])
@@ -29,9 +29,9 @@ const FinalProductsTable = ({rawData}) => {
         data.forEach(x => console.log(x))
         const tableData = data.map((productAndOrder) => (
             {
-                associatedOrder: productAndOrder.first.client ,
-                finalProduct: productAndOrder.second.label,
-                quantity: productAndOrder.second.quantity
+                customerOrder: productAndOrder.customerOrder.id,
+                finalProduct: productAndOrder.finalProduct.label,
+                quantity: productAndOrder.quantity
             }
         ))
         console.log(tableData)
@@ -46,20 +46,25 @@ const FinalProductsTable = ({rawData}) => {
         }
     }, [rawData])
 
-    useEffect(() => {
-    }, [tableData, rawData]);
-
     const table = useReactTable({
         data: tableData,
         columns: columns,
         getCoreRowModel: getCoreRowModel()
-    })
+    }, [tableData])
 
     return (
         <div>
             <table>
                 <thead>
-
+                {table.getHeaderGroups().map(headerGroup => (
+                    <tr key={headerGroup.id} >
+                        {headerGroup.headers.map(header => <th
+                            key={header.id} style={{width: `${header.column.getSize()}%`, textAlign: "center"}}>
+                            {flexRender(header.column.columnDef.header, header.getContext())}
+                        </th>)
+                        }
+                    </tr>
+                ))}
                 </thead>
                 <tbody>
                 {table.getCoreRowModel().rows.map(row => (<tr

@@ -1,5 +1,6 @@
 
 export interface OrderedFinalProduct{
-    customerOrder: string
-    finalProduct: string
+    customerOrder: any
+    finalProduct: any
+    quantity: number
 }

@@ -5,7 +5,7 @@ import FinalProductsTable from "./BakingSystemPage1Components/FinalProductsTable
 
 const BakingSystemPage1 = () => {
 
-    const [finalProductsData, setFinalProductsData] = useState<Map<OrderedFinalProduct, number>>()
+    const [finalProductsData, setFinalProductsData] = useState<OrderedFinalProduct[]>([])
 
     const fetchFinalProducts = async () => {
         const response = await fetch("http://localhost:8080/api/customerorders/fetch-ordered-final-products")
@@ -15,11 +15,24 @@ const BakingSystemPage1 = () => {
         return await response.json();
     }
 
+    const mapData = (data: any) => {
+        const mappedData = data.map((productAndOrder: any) => ({
+            customerOrder: productAndOrder.first,
+            finalProduct: productAndOrder.second,
+            quantity: productAndOrder.second.quantity
+        }))
+        return mappedData
+    }
+
     useEffect(() => {
         fetchFinalProducts().then((finalProductsData) => {
-            setFinalProductsData(finalProductsData)
+            setFinalProductsData(mapData(finalProductsData))
         })
             .catch((reason) => {console.error("Error setting final products data." + reason)})
+    }, [finalProductsData])
+
+    useEffect(() => {
+        console.log(finalProductsData)
     }, [finalProductsData])
 
     return (
