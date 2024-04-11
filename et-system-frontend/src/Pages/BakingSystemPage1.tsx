@@ -15,32 +15,12 @@ const BakingSystemPage1 = () => {
         return await response.json();
     }
 
-    function filterFinalProductsData(finalProductsData: any): Map<any, number> {
-        const map = new Map<any, number>();
-
-        // Iterate over each final product
-            finalProductsData.forEach(product => {
-            // Check if the product already exists in the map
-            if (map.has(product)) {
-                // If yes, increment the count
-                map.set(product, map.get(product)! + 1);
-            } else {
-                // If not, initialize the count to 1
-                map.set(product, 1);
-            }
-        });
-
-        return map;
-    }
-
     useEffect(() => {
         fetchFinalProducts().then((finalProductsData) => {
-            const data = filterFinalProductsData(finalProductsData);
-            setFinalProductsData(data)
-            console.log("data in BSP: " + data)
+            setFinalProductsData(finalProductsData)
         })
             .catch((reason) => {console.error("Error setting final products data." + reason)})
-    })
+    }, [finalProductsData])
 
     return (
         <div className="BS1-page">

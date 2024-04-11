@@ -1,7 +1,6 @@
 import {useEffect, useMemo, useState} from "react";
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import React from "react";
-import {OrderedFinalProduct} from "../Interfaces/OrderedFinalProduct";
 
 const FinalProductsTable = ({rawData}) => {
 
@@ -26,13 +25,13 @@ const FinalProductsTable = ({rawData}) => {
         }
     ], [])
 
-    const generateTableData = async (data: Map<any, number>) => {
-        console.log("data: " + Array.from(data))
-        const tableData = Array.from(data).map((key, value) => (
+    const generateTableData = async (data: any) => {
+        data.forEach(x => console.log(x))
+        const tableData = data.map((productAndOrder) => (
             {
-                associatedOrder: key.at(0).first.client,
-                finalProduct: key.at(0).second.label,
-                quantity: value
+                associatedOrder: productAndOrder.first.client ,
+                finalProduct: productAndOrder.second.label,
+                quantity: productAndOrder.second.quantity
             }
         ))
         console.log(tableData)
@@ -41,15 +40,14 @@ const FinalProductsTable = ({rawData}) => {
 
     useEffect(() => {
         if (rawData !== undefined) {
-            if (rawData.size > 0) {
                 generateTableData(rawData).then(finalProductsTableData => {
                         setTableData(finalProductsTableData)
-                    console.log(tableData)
-                    }
-                )
-            }
+                    }).catch(error => console.error("Error generating table data:", error))
         }
     }, [rawData])
+
+    useEffect(() => {
+    }, [tableData, rawData]);
 
     const table = useReactTable({
         data: tableData,
@@ -64,16 +62,16 @@ const FinalProductsTable = ({rawData}) => {
 
                 </thead>
                 <tbody>
-                {/*{table.getCoreRowModel().rows.map(row => (<tr*/}
-                {/*        key={row.id}>*/}
-                {/*        {row.getVisibleCells().map(cell => (*/}
-                {/*            <td style={{width: `${cell.column.getSize()}%`,textAlign:"center"}}>*/}
-                {/*                {flexRender(cell.column.columnDef.cell, cell.getContext())}*/}
-                {/*            </td>*/}
-                {/*        ))}*/}
-                {/*    </tr>)*/}
-                {/*)*/}
-                {/*}*/}
+                {table.getCoreRowModel().rows.map(row => (<tr
+                        key={row.id}>
+                        {row.getVisibleCells().map(cell => (
+                            <td style={{width: `${cell.column.getSize()}%`,textAlign:"center"}}>
+                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                            </td>
+                        ))}
+                    </tr>)
+                )
+                }
                 </tbody>
             </table>
         </div>
