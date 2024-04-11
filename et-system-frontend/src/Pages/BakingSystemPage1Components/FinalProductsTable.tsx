@@ -1,27 +1,27 @@
-import {useEffect, useMemo, useState} from "react";
+import {ChangeEvent, useEffect, useMemo, useState} from "react";
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import React from "react";
 
 const FinalProductsTable = ({rawData}) => {
 
     const [tableData, setTableData] = useState([]);
+    const [searchInput, setSearchInput] = useState("")
 
     const columns = useMemo(() => [
         {
             header: "Final product",
             accessorKey: "finalProduct",
+            size: 40
         },
         {
             header: "Quantity",
-            accessorKey: "quantity"
+            accessorKey: "quantity",
+            size: 20
         },
         {
             header: "Associated order",
-            accessorKey: "customerOrder"
-        },
-        {
-            header: " ",
-            accessorKey: "addOrDelete"
+            accessorKey: "customerOrder",
+            size: 20
         }
     ], [])
 
@@ -38,6 +38,17 @@ const FinalProductsTable = ({rawData}) => {
         return tableData
     }
 
+    const handleChange = (event : ChangeEvent<HTMLInputElement>) => {
+        event.preventDefault();
+        setSearchInput(event.target.value)
+    }
+
+    useEffect(() => {
+        if (searchInput.length > 0){
+        } else{
+        }
+    }, [searchInput]);
+
     useEffect(() => {
         if (rawData !== undefined) {
                 generateTableData(rawData).then(finalProductsTableData => {
@@ -53,7 +64,11 @@ const FinalProductsTable = ({rawData}) => {
     }, [tableData])
 
     return (
-        <div>
+        <div className={'FPTable-grid'}>
+        <div className={"FPTable-search-container"}>
+            <input placeholder={"Search..."} onChange={handleChange} value={searchInput}/>
+        </div>
+        <div className={"FPTable-content-div"}>
             <table>
                 <thead>
                 {table.getHeaderGroups().map(headerGroup => (
@@ -63,6 +78,7 @@ const FinalProductsTable = ({rawData}) => {
                             {flexRender(header.column.columnDef.header, header.getContext())}
                         </th>)
                         }
+                        <th></th>
                     </tr>
                 ))}
                 </thead>
@@ -74,11 +90,16 @@ const FinalProductsTable = ({rawData}) => {
                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
                             </td>
                         ))}
+                    <td style={{textAlig:"center"}}>
+                        <button><b>+</b></button>
+                        <button><b>-</b></button>
+                    </td>
                     </tr>)
                 )
                 }
                 </tbody>
             </table>
+        </div>
         </div>
     )
 
