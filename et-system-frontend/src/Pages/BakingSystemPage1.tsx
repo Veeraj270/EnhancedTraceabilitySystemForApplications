@@ -29,7 +29,7 @@ const BakingSystemPage1 = () => {
             setFinalProductsData(mapData(finalProductsData))
         })
             .catch((reason) => {console.error("Error setting final products data." + reason)})
-    }, [finalProductsData])
+    }, [])
 
     useEffect(() => {
         console.log(finalProductsData)
@@ -41,6 +41,7 @@ const BakingSystemPage1 = () => {
             <div className="BS1-grid-container">
                 <FinalProductsTable
                     rawData={finalProductsData}
+                    setRawData={setFinalProductsData}
                 />
             </div>
         </div>

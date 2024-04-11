@@ -2,10 +2,11 @@ import {ChangeEvent, useEffect, useMemo, useState} from "react";
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import React from "react";
 
-const FinalProductsTable = ({rawData}) => {
+const FinalProductsTable = ({rawData, setRawData}) => {
 
     const [tableData, setTableData] = useState([]);
     const [searchInput, setSearchInput] = useState("")
+    const [selectedData, setSelectedData] = useState([])
 
     const columns = useMemo(() => [
         {
@@ -57,6 +58,27 @@ const FinalProductsTable = ({rawData}) => {
         }
     }, [rawData])
 
+    const handleClickPlus = (event: MouseEvent, row: HTMLTableRowElement) => {
+        const rowData = row.original
+        if(rowData.quantity === 1){
+            const newData = rawData.filter(x => x.customerOrder.id !== rowData.customerOrder
+            || x.finalProduct.label !== rowData.finalProduct)
+            setTableData(newData)
+        }else{
+            const newData = rawData.map(item => {
+                console.log(item.customerOrder.id + " " + rowData.customerOrder)
+                if (item.customerOrder.id === rowData.customerOrder
+                    && item.finalProduct.label === rowData.finalProduct) {
+                    return { ...item, quantity: item.quantity - 1 };
+                    console.log("changed")
+                }
+                return item;
+            });
+            setRawData(newData)
+        }
+        console.log(row.id);
+    }
+
     const table = useReactTable({
         data: tableData,
         columns: columns,
@@ -90,9 +112,8 @@ const FinalProductsTable = ({rawData}) => {
                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
                             </td>
                         ))}
-                    <td style={{textAlig:"center"}}>
-                        <button><b>+</b></button>
-                        <button><b>-</b></button>
+                    <td style={{textAlign:"center"}}>
+                        <button onClick={(event) => {handleClickPlus(event, row)}}><b>+</b></button>&nbsp;
                     </td>
                     </tr>)
                 )
