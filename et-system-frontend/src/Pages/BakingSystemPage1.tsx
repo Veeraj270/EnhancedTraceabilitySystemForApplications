@@ -17,7 +17,8 @@ const BakingSystemPage1 = () => {
 
     const mapData = (data: any) => {
         const mappedData = data.map((productAndOrder: any) => ({
-            customerOrder: productAndOrder.first,
+            key: productAndOrder.first.id.toString() + productAndOrder.second.id.toString(),
+            customerOrder: productAndOrder.first.id,
             finalProduct: productAndOrder.second,
             quantity: productAndOrder.second.quantity
         }))

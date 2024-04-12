@@ -1,12 +1,13 @@
 import {ChangeEvent, useEffect, useMemo, useState} from "react";
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import React from "react";
+import {OrderedFinalProduct} from "../Interfaces/OrderedFinalProduct";
 
 const FinalProductsTable = ({rawData, setRawData}) => {
 
-    const [tableData, setTableData] = useState([]);
+    const [tableData, setTableData] = useState<OrderedFinalProduct[]>([]);
     const [searchInput, setSearchInput] = useState("")
-    const [selectedData, setSelectedData] = useState([])
+    const [selectedData, setSelectedData] = useState<OrderedFinalProduct[]>([])
 
     const columns = useMemo(() => [
         {
@@ -30,7 +31,8 @@ const FinalProductsTable = ({rawData, setRawData}) => {
         data.forEach(x => console.log(x))
         const tableData = data.map((productAndOrder) => (
             {
-                customerOrder: productAndOrder.customerOrder.id,
+                key: productAndOrder.key,
+                customerOrder: productAndOrder.customerOrder,
                 finalProduct: productAndOrder.finalProduct.label,
                 quantity: productAndOrder.quantity
             }
@@ -60,20 +62,25 @@ const FinalProductsTable = ({rawData, setRawData}) => {
 
     const handleClickPlus = (event: MouseEvent, row: HTMLTableRowElement) => {
         const rowData = row.original
+        // If the quantity is 1, the row should be removed after clicking the button
         if(rowData.quantity === 1){
-            const newData = rawData.filter(x => x.customerOrder.id !== rowData.customerOrder
-            || x.finalProduct.label !== rowData.finalProduct)
-            setTableData(newData)
+            // By filtering out the row that should be removed
+            const newTableData = rawData.filter(x => x.key !== rowData.key)
+            setTableData(newTableData)
+            // Adding the row to the data of the other table
+            const indexOfElement = selectedData.findIndex(x => x.key === rowData.key)
+            if(!indexOfElement){
+
+            }
         }else{
-            const newData = rawData.map(item => {
-                console.log(item.customerOrder.id + " " + rowData.customerOrder)
-                if (item.customerOrder.id === rowData.customerOrder
-                    && item.finalProduct.label === rowData.finalProduct) {
-                    return { ...item, quantity: item.quantity - 1 };
-                    console.log("changed")
+            const newData = rawData.map(x => {
+                if(x.key === rowData.key){
+                    console.log(x.key + " " + rowData.key)
+                    return {...x, quantity: x.quantity - 1}
+                }else{
+                    return x
                 }
-                return item;
-            });
+            })
             setRawData(newData)
         }
         console.log(row.id);
