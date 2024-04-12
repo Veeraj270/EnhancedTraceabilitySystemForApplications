@@ -1,11 +1,9 @@
 import {ChangeEvent, useEffect, useMemo, useState} from "react";
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import React from "react";
-import {OrderedFinalProduct} from "../Interfaces/OrderedFinalProduct";
 
 const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData}) => {
 
-    const [tableData, setTableData] = useState<OrderedFinalProduct[]>([]);
     const [searchInput, setSearchInput] = useState("")
 
     const columns = useMemo(() => [
@@ -37,13 +35,6 @@ const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData}
         }
     }, [searchInput]);
 
-    useEffect(() => {
-        if (rawData !== undefined) {
-            setTableData(rawData)
-        }
-        console.log("Table data: " + rawData)
-    }, [rawData])
-
     const updateSelectedData = (rowData : any) => {
         const indexOfElement = selectedData.findIndex(x => x.key === rowData.key)
         if(!indexOfElement){
@@ -55,9 +46,11 @@ const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData}
                 }
             })
             setSelectedData(newSelectedData)
+            console.log("Run if: ")
         } else{
             const newSelectedData = selectedData.concat({...rowData, quantity: 1})
             setSelectedData(newSelectedData)
+            console.log("Run else: ")
         }
     }
 
@@ -67,7 +60,8 @@ const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData}
         if(rowData.quantity === 1){
             // By filtering out the row that should be removed
             const newTableData = rawData.filter(x => x.key !== rowData.key)
-            setTableData(newTableData)
+            console.log("When quantity is 1: " + rawData.at(0).key)
+            setRawData(newTableData)
             // Adding the row to the data of the other table
             updateSelectedData(rowData)
         }else{
@@ -81,14 +75,13 @@ const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData}
             setRawData(newData)
             updateSelectedData(rowData)
         }
-        console.log(row.id);
     }
 
     const table = useReactTable({
-        data: tableData,
+        data: rawData,
         columns: columns,
         getCoreRowModel: getCoreRowModel()
-    }, [tableData])
+    }, [rawData])
 
     return (
         <div className={'FPTable-grid'}>

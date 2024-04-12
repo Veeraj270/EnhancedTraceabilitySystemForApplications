@@ -1,6 +1,7 @@
 package com.example.ETSystem.finalProducts;
 
 
+import com.example.ETSystem.recipe.IngredientQuantity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,11 @@ public class FinalProductAPI {
     @CrossOrigin(origins = "http://localhost:3000")
     public FinalProduct getFinalProductById(@PathVariable("id") String id){
         return finalProductService.getFinalProductByID(Long.parseLong(id));
+    }
+
+    @GetMapping(path = "/get-total-ingredients")
+    public List<IngredientQuantity> getTotalIngredients(List<FinalProduct> finalProducts){
+        return finalProductService.getTotalIngredients(finalProducts);
     }
 
     @PostMapping(path = "/add")

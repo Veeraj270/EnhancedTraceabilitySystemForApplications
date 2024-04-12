@@ -66,6 +66,8 @@ const BakingSystemPage1 = () => {
                 <SelectedFinalProductsTable
                     selectedData={selectedData}
                     setSelectedData={setSelectedData}
+                    nonSelectedData={tableData}
+                    setNonSelectedData={setTableData}
                 />
 
                 </div>

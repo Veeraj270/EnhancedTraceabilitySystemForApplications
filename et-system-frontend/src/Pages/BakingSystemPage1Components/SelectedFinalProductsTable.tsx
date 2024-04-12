@@ -4,8 +4,6 @@ import {OrderedFinalProduct} from "../Interfaces/OrderedFinalProduct";
 
 const SelectedFinalProductsTable = ({selectedData, setSelectedData, nonSelectedData, setNonSelectedData}) => {
 
-    const [tableData, setTableData] = useState<OrderedFinalProduct[]>([])
-
     const columns = useMemo(() => [
         {
             header: "Final product",
@@ -24,13 +22,30 @@ const SelectedFinalProductsTable = ({selectedData, setSelectedData, nonSelectedD
         }
     ], [])
 
+    const updateNonSelectedData = (rowData: any) => {
+        const indexOfElement = nonSelectedData.findIndex(x => x.key === rowData.key)
+        if(!indexOfElement){
+            const newNonSelectedData = nonSelectedData.map(x => {
+                if(x.key === rowData.key){
+                    return {...x, quantity: x.quantity + 1}
+                }else{
+                    return x
+                }
+            })
+            setNonSelectedData(newNonSelectedData)
+        } else{
+            const newNonSelectedData = nonSelectedData.concat({...rowData, quantity: 1})
+            setNonSelectedData(newNonSelectedData)
+        }
+    }
+
     const handleClickMinus = (event: MouseEvent, row: HTMLTableRowElement) => {
         const rowData = row.original
         // If the quantity is 1, the row should be removed after clicking the button
         if(rowData.quantity === 1){
             // By filtering out the row that should be removed
-            const newTableData = selectedData.filter(x => x.key !== rowData.key)
-            setTableData(newTableData)
+            const newSelectedData = selectedData.filter(x => x.key !== rowData.key)
+            setSelectedData(newSelectedData)
             // Adding the row to the data of the other table
             updateNonSelectedData(rowData)
         }else{
@@ -47,51 +62,46 @@ const SelectedFinalProductsTable = ({selectedData, setSelectedData, nonSelectedD
         console.log(row.id);
     }
 
-    useEffect(() => {
-        if (selectedData !== undefined) {
-            setTableData(selectedData)
-        }
-        console.log("Selected table data: " + tableData)
-    }, [selectedData])
-
     const table = useReactTable({
-        data: tableData,
+        data: selectedData,
         columns: columns,
         getCoreRowModel: getCoreRowModel()
-    }, [tableData])
+    }, [selectedData])
 
     return(
-    <div className={"FPTable-content-div"}>
-        <table>
-            <thead>
-            {table.getHeaderGroups().map(headerGroup => (
-                <tr key={headerGroup.id} >
-                    {headerGroup.headers.map(header => <th
-                        key={header.id} style={{width: `${header.column.getSize()}%`, textAlign: "center"}}>
-                        {flexRender(header.column.columnDef.header, header.getContext())}
-                    </th>)
-                    }
-                    <th></th>
-                </tr>
-            ))}
-            </thead>
-            <tbody>
-            {table.getCoreRowModel().rows.map(row => (<tr
-                    key={row.id}>
-                    {row.getVisibleCells().map(cell => (
-                        <td style={{width: `${cell.column.getSize()}%`,textAlign:"center"}}>
-                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </td>
+        <div className={'FPTable-grid'}>
+            <div className={"FPTable-content-div"}>
+                <table>
+                    <thead>
+                    {table.getHeaderGroups().map(headerGroup => (
+                        <tr key={headerGroup.id} >
+                            {headerGroup.headers.map(header => <th
+                                key={header.id} style={{width: `${header.column.getSize()}%`, textAlign: "center"}}>
+                                {flexRender(header.column.columnDef.header, header.getContext())}
+                            </th>)
+                            }
+                            <th></th>
+                        </tr>
                     ))}
-                    <td style={{textAlign:"center"}}>
-                        <button onClick={(event) => {handleClickMinus(event, row)}}><b>-</b></button>&nbsp;
-                    </td>
-                </tr>)
-            )
-            }
-            </tbody>
-        </table>
-    </div>
+                    </thead>
+                    <tbody>
+                    {table.getCoreRowModel().rows.map(row => (<tr
+                            key={row.id}>
+                            {row.getVisibleCells().map(cell => (
+                                <td style={{width: `${cell.column.getSize()}%`,textAlign:"center"}}>
+                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                </td>
+                            ))}
+                            <td style={{textAlign:"center"}}>
+                                <button onClick={(event) => {handleClickMinus(event, row)}}><b>-</b></button>&nbsp;
+                            </td>
+                        </tr>)
+                    )
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     )
 }
 
