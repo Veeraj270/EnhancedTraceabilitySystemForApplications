@@ -7,6 +7,7 @@ import SelectedFinalProductsTable from "./BakingSystemPage1Components/SelectedFi
 const BakingSystemPage1 = () => {
 
     const [finalProductsData, setFinalProductsData] = useState<OrderedFinalProduct[]>([])
+    const [tableData, setTableData] = useState<OrderedFinalProduct[]>([])
     const [selectedData, setSelectedData] = useState<OrderedFinalProduct[]>([])
 
     const fetchFinalProducts = async () => {
@@ -17,19 +18,30 @@ const BakingSystemPage1 = () => {
         return await response.json();
     }
 
-    const mapData = (data: any) => {
-        const mappedData = data.map((productAndOrder: any) => ({
+    const filterData = (data: any) => {
+        const filteredData = data.map((productAndOrder: any) => ({
             key: productAndOrder.first.id.toString() + productAndOrder.second.id.toString(),
             customerOrder: productAndOrder.first.id,
             finalProduct: productAndOrder.second,
             quantity: productAndOrder.second.quantity
         }))
-        return mappedData
+        return filteredData
+    }
+
+    const filterTableData = (data: any) => {
+        const filteredTableData = data.map((productAndOrder: any) => ({
+            key: productAndOrder.first.id.toString() + productAndOrder.second.id.toString(),
+            customerOrder: productAndOrder.first.id,
+            finalProduct: productAndOrder.second.label,
+            quantity: productAndOrder.second.quantity
+        }))
+        return filteredTableData
     }
 
     useEffect(() => {
         fetchFinalProducts().then((finalProductsData) => {
-            setFinalProductsData(mapData(finalProductsData))
+            setFinalProductsData(filterData(finalProductsData))
+            setTableData(filterTableData(finalProductsData))
         })
             .catch((reason) => {console.error("Error setting final products data." + reason)})
     }, [])
@@ -42,18 +54,21 @@ const BakingSystemPage1 = () => {
         <div className="BS1-page">
             <h1 className='BS1-title'>Baking System</h1>
             <div className="BS1-grid-container">
+                <div>
                 <FinalProductsTable
-                    rawData={finalProductsData}
-                    setRawData={setFinalProductsData}
+                    rawData={tableData}
+                    setRawData={setTableData}
                     selectedData={selectedData}
                     setSelectedData={setSelectedData}
                 />
-            </div>
-            <div>
+                </div>
+                <div>
                 <SelectedFinalProductsTable
-                    rawData={selectedData}
-                    setRawData={setSelectedData}
+                    selectedData={selectedData}
+                    setSelectedData={setSelectedData}
                 />
+
+                </div>
             </div>
         </div>
     )

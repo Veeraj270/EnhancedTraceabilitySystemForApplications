@@ -2,7 +2,7 @@ import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table"
 import React, {useEffect, useMemo, useState} from "react";
 import {OrderedFinalProduct} from "../Interfaces/OrderedFinalProduct";
 
-const SelectedFinalProductsTable = ({rawData, setRawData}) => {
+const SelectedFinalProductsTable = ({selectedData, setSelectedData, nonSelectedData, setNonSelectedData}) => {
 
     const [tableData, setTableData] = useState<OrderedFinalProduct[]>([])
 
@@ -24,29 +24,35 @@ const SelectedFinalProductsTable = ({rawData, setRawData}) => {
         }
     ], [])
 
-    const generateTableData = async (data: any) => {
-        const tableData = data.map((productAndOrder) => (
-            {
-                key: productAndOrder.key,
-                customerOrder: productAndOrder.customerOrder,
-                finalProduct: productAndOrder.finalProduct,
-                quantity: productAndOrder.quantity
-            }
-        ))
-        return tableData
-    }
-
-    const handleClickPlus = () => {
-
+    const handleClickMinus = (event: MouseEvent, row: HTMLTableRowElement) => {
+        const rowData = row.original
+        // If the quantity is 1, the row should be removed after clicking the button
+        if(rowData.quantity === 1){
+            // By filtering out the row that should be removed
+            const newTableData = selectedData.filter(x => x.key !== rowData.key)
+            setTableData(newTableData)
+            // Adding the row to the data of the other table
+            updateNonSelectedData(rowData)
+        }else{
+            const newData = selectedData.map(x => {
+                if(x.key === rowData.key){
+                    return {...x, quantity: x.quantity - 1}
+                }else{
+                    return x
+                }
+            })
+            setSelectedData(newData)
+            updateNonSelectedData(rowData)
+        }
+        console.log(row.id);
     }
 
     useEffect(() => {
-        if (rawData !== undefined) {
-            generateTableData(rawData).then(finalProductsTableData => {
-                setTableData(finalProductsTableData)
-            }).catch(error => console.error("Error generating table data:", error))
+        if (selectedData !== undefined) {
+            setTableData(selectedData)
         }
-    }, [rawData])
+        console.log("Selected table data: " + tableData)
+    }, [selectedData])
 
     const table = useReactTable({
         data: tableData,
@@ -78,7 +84,7 @@ const SelectedFinalProductsTable = ({rawData, setRawData}) => {
                         </td>
                     ))}
                     <td style={{textAlign:"center"}}>
-                        <button onClick={(event) => {handleClickPlus(event, row)}}><b>+</b></button>&nbsp;
+                        <button onClick={(event) => {handleClickMinus(event, row)}}><b>-</b></button>&nbsp;
                     </td>
                 </tr>)
             )

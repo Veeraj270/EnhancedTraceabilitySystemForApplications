@@ -26,18 +26,6 @@ const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData}
         }
     ], [])
 
-    const generateTableData = async (data: any) => {
-        const tableData = data.map((productAndOrder) => (
-            {
-                key: productAndOrder.key,
-                customerOrder: productAndOrder.customerOrder,
-                finalProduct: productAndOrder.finalProduct.label,
-                quantity: productAndOrder.quantity
-            }
-        ))
-        return tableData
-    }
-
     const handleChange = (event : ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
         setSearchInput(event.target.value)
@@ -51,11 +39,27 @@ const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData}
 
     useEffect(() => {
         if (rawData !== undefined) {
-                generateTableData(rawData).then(finalProductsTableData => {
-                        setTableData(finalProductsTableData)
-                    }).catch(error => console.error("Error generating table data:", error))
+            setTableData(rawData)
         }
+        console.log("Table data: " + rawData)
     }, [rawData])
+
+    const updateSelectedData = (rowData : any) => {
+        const indexOfElement = selectedData.findIndex(x => x.key === rowData.key)
+        if(!indexOfElement){
+            const newSelectedData = selectedData.map(x => {
+                if(x.key === rowData.key){
+                    return {...x, quantity: x.quantity + 1}
+                }else{
+                    return x
+                }
+            })
+            setSelectedData(newSelectedData)
+        } else{
+            const newSelectedData = selectedData.concat({...rowData, quantity: 1})
+            setSelectedData(newSelectedData)
+        }
+    }
 
     const handleClickPlus = (event: MouseEvent, row: HTMLTableRowElement) => {
         const rowData = row.original
@@ -65,22 +69,7 @@ const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData}
             const newTableData = rawData.filter(x => x.key !== rowData.key)
             setTableData(newTableData)
             // Adding the row to the data of the other table
-            const indexOfElement = selectedData.findIndex(x => x.key === rowData.key)
-            if(!indexOfElement){
-                const newSelectedData = selectedData.map(x => {
-                    if(x.key === rowData.key){
-                        return {...x, quantity: x.quantity + 1}
-                    }else{
-                        return x
-                    }
-                })
-                setSelectedData(newSelectedData)
-                console.log(newSelectedData + "if")
-            } else{
-                const newSelectedData = selectedData.concat({...rowData, quantity: 1})
-                setSelectedData(newSelectedData)
-                console.log(newSelectedData + "else")
-            }
+            updateSelectedData(rowData)
         }else{
             const newData = rawData.map(x => {
                 if(x.key === rowData.key){
@@ -90,22 +79,7 @@ const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData}
                 }
             })
             setRawData(newData)
-            const indexOfElement = selectedData.findIndex(x => x.key === rowData.key)
-            if(!indexOfElement){
-                const newSelectedData = selectedData.map(x => {
-                    if(x.key === rowData.key){
-                        return {...x, quantity: x.quantity + 1}
-                    }else{
-                        return x
-                    }
-                })
-                setSelectedData(newSelectedData)
-                console.log(newSelectedData + "if")
-            } else{
-                const newSelectedData = selectedData.concat({...rowData, quantity: 1})
-                setSelectedData(newSelectedData)
-                console.log(newSelectedData + "else")
-            }
+            updateSelectedData(rowData)
         }
         console.log(row.id);
     }
