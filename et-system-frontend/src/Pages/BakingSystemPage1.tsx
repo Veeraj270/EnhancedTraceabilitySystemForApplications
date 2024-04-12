@@ -2,10 +2,12 @@ import React, {useEffect, useState} from "react";
 import "./BakingSystemPage1Components/BS1Stylesheet.css"
 import {OrderedFinalProduct} from "./Interfaces/OrderedFinalProduct";
 import FinalProductsTable from "./BakingSystemPage1Components/FinalProductsTable";
+import SelectedFinalProductsTable from "./BakingSystemPage1Components/SelectedFinalProductsTable";
 
 const BakingSystemPage1 = () => {
 
     const [finalProductsData, setFinalProductsData] = useState<OrderedFinalProduct[]>([])
+    const [selectedData, setSelectedData] = useState<OrderedFinalProduct[]>([])
 
     const fetchFinalProducts = async () => {
         const response = await fetch("http://localhost:8080/api/customerorders/fetch-ordered-final-products")
@@ -43,6 +45,14 @@ const BakingSystemPage1 = () => {
                 <FinalProductsTable
                     rawData={finalProductsData}
                     setRawData={setFinalProductsData}
+                    selectedData={selectedData}
+                    setSelectedData={setSelectedData}
+                />
+            </div>
+            <div>
+                <SelectedFinalProductsTable
+                    rawData={selectedData}
+                    setRawData={setSelectedData}
                 />
             </div>
         </div>

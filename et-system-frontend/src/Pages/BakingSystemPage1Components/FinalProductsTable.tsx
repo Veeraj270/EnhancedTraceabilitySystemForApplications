@@ -3,11 +3,10 @@ import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table"
 import React from "react";
 import {OrderedFinalProduct} from "../Interfaces/OrderedFinalProduct";
 
-const FinalProductsTable = ({rawData, setRawData}) => {
+const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData}) => {
 
     const [tableData, setTableData] = useState<OrderedFinalProduct[]>([]);
     const [searchInput, setSearchInput] = useState("")
-    const [selectedData, setSelectedData] = useState<OrderedFinalProduct[]>([])
 
     const columns = useMemo(() => [
         {
@@ -28,7 +27,6 @@ const FinalProductsTable = ({rawData, setRawData}) => {
     ], [])
 
     const generateTableData = async (data: any) => {
-        data.forEach(x => console.log(x))
         const tableData = data.map((productAndOrder) => (
             {
                 key: productAndOrder.key,
@@ -37,7 +35,6 @@ const FinalProductsTable = ({rawData, setRawData}) => {
                 quantity: productAndOrder.quantity
             }
         ))
-        console.log(tableData)
         return tableData
     }
 
@@ -70,18 +67,45 @@ const FinalProductsTable = ({rawData, setRawData}) => {
             // Adding the row to the data of the other table
             const indexOfElement = selectedData.findIndex(x => x.key === rowData.key)
             if(!indexOfElement){
-
+                const newSelectedData = selectedData.map(x => {
+                    if(x.key === rowData.key){
+                        return {...x, quantity: x.quantity + 1}
+                    }else{
+                        return x
+                    }
+                })
+                setSelectedData(newSelectedData)
+                console.log(newSelectedData + "if")
+            } else{
+                const newSelectedData = selectedData.concat({...rowData, quantity: 1})
+                setSelectedData(newSelectedData)
+                console.log(newSelectedData + "else")
             }
         }else{
             const newData = rawData.map(x => {
                 if(x.key === rowData.key){
-                    console.log(x.key + " " + rowData.key)
                     return {...x, quantity: x.quantity - 1}
                 }else{
                     return x
                 }
             })
             setRawData(newData)
+            const indexOfElement = selectedData.findIndex(x => x.key === rowData.key)
+            if(!indexOfElement){
+                const newSelectedData = selectedData.map(x => {
+                    if(x.key === rowData.key){
+                        return {...x, quantity: x.quantity + 1}
+                    }else{
+                        return x
+                    }
+                })
+                setSelectedData(newSelectedData)
+                console.log(newSelectedData + "if")
+            } else{
+                const newSelectedData = selectedData.concat({...rowData, quantity: 1})
+                setSelectedData(newSelectedData)
+                console.log(newSelectedData + "else")
+            }
         }
         console.log(row.id);
     }
