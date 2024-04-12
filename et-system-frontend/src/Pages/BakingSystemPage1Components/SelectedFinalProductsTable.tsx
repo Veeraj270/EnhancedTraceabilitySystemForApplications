@@ -24,6 +24,7 @@ const SelectedFinalProductsTable = ({selectedData, setSelectedData, nonSelectedD
 
     const updateNonSelectedData = (rowData: any) => {
         const indexOfElement = nonSelectedData.findIndex(x => x.key === rowData.key)
+        // If the item is already in the other table it increases the quantity
         if(!indexOfElement){
             const newNonSelectedData = nonSelectedData.map(x => {
                 if(x.key === rowData.key){
@@ -34,6 +35,7 @@ const SelectedFinalProductsTable = ({selectedData, setSelectedData, nonSelectedD
             })
             setNonSelectedData(newNonSelectedData)
         } else{
+            // Otherwise it just adds the item to the table
             const newNonSelectedData = nonSelectedData.concat({...rowData, quantity: 1})
             setNonSelectedData(newNonSelectedData)
         }
@@ -43,12 +45,14 @@ const SelectedFinalProductsTable = ({selectedData, setSelectedData, nonSelectedD
         const rowData = row.original
         // If the quantity is 1, the row should be removed after clicking the button
         if(rowData.quantity === 1){
-            // By filtering out the row that should be removed
+            // Filtering out the row that should be removed
             const newSelectedData = selectedData.filter(x => x.key !== rowData.key)
             setSelectedData(newSelectedData)
             // Adding the row to the data of the other table
             updateNonSelectedData(rowData)
         }else{
+            // This changes the quantity if the final product that is subtracted
+            // from the selected final products
             const newData = selectedData.map(x => {
                 if(x.key === rowData.key){
                     return {...x, quantity: x.quantity - 1}

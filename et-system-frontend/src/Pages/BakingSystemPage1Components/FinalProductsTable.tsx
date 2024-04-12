@@ -37,6 +37,7 @@ const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData}
 
     const updateSelectedData = (rowData : any) => {
         const indexOfElement = selectedData.findIndex(x => x.key === rowData.key)
+        // If the item is already in the other table it increases the quantity
         if(!indexOfElement){
             const newSelectedData = selectedData.map(x => {
                 if(x.key === rowData.key){
@@ -48,6 +49,7 @@ const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData}
             setSelectedData(newSelectedData)
             console.log("Run if: ")
         } else{
+            // Otherwise it just adds the item to the table
             const newSelectedData = selectedData.concat({...rowData, quantity: 1})
             setSelectedData(newSelectedData)
             console.log("Run else: ")
@@ -65,6 +67,8 @@ const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData}
             // Adding the row to the data of the other table
             updateSelectedData(rowData)
         }else{
+            // This changes the quantity if the final product that is added
+            // to the selected final products
             const newData = rawData.map(x => {
                 if(x.key === rowData.key){
                     return {...x, quantity: x.quantity - 1}
