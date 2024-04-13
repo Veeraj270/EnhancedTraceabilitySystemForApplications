@@ -20,11 +20,11 @@ const BakingSystemPage1 = () => {
         return await response.json();
     }
 
-    const fetchIngredientNeeded = async (finalProductIds: number[]) => {
+    const fetchIngredientsNeeded = async (idsAndQuantities: {id: number, quantity: number}[]) => {
         const params = new URLSearchParams();
 
-        finalProductIds.forEach(id => {
-            params.append('finalProductIds', id);
+        idsAndQuantities.forEach(x => {
+            params.append('idsAndQuantities', `${x.id},${x.quantity}`);
         });
 
         const response = await fetch(`http://localhost:8080/api/finalproducts/get-total-ingredients?${params.toString()}`);
@@ -57,7 +57,7 @@ const BakingSystemPage1 = () => {
 
     useEffect(() => {
         if(selectedData !== undefined || selectedData.length > 0) {
-            fetchIngredientNeeded(selectedData.map(x => x.finalProductId)).then((ingredientsNeededData) => {
+            fetchIngredientsNeeded(selectedData.map(x => ({id: x.finalProductId, quantity: x.quantity}))).then((ingredientsNeededData) => {
                 setIngredientsNeeded(ingredientsNeededData)
             })
                 .catch((reason) => {

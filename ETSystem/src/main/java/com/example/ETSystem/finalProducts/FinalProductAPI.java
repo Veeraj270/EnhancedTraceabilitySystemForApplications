@@ -3,6 +3,7 @@ package com.example.ETSystem.finalProducts;
 
 import com.example.ETSystem.recipe.IngredientQuantity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,9 +34,12 @@ public class FinalProductAPI {
 
     @GetMapping(path = "/get-total-ingredients")
     @CrossOrigin(origins = "https://localhost:3000")
-    public List<IngredientQuantity> getTotalIngredients(@RequestParam List<Long> finalProductIds){
-        List<FinalProduct> finalProducts = finalProductIds.stream().map(x ->
-                finalProductService.getFinalProductByID(x)).collect(Collectors.toList());
+    public List<IngredientQuantity> getTotalIngredients(@RequestParam List<String> idsAndQuantities){
+       List<Pair<Long, Integer>> newData = idsAndQuantities.stream().map(x -> {String[] elements = x.split(",");
+           System.out.println(elements[0]);
+        return Pair.of(Long.parseLong(elements[0]), Integer.parseInt(elements[0]));}).collect(Collectors.toList());
+        List<FinalProduct> finalProducts = newData.stream().map(x ->
+                finalProductService.getFinalProductByID(x.getFirst())).collect(Collectors.toList());
         return finalProductService.getTotalIngredients(finalProducts);
     }
 
