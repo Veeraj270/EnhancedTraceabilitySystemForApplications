@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "api/finalproducts")
@@ -31,7 +32,10 @@ public class FinalProductAPI {
     }
 
     @GetMapping(path = "/get-total-ingredients")
-    public List<IngredientQuantity> getTotalIngredients(List<FinalProduct> finalProducts){
+    @CrossOrigin(origins = "https://localhost:3000")
+    public List<IngredientQuantity> getTotalIngredients(@RequestParam List<Long> finalProductIds){
+        List<FinalProduct> finalProducts = finalProductIds.stream().map(x ->
+                finalProductService.getFinalProductByID(x)).collect(Collectors.toList());
         return finalProductService.getTotalIngredients(finalProducts);
     }
 

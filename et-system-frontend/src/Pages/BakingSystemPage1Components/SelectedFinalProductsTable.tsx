@@ -1,6 +1,5 @@
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import React, {useEffect, useMemo, useState} from "react";
-import {OrderedFinalProduct} from "../Interfaces/OrderedFinalProduct";
 
 const SelectedFinalProductsTable = ({selectedData, setSelectedData, nonSelectedData, setNonSelectedData}) => {
 
@@ -63,7 +62,6 @@ const SelectedFinalProductsTable = ({selectedData, setSelectedData, nonSelectedD
             setSelectedData(newData)
             updateNonSelectedData(rowData)
         }
-        console.log(row.id);
     }
 
     const table = useReactTable({
