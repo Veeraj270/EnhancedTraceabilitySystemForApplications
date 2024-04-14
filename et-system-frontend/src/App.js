@@ -1,10 +1,8 @@
 import './index.css';
 import Sidebar from './components/Sidebar'
-import HomePage from './Pages/HomePage'
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import ProductsPage from "./Pages/ProductsPage";
 import TraceabilityPage from "./Pages/TraceabilityPage";
-import HelpPage from "./Pages/HelpPage";
 import AddProductsPage from "./Pages/AddProductsPage";
 import EditProductPage from "./Pages/EditProductPage";
 
@@ -14,6 +12,7 @@ import DeliveriesOverviewPage from "./Pages/DeliveriesOverviewPage";
 import FinalProductPage from "./Pages/FinalProductPage";
 import RecipesPage from "./Pages/RecipesPage";
 import AddRecipePage from "./Pages/AddRecipePage";
+import ContractsPage from "./Pages/ContractsPage";
 
 function App() {
     return (
@@ -48,6 +47,9 @@ function App() {
                     </Route>
                     <Route path={"/customerorderdetails/:orderId"} element={<FinalProductPage/>}>
                     </Route>
+                    <Route path={"/contracts"} element={<ContractsPage/>}>
+                    </Route>
+
 
 
                 </Routes>

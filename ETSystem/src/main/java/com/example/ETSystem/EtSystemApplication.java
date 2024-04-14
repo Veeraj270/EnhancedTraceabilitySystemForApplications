@@ -1,12 +1,12 @@
 package com.example.ETSystem;
 
+import com.example.ETSystem.contracts.ContractDataGenerator;
 import com.example.ETSystem.ingredientType.IngredientTypeRepository;
 import com.example.ETSystem.productData.SuppliedGoodRepository;
 import com.example.ETSystem.productData.MockDataGenerator;
 import com.example.ETSystem.customerOrders.CustomerOrderMockData;
 import com.example.ETSystem.deliveries.*;
 import com.example.ETSystem.finalProducts.FinalProductMockData;
-import com.example.ETSystem.product.Product;
 import com.example.ETSystem.product.ProductRepository;
 import com.example.ETSystem.recipe.IngredientMockData;
 import com.example.ETSystem.recipe.IngredientQuantityMockData;
@@ -50,7 +50,8 @@ public class EtSystemApplication{
 										RecipeMockData recipeMockData,
 										FinalProductMockData finalProductMockData,
 										CustomerOrderMockData customerOrderMockData,
-										MockDataGenerator mockDataGenerator
+										MockDataGenerator mockDataGenerator,
+										ContractDataGenerator contractDataGenerator
 
 	){
 		return args -> {
@@ -63,6 +64,7 @@ public class EtSystemApplication{
 			//Generate internal gtin database contents
 			mockDataGenerator.generateMockData();
 			mockDataGenerator.generateMockProductData();
+			contractDataGenerator.generateContractData();
 
 			//Add some mock planned deliveries to the database - for development purposes
 			for (int x = 0; x < 6; x ++){

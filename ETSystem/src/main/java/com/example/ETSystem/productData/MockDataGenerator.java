@@ -14,7 +14,6 @@ import com.example.ETSystem.timeline.UseEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.sql.Time;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -237,6 +236,7 @@ public class MockDataGenerator {
             }
         }
     }
+
      public void genTableRow(Long barcode,String name, Float quantity, String unit, Supplier supplier, int price){
          //Format label
          String label = String.format("%s-%s-%s", name.replace(" ","-").toLowerCase(), quantity, unit);

@@ -1,11 +1,11 @@
 import { FaWarehouse } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
-import { FaHome } from "react-icons/fa";
 import { FaBookOpen } from "react-icons/fa";
 import { PiTreeStructure } from "react-icons/pi";
-import { IoMdHelp } from "react-icons/io";
 import { FaBirthdayCake } from "react-icons/fa";
 import {GiWoodenCrate} from "react-icons/gi";
+import { FaFileContract } from "react-icons/fa";
+
 
 export const SideBarData = [
     {
@@ -44,6 +44,12 @@ export const SideBarData = [
         icon: <PiTreeStructure/>,
         cName: 'nav-text'
     },
+    {
+        title: 'Contracts',
+        path: '/contracts',
+        icon: <FaFileContract/>,
+        cName: 'nav-text'
+    }
 ]
 
 export default SideBarData
