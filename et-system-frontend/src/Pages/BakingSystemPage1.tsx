@@ -24,7 +24,7 @@ const BakingSystemPage1 = () => {
         const params = new URLSearchParams();
 
         idsAndQuantities.forEach(x => {
-            params.append('idsAndQuantities', `${x.id},${x.quantity}`);
+            params.append('idsAndQuantities', `${x.id};${x.quantity}`);
         });
 
         const response = await fetch(`http://localhost:8080/api/finalproducts/get-total-ingredients?${params.toString()}`);

@@ -24,7 +24,7 @@ const SelectedFinalProductsTable = ({selectedData, setSelectedData, nonSelectedD
     const updateNonSelectedData = (rowData: any) => {
         const indexOfElement = nonSelectedData.findIndex(x => x.key === rowData.key)
         // If the item is already in the other table it increases the quantity
-        if(!indexOfElement){
+        if(indexOfElement !== -1){
             const newNonSelectedData = nonSelectedData.map(x => {
                 if(x.key === rowData.key){
                     return {...x, quantity: x.quantity + 1}
