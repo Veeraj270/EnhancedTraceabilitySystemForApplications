@@ -5,11 +5,13 @@ import com.example.ETSystem.ingredientType.IngredientType;
 import com.example.ETSystem.recipe.IngredientQuantity;
 import com.example.ETSystem.recipe.Recipe;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -50,6 +52,17 @@ public class FinalProductService {
 
         return finalProductRepository.save(existingFinalProduct);
 
+    }
+
+    public List<IngredientQuantity> getTotalIngredientsById(List<Pair<Long, Integer>> finalProductIds){
+        List<FinalProduct> finalProducts =  finalProductIds.stream()
+                .map(x -> {
+                    FinalProduct finalProduct = this.getFinalProductByID(x.getFirst());
+                    finalProduct.setQuantity(x.getSecond());
+                    return finalProduct;
+                })
+                .collect(Collectors.toList());
+        return getTotalIngredients(finalProducts);
     }
 
     public List<IngredientQuantity> getTotalIngredients(List<FinalProduct> finalProducts){

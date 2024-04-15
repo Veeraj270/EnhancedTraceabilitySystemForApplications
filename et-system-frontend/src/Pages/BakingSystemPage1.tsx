@@ -4,6 +4,7 @@ import {OrderedFinalProduct} from "./Interfaces/OrderedFinalProduct";
 import FinalProductsTable from "./BakingSystemPage1Components/FinalProductsTable";
 import SelectedFinalProductsTable from "./BakingSystemPage1Components/SelectedFinalProductsTable";
 import IngredientQuantitiesTableRP from "./RecipePageComponents/IngredientQuantitiesTableRP";
+import {Link} from "react-router-dom";
 
 const BakingSystemPage1 = () => {
 
@@ -82,7 +83,7 @@ const BakingSystemPage1 = () => {
         <div className="BS1-page">
             <h1 className='BS1-title'>Baking System</h1>
             <div className="BS1-grid-container">
-                <div>
+                <div className={"BS1-grid-container-2"}>
                 <FinalProductsTable
                     rawData={tableData}
                     setRawData={setTableData}
@@ -90,16 +91,27 @@ const BakingSystemPage1 = () => {
                     setSelectedData={setSelectedData}
                 />
                 </div>
+                <div className={"border-container"}>
+                    <div className={"BS1--grid-container-3"}>
+                        <div>
+                            <h2>Selected Products</h2>
+                            <SelectedFinalProductsTable
+                                selectedData={selectedData}
+                                setSelectedData={setSelectedData}
+                                nonSelectedData={tableData}
+                                setNonSelectedData={setTableData}
+                            />
+                        </div>
+                        <div>
+                            <h2>Ingredients needed</h2>
+                            <IngredientQuantitiesTableRP
+                                ingredientQuantities={ingredientsNeeded}
+                            />
+                        </div>
+                    </div>
                 <div>
-                <SelectedFinalProductsTable
-                    selectedData={selectedData}
-                    setSelectedData={setSelectedData}
-                    nonSelectedData={tableData}
-                    setNonSelectedData={setTableData}
-                />
-                <IngredientQuantitiesTableRP
-                    ingredientQuantities={ingredientsNeeded}
-                />
+                    <Link to={'/baking-system-page-2'}><button className={'start-baking-button'}>Start baking</button></Link>
+                </div>
                 </div>
             </div>
         </div>
