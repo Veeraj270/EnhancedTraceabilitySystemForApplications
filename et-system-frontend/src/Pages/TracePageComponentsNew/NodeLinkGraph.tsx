@@ -4,6 +4,7 @@ import { DataSet } from 'vis-data/peer'
 
 
 import {Node, Edge, Graph} from "./Interfaces";
+import LabelWidget from "./LabelWidget";
 
 interface PropTypes{
     graphData: any;
@@ -16,6 +17,8 @@ const NodeLinkGraph = ( props : PropTypes) => {
 
     //State Variables
     const [ graph, setGraph ] = useState<Graph | null>(null);
+    const [label, setLabel] = useState<string>("");
+    const [labelVisible, setLabelVisible] = useState<boolean>(false);
 
     //Hooks
     useEffect(() => {
@@ -30,19 +33,31 @@ const NodeLinkGraph = ( props : PropTypes) => {
         }
     }, [props.graphData]);
 
+    const onNodeClick = (node : Node) => {
+        setSelectedProductID(parseInt(node.id.toString(), 10));
+        setLabel(node.itemLabel ? node.itemLabel : "");
+    }
+
     useEffect(() => {
         if (containerRef.current && graph){
             const network: Network = new Network(containerRef.current, graph, options);
             network.focus(1, {scale: 1.2, offset: {x: -60, y: -100}})
             network.on("click", (properties) => {
-                let nodeId = network.getNodeAt(properties.pointer.DOM)
+                let nodeId = network.getNodeAt(properties.pointer.DOM);
                 if (nodeId){
-                    setSelectedProductID(parseInt(nodeId.toString(), 10));
+                    graph.nodes.forEach((node) => {
+                        if (node.id === nodeId) {
+                            onNodeClick(node);
+                        }
+                    });
+                    //setSelectedProductID(parseInt(nodeId.toString(), 10));
+                    //onNodeClick(parseInt(nodeId.toString(), 10))
                 }
             })
+
         }
 
-        setSelectedProductID(graph?.nodes[0].id ? graph.nodes[0].id : null)
+        setSelectedProductID(graph?.nodes[0]?.id ? graph.nodes[0].id : null)
     }, [graph]);
 
     //Ref for the container
@@ -51,7 +66,13 @@ const NodeLinkGraph = ( props : PropTypes) => {
     //vis.js options
     const options = {
         edges: {
-            smooth: true
+            smooth: true,
+            arrows: {
+                middle: {
+                    enabled: true,
+                    type: "arrow",
+                }
+            }
         },
         layout: {
             hierarchical: {
@@ -67,12 +88,13 @@ const NodeLinkGraph = ( props : PropTypes) => {
     const buildGraph = ( json : any) => {
         let nodes: Node[] = [];
         let edges: Edge[] = [];
-
+        console.log(json);
         if (json.nodes && json.edges){
             json.nodes.forEach((node: any) => {
                 nodes.push({
                         id: node.id,
                         label: `${node.id}`,
+                        itemLabel: node.itemLabel,
                     })
             })
 
@@ -92,7 +114,15 @@ const NodeLinkGraph = ( props : PropTypes) => {
     }
 
     return (
-        <div ref={containerRef} className={"TP-node-link-graph"}></div>
+        <div className={"TP-graph-wrapper"}>
+            <LabelWidget
+                label={label}
+                isVisible={labelVisible}
+            />
+            <div ref={containerRef} className={"TP-node-link-graph"}>
+
+            </div>
+        </div>
     )
 }
 

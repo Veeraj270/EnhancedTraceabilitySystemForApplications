@@ -34,7 +34,7 @@ const DetailsWidget = ( props : PropTypes) => {
                     <p><b>Allergens: &nbsp;</b>{allergens}</p>
                 </div>
                 <div className={"TP-details-widget-buttons"}>
-                    <button>Produce Report</button>
+                    <button className={"TP-produce-report-button"}>Produce Report</button>
                 </div>
             </div>
         </div>

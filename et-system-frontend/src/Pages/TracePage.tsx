@@ -5,6 +5,7 @@ import DetailsWidget from "./TracePageComponentsNew/DetailsWidget";
 import EventHistoryWidget from "./TracePageComponentsNew/EventHistoryWidget";
 import EventDetailsWidget from "./TracePageComponentsNew/EventDetailsWidget";
 import EventsWidget from "./TracePageComponentsNew/EventsWidget";
+import LabelWidget from "./TracePageComponentsNew/LabelWidget";
 
 
 const TracePage = () => {

@@ -40,7 +40,7 @@ const EventHistoryWidget = (props : PropTypes) => {
     const productID = props.selectedProductID;
 
     //Related to svg view box
-    const svgGridHeight = useRef<number | null>(null);
+    const svgGridHeight = useRef<number>(100);
     const svgGridWidth = 100;
     const svgRef = useRef(null);
 
@@ -88,12 +88,20 @@ const EventHistoryWidget = (props : PropTypes) => {
                 svg.setAttribute("height", `${height}px`);
             }
 
+            if (events.current[0]){
+                updateEventDetails(events.current[0]);
+            }
         }).catch((err) => {
             console.log(err);
         })
     }, [productID]);
 
-
+    const updateEventDetails = (event: Event) => {
+        setEventDetails({
+            timestamp: event.timestamp,
+            type: event.type
+        })
+    }
     const genNodeLinkChain = (events: Event[], gridHeight: number) => {
         let newNodes: CustomNode[] = []
         let newLinks = []
@@ -132,12 +140,11 @@ const EventHistoryWidget = (props : PropTypes) => {
             });
         }
 
-        let chain = {
+        //Update the state variables
+        return {
             nodes: newNodes,
             links: newLinks
-        }
-        //Update the state variables
-        return chain;
+        };
     }
 
     const fetchProductHistory = async (productID: number) => {

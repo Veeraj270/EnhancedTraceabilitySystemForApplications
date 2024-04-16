@@ -83,7 +83,7 @@ public class ProductService{
 
 	public record Edge(Long source, Long target){};
 
-	public record Node(Long id){};
+	public record Node(Long id, String itemLabel){};
 
 	public record Graph(List<Node> nodes, List<Edge> edges){};
 
@@ -99,7 +99,7 @@ public class ProductService{
 
 	public void findIntermediaries( Product currentNode, ArrayList<Node> nodes, ArrayList<Edge> edges){
 		//Add node to nodes array
-		nodes.add(new Node(currentNode.getId()));
+		nodes.add(new Node(currentNode.getId(), currentNode.getLabel()));
 
 		//Base Case
 		if (currentNode.getIntermediaryIds().size() == 0){

@@ -1,6 +1,7 @@
 export interface Node{
     id: number;
     label: string;
+    itemLabel?: string;
 }
 
 export interface Edge{
