@@ -5,8 +5,6 @@ interface PropTypes{
     setGraphData: any;
 }
 
-
-
 const DetailsWidget = ( props : PropTypes) => {
     const [detailsData, setDetailsData] = React.useState<any | null>(null);
     const [label, setLabel] = React.useState<string>("");
@@ -19,7 +17,6 @@ const DetailsWidget = ( props : PropTypes) => {
                 setAllergens(detailsData.allergens.join(', '));
             }
         }
-
     }, [detailsData]);
 
     return (

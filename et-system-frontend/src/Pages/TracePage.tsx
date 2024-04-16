@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import './TracePageComponentsNew/TPStyleSheet.css'
-import NodeLinkGraph from "./TracePageComponentsNew/NodeLinkGraph";
-import DetailsWidget from "./TracePageComponentsNew/DetailsWidget";
-import EventHistoryWidget from "./TracePageComponentsNew/EventHistoryWidget";
-import EventDetailsWidget from "./TracePageComponentsNew/EventDetailsWidget";
-import EventsWidget from "./TracePageComponentsNew/EventsWidget";
-import LabelWidget from "./TracePageComponentsNew/LabelWidget";
+import './TracePageComponents/TPStyleSheet.css'
+import NodeLinkGraph from "./TracePageComponents/NodeLinkGraph";
+import DetailsWidget from "./TracePageComponents/DetailsWidget";
+import EventHistoryWidget from "./TracePageComponents/EventHistoryWidget";
+import EventDetailsWidget from "./TracePageComponents/EventDetailsWidget";
+import EventsWidget from "./TracePageComponents/EventsWidget";
+import LabelWidget from "./TracePageComponents/LabelWidget";
 
 
 const TracePage = () => {

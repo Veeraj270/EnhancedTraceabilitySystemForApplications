@@ -11,14 +11,18 @@ interface PropTypes{
     setSelectedProductID: (productID: number | null) => void;
 }
 
+interface LabelWidgetProps {
+    label: string | null;
+    isVisible: boolean;
+}
+
 const NodeLinkGraph = ( props : PropTypes) => {
     //Destructure props
     const setSelectedProductID = props.setSelectedProductID;
 
     //State Variables
     const [ graph, setGraph ] = useState<Graph | null>(null);
-    const [label, setLabel] = useState<string>("");
-    const [labelVisible, setLabelVisible] = useState<boolean>(false);
+    const [label, setLabel] = useState<string | null>(null);
 
     //Hooks
     useEffect(() => {
@@ -35,7 +39,7 @@ const NodeLinkGraph = ( props : PropTypes) => {
 
     const onNodeClick = (node : Node) => {
         setSelectedProductID(parseInt(node.id.toString(), 10));
-        setLabel(node.itemLabel ? node.itemLabel : "");
+        setLabel(node.itemLabel ? node.itemLabel : null);
     }
 
     useEffect(() => {
@@ -88,7 +92,6 @@ const NodeLinkGraph = ( props : PropTypes) => {
     const buildGraph = ( json : any) => {
         let nodes: Node[] = [];
         let edges: Edge[] = [];
-        console.log(json);
         if (json.nodes && json.edges){
             json.nodes.forEach((node: any) => {
                 nodes.push({
@@ -117,7 +120,6 @@ const NodeLinkGraph = ( props : PropTypes) => {
         <div className={"TP-graph-wrapper"}>
             <LabelWidget
                 label={label}
-                isVisible={labelVisible}
             />
             <div ref={containerRef} className={"TP-node-link-graph"}>
 

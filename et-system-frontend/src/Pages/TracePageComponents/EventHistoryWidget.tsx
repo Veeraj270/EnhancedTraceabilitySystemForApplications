@@ -73,12 +73,11 @@ const EventHistoryWidget = (props : PropTypes) => {
 
     //Fetch product history when productID state variable changes or upon initial render
     useEffect(() => {
-        console.log("productID updated!!")
+
         if (!productID) return;
 
         fetchProductHistory(productID).then((data: Event[]) => {
             events.current = data.reverse();
-            console.log("events.current:", events.current);
 
             let height = pxPerNode * events.current.length;
 
@@ -115,7 +114,6 @@ const EventHistoryWidget = (props : PropTypes) => {
                 r: 6,
                 date: date ? date : "N/A",
                 onClick: () => {
-                    console.log("Node clicked")
                     setEventDetails(
                         {
                             timestamp: events[i].timestamp,
@@ -203,8 +201,8 @@ const EventHistoryWidget = (props : PropTypes) => {
                 </text>
             ))
         )
-
     }
+
     return (
         <div className={"TP-event-history-widget"}>
             <svg  ref={svgRef} className={"TP-svg-window"} viewBox={`0 0 ${svgGridWidth} ${svgGridHeight.current}`}>

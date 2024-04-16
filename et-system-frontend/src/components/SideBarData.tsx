@@ -43,12 +43,6 @@ export const SideBarData = [
         icon: <PiTreeStructure/>,
         cName: 'nav-text'
     },
-    {
-        title: 'Trace Page',
-        path: '/trace-page-new',
-        icon: <PiTreeStructure/>,
-        cName: 'nav-text'
-
-    }]
+    ]
 
 export default SideBarData

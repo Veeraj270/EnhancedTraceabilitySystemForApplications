@@ -62,10 +62,13 @@
     background-color: azure;
     box-shadow: 1px 1px 2px var(--shadow-color);
     border-radius: 0.5rem;
-    padding: 10px;
+    padding: 20px;
     z-index: 1;
 }
 
+.TP-label{
+    font-weight: lighter;
+}
 .TP-content-col2{
     height: 100%;
     width: 100%;
@@ -74,7 +77,6 @@
     row-gap: 20px;
     min-height: 0px;
     min-width: 0px;
-
 }
 
 .TP-details-widget{
