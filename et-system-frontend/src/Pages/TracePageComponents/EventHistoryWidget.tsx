@@ -9,6 +9,7 @@ interface Event{
 }
 
 interface CustomNode{
+    id: any;
     x: number;
     y: number;
     r: number; //radius
@@ -48,6 +49,10 @@ const EventHistoryWidget = (props : PropTypes) => {
     const [chain, setChain] = useState<Chain>({nodes: [],links: []})
     const pxPerNode = 60
     const stroke = "lightblue";
+    const selectedNodeColor = "orange";
+    const nodeColor = "lightblue";
+
+    const [selectedNode, setSelectedNode] = useState<number | null>(null);
     
     const events = useRef<Event[]>([]); //Persistent reference to the events
 
@@ -109,6 +114,7 @@ const EventHistoryWidget = (props : PropTypes) => {
         for (let i = 0; i < events.length; i ++){
             let date = events[i].timestamp.match(/\d{4}-\d{2}-\d{2}/)?.at(0)?.split("-").reverse().join("/"); //Likely inefficient
             newNodes.push({
+                id: i,
                 x: 20,
                 y: (gridHeight / (2 * events.length)) * ((2 * i) + 1),
                 r: 6,
@@ -120,6 +126,7 @@ const EventHistoryWidget = (props : PropTypes) => {
                             type: events[i].type,
                         }
                     )
+                    setSelectedNode(i);
                 }
             });
         }
@@ -162,7 +169,7 @@ const EventHistoryWidget = (props : PropTypes) => {
                     cx={`${n.x}`}
                     cy={`${n.y}`}
                     r={`${n.r}`}
-                    fill={"lightblue"}
+                    fill={(selectedNode == n.id ? selectedNodeColor: nodeColor)}
                     stroke={"black"}
                     onClick={n.onClick}
                 />

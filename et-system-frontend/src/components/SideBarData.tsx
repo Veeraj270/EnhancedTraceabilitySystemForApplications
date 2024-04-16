@@ -32,15 +32,15 @@ export const SideBarData = [
         cName: 'nav-text'
     },
     {
-        title: 'Add Products',
-        path: '/add',
-        icon: <FaPlus/>,
-        cName: 'nav-text'
-    },
-    {
         title: 'Traceability',
         path: '/traceability',
         icon: <PiTreeStructure/>,
+        cName: 'nav-text'
+    },
+    {
+        title: 'Add Products',
+        path: '/add',
+        icon: <FaPlus/>,
         cName: 'nav-text'
     },
     ]

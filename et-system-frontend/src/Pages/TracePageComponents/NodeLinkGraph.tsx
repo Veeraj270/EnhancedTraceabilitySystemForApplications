@@ -1,7 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
 import { Network } from 'vis-network/peer'
-import { DataSet } from 'vis-data/peer'
-
 
 import {Node, Edge, Graph} from "./Interfaces";
 import LabelWidget from "./LabelWidget";
@@ -9,11 +7,6 @@ import LabelWidget from "./LabelWidget";
 interface PropTypes{
     graphData: any;
     setSelectedProductID: (productID: number | null) => void;
-}
-
-interface LabelWidgetProps {
-    label: string | null;
-    isVisible: boolean;
 }
 
 const NodeLinkGraph = ( props : PropTypes) => {

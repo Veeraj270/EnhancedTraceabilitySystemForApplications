@@ -1,6 +1,4 @@
 import React, {ChangeEvent, useCallback, useEffect, useRef, useState} from "react";
-import {clear} from "@testing-library/user-event/dist/clear";
-import {json} from "react-router-dom";
 
 interface PropTypes{
     setGraphData: any;
