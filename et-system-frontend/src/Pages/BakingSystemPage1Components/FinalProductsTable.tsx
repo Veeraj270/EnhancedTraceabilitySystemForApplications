@@ -2,13 +2,13 @@ import {ChangeEvent, useEffect, useMemo, useState} from "react";
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import React from "react";
 
-const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData}) => {
+const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData, searchData, setSearchData}) => {
 
     const [searchInput, setSearchInput] = useState("")
 
     const columns = useMemo(() => [
         {
-            header: "Final product",
+            header: "Product",
             accessorKey: "finalProduct",
             size: 40
         },
@@ -31,7 +31,12 @@ const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData}
 
     useEffect(() => {
         if (searchInput.length > 0){
+            setSearchData(rawData.filter((row) => {
+                return row.finalProduct.match(RegExp(searchInput, 'i'))
+                || row.customerOrder.toString().match(searchInput)
+            }))
         } else{
+            setSearchData(rawData)
         }
     }, [searchInput]);
 
@@ -47,12 +52,10 @@ const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData}
                 }
             })
             setSelectedData(newSelectedData)
-            console.log("Run if: ")
         } else{
             // Otherwise it just adds the item to the table
             const newSelectedData = selectedData.concat({...rowData, quantity: 1})
             setSelectedData(newSelectedData)
-            console.log("Run else: ")
         }
     }
 
@@ -62,8 +65,9 @@ const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData}
         if(rowData.quantity === 1){
             // By filtering out the row that should be removed
             const newTableData = rawData.filter(x => x.key !== rowData.key)
-            console.log("When quantity is 1: " + rawData.at(0).key)
             setRawData(newTableData)
+            const newSearchData = rawData.filter(x => x.key !== rowData.key)
+            setSearchData(newSearchData)
             // Adding the row to the data of the other table
             updateSelectedData(rowData)
         }else{
@@ -77,12 +81,20 @@ const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData}
                 }
             })
             setRawData(newData)
+            const newSearchData = searchData.map(x => {
+                if(x.key === rowData.key){
+                    return {...x, quantity: x.quantity - 1}
+                }else{
+                    return x
+                }
+            })
+            setSearchData(newSearchData)
             updateSelectedData(rowData)
         }
     }
 
     const table = useReactTable({
-        data: rawData,
+        data: searchData,
         columns: columns,
         getCoreRowModel: getCoreRowModel()
     }, [rawData])

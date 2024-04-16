@@ -15,7 +15,7 @@ const IngredientQuantitiesTableRP = ({ingredientQuantities}) => {
             accessorKey: "quantity",
             size: 50
         }
-    ], [ingredientQuantities])
+    ], [])
 
     const table = useReactTable({
         data: ingredientQuantities,

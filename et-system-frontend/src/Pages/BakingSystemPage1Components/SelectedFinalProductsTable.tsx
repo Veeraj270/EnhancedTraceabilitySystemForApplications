@@ -1,11 +1,11 @@
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import React, {useEffect, useMemo, useState} from "react";
 
-const SelectedFinalProductsTable = ({selectedData, setSelectedData, nonSelectedData, setNonSelectedData}) => {
+const SelectedFinalProductsTable = ({selectedData, setSelectedData, nonSelectedData, setNonSelectedData, searchData, setSearchData}) => {
 
     const columns = useMemo(() => [
         {
-            header: "Final product",
+            header: "Product",
             accessorKey: "finalProduct",
             size: 40
         },
@@ -21,22 +21,23 @@ const SelectedFinalProductsTable = ({selectedData, setSelectedData, nonSelectedD
         }
     ], [])
 
-    const updateNonSelectedData = (rowData: any) => {
-        const indexOfElement = nonSelectedData.findIndex(x => x.key === rowData.key)
+    const updateNonSelectedData = (rowData: any, data, setData) => {
+        const indexOfElement = data.findIndex(x => x.key === rowData.key)
+
         // If the item is already in the other table it increases the quantity
         if(indexOfElement !== -1){
-            const newNonSelectedData = nonSelectedData.map(x => {
+            const newData = data.map(x => {
                 if(x.key === rowData.key){
                     return {...x, quantity: x.quantity + 1}
                 }else{
                     return x
                 }
             })
-            setNonSelectedData(newNonSelectedData)
+            setData(newData)
         } else{
             // Otherwise it just adds the item to the table
-            const newNonSelectedData = nonSelectedData.concat({...rowData, quantity: 1})
-            setNonSelectedData(newNonSelectedData)
+            const newData = data.concat({...rowData, quantity: 1})
+            setData(newData)
         }
     }
 
@@ -48,7 +49,8 @@ const SelectedFinalProductsTable = ({selectedData, setSelectedData, nonSelectedD
             const newSelectedData = selectedData.filter(x => x.key !== rowData.key)
             setSelectedData(newSelectedData)
             // Adding the row to the data of the other table
-            updateNonSelectedData(rowData)
+            updateNonSelectedData(rowData, nonSelectedData, setNonSelectedData)
+            updateNonSelectedData(rowData, searchData, setSearchData)
         }else{
             // This changes the quantity if the final product that is subtracted
             // from the selected final products
@@ -60,7 +62,8 @@ const SelectedFinalProductsTable = ({selectedData, setSelectedData, nonSelectedD
                 }
             })
             setSelectedData(newData)
-            updateNonSelectedData(rowData)
+            updateNonSelectedData(rowData, nonSelectedData, setNonSelectedData)
+            updateNonSelectedData(rowData, searchData, setSearchData)
         }
     }
 

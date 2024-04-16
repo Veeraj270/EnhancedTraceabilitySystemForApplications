@@ -1,10 +1,8 @@
 import './index.css';
 import Sidebar from './components/Sidebar'
-import HomePage from './Pages/HomePage'
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import ProductsPage from "./Pages/ProductsPage";
 import TraceabilityPage from "./Pages/TraceabilityPage";
-import HelpPage from "./Pages/HelpPage";
 import AddProductsPage from "./Pages/AddProductsPage";
 import EditProductPage from "./Pages/EditProductPage";
 
@@ -15,6 +13,7 @@ import FinalProductPage from "./Pages/FinalProductPage";
 import RecipesPage from "./Pages/RecipesPage";
 import AddRecipePage from "./Pages/AddRecipePage";
 import BakingSystemPage1 from "./Pages/BakingSystemPage1";
+import BakingSystemPage2 from "./Pages/BakingSystemPage2";
 
 function App() {
     return (
@@ -53,6 +52,9 @@ function App() {
                     </Route>
 
                     <Route path={"baking-system-1"} element={<BakingSystemPage1/>}>
+                    </Route>
+
+                    <Route path={"baking-system-page-2"} element={<BakingSystemPage2/>}>
                     </Route>
 
                 </Routes>

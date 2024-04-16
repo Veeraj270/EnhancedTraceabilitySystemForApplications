@@ -8,8 +8,8 @@ import {Link} from "react-router-dom";
 
 const BakingSystemPage1 = () => {
 
-    const [finalProductsData, setFinalProductsData] = useState<OrderedFinalProduct[]>([])
     const [tableData, setTableData] = useState<OrderedFinalProduct[]>([])
+    const [searchData, setSearchData] = useState<OrderedFinalProduct[]>([])
     const [selectedData, setSelectedData] = useState<OrderedFinalProduct[]>([])
     const [ingredientsNeeded, setIngredientsNeeded] = useState([])
 
@@ -35,16 +35,6 @@ const BakingSystemPage1 = () => {
         return await response.json();
     }
 
-    const filterData = (data: any) => {
-        const filteredData = data.map((productAndOrder: any) => ({
-            key: productAndOrder.first.id.toString() + productAndOrder.second.id.toString(),
-            customerOrder: productAndOrder.first.id,
-            finalProduct: productAndOrder.second,
-            quantity: productAndOrder.second.quantity
-        }))
-        return filteredData
-    }
-
     const filterTableData = (data: any) => {
         const filteredTableData = data.map((productAndOrder: any) => ({
             key: productAndOrder.first.id.toString() + productAndOrder.second.id.toString(),
@@ -57,27 +47,27 @@ const BakingSystemPage1 = () => {
     }
 
     useEffect(() => {
-        if(selectedData !== undefined || selectedData.length > 0) {
+        if(selectedData !== undefined && selectedData.length > 0) {
             fetchIngredientsNeeded(selectedData.map(x => ({id: x.finalProductId, quantity: x.quantity}))).then((ingredientsNeededData) => {
                 setIngredientsNeeded(ingredientsNeededData)
             })
                 .catch((reason) => {
                     console.error("Error setting ingredients needed data. " + reason)
                 })
+        } else{
+            setIngredientsNeeded([])
         }
     }, [selectedData])
 
     useEffect(() => {
         fetchFinalProducts().then((finalProductsData) => {
-            setFinalProductsData(filterData(finalProductsData))
-            setTableData(filterTableData(finalProductsData))
+            // setFinalProductsData(filterData(finalProductsData))
+            const newData = filterTableData(finalProductsData)
+            setTableData(newData)
+            setSearchData(newData)
         })
             .catch((reason) => {console.error("Error setting final products data. " + reason)})
     }, [])
-
-    useEffect(() => {
-        console.log(finalProductsData)
-    }, [finalProductsData])
 
     return (
         <div className="BS1-page">
@@ -89,6 +79,8 @@ const BakingSystemPage1 = () => {
                     setRawData={setTableData}
                     selectedData={selectedData}
                     setSelectedData={setSelectedData}
+                    searchData={searchData}
+                    setSearchData={setSearchData}
                 />
                 </div>
                 <div className={"border-container"}>
@@ -100,6 +92,8 @@ const BakingSystemPage1 = () => {
                                 setSelectedData={setSelectedData}
                                 nonSelectedData={tableData}
                                 setNonSelectedData={setTableData}
+                                searchData={searchData}
+                                setSearchData={setSearchData}
                             />
                         </div>
                         <div>
