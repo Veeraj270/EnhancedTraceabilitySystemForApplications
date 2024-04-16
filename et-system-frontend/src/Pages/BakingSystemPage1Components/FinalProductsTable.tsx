@@ -2,6 +2,7 @@ import {ChangeEvent, useEffect, useMemo, useState} from "react";
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import React from "react";
 
+// @ts-ignore
 const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData, searchData, setSearchData}) => {
 
     const [searchInput, setSearchInput] = useState("")
@@ -32,6 +33,7 @@ const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData,
     useEffect(() => {
         if (searchInput.length > 0){
             setSearchData(rawData.filter((row) => {
+                // Searching matches the label of the final product or the order id
                 return row.finalProduct.match(RegExp(searchInput, 'i'))
                 || row.customerOrder.toString().match(searchInput)
             }))
@@ -81,6 +83,7 @@ const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData,
                 }
             })
             setRawData(newData)
+            // The same goes for the searched data
             const newSearchData = searchData.map(x => {
                 if(x.key === rowData.key){
                     return {...x, quantity: x.quantity - 1}

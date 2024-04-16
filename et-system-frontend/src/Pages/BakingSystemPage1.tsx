@@ -24,6 +24,8 @@ const BakingSystemPage1 = () => {
     const fetchIngredientsNeeded = async (idsAndQuantities: {id: number, quantity: number}[]) => {
         const params = new URLSearchParams();
 
+        // Sending the final product(which gives the recipe) and the quantity
+        // so the backend can calculate the needed ingredients
         idsAndQuantities.forEach(x => {
             params.append('idsAndQuantities', `${x.id};${x.quantity}`);
         });
@@ -36,6 +38,7 @@ const BakingSystemPage1 = () => {
     }
 
     const filterTableData = (data: any) => {
+        // Filtering out the data we need
         const filteredTableData = data.map((productAndOrder: any) => ({
             key: productAndOrder.first.id.toString() + productAndOrder.second.id.toString(),
             customerOrder: productAndOrder.first.id,
@@ -61,7 +64,6 @@ const BakingSystemPage1 = () => {
 
     useEffect(() => {
         fetchFinalProducts().then((finalProductsData) => {
-            // setFinalProductsData(filterData(finalProductsData))
             const newData = filterTableData(finalProductsData)
             setTableData(newData)
             setSearchData(newData)
@@ -100,6 +102,7 @@ const BakingSystemPage1 = () => {
                             <h2>Ingredients needed</h2>
                             <IngredientQuantitiesTableRP
                                 ingredientQuantities={ingredientsNeeded}
+                                height={{height: "393px"}}
                             />
                         </div>
                     </div>

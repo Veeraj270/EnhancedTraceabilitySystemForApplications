@@ -1,8 +1,8 @@
 
 export interface OrderedFinalProduct{
     key: string
-    customerOrder: any
-    finalProduct: any
+    customerOrder: number
+    finalProduct: string
     quantity: number
     finalProductId: number
 }

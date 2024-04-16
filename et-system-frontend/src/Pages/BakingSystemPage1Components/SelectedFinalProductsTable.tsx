@@ -1,6 +1,8 @@
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useMemo} from "react";
+import {OrderedFinalProduct} from "../Interfaces/OrderedFinalProduct";
 
+// @ts-ignore
 const SelectedFinalProductsTable = ({selectedData, setSelectedData, nonSelectedData, setNonSelectedData, searchData, setSearchData}) => {
 
     const columns = useMemo(() => [
@@ -21,7 +23,7 @@ const SelectedFinalProductsTable = ({selectedData, setSelectedData, nonSelectedD
         }
     ], [])
 
-    const updateNonSelectedData = (rowData: any, data, setData) => {
+    const updateNonSelectedData = (rowData: any, data: OrderedFinalProduct[], setData) => {
         const indexOfElement = data.findIndex(x => x.key === rowData.key)
 
         // If the item is already in the other table it increases the quantity

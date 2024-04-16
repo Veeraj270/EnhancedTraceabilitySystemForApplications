@@ -2,7 +2,7 @@ import React, {useMemo} from "react";
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import '../RecipePageComponents/RPStylesheet.css'
 
-const IngredientQuantitiesTableRP = ({ingredientQuantities}) => {
+const IngredientQuantitiesTableRP = ({ingredientQuantities, height}) => {
 
     const columns = useMemo(() => [
         {
@@ -35,7 +35,7 @@ const IngredientQuantitiesTableRP = ({ingredientQuantities}) => {
                             </tr>
                         ))}
                     </thead>
-                    <tbody>
+                    <tbody style={height}>
                         {table.getCoreRowModel().rows.map(row => (<tr
                             key={row.id}>
                             <td style={{width: '50%'}}>{row.original.ingredientType.name}</td>
