@@ -71,6 +71,30 @@ const BakingSystemPage1 = () => {
             .catch((reason) => {console.error("Error setting final products data. " + reason)})
     }, [])
 
+    const startBaking = async () => {
+        const finalProducts = selectedData.map(x =>
+            `${x.customerOrder};${x.finalProductId};${x.quantity}`
+        );
+
+        try {
+            const response = await fetch('http://localhost:8080/api/customerorders/edit-final-products', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(finalProducts)
+            });
+
+            if(response.ok){
+                console.log("The selected customer orders are updated")
+            }else{
+                alert("Error updating selected customer orders")
+            }
+        }catch (e) {
+            console.log("Error updating selected customer orders: " + e)
+        }
+    }
+
     return (
         <div className="BS1-page">
             <h1 className='BS1-title'>Baking System</h1>
@@ -107,7 +131,7 @@ const BakingSystemPage1 = () => {
                         </div>
                     </div>
                 <div>
-                    <Link to={'/baking-system-page-2'}><button className={'start-baking-button'}>Start baking</button></Link>
+                    <Link to={'/baking-system-page-2'} state={ingredientsNeeded}><button className={'start-baking-button'} onClick={startBaking}>Start baking</button></Link>
                 </div>
                 </div>
             </div>
