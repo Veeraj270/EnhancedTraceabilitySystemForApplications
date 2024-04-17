@@ -1,6 +1,7 @@
 package com.example.ETSystem.deliveries;
 
 import com.example.ETSystem.product.Product;
+import com.example.ETSystem.util.Generated;
 import jakarta.persistence.*;
 
 import java.time.Instant;
@@ -35,51 +36,51 @@ public class RecordedDelivery{
 		return id;
 	}
 	
-	public PlannedDelivery getPlan(){
+	public @Generated PlannedDelivery getPlan(){
 		return plan;
 	}
 	
-	public Instant getStartTime(){
+	public @Generated Instant getStartTime(){
 		return startTime;
 	}
 	
-	public Instant getEndTime(){
+	public @Generated Instant getEndTime(){
 		return endTime;
 	}
 	
-	public List<Product> getRecorded(){
+	public @Generated List<Product> getRecorded(){
 		return recorded;
 	}
 	
-	public void setId(long id){
+	public @Generated void setId(long id){
 		this.id = id;
 	}
 	
-	public void setPlan(PlannedDelivery plan){
+	public @Generated void setPlan(PlannedDelivery plan){
 		this.plan = plan;
 	}
 	
-	public void setStartTime(Instant startTime){
+	public @Generated void setStartTime(Instant startTime){
 		this.startTime = startTime;
 	}
 	
-	public void setEndTime(Instant endTime){
+	public @Generated void setEndTime(Instant endTime){
 		this.endTime = endTime;
 	}
 	
-	public void setRecorded(List<Product> recorded){
+	public @Generated void setRecorded(List<Product> recorded){
 		this.recorded = recorded;
 	}
 	
-	public boolean equals(Object obj){
+	public @Generated boolean equals(Object obj){
 		return obj instanceof RecordedDelivery other && other.id == id;
 	}
 	
-	public int hashCode(){
+	public @Generated int hashCode(){
 		return Objects.hashCode(id);
 	}
 	
-	public String toString(){
+	public @Generated String toString(){
 		return "RecordedDelivery{" +
 				"id=" + id +
 				", plan=" + plan +

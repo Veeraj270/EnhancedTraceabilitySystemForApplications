@@ -1,6 +1,7 @@
 package com.example.ETSystem.recipe;
 
 import com.example.ETSystem.ingredientType.IngredientType;
+import com.example.ETSystem.util.Generated;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -89,7 +90,7 @@ public class Recipe {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public @Generated boolean equals(Object o) {
         if(this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
@@ -99,38 +100,38 @@ public class Recipe {
     }
 
     @Override
-    public int hashCode() {
+    public @Generated int hashCode() {
         return Objects.hash(label, new HashSet<>(ingredientQuantities));
     }
 
-    public Long getId() {
+    public @Generated Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public @Generated void setId(Long id) {
         this.id = id;
     }
 
-    public String getLabel() {
+    public @Generated String getLabel() {
         return label;
     }
 
-    public void setLabel(String label) {
+    public @Generated void setLabel(String label) {
         this.label = label.trim();
     }
 
-    public Set<IngredientQuantity> getIngredientQuantities() { return ingredientQuantities; }
+    public @Generated Set<IngredientQuantity> getIngredientQuantities() { return ingredientQuantities; }
 
 
-    public boolean isVegan() {
+    public @Generated boolean isVegan() {
         return this.vegan;
     }
 
-    public boolean isVegetarian() {
+    public @Generated boolean isVegetarian() {
         return this.vegetarian;
     }
 
-    public Set<IngredientType> getAllergens() { return allergens; }
+    public @Generated Set<IngredientType> getAllergens() { return allergens; }
 
     public void setIngredientQuantities(Set<IngredientQuantity> ingredients) {
         this.allergens = ingredients.stream().
@@ -144,11 +145,11 @@ public class Recipe {
         this.ingredientQuantities = ingredients;
     }
 
-    public String getDescription() {
+    public @Generated String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public @Generated void setDescription(String description) {
         this.description = description;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.ETSystem.timeline;
 
 import com.example.ETSystem.product.Product;
+import com.example.ETSystem.util.Generated;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
@@ -27,40 +28,40 @@ public non-sealed class MoveEvent implements TimelineEvent{
 		this.owner = owner;
 	}
 	
-	public long getId(){
+	public @Generated long getId(){
 		return id;
 	}
 	
-	public void setId(long id){
+	public @Generated void setId(long id){
 		this.id = id;
 	}
 	
-	public ZonedDateTime getTimestamp(){
+	public @Generated ZonedDateTime getTimestamp(){
 		return timestamp;
 	}
 	
-	public void setTimestamp(ZonedDateTime timestamp){
+	public @Generated void setTimestamp(ZonedDateTime timestamp){
 		this.timestamp = timestamp;
 	}
 	
-	public Product getOwner(){
+	public @Generated Product getOwner(){
 		return owner;
 	}
 	
-	public void setOwner(Product owner){
+	public @Generated void setOwner(Product owner){
 		this.owner = owner;
 	}
 	
-	public String toString(){
+	public @Generated String toString(){
 		return "MoveEvent[id=" + id + ", ownerId=" + owner.getId() + ", timestamp=" + timestamp + "]";
 	}
 	
-	public boolean equals(Object o){
+	public @Generated boolean equals(Object o){
 		return this == o ||
 				o instanceof MoveEvent event && id == event.id && timestamp == event.timestamp && Objects.equals(owner, event.owner);
 	}
 	
-	public int hashCode(){
+	public @Generated int hashCode(){
 		return Objects.hash(id, timestamp, owner);
 	}
 }
