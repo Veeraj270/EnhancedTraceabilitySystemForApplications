@@ -50,6 +50,7 @@ const BakingSystemPage1 = () => {
     }
 
     useEffect(() => {
+        // If there is selected products fetch the ingredients needed for those products
         if(selectedData !== undefined && selectedData.length > 0) {
             fetchIngredientsNeeded(selectedData.map(x => ({id: x.finalProductId, quantity: x.quantity}))).then((ingredientsNeededData) => {
                 setIngredientsNeeded(ingredientsNeededData)
@@ -72,6 +73,11 @@ const BakingSystemPage1 = () => {
     }, [])
 
     const startBaking = async () => {
+        // By clicking the start baking button, it updates the quantities of the final products in the customer orders
+        // Might need to move it to recipe page 3
+
+        // Because there can be a lot of final products updated, and because the depth of the final product
+        // object is big, just the id's and the quantities are sent to the back-end
         const finalProducts = selectedData.map(x =>
             `${x.customerOrder};${x.finalProductId};${x.quantity}`
         );
