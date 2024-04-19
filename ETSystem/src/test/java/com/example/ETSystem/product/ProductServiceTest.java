@@ -17,7 +17,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -93,28 +95,30 @@ public class ProductServiceTest {
         IngredientType p4iType = new IngredientType("flour", false, true, true);
         IngredientType p5iType = new IngredientType("egg", true, false, false);
         IngredientType p6iType = new IngredientType("milk", true, false, false);
+
         ingredientTypeRepository.saveAll(List.of(testIType, p4iType, p5iType, p6iType));
 
         //Depth 2
-        Product p6 = new Product(); p6.setLabel("p6"); p6.setIngredientType(p6iType);
+        Product p6 = new Product("p6", p6iType);
         p6 = productRepository.save(p6);
-        Product p5 = new Product(); p5.setLabel("p5"); p5.setIngredientType(p5iType);
+        Product p5 = new Product("p5", p5iType);
         p5 = productRepository.save(p5);
-        Product p4 = new Product(); p4.setLabel("p4"); p4.setIngredientType(p4iType);
+        Product p4 = new Product("p4", p4iType);
         p4 = productRepository.save(p4);
 
         //Depth 1
-        Product p3 = new Product(); p3.setLabel("p3");  p3.setIngredientType(testIType); p3.setIntermediaryIds(List.of(p5.getId(), p6.getId()));
+        Product p3 = new Product("p3", testIType, List.of(p5.getId(), p6.getId()));
         p3 = productRepository.save(p3);
-        Product p2 = new Product(); p2.setLabel("p2");  p2.setIngredientType(testIType); p2.setIntermediaryIds(List.of(p4.getId(), p5.getId()));
+        Product p2 = new Product("p2", testIType, List.of(p4.getId(), p5.getId()));
         p2 = productRepository.save(p2);
 
         //root
-        Product p1 = new Product(); p1.setLabel("p1");  p1.setIngredientType(testIType); p1.setIntermediaryIds(List.of(p2.getId(), p3.getId()));
+        Product p1 = new Product("p1", testIType, List.of(p2.getId(), p3.getId()));
         p1 = productRepository.save(p1);
         //Test method
         ArrayList<String> allergens = new ArrayList<>();
-        ArrayList<Long> explored = new ArrayList<>();
+
+        Set<Long> explored = new HashSet<>();
 
         try {
             productService.extractAllergens(p1, allergens, explored);

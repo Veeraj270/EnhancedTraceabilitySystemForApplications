@@ -84,7 +84,6 @@ const EventHistoryWidget = (props : PropTypes) => {
         fetchProductHistory(productID).then((data: Event[]) => {
             setSelectedNode(data.length > 0 ? 0 : null);
             events.current = data.reverse();
-
             let height = pxPerNode * events.current.length;
 
             //trigger a resize observer event

@@ -5,6 +5,7 @@ import com.example.ETSystem.ingredientType.IngredientType;
 import com.example.ETSystem.timeline.TimelineData;
 import com.example.ETSystem.timeline.TimelineEvent;
 import com.example.ETSystem.timeline.TimelineService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Component;
@@ -12,9 +13,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -97,7 +96,7 @@ public class ProductService{
 		return new Graph(nodes, edges);
 	}
 
-	public void findIntermediaries( Product currentNode, ArrayList<Node> nodes, ArrayList<Edge> edges){
+	public void findIntermediaries( Product currentNode, ArrayList<Node> nodes, ArrayList<Edge> edges) throws ResponseStatusException{
 		//Add node to nodes array
 		nodes.add(new Node(currentNode.getId(), currentNode.getLabel()));
 
@@ -119,7 +118,9 @@ public class ProductService{
 			//Node is not already discovered therefore add edge, then recursive call
 			edges.add(new Edge(id, currentNode.getId()));
 
-			findIntermediaries(productRepository.findById(id).get(), nodes, edges);
+			Product nextNode = getProductByID(id);
+
+			findIntermediaries(nextNode, nodes, edges);
 		}
 	}
 
@@ -129,34 +130,26 @@ public class ProductService{
 						    ArrayList<String> allergens
 	){ }
 
-	public TraceData getTraceabilityData(String id) throws Exception {
+	public TraceData getTraceabilityData(String id) throws ResponseStatusException{
 		//Check if the id is a valid number
-		Product product = null;
-		if (isLong(id)){
-			//Query database
-			Optional<Product> optional = productRepository.findById(Long.parseLong(id));
-			if (optional.isEmpty()){
-				throw new Exception("product not found");
-			}
-			product = optional.get();
-		}
+		Product product = getProductByID(Long.parseLong(id));
 
 		//Extract allergens
 		ArrayList<String> allergens = new ArrayList<>();
-		ArrayList<Long> explored = new ArrayList<>();
+		Set<Long> explored = new HashSet();
 		extractAllergens(product, allergens, explored);
 
 		//Extract graph
 		Graph graph = getGraph(product);
 
 		//Extract other details
-		String label = product.getLabel();;
+		String label = product.getLabel();
 
 		//Return all data as record
 		return new TraceData(true ,graph, label, allergens);
 	}
 	
-	public void extractAllergens(Product product, ArrayList<String> allergens, ArrayList<Long> explored) throws Exception {
+	public void extractAllergens(Product product, ArrayList<String> allergens, Set<Long> explored) throws ResponseStatusException  {
 		//Mark product as explored
 		explored.add(product.getId());
 
@@ -168,24 +161,24 @@ public class ProductService{
 		//Recursive case:
 		for (Long i : product.getIntermediaryIds()){
 			if (explored.contains(i)){ continue; }
-
-			//Find product
-			Optional<Product> p = productRepository.findById(i);
-			if (p.isEmpty()){
-				throw new Exception("intermediary product not found by id");
-			}
 			try {
-				Product P = p.get();
-				extractAllergens(P, allergens, explored);
-				IngredientType iType = P.getIngredientType();
+				//Find the product
+				Product p = getProductByID(i);
+
+				//Recursively call the method
+				extractAllergens(p, allergens, explored);
+				IngredientType iType = p.getIngredientType();
 				if (iType.isAllergen()){
 					allergens.add(iType.getName());
 				}
-			} catch (Exception e){
+
+			} catch (ResponseStatusException e){
 				throw e;
 			}
 		}
 	}
+
+
 	public static boolean isLong(String strNum){
 		if (strNum == null){ return false; }
 		try {
