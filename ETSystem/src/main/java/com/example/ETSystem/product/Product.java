@@ -37,15 +37,15 @@ public class Product{
 	@Transient
 	private transient long parentID;
 
-  public Product(){}
-  
+	public Product(){}
+
 	public Product(String label, float maxQuantity, List<Long> intermediaryIds){
 		this.label = label;
 		this.maxQuantity = maxQuantity;
 		this.currentQuantity = maxQuantity;
 		this.intermediaryIds = intermediaryIds;
 	}
-	
+
 	public Product(String label, float maxQuantity,float currentQuantity){
 		this.label = label;
 		this.maxQuantity = maxQuantity;
@@ -59,88 +59,101 @@ public class Product{
 		this.ingredientType = iType;
 	}
 
-	public Product(String gtin, String label, float maxQuantity, float currentQuantity, List<Long> intermediaryIds, IngredientType ingredientType) {
+	public Product(String gtin, String label, float maxQuantity, float currentQuantity, List<Long> intermediaryIds, IngredientType iType) {
 		this.gtin = gtin;
 		this.label = label;
 		this.maxQuantity = maxQuantity;
 		this.currentQuantity = currentQuantity;
 		this.intermediaryIds = intermediaryIds;
-		this.ingredientType = ingredientType;
+		this.ingredientType = iType;
 	}
-	
+
+	public Product (String label, IngredientType iType, List<Long> intermediaryIds){
+		this.label = label;
+		this.ingredientType = iType;
+		this.intermediaryIds = intermediaryIds;
+	}
+
+	public Product (String label, IngredientType iType){
+		this.label = label;
+		this.ingredientType = iType;
+	}
+
 	//Getters
 	public long getId(){
-		return id;
+	return id;
 	}
-	
+
 	public String getLabel(){
-		return label;
+	return label;
 	}
-	
+
 	public float getMaxQuantity(){
-		return maxQuantity;
+	return maxQuantity;
 	}
-	
+
 	public float getCurrentQuantity(){
-		return currentQuantity;
+	return currentQuantity;
 	}
-	
+
 	public String getGtin(){
-		return gtin;
+	return gtin;
 	}
 
 	public List<Long> getIntermediaryIds(){
-		return intermediaryIds;
+	return intermediaryIds;
 	}
 
 	public IngredientType getIngredientType(){
-		return ingredientType;
+	return ingredientType;
 	}
 
 	public long getParentID(){
-		return this.parentID;
+	return this.parentID;
 	}
 
 	public CustomerOrder getAssociatedCustomerOrder(){ return this.associatedCustomerOrder; }
-	
+
 	//Setters
+	public void setId(Long id){ this.id = id; }
+
 	public void setLabel(String label){
-		this.label = label;
+	this.label = label;
 	}
-	
+
 	public void setMaxQuantity(float maxQuantity){
-		this.maxQuantity = maxQuantity;
+	this.maxQuantity = maxQuantity;
 	}
-	
+
 	public void setCurrentQuantity(float currentQuantity){
-		this.currentQuantity = currentQuantity;
+	this.currentQuantity = currentQuantity;
 	}
-	
+
 	public void setGtin(String gtin){
-		this.gtin = gtin;
+	this.gtin = gtin;
 	}
 
 	public void setIntermediaryIds(List<Long> intermediaries){
-		this.intermediaryIds = intermediaries;
+	this.intermediaryIds = intermediaries;
 	}
 
 	public void setIngredientType(IngredientType ingredientType){
-		this.ingredientType = ingredientType;
+	this.ingredientType = ingredientType;
 	}
 
 	public void setParentID(long id){
-		this.parentID = id;
+	this.parentID = id;
 	}
 
 	public void setAssociatedCustomerOrder(CustomerOrder customerOrder){ this.associatedCustomerOrder = customerOrder; }
 
 	//Utility
-	
+
 	public boolean equals(Object obj){
-		return obj instanceof Product other && Objects.equals(other.id, id);
+	return obj instanceof Product other && Objects.equals(other.id, id);
 	}
-	
+
 	public int hashCode(){
-		return Objects.hashCode(id);
+	return Objects.hashCode(id);
 	}
 }

@@ -4,6 +4,7 @@ import SearchBarWidget from "./ProductPageComponents/SearchBarWidget";
 import {useEffect, useState} from "react";
 import PDPDetailsView from "./ProductPageComponents/PDPDetailsView";
 import Product from "./Interfaces/Product"
+import React from "react";
 
 
 const ProductsPage = () => {
