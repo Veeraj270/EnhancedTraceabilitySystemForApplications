@@ -2,6 +2,7 @@ import DPDPercentageWidget from "./DPDPercentageWidget";
 import Product from "../Interfaces/Product";
 import {useEffect, useState} from "react";
 import PDPRecentEventsView from "./PDPRecentEventsView";
+import React from "react";
 
 interface propsType{
     product: Product | undefined;

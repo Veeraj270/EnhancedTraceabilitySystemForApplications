@@ -5,6 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-width: 0;
+  min-height: 0;
 }
 
 code {
@@ -18,6 +20,11 @@ code {
   grid-template-columns: 250px 1fr ;
   height: 100vh;
   width: 100%;
+}
+
+.container *{
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
 }
 
 .buttons{
