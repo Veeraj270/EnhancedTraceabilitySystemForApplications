@@ -23,7 +23,7 @@ const SelectedFinalProductsTable = ({selectedData, setSelectedData, nonSelectedD
         }
     ], [])
 
-    const updateNonSelectedData = (rowData: any, data: OrderedFinalProduct[], setData) => {
+    const updateNonSelectedData = (rowData: any, data: OrderedFinalProduct[], setData: any) => {
         const indexOfElement = data.findIndex(x => x.key === rowData.key)
 
         // If the item is already in the other table it increases the quantity
@@ -73,7 +73,7 @@ const SelectedFinalProductsTable = ({selectedData, setSelectedData, nonSelectedD
         data: selectedData,
         columns: columns,
         getCoreRowModel: getCoreRowModel()
-    }, [selectedData])
+    })
 
     return(
         <div style={{height: "435px"}}className={'FPTable-grid'}>

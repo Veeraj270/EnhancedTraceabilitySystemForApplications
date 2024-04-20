@@ -1,6 +1,7 @@
 import {ChangeEvent, useEffect, useMemo, useState} from "react";
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import React from "react";
+import {OrderedFinalProduct} from "../Interfaces/OrderedFinalProduct";
 
 // @ts-ignore
 const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData, searchData, setSearchData}) => {
@@ -32,7 +33,7 @@ const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData,
 
     useEffect(() => {
         if (searchInput.length > 0){
-            setSearchData(rawData.filter((row) => {
+            setSearchData(rawData.filter((row: OrderedFinalProduct) => {
                 // Searching matches the label of the final product or the order id
                 return row.finalProduct.match(RegExp(searchInput, 'i'))
                 || row.customerOrder.toString().match(searchInput)
@@ -43,10 +44,10 @@ const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData,
     }, [searchInput]);
 
     const updateSelectedData = (rowData : any) => {
-        const indexOfElement = selectedData.findIndex(x => x.key === rowData.key)
+        const indexOfElement = selectedData.findIndex((x: OrderedFinalProduct) => x.key === rowData.key)
         // If the item is already in the other table it increases the quantity
         if(indexOfElement !== -1){
-            const newSelectedData = selectedData.map(x => {
+            const newSelectedData = selectedData.map((x: OrderedFinalProduct) => {
                 if(x.key === rowData.key){
                     return {...x, quantity: x.quantity + 1}
                 }else{
@@ -66,16 +67,16 @@ const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData,
         // If the quantity is 1, the row should be removed after clicking the button
         if(rowData.quantity === 1){
             // By filtering out the row that should be removed
-            const newTableData = rawData.filter(x => x.key !== rowData.key)
+            const newTableData = rawData.filter((x: OrderedFinalProduct) => x.key !== rowData.key)
             setRawData(newTableData)
-            const newSearchData = rawData.filter(x => x.key !== rowData.key)
+            const newSearchData = rawData.filter((x: OrderedFinalProduct) => x.key !== rowData.key)
             setSearchData(newSearchData)
             // Adding the row to the data of the other table
             updateSelectedData(rowData)
         }else{
             // This changes the quantity if the final product that is added
             // to the selected final products
-            const newData = rawData.map(x => {
+            const newData = rawData.map((x: OrderedFinalProduct) => {
                 if(x.key === rowData.key){
                     return {...x, quantity: x.quantity - 1}
                 }else{
@@ -84,7 +85,7 @@ const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData,
             })
             setRawData(newData)
             // The same goes for the searched data
-            const newSearchData = searchData.map(x => {
+            const newSearchData = searchData.map((x: OrderedFinalProduct) => {
                 if(x.key === rowData.key){
                     return {...x, quantity: x.quantity - 1}
                 }else{
@@ -100,7 +101,7 @@ const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData,
         data: searchData,
         columns: columns,
         getCoreRowModel: getCoreRowModel()
-    }, [rawData])
+    })
 
     return (
         <div className={'FPTable-grid'}>
