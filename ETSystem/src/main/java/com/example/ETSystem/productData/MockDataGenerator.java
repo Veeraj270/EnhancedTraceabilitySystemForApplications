@@ -247,7 +247,7 @@ public class MockDataGenerator {
          IngredientType ingredientType = null;
          if (list.isEmpty()){
              //Currently just setting all ingredients to be non allergen, vegetarian, and vegan
-             ingredientType = new IngredientType(ingredientTypeName, false, false, Set.of("TODO"));
+             ingredientType = new IngredientType(ingredientTypeName, false, false, Set.of());
              ingredientType = ingredientTypeRepository.save(ingredientType);
          }
          else {
