@@ -35,9 +35,11 @@ public class FinalProductAPI {
     @GetMapping(path = "/get-total-ingredients")
     @CrossOrigin(origins = "https://localhost:3000")
     public List<IngredientQuantity> getTotalIngredients(@RequestParam List<String> idsAndQuantities){
-       List<Pair<Long, Integer>> mappedData = idsAndQuantities.stream().map(x -> {String[] elements = x.split(";");
-        return Pair.of(Long.parseLong(elements[0]), Integer.parseInt(elements[1]));}).collect(Collectors.toList());
-        return finalProductService.getTotalIngredientsById(mappedData);
+       List<Pair<Long, Integer>> mappedData = idsAndQuantities.stream().map(x -> {
+           String[] elements = x.split(";");
+           return Pair.of(Long.parseLong(elements[0]), Integer.parseInt(elements[1]));
+       }).toList();
+       return finalProductService.getTotalIngredientsById(mappedData);
     }
 
     @PostMapping(path = "/add")

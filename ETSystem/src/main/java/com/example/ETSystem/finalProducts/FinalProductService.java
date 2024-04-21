@@ -61,7 +61,7 @@ public class FinalProductService {
                     finalProduct.setQuantity(x.getSecond());
                     return finalProduct;
                 })
-                .collect(Collectors.toList());
+                .toList();
         return getTotalIngredients(finalProducts);
     }
 
