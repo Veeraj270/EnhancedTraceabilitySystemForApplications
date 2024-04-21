@@ -7,20 +7,14 @@ import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.mockito.Mockito.*;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.TestPropertySource;
 
 import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest
@@ -52,10 +46,10 @@ public class RecipeServiceTest {
         recipeService = new RecipeService(recipeRepository, ingredientTypeRepository, ingredientQuantityRepository);
         ingredientTypeAPI = new IngredientTypeAPI(ingredientTypeRepository);
 
-        milk = ingredientTypeAPI.addIngredientType(new IngredientType("MILK", true, true, false));
-        flour = ingredientTypeAPI.addIngredientType(new IngredientType("fLoUR", false, true, true));
-        chocolate = ingredientTypeAPI.addIngredientType(new IngredientType("chocolate", true, true, false));
-        vanilla = ingredientTypeAPI.addIngredientType(new IngredientType("vanilla", false, true, true));
+        milk = ingredientTypeAPI.addIngredientType(new IngredientType("MILK", true, false, Set.of("milk")));
+        flour = ingredientTypeAPI.addIngredientType(new IngredientType("fLoUR", true, true, Set.of()));
+        chocolate = ingredientTypeAPI.addIngredientType(new IngredientType("chocolate", true, false, Set.of("milk")));
+        vanilla = ingredientTypeAPI.addIngredientType(new IngredientType("vanilla", true, true, Set.of()));
     }
 
     @Test
@@ -102,16 +96,16 @@ public class RecipeServiceTest {
         //AT AN API LEVEL NOT AT A REPOSITORY LEVEL
 
         assertEquals(List.of(), rec1.getAllergens().stream().toList());
-        assertEquals(List.of(chocolate), rec2.getAllergens().stream().toList());
-        assertEquals(true, rec1.isVegetarian());
-        assertEquals(true, rec1.isVegan());
-        assertEquals(true, rec2.isVegetarian());
-        assertEquals(false, rec2.isVegan());
+        assertEquals(List.of("milk"), rec2.getAllergens().stream().toList());
+	    assertTrue(rec1.isVegetarian());
+	    assertTrue(rec1.isVegan());
+	    assertTrue(rec2.isVegetarian());
+	    assertFalse(rec2.isVegan());
 
         assertEquals(recipeRepository.findAll().stream().toList(), List.of(rec1, rec2));
 
         IngredientQuantity mango_invalid = new IngredientQuantity();
-        mango_invalid.setIngredient(new IngredientType("mango", false, true, true));
+        mango_invalid.setIngredient(new IngredientType("mango", true, true, Set.of()));
 
         IngredientQuantity milk_100 = new IngredientQuantity();
         milk_100.setIngredient(milk);

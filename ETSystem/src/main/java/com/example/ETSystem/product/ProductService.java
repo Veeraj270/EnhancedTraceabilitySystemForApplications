@@ -1,16 +1,10 @@
 package com.example.ETSystem.product;
 
-
-import com.example.ETSystem.ingredientType.IngredientType;
 import com.example.ETSystem.timeline.TimelineData;
 import com.example.ETSystem.timeline.TimelineEvent;
 import com.example.ETSystem.timeline.TimelineService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
@@ -135,9 +129,7 @@ public class ProductService{
 		Product product = getProductByID(Long.parseLong(id));
 
 		//Extract allergens
-		ArrayList<String> allergens = new ArrayList<>();
-		Set<Long> explored = new HashSet();
-		extractAllergens(product, allergens, explored);
+		ArrayList<String> allergens = new ArrayList<>(collectAllergens(product));
 
 		//Extract graph
 		Graph graph = getGraph(product);
@@ -146,38 +138,23 @@ public class ProductService{
 		String label = product.getLabel();
 
 		//Return all data as record
-		return new TraceData(true ,graph, label, allergens);
+		return new TraceData(true, graph, label, allergens);
 	}
 	
-	public void extractAllergens(Product product, ArrayList<String> allergens, Set<Long> explored) throws ResponseStatusException  {
-		//Mark product as explored
-		explored.add(product.getId());
-
-		//Base case
-		if (product.getIntermediaryIds().size() == 0){
-			return;
-		}
-
-		//Recursive case:
-		for (Long i : product.getIntermediaryIds()){
-			if (explored.contains(i)){ continue; }
-			try {
-				//Find the product
-				Product p = getProductByID(i);
-
-				//Recursively call the method
-				extractAllergens(p, allergens, explored);
-				IngredientType iType = p.getIngredientType();
-				if (iType.isAllergen()){
-					allergens.add(iType.getName());
-				}
-
-			} catch (ResponseStatusException e){
-				throw e;
-			}
-		}
+	public Set<String> collectAllergens(Product product){
+		return collectAllergens(product, new HashSet<>());
 	}
-
+	
+	// the intermediaries graph always forms a DAG if other invariants are upheld, so `explored` is not strictly necessary
+	// but it's nice for this not to hang if something has gone wrong elsewhere
+	private Set<String> collectAllergens(Product product, Set<Long> explored){
+		explored.add(product.getId());
+		Set<String> collected = new HashSet<>(product.getIngredientType().getAllergens());
+		for(long id : product.getIntermediaryIds())
+			if(!explored.contains(id))
+				collected.addAll(collectAllergens(getProductByID(id), explored));
+		return collected;
+	}
 
 	public static boolean isLong(String strNum){
 		if (strNum == null){ return false; }
