@@ -38,15 +38,15 @@ public class Product{
 	@Transient
 	private transient long parentID;
 
-  public Product(){}
-  
+	public Product(){}
+
 	public Product(String label, float maxQuantity, List<Long> intermediaryIds){
 		this.label = label;
 		this.maxQuantity = maxQuantity;
 		this.currentQuantity = maxQuantity;
 		this.intermediaryIds = intermediaryIds;
 	}
-	
+
 	public Product(String label, float maxQuantity,float currentQuantity){
 		this.label = label;
 		this.maxQuantity = maxQuantity;
@@ -60,15 +60,26 @@ public class Product{
 		this.ingredientType = iType;
 	}
 
-	public Product(String gtin, String label, float maxQuantity, float currentQuantity, List<Long> intermediaryIds, IngredientType ingredientType) {
+	public Product(String gtin, String label, float maxQuantity, float currentQuantity, List<Long> intermediaryIds, IngredientType iType) {
 		this.gtin = gtin;
 		this.label = label;
 		this.maxQuantity = maxQuantity;
 		this.currentQuantity = currentQuantity;
 		this.intermediaryIds = intermediaryIds;
-		this.ingredientType = ingredientType;
+		this.ingredientType = iType;
 	}
-	
+
+	public Product (String label, IngredientType iType, List<Long> intermediaryIds){
+		this.label = label;
+		this.ingredientType = iType;
+		this.intermediaryIds = intermediaryIds;
+	}
+
+	public Product (String label, IngredientType iType){
+		this.label = label;
+		this.ingredientType = iType;
+	}
+
 	//Getters
 	public @Generated long getId(){
 		return id;
@@ -105,6 +116,10 @@ public class Product{
 	public @Generated CustomerOrder getAssociatedCustomerOrder(){ return this.associatedCustomerOrder; }
 	
 	//Setters
+	public void setId(long id){
+		this.id = id;
+	}
+	
 	public @Generated void setLabel(String label){
 		this.label = label;
 	}

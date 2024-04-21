@@ -6,7 +6,7 @@ import {
 
 import React, {useEffect, useMemo, useState} from "react";
 import Product from "../../Interfaces/Product";
-import searchBar from "../../TracePageComponents/SearchBar";
+
 
 interface propType{
     setSelected: (n : any) => void;

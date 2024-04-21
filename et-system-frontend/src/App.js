@@ -3,7 +3,7 @@ import Sidebar from './components/Sidebar'
 import HomePage from './Pages/HomePage'
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import ProductsPage from "./Pages/ProductsPage";
-import TraceabilityPage from "./Pages/TraceabilityPage";
+
 import HelpPage from "./Pages/HelpPage";
 import AddProductsPage from "./Pages/AddProductsPage";
 import EditProductPage from "./Pages/EditProductPage";
@@ -14,6 +14,7 @@ import DeliveriesOverviewPage from "./Pages/DeliveriesOverviewPage";
 import FinalProductPage from "./Pages/FinalProductPage";
 import RecipesPage from "./Pages/RecipesPage";
 import AddRecipePage from "./Pages/AddRecipePage";
+import TracePage from "./Pages/TracePage";
 
 function App() {
     return (
@@ -22,25 +23,18 @@ function App() {
                 <Sidebar/>
                 <Routes>
                     <Route path={"/products"} element={<ProductsPage/>} >
-
                     </Route>
-                    <Route path={"/traceability"} element={<TraceabilityPage/>}>
-
+                    <Route path={"/traceability"} element={<TracePage/>}>
                     </Route>
                     <Route path={"/take-delivery"} element={<TakeDeliveryPage/>}>
-
                     </Route>
                     <Route path={"/deliveries"} element={<DeliveriesOverviewPage/>}>
                     </Route>
-
                     <Route path={"/recipes"} element={<RecipesPage/>}>
                     </Route>
-
                     <Route path={"/add-recipe"} element={<AddRecipePage/>}>
                     </Route>
-
                     <Route path={"/add"} element={<AddProductsPage/>}>
-
                     </Route>
                     <Route path={"/edit-product/:id"} element={<EditProductPage/>}>
                     </Route>

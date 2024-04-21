@@ -47,6 +47,8 @@ public class MockDataGenerator {
         this.timelineService = timelineService;
         this.productRepository = productRepository;
     }
+	
+    public record ITypeInfo(String name, boolean isAllergen){}
 
     @Generated
     public void generateMockData(){
@@ -54,9 +56,7 @@ public class MockDataGenerator {
         //SUPPLIERS
         List<String> supplierNames = List.of(
                 "Cisco",
-                "Andrew Ingredients",
-                "Harry Harvey",
-                "Brakes"
+                "Andrew Ingredients"
         );
 
         ArrayList<Supplier> suppliers = new ArrayList<Supplier>();
@@ -68,106 +68,108 @@ public class MockDataGenerator {
         int unitPrice = 10000;
         //INGREDIENTS
         //Flours
-        List<String> flours = List.of(
-                "Bread Flour",
-                "Strong Flour",
-                "Wholemeal Flour",
-                "Plain Flour",
-                "Self Raising Flour",
-                "Rice Flour"
+        List<ITypeInfo> flours = List.of(
+                new ITypeInfo("Bread Flour", false),
+                new ITypeInfo("Strong Flour", false),
+                new ITypeInfo("Wholemeal Flour", false),
+                new ITypeInfo("Plain Flour", false),
+                new ITypeInfo("Self Raising Flour", false),
+                new ITypeInfo("Rice Flour", false)
         );
 
         //Sugar Types
-        List<String> sugars = List.of(
-                "Granulated Sugar",
-                "Caster Sugar",
-                "Icing Sugar",
-                "Light Brown Sugar",
-                "Dark Brown Sugar",
-                "Demerara Sugar"
+        List<ITypeInfo> sugars = List.of(
+                new ITypeInfo("Granulated Sugar", false),
+                new ITypeInfo("Caster Sugar", false),
+                new ITypeInfo("Icing Sugar", false),
+                new ITypeInfo("Light Brown Sugar", false),
+                new ITypeInfo("Dark Brown Sugar", false),
+                new ITypeInfo("Demerara Sugar", false)
         );
 
 
-        List<String> nuts = List.of(
-                "Almonds",
-                "Peanuts",
-                "Hazelnuts",
-                "Walnuts",
-                "Cashew nuts"
+        List<ITypeInfo> nuts = List.of(
+                new ITypeInfo("Almonds", true),
+                new ITypeInfo("Peanuts", true),
+                new ITypeInfo("Hazelnuts", true),
+                new ITypeInfo("Walnuts", true),
+                new ITypeInfo("Cashew nuts", true)
         );
 
         //Spices
-        List<String> Spices = List.of(
-                "Ground Cinnamon",
-                "Ground Nutmeg",
-                "Ground Cloves",
-                "Ground Ginger",
-                "All Spice",
-                "Anise",
-                "Black Pepper",
-                "Saffron",
-                "Cayenne Pepper",
-                "Black Pepper"
+        List<ITypeInfo> Spices = List.of(
+                new ITypeInfo("Ground Cinnamon", false),
+                new ITypeInfo("Ground Nutmeg", false),
+                new ITypeInfo("Ground Cloves", false),
+                new ITypeInfo("Ground Ginger", false),
+                new ITypeInfo("All Spice", false),
+                new ITypeInfo("Anise", false),
+                new ITypeInfo("Black Pepper", false),
+                new ITypeInfo("Saffron", false),
+                new ITypeInfo("Cayenne Pepper", false),
+                new ITypeInfo("Black Pepper", false)
         );
 
         //Liquids
-        List<String> liquids = List.of(
-                "Coconut Oil",
-                "Palm Oil",
-                "Soybean Oil",
-                "Canola Oil",
-                "Olive Oil",
-                "Sunflower Oil",
-                "Semi-Skimmed Milk",
-                "Whole Milk"
+        List<ITypeInfo> liquids = List.of(
+                new ITypeInfo("Coconut Oil", false),
+                new ITypeInfo("Palm Oil", false),
+                new ITypeInfo("Soybean Oil", false),
+                new ITypeInfo("Canola Oil", false),
+                new ITypeInfo("Olive Oil", false),
+                new ITypeInfo("Sunflower Oil", false),
+                new ITypeInfo("Vegetable Oil", false),
+                new ITypeInfo("Soya Oil", true),
+                new ITypeInfo("Semi-Skimmed Milk", true),
+                new ITypeInfo("Whole Milk", true)
         );
 
         //Fresh Fruit & Veg
-        List<String> fruitAndVeg = List.of(
-                "Apples",
-                "Bananas",
-                "Blueberries",
-                "Strawberries",
-                "Raspberries",
-                "Lemons",
-                "Oranges",
-                "Limes",
-                "Pumpkin",
-                "Carrots",
-                "Zucchini",
-                "Sweet Potatoes",
-                "Pears",
-                "Peaches",
-                "Apricots",
-                "Cherries",
-                "Blackberries",
-                "Mangoes",
-                "Pineapple",
-                "Cranberries",
-                "Rhubarb",
-                "Kiwifruit",
-                "Grapes",
-                "Figs",
-                "Dates",
-                "Coconut",
-                "Avocado",
-                "Beetroot"
+        List<ITypeInfo> fruitAndVeg = List.of(
+                new ITypeInfo("Apples", false),
+                new ITypeInfo("Bananas", false),
+                new ITypeInfo("Blueberries", false),
+                new ITypeInfo("Strawberries", false),
+                new ITypeInfo("Raspberries", false),
+                new ITypeInfo("Lemons", false),
+                new ITypeInfo("Oranges", false),
+                new ITypeInfo("Limes", false),
+                new ITypeInfo("Pumpkin", false),
+                new ITypeInfo("Carrots", false),
+                new ITypeInfo("Zucchini", false),
+                new ITypeInfo("Sweet Potatoes", false),
+                new ITypeInfo("Pears", false),
+                new ITypeInfo("Peaches", false),
+                new ITypeInfo("Apricots", false),
+                new ITypeInfo("Cherries", false),
+                new ITypeInfo("Blackberries", false),
+                new ITypeInfo("Mangoes", false),
+                new ITypeInfo("Pineapple", false),
+                new ITypeInfo("Cranberries", false),
+                new ITypeInfo("Rhubarb", false),
+                new ITypeInfo("Kiwifruit", false),
+                new ITypeInfo("Grapes", false),
+                new ITypeInfo("Figs", false),
+                new ITypeInfo("Dates", false),
+                new ITypeInfo("Coconut", false),
+                new ITypeInfo("Avocado", false),
+                new ITypeInfo("Beetroot", false)
         );
 
         //Butters
-        List<String> buttersAndCream = List.of(
-                "Salted Butter",
-                "Unsalted Butter",
-                "Sour Cream",
-                "Cottage Cheese",
-                "Cheddar Cheese"
+        List<ITypeInfo> buttersAndCream = List.of(
+                new ITypeInfo("Salted Butter", true),
+                new ITypeInfo("Unsalted Butter", true),
+                new ITypeInfo("Sour Cream", true),
+                new ITypeInfo("Cottage Cheese", true),
+                new ITypeInfo("Cheddar Cheese", true)
         );
 
-        //Chocolate
-        List<String> chocolates = List.of(
-                "Dark Chocolate",
-                "White Chocolate",
-                "Milk Chocolate"
+        //Chocolates
+        List<ITypeInfo> chocolates = List.of(
+                new ITypeInfo("Dark Chocolate", true),
+                new ITypeInfo("White Chocolate", true),
+                new ITypeInfo("Milk Chocolate", true)
         );
 
         int i = 1;
@@ -177,18 +179,18 @@ public class MockDataGenerator {
             //Bulk Ingredients
             String unit = "kg";
             for (Float quantity : quantities){
-                for (String name : flours){
+                for (ITypeInfo info : flours){
                     barcode ++;
-                    genTableRow(barcode, name, quantity, unit, supplier, (int) (unitPrice * quantity));
+                    genTableRow(barcode, info, quantity, unit, supplier, (int) (unitPrice * quantity));
                 }
-                for (String name : sugars){
+                for (ITypeInfo info: sugars){
                     barcode ++;
-                    genTableRow(barcode, name, quantity, unit, supplier, (int)(unitPrice * quantity));
+                    genTableRow(barcode, info, quantity, unit, supplier, (int)(unitPrice * quantity));
 
                 }
-                for (String name : fruitAndVeg){
+                for (ITypeInfo info: fruitAndVeg){
                     barcode ++;
-                    genTableRow(barcode, name, quantity, unit, supplier,(int) (unitPrice * quantity));
+                    genTableRow(barcode, info, quantity, unit, supplier,(int) (unitPrice * quantity));
                 }
             }
 
@@ -196,17 +198,17 @@ public class MockDataGenerator {
             quantities = List.of(5F,2.5F, 1F, 0.5F);
             unit = "kg";
             for (Float quantity : quantities){
-                for (String name : buttersAndCream){
+                for (ITypeInfo info : buttersAndCream){
                     barcode ++;
-                    genTableRow(barcode, name, quantity, unit, supplier, (int) (unitPrice * quantity));
+                    genTableRow(barcode, info, quantity, unit, supplier, (int) (unitPrice * quantity));
                 }
-                for (String name : chocolates){
+                for (ITypeInfo info: chocolates){
                     barcode ++;
-                    genTableRow(barcode, name, quantity, unit, supplier, (int) (unitPrice * quantity));
+                    genTableRow(barcode, info, quantity, unit, supplier, (int) (unitPrice * quantity));
                 }
-                for (String name : nuts){
+                for (ITypeInfo info: nuts){
                     barcode ++;
-                    genTableRow(barcode, name, quantity, unit, supplier, (int) (unitPrice * quantity));
+                    genTableRow(barcode, info, quantity, unit, supplier, (int) (unitPrice * quantity));
                 }
             }
 
@@ -214,9 +216,9 @@ public class MockDataGenerator {
             quantities = List.of(5F, 2.5F, 1F, 0.5F);
             unit = "L";
             for (Float quantity : quantities){
-                for (String name : liquids){
+                for (ITypeInfo info: liquids){
                     barcode ++;
-                    genTableRow(barcode, name, quantity, unit, supplier, (int) (unitPrice * quantity));
+                    genTableRow(barcode, info, quantity, unit, supplier, (int) (unitPrice * quantity));
                 }
             }
 
@@ -235,24 +237,22 @@ public class MockDataGenerator {
 
                 );
                 supplierService.AddGoodToSupplier(supplier, entry);
-
-
             }
         }
     }
 	
 	@Generated
-     public void genTableRow(Long barcode,String name, Float quantity, String unit, Supplier supplier, int price){
+     public void genTableRow(Long barcode, ITypeInfo info, Float quantity, String unit, Supplier supplier, int price){
          //Format label
-         String label = String.format("%s-%s-%s", name.replace(" ","-").toLowerCase(), quantity, unit);
-         String ingredientTypeName = name.replace(" ","-").toLowerCase();
+         String label = String.format("%s-%s-%s", info.name.replace(" ","-").toLowerCase(), quantity, unit);
+         String ingredientTypeName = info.name.replace(" ","-").toLowerCase();
 
          List<IngredientType> list = ingredientTypeRepository.findByName(ingredientTypeName);
 
          IngredientType ingredientType = null;
          if (list.isEmpty()){
              //Currently just setting all ingredients to be non allergen, vegetarian, and vegan
-             ingredientType = new IngredientType(ingredientTypeName, false, false, false);
+             ingredientType = new IngredientType(ingredientTypeName, info.isAllergen, false, false);
              ingredientType = ingredientTypeRepository.save(ingredientType);
          }
          else {
