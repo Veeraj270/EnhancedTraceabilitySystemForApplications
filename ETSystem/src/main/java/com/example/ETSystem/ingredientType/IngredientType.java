@@ -52,7 +52,7 @@ public class IngredientType {
 
     //Setters
 
-    public void setName(String name) { this.name = name.toLowerCase(); }
+    public void setName(String name) { this.name = name; }
 
     public void setIsAllergen(boolean isAllergen) { this.isAllergen = isAllergen; }
 
