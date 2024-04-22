@@ -15,6 +15,7 @@ import FinalProductPage from "./Pages/FinalProductPage";
 import RecipesPage from "./Pages/RecipesPage";
 import AddRecipePage from "./Pages/AddRecipePage";
 import TracePage from "./Pages/TracePage";
+import BakingSystemPage3 from "./Pages/BakingSystemPage3";
 
 function App() {
     return (
@@ -42,7 +43,8 @@ function App() {
                     </Route>
                     <Route path={"/customerorderdetails/:orderId"} element={<FinalProductPage/>}>
                     </Route>
-
+                    <Route path={"/baking-system-page-3"} element={<BakingSystemPage3/>}>
+                    </Route>
 
                 </Routes>
             </div>

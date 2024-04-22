@@ -43,6 +43,12 @@ export const SideBarData = [
         icon: <FaPlus/>,
         cName: 'nav-text'
     },
+    {
+        title: 'BS - Page 3',
+        path: '/baking-system-page-3',
+        icon: <FaPlus/>,
+        cName: 'nav-text'
+    }
     ]
 
 export default SideBarData

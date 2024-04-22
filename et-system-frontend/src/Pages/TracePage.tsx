@@ -11,7 +11,7 @@ const TracePage = () => {
 
     //Render
     return (
-        <div className={"trace-page-container"}>
+        <div className={"page-container"}>
             <h1>Traceability</h1>
             <div className={"TP-content"}>
                 <div className={"TP-content-col1"}>
