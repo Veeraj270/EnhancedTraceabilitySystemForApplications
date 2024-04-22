@@ -74,7 +74,6 @@ const BakingSystemPage1 = () => {
     }, [])
 
     const startBaking = async () => {
-        if(selectedData.length > 0) {
             // By clicking the start baking button, it updates the quantities of the final products in the customer orders
             // Might need to move it to recipe page 3
 
@@ -101,10 +100,6 @@ const BakingSystemPage1 = () => {
             } catch (e) {
                 console.log("Error updating selected customer orders: " + e)
             }
-        } else{
-            alert("Select some products that you want to bake. ")
-            return
-        }
     }
 
     return (

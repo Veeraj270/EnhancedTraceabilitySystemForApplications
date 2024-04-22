@@ -24,21 +24,15 @@ const ScannedProductsTable = ({scannedProducts}) => {
         }
     ], [])
 
-    const generateTableData = async (data: UsedProduct[]) => {
-        const newTableData = data.map((dataElement: UsedProduct) => (
+    useEffect(() => {
+        const newTableData = scannedProducts.map((dataElement: UsedProduct) => (
             {
                 productID: dataElement.product.id,
                 ingredientType: dataElement.product.ingredientType.name,
                 weight: dataElement.weight
             }
         ))
-        return newTableData
-    }
-
-    useEffect(() => {
-        generateTableData(scannedProducts).then(newTableData => {
-            setTableData(newTableData)
-        })
+        setTableData(newTableData)
     })
 
     const table = useReactTable({

@@ -1,10 +1,10 @@
 import React, {ChangeEvent, useState} from 'react';
 import { useLocation } from 'react-router-dom';
 import IngredientQuantitiesTableRP from "./RecipePageComponents/IngredientQuantitiesTableRP";
-import Product from "./Interfaces/Product";
 import {UsedProductID} from "./Interfaces/UsedProductID";
 import {UsedProduct} from "./Interfaces/UsedProduct";
 import ScannedProductsTable from "./BakingSystemPage2Components/ScannedProductsTable";
+import "./BakingSystemPage2Components/BS2Stylesheet.css"
 
 const BakingSystemPage2 = () => {
 
@@ -53,26 +53,36 @@ const BakingSystemPage2 = () => {
     }
 
     return (
-        <div className={'BS2-page'}>
+        <div className="BS2-page">
             <h1>Baking System</h1>
-            <div className={'BS2-grid-container'}>
+            <div className="BS2-grid-container">
                 <div>
                     <IngredientQuantitiesTableRP
                         ingredientQuantities={ingredients}
                     />
                 </div>
-                <div>
+                <div className={'BS2-grid-container-inputs'}>
+                    <div>
+                        <h2>Product ID</h2>
                     <input className={'BS2-input-box'}
                            onChange={handleChangeProductID}
                            value={usedProductData?.productID || ''}
                            type={"number"}
                     />
+                    </div>
+                    <div>
+                        <h2>Weight</h2>
                     <input className={'BS2-input-box'}
                            type={"number"}
                            onChange={handleChangeWeight}
                            value={usedProductData?.weight || ''}
                     />
-                    <button onClick={handleSubmit} />
+                    </div>
+                    <button
+                        className={'BS2-submit-button'}
+                        onClick={handleSubmit}>
+                        Submit
+                    </button>
                 </div>
                 <div>
                     <ScannedProductsTable
