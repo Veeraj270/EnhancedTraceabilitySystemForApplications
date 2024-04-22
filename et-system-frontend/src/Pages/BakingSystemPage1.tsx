@@ -5,13 +5,14 @@ import FinalProductsTable from "./BakingSystemPage1Components/FinalProductsTable
 import SelectedFinalProductsTable from "./BakingSystemPage1Components/SelectedFinalProductsTable";
 import IngredientQuantitiesTableRP from "./RecipePageComponents/IngredientQuantitiesTableRP";
 import {Link} from "react-router-dom";
+import {IngredientQuantity} from "./Interfaces/IngredientQuantity";
 
 const BakingSystemPage1 = () => {
 
     const [tableData, setTableData] = useState<OrderedFinalProduct[]>([])
     const [searchData, setSearchData] = useState<OrderedFinalProduct[]>([])
     const [selectedData, setSelectedData] = useState<OrderedFinalProduct[]>([])
-    const [ingredientsNeeded, setIngredientsNeeded] = useState([])
+    const [ingredientsNeeded, setIngredientsNeeded] = useState<IngredientQuantity[]>([])
 
     const fetchFinalProducts = async () => {
         const response = await fetch("http://localhost:8080/api/customerorders/fetch-ordered-final-products")
