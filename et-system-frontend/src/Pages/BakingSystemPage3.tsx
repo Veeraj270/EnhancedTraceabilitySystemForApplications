@@ -13,6 +13,13 @@ const BakingSystemPage3 = () => {
         weight: 1
     })
 
+    const table2Data = new Array(30).fill({
+        id: 1,
+        label: 'Label',
+        newWeight: 1,
+        oldWeight: 1
+    })
+
     //End of temp mock data
 
     return (
@@ -28,11 +35,13 @@ const BakingSystemPage3 = () => {
                     <NewWeightWidget/>
                 </div>
                 <div className={'BSP3-column'}>
-                    <UpdatedProductsTable/>
+                    <UpdatedProductsTable
+                        products={table2Data}
+                    />
                 </div>
                 <div className={'BSP3-column'}>
                     <ProducedTable/>
-                    <button>Submit</button>
+                    <button className={'BSP3-submit-button'}>Submit</button>
                 </div>
             </div>
         </div>
