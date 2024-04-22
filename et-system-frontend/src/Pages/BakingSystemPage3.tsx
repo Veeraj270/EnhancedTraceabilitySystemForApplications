@@ -20,8 +20,12 @@ const BakingSystemPage3 = () => {
         oldWeight: 1
     })
 
-    //End of temp mock data
+    const table3Data = new Array(10).fill({
+        quantity: 1,
+        label: 'Cake'
+    })
 
+    //End of temp mock data
     return (
         <div className={'page-container'}>
             <h1>Baking System - Page 3</h1>
@@ -40,7 +44,9 @@ const BakingSystemPage3 = () => {
                     />
                 </div>
                 <div className={'BSP3-column'}>
-                    <ProducedTable/>
+                    <ProducedTable
+                        products={table3Data}
+                    />
                     <button className={'BSP3-submit-button'}>Submit</button>
                 </div>
             </div>
