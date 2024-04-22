@@ -4,6 +4,7 @@ import IngredientQuantitiesTableRP from "./RecipePageComponents/IngredientQuanti
 import Product from "./Interfaces/Product";
 import {UsedProductID} from "./Interfaces/UsedProductID";
 import {UsedProduct} from "./Interfaces/UsedProduct";
+import ScannedProductsTable from "./BakingSystemPage2Components/ScannedProductsTable";
 
 const BakingSystemPage2 = () => {
 
@@ -56,9 +57,9 @@ const BakingSystemPage2 = () => {
             <h1>Baking System</h1>
             <div className={'BS2-grid-container'}>
                 <div>
-                <IngredientQuantitiesTableRP
-                    ingredientQuantities={ingredients}
-                />
+                    <IngredientQuantitiesTableRP
+                        ingredientQuantities={ingredients}
+                    />
                 </div>
                 <div>
                     <input className={'BS2-input-box'}
@@ -74,7 +75,9 @@ const BakingSystemPage2 = () => {
                     <button onClick={handleSubmit} />
                 </div>
                 <div>
-
+                    <ScannedProductsTable
+                        scannedProducts={scannedProducts}
+                    />
                 </div>
             </div>
         </div>
