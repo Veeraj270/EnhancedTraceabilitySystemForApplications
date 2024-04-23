@@ -72,7 +72,6 @@ const UpdatedProductsTable = (props : PropTypes) => {
 
     const templateColumnStyle = getTemplateColumns(table.getHeaderGroups()[0]);
 
-
     return (
         <div className={'BSP3-products-table-grid'}>
             <div className={'BSP3-table-title'}>

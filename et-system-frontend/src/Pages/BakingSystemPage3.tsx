@@ -128,12 +128,25 @@ const BakingSystemPage3 = () => {
 
     const submit = () => {
         console.log("Submit")
+
+        //Check that all items have been updated with new weights
+        if (table1Data.length != 0){
+            alert("All items must be updated with new weights before submission");
+            return;
+        }
+
+        //Send the list of updated used items and newly produced items to the backend [need to write the back-end methods first]
+
     }
 
     //End of temp mock data
     return (
         <div className={'page-container'}>
             <h1>Baking System - Page 3</h1>
+            <div className={'BSP3-description'}>
+                <p>Scan each used item and enter the new weight of the product. Upon submission the newly produced products will be added to the database,
+                    and all used products will be updated with their new weights.</p>
+            </div>
             <div className={'BSP3-content'}>
                 <div className={'BSP3-column'}>
                     <ProductsTable
