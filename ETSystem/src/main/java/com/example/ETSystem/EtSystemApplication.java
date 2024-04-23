@@ -62,7 +62,7 @@ public class EtSystemApplication{
 
 			//Generate internal gtin database contents
 			mockDataGenerator.generateMockData();
-			mockDataGenerator.generateMockProductData();
+ 			mockDataGenerator.generateMockProductData();
 
 			//Add some mock planned deliveries to the database - for development purposes
 			for (int x = 0; x < 6; x ++){

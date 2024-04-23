@@ -4,5 +4,11 @@
     "cost": 22.50,
     "recipe": 1,
     "quantity": 5
+  },
+  {
+    "label": "Final Vanilla Cake",
+    "cost": 50,
+    "recipe": 2,
+    "quantity": 10
   }
 ]

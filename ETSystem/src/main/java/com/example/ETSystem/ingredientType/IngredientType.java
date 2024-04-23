@@ -6,14 +6,12 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import static jakarta.persistence.GenerationType.SEQUENCE;
-
 @Entity
 public class IngredientType {
 
     @Id
     @GeneratedValue
-    @Column
+    @Column(name = "ingredient_type_id")
     private long id;
 
     @Column(unique = true)

@@ -66,6 +66,8 @@ public class FinalProduct {
         this.quantity = quantity;
     }
 
+    public Long getId(){ return id; }
+
     public String getLabel() {
         return label;
     }

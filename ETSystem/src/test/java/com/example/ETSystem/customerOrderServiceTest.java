@@ -1,6 +1,5 @@
 package com.example.ETSystem;
 
-
 import com.example.ETSystem.customerOrders.CustomerOrder;
 import com.example.ETSystem.customerOrders.CustomerOrderRepository;
 import com.example.ETSystem.customerOrders.CustomerOrderService;
@@ -10,13 +9,12 @@ import com.example.ETSystem.recipe.IngredientQuantity;
 import com.example.ETSystem.recipe.Recipe;
 import com.example.ETSystem.recipe.RecipeRepository;
 import jakarta.transaction.Transactional;
-import org.antlr.v4.runtime.misc.Array2DHashSet;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.data.util.Pair;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -25,8 +23,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -168,5 +165,40 @@ public class customerOrderServiceTest {
 
         assert result.getClient().equals(updatedClient);
         assert result.getFinalProducts().equals(updatedFinalProducts);
+    }
+
+    @Test
+    @Transactional
+    public void testGetOrderedFinalProducts(){
+
+        ArrayList<FinalProduct> finalProducts = new ArrayList<>();
+
+        CustomerOrder order1 = new CustomerOrder("Cafe1", ZonedDateTime.now(), ZonedDateTime.now().plusDays(7), finalProducts);
+
+        order1 = customerOrderRepository.save(order1);
+
+        assertEquals(customerOrderService.getOrderedFinalProducts(), List.of());
+
+        FinalProduct finalProduct1 = new FinalProduct();
+        FinalProduct finalProduct2 = new FinalProduct();
+        FinalProduct finalProduct3 = new FinalProduct();
+
+        ArrayList<FinalProduct> finalProducts2 = new ArrayList<>();
+        finalProducts2.add(finalProduct1);
+        ArrayList<FinalProduct> finalProducts3 = new ArrayList<>();
+        finalProducts3.add(finalProduct2);
+        finalProducts3.add(finalProduct3);
+
+        CustomerOrder order2 = new CustomerOrder("Cafe2", ZonedDateTime.now(), ZonedDateTime.now().plusDays(7), finalProducts2);
+        CustomerOrder order3 = new CustomerOrder("Cafe3", ZonedDateTime.now(), ZonedDateTime.now().plusDays(7), finalProducts3);
+
+        order2 = customerOrderRepository.save(order2);
+
+        assertEquals(customerOrderService.getOrderedFinalProducts(), List.of(Pair.of(order2, finalProduct1)));
+
+        order3 = customerOrderRepository.save(order3);
+
+        assertEquals(customerOrderService.getOrderedFinalProducts(), List.of(Pair.of(order2, finalProduct1), Pair.of(order3, finalProduct2), Pair.of(order3, finalProduct3)));
+
     }
 }
