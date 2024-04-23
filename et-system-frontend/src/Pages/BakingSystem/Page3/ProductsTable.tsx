@@ -4,16 +4,18 @@ import {flexRender, getCoreRowModel, HeaderGroup, useReactTable} from "@tanstack
 interface TableRow{
     id: number,
     label: string,
-    weight: number
+    oldWeight: number
 }
 
 interface PropTypes{
     products: TableRow[]
+    selectedProductId: number | null //id of the selected used item
 }
 
 const ProductsTable = (props : PropTypes) => {
     //Destructure props
-    const products = props.products
+    const products = props.products;
+    const selectedProductId = props.selectedProductId;
 
     //Define Columns
     const columns = useMemo(() =>[
@@ -29,7 +31,7 @@ const ProductsTable = (props : PropTypes) => {
         },
         {
             header: 'Weight',
-            accessorKey: 'weight',
+            accessorKey: 'oldWeight',
             size: 30,
         }
     ],[])
@@ -79,7 +81,7 @@ const ProductsTable = (props : PropTypes) => {
                     <tbody>
                     {table.getRowModel().rows.map(row => (
                         <tr key={row.id}
-                            className={'BSP3-tr'}
+                            className={row.original.id !== selectedProductId ? 'BSP3-tr' : 'BSP3-tr-selected'}
                             style={{gridTemplateColumns: templateColumnStyle}}
                         >
                         {row.getVisibleCells().map(cell => (

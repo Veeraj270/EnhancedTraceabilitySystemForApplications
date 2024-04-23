@@ -59,7 +59,7 @@ const UpdatedProductsTable = (props : PropTypes) => {
     return (
         <div className={'BSP3-products-table-grid'}>
             <div className={'BSP3-table-title'}>
-                <p>Used Items</p>
+                <p>Updated Items</p>
             </div>
             <div className={'BSP3-products-table-headers'}>
                 <table>
