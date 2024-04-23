@@ -315,6 +315,12 @@ public class MockDataGenerator {
          TimelineEvent creationEvent = new CreateEvent(ZonedDateTime.now(), cake);
          timelineService.save(creationEvent);
 
+         IngredientType sugarIngredient = ingredientTypeRepository.findByName("Sugar").get(0);
+
+         Product sugar = new Product("Tesco Sugar", 100, 100, sugarIngredient);
+
+         productService.addNewProduct(sugar);
+
      }
 
      public void addProductFromSuppliedGood(SuppliedGood good){

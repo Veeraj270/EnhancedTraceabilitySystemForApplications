@@ -14,17 +14,30 @@
     --shadow-color: rgb(0,0,0,0.4);
 }
 
+.BS2-title{
+    margin-bottom: 20px;
+}
+
 .BS2-grid-container{
     display: grid;
-    grid-template-columns: 0.33fr 0.33fr 0.33fr;
+    grid-template-columns: 0.33fr 0.67fr;
     width: 100%;
     height: 600px;
-    column-gap: 30px;
+    column-gap: 10px;
+}
+
+.BS2-grid-container div{
+    text-align: center;
+}
+
+
+.input-container-title{
+    border-bottom: 1px solid black;
 }
 
 .input-container{
     text-align: center;
-    margin-top: 10%;
+    margin: 25% 15px 15px;
 }
 
 .BS2-input-box{
@@ -41,7 +54,7 @@
     height: 40px;
     font-size: 22px;
     letter-spacing: 1px;
-    border: solid black 2px;
+    border: solid black 1px;
     border-radius: 0.5rem;
 }
 
@@ -56,4 +69,23 @@
 .BS2-grid-container-inputs div{
     text-align: center;
     height: 150px;
+}
+
+.weigh-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 10px;
+}
+
+.finished-button{
+    font-size: 24px;
+    font-weight: bolder;
+    background-color: powderblue;
+    color: darkslategray;
+    width: 250px;
+    padding: 10px;
+    margin-top: 15px;
+    border: solid black 1px;
+    border-radius: 1rem;
+    border-radius: 0.5rem;
 }

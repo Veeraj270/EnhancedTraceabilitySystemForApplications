@@ -54,6 +54,7 @@ const BakingSystemPage1 = () => {
         // If there is selected products fetch the ingredients needed for those products
         if(selectedData !== undefined && selectedData.length > 0) {
             fetchIngredientsNeeded(selectedData.map(x => ({id: x.finalProductId, quantity: x.quantity}))).then((ingredientsNeededData) => {
+                console.log(ingredientsNeededData)
                 setIngredientsNeeded(ingredientsNeededData)
             })
                 .catch((reason) => {
@@ -138,7 +139,7 @@ const BakingSystemPage1 = () => {
                         </div>
                     </div>
                 <div>
-                    <Link to={'/baking-system-page-2'} state={ingredientsNeeded}><button className={'start-baking-button'} onClick={startBaking}>Start baking</button></Link>
+                    <Link to={'/baking-system-page-2'} state={{ingredientsNeeded}}><button className={'start-baking-button'} onClick={startBaking}>Start baking</button></Link>
                 </div>
                 </div>
             </div>

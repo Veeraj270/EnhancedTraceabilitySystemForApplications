@@ -14,7 +14,7 @@ const ScannedProductsTable = ({scannedProducts}) => {
         },
         {
             header: "Ingredient",
-            accessorKey: "ingredientType",
+            accessorKey: "ingredientTypeName",
             size: 20
         },
         {
@@ -25,10 +25,11 @@ const ScannedProductsTable = ({scannedProducts}) => {
     ], [])
 
     useEffect(() => {
+        console.log(scannedProducts)
         const newTableData = scannedProducts.map((dataElement: UsedProduct) => (
             {
                 productID: dataElement.product.id,
-                ingredientType: dataElement.product.ingredientType.name,
+                ingredientTypeName: dataElement.product.ingredientType.name,
                 weight: dataElement.weight
             }
         ))
@@ -42,7 +43,7 @@ const ScannedProductsTable = ({scannedProducts}) => {
     })
 
     return(
-        <div style={{height: "530px"}}className={'FPTable-grid'}>
+        <div style={{height: "450px"}}className={'FPTable-grid'}>
             <div className={"FPTable-content-div"}>
                 <table>
                     <thead>
