@@ -31,7 +31,7 @@ const BakingSystemPage3 = () => {
         })
     }
 
-    const [table2Data, setTable2Data] = useState<Table1Row[]>([])
+    const [table2Data, setTable2Data] = useState<Table2Row[]>([])
 
     const table3Data = new Array(10).fill({
         quantity: 1,
@@ -70,17 +70,64 @@ const BakingSystemPage3 = () => {
     }
 
     const updateEntry = (weight: number) => {
-        //Add selected product to updated items table
-        setTable2Data([...table2Data, {...selectedProduct, newWeight: weight}]);
-
-        //Remove selected product from the used items table
+        let index = -1;
+        //Find product id in table1Data
         for (let i = 0; i < table1Data.length; i ++){
             if (table1Data[i].id === selectedProduct?.id){
-                let temp = Array.from(table1Data);
-                temp.splice(i,1);
-                setTable1Data(temp);
+                index = i;
+                break;
             }
         }
+
+        //Check if newWeight is less than old weight
+        if (table1Data[index].oldWeight < weight){
+            alert("Entered weight is more than old weight");
+            return false;
+        }
+
+        //Add selected product to updated items table
+        if (selectedProduct){
+            setTable2Data([...table2Data, {...selectedProduct, newWeight: weight}]);
+        } else {
+            alert("No selected product");
+            return false;
+        }
+
+
+        let temp = Array.from(table1Data);
+        temp.splice(index,1);
+        setTable1Data(temp);
+
+        return true;
+    }
+
+    const removeProduct = (id: number) => {
+        console.log("removeProduct()");
+
+        //Find product id in table2Data
+        let index = -1;
+        for (let i = 0; i < table1Data.length; i ++){
+            if (table2Data[i].id === id){
+                index = i;
+                break;
+            }
+        }
+        //Add to table1Data
+        setTable1Data([...table1Data,
+            {
+                id: id,
+                label: table2Data[index].label,
+                oldWeight: table2Data[index].oldWeight
+            }]);
+
+        //Remove from table2Data
+        let temp = Array.from(table2Data);
+        temp.splice(index,1);
+        setTable2Data(temp);
+    }
+
+    const submit = () => {
+        console.log("Submit")
     }
 
     //End of temp mock data
@@ -104,13 +151,16 @@ const BakingSystemPage3 = () => {
                 <div className={'BSP3-column'}>
                     <UpdatedProductsTable
                         products={table2Data}
+                        removeProduct={removeProduct}
                     />
                 </div>
                 <div className={'BSP3-column'}>
                     <ProducedTable
                         products={table3Data}
                     />
-                    <button className={'BSP3-submit-button'}>Submit</button>
+                    <button className={'BSP3-submit-button'}
+                        onClick={submit}
+                    >Submit</button>
                 </div>
             </div>
         </div>

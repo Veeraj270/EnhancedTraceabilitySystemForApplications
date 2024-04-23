@@ -2,12 +2,14 @@ import {FaArrowRight} from "react-icons/fa6";
 import React, {ChangeEvent, useState} from "react";
 
 interface PropTypes{
+    input1Ref: React.RefObject<HTMLInputElement>,
     input2Ref: React.RefObject<HTMLInputElement>,
-    updateEntry: (weight: number) => void
+    updateEntry: (weight: number) => boolean
 }
 
 const Input2 = (props : PropTypes) => {
     //Destructor props
+    const input1Ref = props.input1Ref;
     const input2Ref = props.input2Ref;
     const updateEntry = props.updateEntry;
 
@@ -34,12 +36,13 @@ const Input2 = (props : PropTypes) => {
         if (!isValidWeight(input)){
             alert("Invalid weight entered");
         }
-
         let weight = parseFloat(input);
-
-        updateEntry(weight);
+        if (updateEntry(weight)){
+            input1Ref.current?.focus();
+        }
     }
 
+    //Render
     return (
         <div className={'BSP3-input-wrapper'}>
             <input

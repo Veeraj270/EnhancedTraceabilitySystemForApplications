@@ -1,20 +1,31 @@
 import React, {useMemo} from "react"
 import {flexRender, getCoreRowModel, HeaderGroup, useReactTable} from "@tanstack/react-table";
 
-interface TableRow{
+interface Table2Row{
     id: number,
-    label: string,
+    label:string,
     oldWeight: number
     newWeight: number
 }
 
 interface PropTypes{
-    products: TableRow[]
+    products: Table2Row[]
+    removeProduct: (id : number) => void;
 }
 
 const UpdatedProductsTable = (props : PropTypes) => {
     //Destructure props
-    const products = props.products
+    const products = props.products;
+    const removeProduct = props.removeProduct;
+
+    //Methods
+    const removeFromTable = (event: React.MouseEvent<HTMLButtonElement>) => {
+        const target = event.target as HTMLElement;
+        let productId = target.getAttribute("data-id");
+        if (productId){
+            removeProduct(parseInt(productId, 10));
+        }
+    }
 
     //Define Columns
     const columns = useMemo(() =>[
@@ -26,7 +37,7 @@ const UpdatedProductsTable = (props : PropTypes) => {
         {
             header: 'Label',
             accessorKey: 'label',
-            size: 60,
+            size: 50,
         },
         {
             header: 'Old Weight',
@@ -37,8 +48,13 @@ const UpdatedProductsTable = (props : PropTypes) => {
             header: 'New Weight',
             accessorKey: 'newWeight',
             size: 10,
-        }
-    ],[])
+        },
+        {
+            header: "",
+            accessorKey: 'actions',
+            size: 10
+
+        }],[])
 
     const table = useReactTable({
         data: products,
@@ -46,7 +62,7 @@ const UpdatedProductsTable = (props : PropTypes) => {
         getCoreRowModel: getCoreRowModel(),
     })
 
-    const getTemplateColumns = (headerGroup : HeaderGroup<TableRow>): string => {
+    const getTemplateColumns = (headerGroup : HeaderGroup<Table2Row>): string => {
         let output  = "";
         headerGroup.headers.forEach(header => {
             output += `${header.column.getSize()}fr `
@@ -55,6 +71,7 @@ const UpdatedProductsTable = (props : PropTypes) => {
     }
 
     const templateColumnStyle = getTemplateColumns(table.getHeaderGroups()[0]);
+
 
     return (
         <div className={'BSP3-products-table-grid'}>
@@ -88,11 +105,13 @@ const UpdatedProductsTable = (props : PropTypes) => {
                             className={'BSP3-tr'}
                             style={{gridTemplateColumns: templateColumnStyle}}
                         >
-                            {row.getVisibleCells().map(cell => (
-                                <td className={'BSP3-td'}>
-                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                </td>
-                            ))}
+                            <td className={'BSP3-td'}>{row.original.id}</td>
+                            <td className={'BSP3-td'}>{row.original.label}</td>
+                            <td className={'BSP3-td'}>{row.original.oldWeight}</td>
+                            <td className={'BSP3-td'}>{row.original.newWeight}</td>
+                            <td className={'BSP3-td'}>
+                                <button className={'BSP3-remove-button'} onClick={removeFromTable} data-id={row.original.id}>X</button>
+                            </td>
                         </tr>))
                     }
                     </tbody>

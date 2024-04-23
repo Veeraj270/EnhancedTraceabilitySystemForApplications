@@ -2,11 +2,12 @@ import React, {ChangeEvent, useState} from "react"
 import { FaArrowRight } from "react-icons/fa6";
 import Input2 from "./NewWeightWidget/Input2";
 import Input1 from "./NewWeightWidget/Input1";
+import { GiWeight } from "react-icons/gi";
 
 interface PropTypes{
     selectedProductLabel: string | null,
     searchUsedItems: (input: string) => boolean,
-    updateEntry: (input: number) => void
+    updateEntry: (input: number) => boolean
 }
 
 const NewWeightWidget = (props : PropTypes) => {
@@ -20,6 +21,11 @@ const NewWeightWidget = (props : PropTypes) => {
     //Render
     return (
         <div className={'BSP3-widget-1'}>
+            <div className={'BSP3-icon-wrapper'}>
+                <GiWeight
+                    size={50}
+                />
+            </div>
             <p>Step 1:</p>
             <Input1
                 searchUsedItems={props.searchUsedItems}
@@ -29,6 +35,7 @@ const NewWeightWidget = (props : PropTypes) => {
             <p><b>Selected: &nbsp;</b> {selectedProductLabel ? selectedProductLabel : ""}</p>
             <p>Step 2:</p>
             <Input2
+                input1Ref={input1Ref}
                 input2Ref={input2Ref}
                 updateEntry={props.updateEntry}
             />

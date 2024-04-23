@@ -1,4 +1,5 @@
 import React, {ChangeEvent, useState} from "react";
+import { FaSearch } from "react-icons/fa";
 
 interface PropTypes{
     searchUsedItems: (input: string) => boolean
@@ -19,6 +20,7 @@ const Input1 = (props : PropTypes) => {
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         setInput(event.target.value);
     }
+
     const handleKeyPress = (event: React.KeyboardEvent) => {
         if (event.key === 'Enter'){
             buttonClicked();
@@ -30,6 +32,7 @@ const Input1 = (props : PropTypes) => {
         let val = searchUsedItems(input);
         if (!val){
             alert("No used product found by given id");
+            return;
         }
         //Clear the input
         setInput("");
@@ -40,6 +43,7 @@ const Input1 = (props : PropTypes) => {
         }
     }
 
+    //Render
     return (
         <div className={'BSP3-input-wrapper'}>
             <input
@@ -50,9 +54,7 @@ const Input1 = (props : PropTypes) => {
                 onKeyDown={handleKeyPress}
             >
             </input>
-            <button
-                onClick={buttonClicked}
-            >Search</button>
+            <button onClick={buttonClicked}><FaSearch/></button>
         </div>
     )
 }
