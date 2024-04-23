@@ -33,7 +33,7 @@ const ScannedProductsTable = ({scannedProducts}) => {
             }
         ))
         setTableData(newTableData)
-    })
+    }, [scannedProducts])
 
     const table = useReactTable({
         data: tableData,
@@ -42,7 +42,7 @@ const ScannedProductsTable = ({scannedProducts}) => {
     })
 
     return(
-        <div style={{height: "435px"}}className={'FPTable-grid'}>
+        <div style={{height: "530px"}}className={'FPTable-grid'}>
             <div className={"FPTable-content-div"}>
                 <table>
                     <thead>
