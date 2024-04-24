@@ -32,7 +32,7 @@ public class RecordedDelivery{
 	}
 
 	public RecordedDelivery(){	};
-	public long getId(){
+	public @Generated long getId(){
 		return id;
 	}
 	

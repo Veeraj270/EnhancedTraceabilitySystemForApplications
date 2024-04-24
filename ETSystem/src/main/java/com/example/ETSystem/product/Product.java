@@ -116,7 +116,7 @@ public class Product{
 	public @Generated CustomerOrder getAssociatedCustomerOrder(){ return this.associatedCustomerOrder; }
 	
 	//Setters
-	public void setId(long id){
+	public @Generated void setId(long id){
 		this.id = id;
 	}
 	
