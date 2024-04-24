@@ -27,16 +27,19 @@ public non-sealed class UseEvent implements TimelineEvent{
 	@Column(nullable = true)
 	private String location;
 	
+	private float quantityUsed;
+	
 	@Column(nullable = true)
 	private String userResponsible;
 	
 	public UseEvent(){}
 	
-	public UseEvent(ZonedDateTime timestamp, Product owner, Product result, String location, String userResponsible){
+	public UseEvent(ZonedDateTime timestamp, Product owner, Product result, String location, float quantityUsed, String userResponsible){
 		this.timestamp = timestamp;
 		this.owner = owner;
 		this.result = result;
 		this.location = location;
+		this.quantityUsed = quantityUsed;
 		this.userResponsible = userResponsible;
 	}
 	
@@ -80,6 +83,14 @@ public non-sealed class UseEvent implements TimelineEvent{
 		this.location = location;
 	}
 	
+	public float getQuantityUsed(){
+		return quantityUsed;
+	}
+	
+	public void setQuantityUsed(float quantityUsed){
+		this.quantityUsed = quantityUsed;
+	}
+	
 	public String getUserResponsible(){
 		return userResponsible;
 	}
@@ -94,11 +105,12 @@ public non-sealed class UseEvent implements TimelineEvent{
 			td.data().put("resultId", String.valueOf(result.getId()));
 		if(location != null)
 			td.data().put("location", location);
+		td.data().put("quantityUsed", String.valueOf(quantityUsed));
 		return td;
 	}
 	
 	public String toString(){
-		return "UseEvent[id=" + id + ", ownerId=" + owner.getId() + ", timestamp=" + timestamp + ", resultId" + result.getId() + ", location" + location + ", userResponsible=" + userResponsible + "]";
+		return "UseEvent[id=" + id + ", ownerId=" + owner.getId() + ", timestamp=" + timestamp + ", resultId" + result.getId() + ", location" + location + ", quantityUsed" + quantityUsed + ", userResponsible=" + userResponsible + "]";
 	}
 	
 	public boolean equals(Object o){
@@ -108,10 +120,11 @@ public non-sealed class UseEvent implements TimelineEvent{
 				&& Objects.equals(owner, event.owner)
 				&& Objects.equals(result, event.result)
 				&& Objects.equals(location, event.location)
+				&& quantityUsed == event.quantityUsed
 				&& Objects.equals(userResponsible, event.userResponsible);
 	}
 	
 	public int hashCode(){
-		return Objects.hash(id, timestamp, owner, result, location, userResponsible);
+		return Objects.hash(id, timestamp, owner, result, location, quantityUsed, userResponsible);
 	}
 }
