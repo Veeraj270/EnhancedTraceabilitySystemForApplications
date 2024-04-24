@@ -139,7 +139,7 @@ const BakingSystemPage1 = () => {
                         </div>
                     </div>
                 <div>
-                    <Link to={'/baking-system-page-2'} state={{ingredientsNeeded}}><button className={'start-baking-button'} onClick={startBaking}>Start baking</button></Link>
+                    <Link to={'/baking-system-page-2'} state={{ingredientsNeeded, selectedData}}><button className={'start-baking-button'} onClick={startBaking}>Start baking</button></Link>
                 </div>
                 </div>
             </div>

@@ -6,19 +6,22 @@ import {UsedProduct} from "./Interfaces/UsedProduct";
 import ScannedProductsTable from "./BakingSystemPage2Components/ScannedProductsTable";
 import "./BakingSystemPage2Components/BS2Stylesheet.css"
 import {IngredientQuantity} from "./Interfaces/IngredientQuantity";
+import {OrderedFinalProduct} from "./Interfaces/OrderedFinalProduct";
 
 const BakingSystemPage2 = () => {
 
     const [scannedProducts, setScannedProducts] = useState<UsedProduct[]>([])
     const [usedProductData, setUsedProductData] = useState<UsedProductID>({})
     const [ingredientsNeeded, setIngredientsNeeded] = useState<IngredientQuantity[]>([])
+    const [selectedData, setSelectedData] = useState<OrderedFinalProduct[]>()
 
     const location = useLocation();
 
     useEffect(() => {
         // This is data passed from the first page of the baking system
-        if(location.state && location.state.ingredientsNeeded){
+        if(location.state && location.state.ingredientsNeeded && location.state.selectedData){
             setIngredientsNeeded(location.state.ingredientsNeeded)
+            setSelectedData(location.state.selectedData)
         }else{
             console.log("No ingredients were passed to this page")
         }
