@@ -76,7 +76,8 @@ public non-sealed class MoveEvent implements TimelineEvent{
 	
 	public TimelineData asData(){
 		TimelineData td = TimelineEvent.super.asData();
-		td.data().put("destination", destination);
+		if(destination != null)
+			td.data().put("destination", destination);
 		return td;
 	}
 	
