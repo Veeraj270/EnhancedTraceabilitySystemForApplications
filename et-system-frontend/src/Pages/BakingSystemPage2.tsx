@@ -16,6 +16,7 @@ const BakingSystemPage2 = () => {
     const location = useLocation();
 
     useEffect(() => {
+        // This is data passed from the first page of the baking system
         if(location.state && location.state.ingredientsNeeded){
             setIngredientsNeeded(location.state.ingredientsNeeded)
         }else{
@@ -37,11 +38,41 @@ const BakingSystemPage2 = () => {
         }))
     }
 
+    const updateScannedProducts = (scannedProduct: UsedProduct) => {
+
+        const productIndex = scannedProducts.findIndex(product =>
+        scannedProduct.product.id === product.product.id)
+
+        if(productIndex == -1){
+            // If the product isn't in the table just add it
+            const newScannedProducts = scannedProducts.concat(scannedProduct)
+            setScannedProducts(newScannedProducts)
+        }else{
+            // If the product is in the table just add the quantity to the already existing quantity
+            const newScannedProducts = scannedProducts.map(product => {
+                if(scannedProduct.product.id === product.product.id){
+                    // Had to do this because it was concatenating it like 2 string
+                    // instead of adding it as numbers
+                    const newWeight: number = parseFloat(product.weight.toString()) + parseFloat(scannedProduct.weight.toString())
+                    return {
+                        product: product.product,
+                        weight: newWeight
+                    }
+                }else {
+                    return product
+                }
+            })
+            setScannedProducts(newScannedProducts)
+        }
+
+    }
+
     const updateTables = (product: UsedProduct) => {
         // Find the ingredient whose quantity needs subtracting
         const ingredientIndex = ingredientsNeeded.findIndex((ing) =>
             ing.ingredientType?.name === product.product.ingredientType.name
         )
+        // If the ingredient is found update it
         if(ingredientIndex !== -1){
             const newIngredientsNeeded = ingredientsNeeded.map((x: IngredientQuantity) => {
                 if(x.ingredientType?.name === product.product.ingredientType.name){
@@ -60,13 +91,13 @@ const BakingSystemPage2 = () => {
             setIngredientsNeeded(newIngredientsNeeded.filter(x => x !== undefined))
 
             // Add the fetched product and the weight to the scanned products table data
-            setScannedProducts(prevState =>
-                [...prevState,
-                    {product: product.product,
-                        weight: usedProductData.weight}
-                ]
-            )
+            updateScannedProducts({
+                product: product.product,
+                weight: usedProductData.weight
+            })
+
             setUsedProductData({})
+            // If the ingredient is not found - alert
         } else{
             alert("The ingredient type of this product doesn't match any ingredients from the table")
         }
@@ -135,6 +166,7 @@ const BakingSystemPage2 = () => {
                             </button>
                         </div>
                         <div>
+                            <b className="weigh-products-title">Weighed Products</b>
                             <ScannedProductsTable
                                 scannedProducts={scannedProducts}
                             />

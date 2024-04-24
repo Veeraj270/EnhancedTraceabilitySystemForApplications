@@ -43,7 +43,7 @@ const ScannedProductsTable = ({scannedProducts}) => {
     })
 
     return(
-        <div style={{height: "450px"}}className={'FPTable-grid'}>
+        <div style={{height: "410px"}}className={'FPTable-grid'}>
             <div className={"FPTable-content-div"}>
                 <table>
                     <thead>
