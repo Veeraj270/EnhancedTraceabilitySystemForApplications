@@ -150,6 +150,4 @@ public class BakingSystemService {
             useProduct(usedProduct.productId(), usedProduct.newQuantity() ,newlyAddedProducts, bpStruct.location(), usedProduct.quantityUsed(), bpStruct.userResponsible());
         }
     }
-
-
 }
