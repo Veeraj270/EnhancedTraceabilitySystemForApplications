@@ -2,8 +2,8 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import { useLocation } from 'react-router-dom';
 import IngredientQuantitiesTableRP from "./RecipePageComponents/IngredientQuantitiesTableRP";
 import {UsedProduct} from "./Interfaces/UsedProduct";
-import ScannedProductsTable from "./BakingSystemPage2Components/ScannedProductsTable";
-import "./BakingSystemPage2Components/BS2Stylesheet.css"
+import ScannedProductsTable from "./BakingSystem/Page2/ScannedProductsTable";
+import "./BakingSystem/Page2/BS2Stylesheet.css"
 import {IngredientQuantity} from "./Interfaces/IngredientQuantity";
 import {OrderedFinalProduct} from "./Interfaces/OrderedFinalProduct";
 

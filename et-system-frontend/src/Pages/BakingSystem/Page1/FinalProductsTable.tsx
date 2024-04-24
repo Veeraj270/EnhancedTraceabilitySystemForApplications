@@ -1,7 +1,7 @@
 import {ChangeEvent, useEffect, useMemo, useState} from "react";
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import React from "react";
-import {OrderedFinalProduct} from "../Interfaces/OrderedFinalProduct";
+import {OrderedFinalProduct} from "../../Interfaces/OrderedFinalProduct";
 
 // @ts-ignore
 const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData, searchData, setSearchData}) => {

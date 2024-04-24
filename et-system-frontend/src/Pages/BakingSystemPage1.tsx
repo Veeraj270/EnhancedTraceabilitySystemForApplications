@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
-import "./BakingSystemPage1Components/BS1Stylesheet.css"
+import "./BakingSystem/Page1/BS1Stylesheet.css"
 import {OrderedFinalProduct} from "./Interfaces/OrderedFinalProduct";
-import FinalProductsTable from "./BakingSystemPage1Components/FinalProductsTable";
-import SelectedFinalProductsTable from "./BakingSystemPage1Components/SelectedFinalProductsTable";
+import FinalProductsTable from "./BakingSystem/Page1/FinalProductsTable";
+import SelectedFinalProductsTable from "./BakingSystem/Page1/SelectedFinalProductsTable";
 import IngredientQuantitiesTableRP from "./RecipePageComponents/IngredientQuantitiesTableRP";
 import {Link} from "react-router-dom";
 import {IngredientQuantity} from "./Interfaces/IngredientQuantity";

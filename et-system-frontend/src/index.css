@@ -14,6 +14,17 @@ code {
     monospace;
 }
 
+.page-container{
+  padding-left: 50px;
+  padding-right: 180px;
+  padding-bottom: 50px;
+  background-color: ghostwhite;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 80px;
+  --shadow-color: rgb(0,0,0,0.4);
+}
+
 
 .container {
   display: grid;

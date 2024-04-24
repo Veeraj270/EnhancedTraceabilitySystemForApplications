@@ -1,6 +1,6 @@
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import React, {useMemo} from "react";
-import {OrderedFinalProduct} from "../Interfaces/OrderedFinalProduct";
+import {OrderedFinalProduct} from "../../Interfaces/OrderedFinalProduct";
 
 // @ts-ignore
 const SelectedFinalProductsTable = ({selectedData, setSelectedData, nonSelectedData, setNonSelectedData, searchData, setSearchData}) => {

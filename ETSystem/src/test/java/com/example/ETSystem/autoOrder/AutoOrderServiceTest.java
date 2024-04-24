@@ -327,17 +327,19 @@ public class AutoOrderServiceTest {
 
     @Test
     @Transactional
-
     void testGenerateRequiredOrders_usesStoredProducts(){
         //Setup
-        IngredientType flour = new IngredientType("flour", false, false, Set.of()); flour.setId(1);
-        IngredientType sugar = new IngredientType("sugar", false, false, Set.of()); sugar.setId(2);
+        IngredientType flour = new IngredientType("flour", false, false, Set.of());
+        IngredientType sugar = new IngredientType("sugar", false, false, Set.of());
 
         flour = ingredientTypeRepository.save(flour);
         sugar = ingredientTypeRepository.save(sugar);
 
         IngredientQuantity iQuantity1 = new IngredientQuantity(flour, 5);
         IngredientQuantity iQuantity2 = new IngredientQuantity(sugar,5);
+
+        iQuantity1 = ingredientQuantityRepository.save(iQuantity1);
+        iQuantity2 = ingredientQuantityRepository.save(iQuantity2);
 
         Recipe recipe = new Recipe("recipe1", Set.of(iQuantity1, iQuantity2));
         FinalProduct fProduct1 = new FinalProduct("fProduct1", 1000, recipe, 4);

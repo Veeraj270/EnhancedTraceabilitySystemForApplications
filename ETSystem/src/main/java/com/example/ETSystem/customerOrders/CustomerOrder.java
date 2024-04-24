@@ -57,7 +57,7 @@ public class CustomerOrder {
     public CustomerOrder() {
     }
 
-    public CustomerOrder(String client, ZonedDateTime date, ZonedDateTime deliveryDate, ArrayList<FinalProduct> finalProducts) {
+    public CustomerOrder(String client, ZonedDateTime date, ZonedDateTime deliveryDate, List<FinalProduct> finalProducts) {
         this.client = client;
         this.date = date;
         this.deliveryDate = deliveryDate;

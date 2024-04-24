@@ -32,15 +32,13 @@ public class IngredientQuantity {
         this.quantity = quantity;
     };
 
-
-
     @Override
     public @Generated boolean equals(Object o) {
         if(this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
         IngredientQuantity that = (IngredientQuantity) o;
-        return Objects.equals(this.getQuantity(), that.getQuantity()) && Objects.equals(this.getIngredientType(), that.getIngredientType());
+        return Objects.equals(this.getQuantity(), that.getQuantity()) && Objects.equals(this.getIngredientType(), that.getIngredientType()) && this.getId() == that.getId();
     }
 
     @Override

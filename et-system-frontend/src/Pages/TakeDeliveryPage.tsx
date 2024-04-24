@@ -8,6 +8,7 @@ import TDPTable from "./TakeDeliveryPageComponents/TDPTable";
 import Metadata from "./TakeDeliveryPageComponents/Interfaces/Metadata";
 import {useLocation} from "react-router-dom"
 import TDPPopUp from "./TakeDeliveryPageComponents/TDPPopUp";
+import React from 'react';
 
 
 const TakeDelivery = () => {
