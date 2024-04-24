@@ -25,7 +25,6 @@ const ScannedProductsTable = ({scannedProducts}) => {
     ], [])
 
     useEffect(() => {
-        console.log(scannedProducts)
         const newTableData = scannedProducts.map((dataElement: UsedProduct) => (
             {
                 productID: dataElement.product.id,

@@ -54,7 +54,6 @@ const BakingSystemPage1 = () => {
         // If there is selected products fetch the ingredients needed for those products
         if(selectedData !== undefined && selectedData.length > 0) {
             fetchIngredientsNeeded(selectedData.map(x => ({id: x.finalProductId, quantity: x.quantity}))).then((ingredientsNeededData) => {
-                console.log(ingredientsNeededData)
                 setIngredientsNeeded(ingredientsNeededData)
             })
                 .catch((reason) => {

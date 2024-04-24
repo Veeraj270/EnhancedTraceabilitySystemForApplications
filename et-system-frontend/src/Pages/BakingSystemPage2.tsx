@@ -11,7 +11,8 @@ import {OrderedFinalProduct} from "./Interfaces/OrderedFinalProduct";
 const BakingSystemPage2 = () => {
 
     const [scannedProducts, setScannedProducts] = useState<UsedProduct[]>([])
-    const [usedProductData, setUsedProductData] = useState<UsedProductID>({})
+    const [productID, setProductID] = useState<number>()
+    const [weight, setWeight] = useState<number>()
     const [ingredientsNeeded, setIngredientsNeeded] = useState<IngredientQuantity[]>([])
     const [selectedData, setSelectedData] = useState<OrderedFinalProduct[]>()
 
@@ -28,17 +29,11 @@ const BakingSystemPage2 = () => {
     }, [location.state.ingredientsNeeded])
 
     const handleChangeProductID = (event: ChangeEvent<HTMLInputElement>) => {
-        setUsedProductData(prevState => ({
-            ...prevState,
-            productID: event.target.value
-            }))
+        setProductID(parseFloat(event.target.value))
     }
 
     const handleChangeWeight = (event: ChangeEvent<HTMLInputElement>) => {
-        setUsedProductData(prevState => ({
-            ...prevState,
-            weight: event.target.value
-        }))
+        setWeight(parseFloat(event.target.value))
     }
 
     const updateScannedProducts = (scannedProduct: UsedProduct) => {
@@ -67,7 +62,6 @@ const BakingSystemPage2 = () => {
             })
             setScannedProducts(newScannedProducts)
         }
-
     }
 
     const updateTables = (product: UsedProduct) => {
@@ -91,15 +85,21 @@ const BakingSystemPage2 = () => {
                 }
             })
             // Removing the undefined elements
-            setIngredientsNeeded(newIngredientsNeeded.filter(x => x !== undefined))
+            if(newIngredientsNeeded.filter(x => x !== undefined) !== undefined) {
+                const filteredIngredientsNeeded = newIngredientsNeeded.filter(x => x !== undefined)
+                setIngredientsNeeded(filteredIngredientsNeeded)
+            } else {
+                setIngredientsNeeded([])
+            }
 
             // Add the fetched product and the weight to the scanned products table data
             updateScannedProducts({
                 product: product.product,
-                weight: usedProductData.weight
+                weight: weight
             })
 
-            setUsedProductData({})
+            setProductID(undefined)
+            setWeight(undefined)
             // If the ingredient is not found - alert
         } else{
             alert("The ingredient type of this product doesn't match any ingredients from the table")
@@ -115,19 +115,16 @@ const BakingSystemPage2 = () => {
     }
 
     const handleSubmit = () => {
-        console.log(usedProductData)
         // If both inputs are there, fetch the product from the database and update the tables
-        if(usedProductData && usedProductData.productID && usedProductData.weight) {
-            fetchProduct(usedProductData.productID).then(product => {
-                console.log(product.ingredientType.name)
+        if(productID && weight) {
+            fetchProduct(productID).then(product => {
                 updateTables(
                     {
                         product: product,
-                        weight: usedProductData.weight
+                        weight: weight
                     })
             }).catch((error) => console.log(error))
         }
-        console.log(scannedProducts)
     }
 
     return (
@@ -149,7 +146,7 @@ const BakingSystemPage2 = () => {
                                     <h3>Product ID</h3>
                                 <input className={'BS2-input-box'}
                                        onChange={handleChangeProductID}
-                                       value={usedProductData?.productID || ''}
+                                       value={productID || ''}
                                        type={"number"}
                                 />
                                 </div>
@@ -158,7 +155,7 @@ const BakingSystemPage2 = () => {
                                 <input className={'BS2-input-box'}
                                        type={"number"}
                                        onChange={handleChangeWeight}
-                                       value={usedProductData?.weight || ''}
+                                       value={weight || ''}
                                 />
                                 </div>
                             </div>
