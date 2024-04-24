@@ -312,7 +312,7 @@ public class MockDataGenerator {
 
          productService.addNewProduct(cake);
 
-         TimelineEvent creationEvent = new CreateEvent(ZonedDateTime.now(), cake, null);
+         TimelineEvent creationEvent = new CreateEvent(ZonedDateTime.now(), cake, CreateEvent.CreateType.BAKED, "Kitchen 1", null);
          timelineService.save(creationEvent);
 
      }
@@ -330,7 +330,7 @@ public class MockDataGenerator {
         );
 
         productService.addNewProduct(newProduct);
-        TimelineEvent creationEvent = new CreateEvent(epochUTC, newProduct, null);
+        TimelineEvent creationEvent = new CreateEvent(epochUTC, newProduct, CreateEvent.CreateType.DELIVERED, null, null);
         timelineService.save(creationEvent);
      }
 
