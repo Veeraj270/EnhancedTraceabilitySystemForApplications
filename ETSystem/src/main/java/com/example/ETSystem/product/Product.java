@@ -68,6 +68,14 @@ public class Product{
 		this.ingredientType = iType;
 	}
 
+	public Product(String label, float maxQuantity, float currentQuantity, List<Long> intermediaryIds, IngredientType iType) {
+		this.label = label;
+		this.maxQuantity = maxQuantity;
+		this.currentQuantity = currentQuantity;
+		this.intermediaryIds = intermediaryIds;
+		this.ingredientType = iType;
+	}
+
 	public Product (String label, IngredientType iType, List<Long> intermediaryIds){
 		this.label = label;
 		this.ingredientType = iType;

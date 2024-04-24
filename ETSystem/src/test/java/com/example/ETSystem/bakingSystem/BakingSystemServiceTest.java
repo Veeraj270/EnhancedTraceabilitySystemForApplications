@@ -1,9 +1,13 @@
 package com.example.ETSystem.bakingSystem;
 
+import com.example.ETSystem.finalProducts.FinalProduct;
 import com.example.ETSystem.ingredientType.IngredientType;
 import com.example.ETSystem.ingredientType.IngredientTypeRepository;
 import com.example.ETSystem.product.Product;
 import com.example.ETSystem.product.ProductRepository;
+import com.example.ETSystem.recipe.IngredientQuantity;
+import com.example.ETSystem.recipe.IngredientQuantityRepository;
+import com.example.ETSystem.recipe.Recipe;
 import com.example.ETSystem.timeline.*;
 import jakarta.transaction.Transactional;
 import org.aspectj.lang.annotation.Before;
@@ -21,6 +25,7 @@ import java.util.Set;
 public class BakingSystemServiceTest {
     private final ProductRepository productRepository;
     private final IngredientTypeRepository iTypeRepository;
+    private final IngredientQuantityRepository IQRepository;
 
     //Needed for timeline service
     public final CreateEventRepository createRepo;
@@ -35,7 +40,8 @@ public class BakingSystemServiceTest {
                                    IngredientTypeRepository iTypeRepository,
                                    CreateEventRepository createRepo,
                                    MoveEventRepository moveRepo,
-                                   UseEventRepository useRepo
+                                   UseEventRepository useRepo,
+                                   IngredientQuantityRepository IQRepository
                                ){
         //Initialize the repositories
         this.productRepository = productRepository;
@@ -43,6 +49,7 @@ public class BakingSystemServiceTest {
         this.createRepo = createRepo;
         this.moveRepo = moveRepo;
         this.useRepo = useRepo;
+        this.IQRepository = IQRepository;
 
         //Initialize the services
         this.timelineService = new TimelineService(createRepo, moveRepo, useRepo, productRepository);
@@ -52,7 +59,6 @@ public class BakingSystemServiceTest {
     @BeforeAll
     public void before(){
         productRepository.deleteAll();
-        iTypeRepository.deleteAll();
         createRepo.deleteAll();
         moveRepo.deleteAll();
         useRepo.deleteAll();
@@ -93,12 +99,42 @@ public class BakingSystemServiceTest {
         assert(useEvent.getUserResponsible().equals("user"));
     }
 
+    @Test
+    @Transactional
     public void testBakeProduct(){
         //Setup
+        IngredientType iType = new IngredientType("flour", false, false, Set.of());
+        iType = iTypeRepository.save(iType);
 
+        IngredientQuantity IQ = new IngredientQuantity(iType, 500);
+        IQ = IQRepository.save(IQ);
+
+        Recipe recipe = new Recipe("cake", Set.of(IQ), "description");
+        FinalProduct finalProduct =  new FinalProduct("5 x cake", 10000, recipe, 5);
+
+        Product ingredient = new Product("flour", 500, 500, iType);
+        ingredient = productRepository.save(ingredient);
         //Test
 
+        bakingSystemService.bakeProduct(finalProduct, List.of(ingredient.getId()), "kitchen", "user");
+
         //Check results
+        List<Product> products = productRepository.findByLabel("5 x cake");
+        assert(products.size() == 1);
+        Product newProduct = products.get(0);
+
+        List<TimelineEvent> events = timelineService.findAllByProductSorted(newProduct).toList();
+        assert(events.size() == 1);
+        TimelineEvent event = events.get(0);
+
+        assert(event instanceof CreateEvent);
+        CreateEvent createEvent = (CreateEvent) event;
+
+        //Check the event details
+        assert(createEvent.getOwner().equals(newProduct));
+        assert(createEvent.getCreateType().equals(CreateEvent.CreateType.BAKED));
+        assert(createEvent.getLocation().equals("kitchen"));
+        assert(createEvent.getUserResponsible().equals("user"));
     }
 
 

@@ -80,8 +80,12 @@ public class BakingSystemService {
                 finalProduct.getLabel(),
                 finalProduct.getQuantity(),
                 finalProduct.getQuantity(),
+                ingredientIds,
                 compositeIType
         );
+
+        //Save the new product
+        product = productRepository.save(product);
 
         //Create the createEvent for the new product
         CreateEvent createEvent = new CreateEvent(
@@ -92,8 +96,8 @@ public class BakingSystemService {
                 userResponsible
         );
 
-        //Save the new product and the createEvent
-        productRepository.save(product);
+        //Save the new CreateEvent
         timelineService.save(createEvent);
     }
+
 }
