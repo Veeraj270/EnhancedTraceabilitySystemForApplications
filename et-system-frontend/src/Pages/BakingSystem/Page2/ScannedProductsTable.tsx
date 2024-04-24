@@ -1,6 +1,6 @@
 import React, {useEffect, useMemo, useState} from "react";
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
-import {UsedProduct} from "../Interfaces/UsedProduct";
+import {UsedProduct} from "../../Interfaces/UsedProduct";
 
 const ScannedProductsTable = ({scannedProducts}) => {
 

@@ -22,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.example.ETSystem.bakingSystem.BakingSystemService.BPStruct;
 import com.example.ETSystem.bakingSystem.BakingSystemService.UsedProduct;
 import com.example.ETSystem.bakingSystem.BakingSystemService.BakedProduct;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -99,21 +100,21 @@ public class BakingSystemServiceTest {
 
         //Check results - testProduct should now have 5 units left
         testProduct = productRepository.findById(testProduct.getId()).get();
-        assert(testProduct.getCurrentQuantity() == 5);
+        assertEquals(5, testProduct.getCurrentQuantity());
 
         List<TimelineEvent> events = timelineService.findAllByProductSorted(testProduct).toList();
-        assert(events.size() == 1);
+        assertEquals(1, events.size());
         TimelineEvent event = events.get(0);
-        assert(event instanceof UseEvent);
+        assertEquals(true, event instanceof UseEvent);
         UseEvent useEvent = (UseEvent) event;
 
         //Check the event details
-        assert(useEvent.getOwner().equals(testProduct));
-        assert(useEvent.getResult().size() == 1);
-        assert(useEvent.getResult().get(0).equals(newProduct));
-        assert(useEvent.getLocation().equals("kitchen"));
-        assert(useEvent.getQuantityUsed() == 5F);
-        assert(useEvent.getUserResponsible().equals("user"));
+        assertEquals(testProduct, useEvent.getOwner());
+        assertEquals(1, useEvent.getResult().size());
+        assertEquals(newProduct, useEvent.getResult().get(0));
+        assertEquals("kitchen", useEvent.getLocation());
+        assertEquals(5F, useEvent.getQuantityUsed());
+        assertEquals("user", useEvent.getUserResponsible());
     }
 
     @Test
@@ -139,26 +140,26 @@ public class BakingSystemServiceTest {
         bakingSystemService.bakeProduct(finalProduct, List.of(ingredient.getId()), "kitchen", "user", order);
 
         //Check results
-        assert(checkTestBakeProductResults("5 x cake"));
+        assertEquals(true ,checkTestBakeProductResults("5 x cake"));
     }
 
     public boolean checkTestBakeProductResults(String label){
         List<Product> products = productRepository.findByLabel(label);
-        assert(products.size() == 1);
+        assertEquals(1, products.size());
         Product newProduct = products.get(0);
 
         List<TimelineEvent> events = timelineService.findAllByProductSorted(newProduct).toList();
-        assert(events.size() == 1);
+        assertEquals(1, events.size());
         TimelineEvent event = events.get(0);
 
-        assert(event instanceof CreateEvent);
+        assertEquals(true, event instanceof CreateEvent);
         CreateEvent createEvent = (CreateEvent) event;
 
         //Check the event details
-        assert(createEvent.getOwner().equals(newProduct));
-        assert(createEvent.getCreateType().equals(CreateEvent.CreateType.BAKED));
-        assert(createEvent.getLocation().equals("kitchen"));
-        assert(createEvent.getUserResponsible().equals("user"));
+        assertEquals(newProduct, createEvent.getOwner());
+        assertEquals(CreateEvent.CreateType.BAKED, createEvent.getCreateType());
+        assertEquals("kitchen", createEvent.getLocation());
+        assertEquals("user", createEvent.getUserResponsible());
 
         return true;
     }
@@ -193,27 +194,27 @@ public class BakingSystemServiceTest {
         BPStruct bpStruct = new BakingSystemService.BPStruct(usedProducts, bakedProducts, "kitchen", "user");
 
         //Test
-        bakingSystemService.ProcessBPStruct(bpStruct);
+        bakingSystemService.processBPStruct(bpStruct);
 
         //Check the newly baked product was added correctly
-        assert(checkTestBakeProductResults("5 x cake")); //Data is the same as in the previous test
+        assertEquals(true, checkTestBakeProductResults("5 x cake")); //Data is the same as in the previous test
 
         //Check the  ingredient was used properly
         ingredient = productRepository.findById(ingredient.getId()).get();
-        assert(ingredient.getCurrentQuantity() == 200);
+        assertEquals(200, ingredient.getCurrentQuantity());
 
         List<TimelineEvent> events = timelineService.findAllByProductSorted(ingredient).toList();
-        assert(events.size() == 1);
+        assertEquals(1, events.size());
         TimelineEvent event = events.get(0);
-        assert(event instanceof UseEvent);
+        assertEquals(true, event instanceof UseEvent);
         UseEvent useEvent = (UseEvent) event;
 
         //Check the event details
-        assert(useEvent.getOwner().equals(ingredient));
-        assert(useEvent.getResult().size() == 1);
-        assert(useEvent.getResult().get(0).getLabel()).equals("5 x cake");
-        assert(useEvent.getLocation().equals("kitchen"));
-        assert(useEvent.getQuantityUsed() == 300);
-        assert(useEvent.getUserResponsible().equals("user"));
+        assertEquals(ingredient, useEvent.getOwner());
+        assertEquals(1, useEvent.getResult().size());
+        assertEquals("5 x cake", useEvent.getResult().get(0).getLabel());
+        assertEquals("kitchen", useEvent.getLocation());
+        assertEquals(300, useEvent.getQuantityUsed());
+        assertEquals("user", useEvent.getUserResponsible());
     }
 }

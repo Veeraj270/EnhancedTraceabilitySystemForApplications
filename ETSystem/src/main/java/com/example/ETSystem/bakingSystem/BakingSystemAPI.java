@@ -17,6 +17,6 @@ public class BakingSystemAPI {
 
     @PostMapping(path = "/process-bp-struct")
     public void processBPStruct(@RequestBody BakingSystemService.BPStruct bpStruct) {
-        bakingSystemService.ProcessBPStruct(bpStruct);
+        bakingSystemService.processBPStruct(bpStruct);
     }
 }

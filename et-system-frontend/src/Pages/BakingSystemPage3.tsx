@@ -50,12 +50,6 @@ const BakingSystemPage3 = () => {
 
     //End temp
 
-    //Debugging
-    useEffect(() => {
-        console.log("table2Data: " + table2Data);
-    }, [table2Data]);
-
-    //End-debugging
 
     const [selectedProduct, setSelectedProduct] = useState<Table1Row | null>(null)
 
@@ -93,7 +87,6 @@ const BakingSystemPage3 = () => {
             return false;
         }
 
-
         let temp = Array.from(table1Data);
         temp.splice(index,1);
         setTable1Data(temp);
@@ -102,8 +95,6 @@ const BakingSystemPage3 = () => {
     }
 
     const removeProduct = (id: number) => {
-        console.log("removeProduct()");
-
         //Find product id in table2Data
         let index = -1;
         for (let i = 0; i < table1Data.length; i ++){
@@ -136,6 +127,8 @@ const BakingSystemPage3 = () => {
         }
 
         //Send the list of updated used items and newly produced items to the backend [need to write the back-end methods first]
+
+        //To be implemented during integration of all 3 baking system pages into a single system
 
     }
 

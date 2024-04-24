@@ -53,7 +53,6 @@ public class CustomerOrder {
     @JoinColumn(name = "customerOrder_Id")
     private List<FinalProduct> finalProducts = new ArrayList<>();
 
-
     public CustomerOrder() {
     }
 

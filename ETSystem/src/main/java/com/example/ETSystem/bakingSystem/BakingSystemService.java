@@ -33,7 +33,7 @@ public class BakingSystemService {
     private IngredientType compositeIType = new IngredientType("composite", false, false, Set.of());
 
     @Autowired
-    public BakingSystemService(ProductRepository productRepository, TimelineService timelineService, IngredientTypeRepository iTypeRepository, FinalProductRepository finalProductRepository, CustomerOrderRepository customerOrderRepository) throws RuntimeException{
+    public BakingSystemService(ProductRepository productRepository, TimelineService timelineService, IngredientTypeRepository iTypeRepository, FinalProductRepository finalProductRepository, CustomerOrderRepository customerOrderRepository){
         this.productRepository = productRepository;
         this.timelineService = timelineService;
         this.iTypeRepository = iTypeRepository;
@@ -120,7 +120,7 @@ public class BakingSystemService {
                            String location,
                            String userResponsible){}
 
-    public void ProcessBPStruct(BPStruct bpStruct) throws RuntimeException{
+    public void processBPStruct(BPStruct bpStruct){
         List<UsedProduct> usedProducts = bpStruct.usedProducts();
         List<BakedProduct> bakedProducts = bpStruct.bakedProduct();
         List<Long> ingredientIDs = usedProducts.stream().map(UsedProduct::productId).toList();
@@ -129,25 +129,19 @@ public class BakingSystemService {
 
         for (BakedProduct bakedProduct : bakedProducts){
             //Find the associated final product
-            Optional<FinalProduct> optionalP = finalProductRepository.findById(bakedProduct.finalProductId());
-            if (optionalP.isEmpty()){
-                throw new RuntimeException("Final product with id " + bakedProduct.finalProductId() + " not found.");
-            }
-            FinalProduct finalProduct = optionalP.get();
+            FinalProduct finalProduct = finalProductRepository.findById(bakedProduct.finalProductId())
+                    .orElseThrow(() -> new RuntimeException("Final product with id " + bakedProduct.finalProductId() + " not found."));
 
             //Check that the associated customerOrder exists
-            Optional<CustomerOrder> optionalCO = customerOrderRepository.findById(bakedProduct.customerOrderId());
-            if (optionalCO.isEmpty()){
-                throw new RuntimeException("Customer order with id " + bakedProduct.customerOrderId() + " not found.");
-            }
-            CustomerOrder customerOrder = optionalCO.get();
+            CustomerOrder customerOrder = customerOrderRepository.findById(bakedProduct.customerOrderId())
+                    .orElseThrow(() -> new RuntimeException("Customer order with id " + bakedProduct.customerOrderId() + " not found."));
 
             //Create the new product based of the finalProduct
             newlyAddedProducts.add(bakeProduct(finalProduct, ingredientIDs, bpStruct.location(), bpStruct.userResponsible(), customerOrder));
         }
 
         for (UsedProduct usedProduct : usedProducts){
-            useProduct(usedProduct.productId(), usedProduct.newQuantity() ,newlyAddedProducts, bpStruct.location(), usedProduct.quantityUsed(), bpStruct.userResponsible());
+            useProduct(usedProduct.productId(), usedProduct.newQuantity(), newlyAddedProducts, bpStruct.location(), usedProduct.quantityUsed(), bpStruct.userResponsible());
         }
     }
 }
