@@ -1,6 +1,9 @@
 package com.example.ETSystem.bakingSystem;
 
+import com.example.ETSystem.customerOrders.CustomerOrder;
+import com.example.ETSystem.customerOrders.CustomerOrderRepository;
 import com.example.ETSystem.finalProducts.FinalProduct;
+import com.example.ETSystem.finalProducts.FinalProductRepository;
 import com.example.ETSystem.ingredientType.IngredientType;
 import com.example.ETSystem.ingredientType.IngredientTypeRepository;
 import com.example.ETSystem.product.Product;
@@ -10,13 +13,13 @@ import com.example.ETSystem.recipe.IngredientQuantityRepository;
 import com.example.ETSystem.recipe.Recipe;
 import com.example.ETSystem.timeline.*;
 import jakarta.transaction.Transactional;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -26,6 +29,8 @@ public class BakingSystemServiceTest {
     private final ProductRepository productRepository;
     private final IngredientTypeRepository iTypeRepository;
     private final IngredientQuantityRepository IQRepository;
+    private final CustomerOrderRepository customerOrderRepository;
+    private final FinalProductRepository finalProductRepository;
 
     //Needed for timeline service
     public final CreateEventRepository createRepo;
@@ -41,8 +46,8 @@ public class BakingSystemServiceTest {
                                    CreateEventRepository createRepo,
                                    MoveEventRepository moveRepo,
                                    UseEventRepository useRepo,
-                                   IngredientQuantityRepository IQRepository
-                               ){
+                                   IngredientQuantityRepository IQRepository,
+                                   CustomerOrderRepository customerOrderRepository, FinalProductRepository finalProductRepository){
         //Initialize the repositories
         this.productRepository = productRepository;
         this.iTypeRepository = iTypeRepository;
@@ -50,10 +55,12 @@ public class BakingSystemServiceTest {
         this.moveRepo = moveRepo;
         this.useRepo = useRepo;
         this.IQRepository = IQRepository;
+        this.customerOrderRepository = customerOrderRepository;
+        this.finalProductRepository = finalProductRepository;
 
         //Initialize the services
         this.timelineService = new TimelineService(createRepo, moveRepo, useRepo, productRepository);
-        bakingSystemService = new BakingSystemService(productRepository, this.timelineService, iTypeRepository);
+        bakingSystemService = new BakingSystemService(productRepository, this.timelineService, iTypeRepository, finalProductRepository, customerOrderRepository);
     }
 
     @BeforeAll
@@ -79,7 +86,7 @@ public class BakingSystemServiceTest {
         newProduct = productRepository.save(newProduct);
 
         //Test - simulate using 5 units of testProduct to produce 5 units of newProduct
-        bakingSystemService.useProduct(testProduct.getId(), 5, newProduct, "kitchen", 5F, "user");
+        bakingSystemService.useProduct(testProduct.getId(), 5, List.of(newProduct), "kitchen", 5F, "user");
 
         //Check results - testProduct should now have 5 units left
         testProduct = productRepository.findById(testProduct.getId()).get();
@@ -93,7 +100,8 @@ public class BakingSystemServiceTest {
 
         //Check the event details
         assert(useEvent.getOwner().equals(testProduct));
-        assert(useEvent.getResult().equals(newProduct));
+        assert(useEvent.getResult().size() == 1);
+        assert(useEvent.getResult().get(0).equals(newProduct));
         assert(useEvent.getLocation().equals("kitchen"));
         assert(useEvent.getQuantityUsed() == 5F);
         assert(useEvent.getUserResponsible().equals("user"));
@@ -114,9 +122,12 @@ public class BakingSystemServiceTest {
 
         Product ingredient = new Product("flour", 500, 500, iType);
         ingredient = productRepository.save(ingredient);
-        //Test
 
-        bakingSystemService.bakeProduct(finalProduct, List.of(ingredient.getId()), "kitchen", "user");
+        CustomerOrder order = new CustomerOrder("client", ZonedDateTime.now(), ZonedDateTime.now(), List.of(finalProduct));
+        order = customerOrderRepository.save(order);
+
+        //Test
+        bakingSystemService.bakeProduct(finalProduct, List.of(ingredient.getId()), "kitchen", "user", order);
 
         //Check results
         List<Product> products = productRepository.findByLabel("5 x cake");
@@ -136,6 +147,4 @@ public class BakingSystemServiceTest {
         assert(createEvent.getLocation().equals("kitchen"));
         assert(createEvent.getUserResponsible().equals("user"));
     }
-
-
 }

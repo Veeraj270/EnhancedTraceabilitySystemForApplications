@@ -4,6 +4,7 @@ import com.example.ETSystem.product.Product;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -20,9 +21,9 @@ public non-sealed class UseEvent implements TimelineEvent{
 	@JoinColumn(name = "owner", nullable = false)
 	private Product owner;
 	
-	@ManyToOne
+	@ManyToMany
 	@JoinColumn(name = "result", nullable = true)
-	private Product result;
+	private List<Product> result;
 	
 	@Column(nullable = true)
 	private String location;
@@ -34,7 +35,7 @@ public non-sealed class UseEvent implements TimelineEvent{
 	
 	public UseEvent(){}
 	
-	public UseEvent(ZonedDateTime timestamp, Product owner, Product result, String location, float quantityUsed, String userResponsible){
+	public UseEvent(ZonedDateTime timestamp, Product owner, List<Product> result, String location, float quantityUsed, String userResponsible){
 		this.timestamp = timestamp;
 		this.owner = owner;
 		this.result = result;
@@ -67,11 +68,11 @@ public non-sealed class UseEvent implements TimelineEvent{
 		this.owner = owner;
 	}
 	
-	public Product getResult(){
+	public List<Product> getResult(){
 		return result;
 	}
 	
-	public void setResult(Product result){
+	public void setResult(List<Product> result){
 		this.result = result;
 	}
 	
@@ -102,7 +103,7 @@ public non-sealed class UseEvent implements TimelineEvent{
 	public TimelineData asData(){
 		TimelineData td = TimelineEvent.super.asData();
 		if(result != null)
-			td.data().put("resultId", String.valueOf(result.getId()));
+			td.data().put("resultIds", String.valueOf(result.stream().map(Product::getId).toList()));
 		if(location != null)
 			td.data().put("location", location);
 		td.data().put("quantityUsed", String.valueOf(quantityUsed));
@@ -110,7 +111,7 @@ public non-sealed class UseEvent implements TimelineEvent{
 	}
 	
 	public String toString(){
-		return "UseEvent[id=" + id + ", ownerId=" + owner.getId() + ", timestamp=" + timestamp + ", resultId" + result.getId() + ", location" + location + ", quantityUsed" + quantityUsed + ", userResponsible=" + userResponsible + "]";
+		return "UseEvent[id=" + id + ", ownerId=" + owner.getId() + ", timestamp=" + timestamp + ", resultIds" + result.stream().map(Product::getId).toList() + ", location" + location + ", quantityUsed" + quantityUsed + ", userResponsible=" + userResponsible + "]";
 	}
 	
 	public boolean equals(Object o){
