@@ -337,7 +337,7 @@ public class MockDataGenerator {
      public List<TimelineEvent> addSomeUseEvents(Product product, int num){
         List<TimelineEvent> events = new ArrayList<>();
         for (int i = 0; i < num; i ++){
-            events.add(new UseEvent(ZonedDateTime.now().minusDays(i), product, "baker"));
+            events.add(new UseEvent(ZonedDateTime.now().minusDays(i), product, null, null, "baker"));
         }
         return events;
      }

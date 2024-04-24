@@ -25,15 +25,15 @@ class TimelineServiceTest{
 	@Transactional
 	void testRoundtrip(){
 		Product owner = service.ownerRepo.save(new Product("a", 1, 1));
+		Product owner2 = service.ownerRepo.save(new Product("b", 1, 1));
 		ZonedDateTime epochUTC = ZonedDateTime.ofInstant(Instant.EPOCH, ZoneId.of("UTC"));
-
+		
 		var e2 = service.save(new CreateEvent(epochUTC.plusDays(1), owner, CreateEvent.CreateType.DELIVERED, "w1", "c"));
 		var e3 = service.save(new MoveEvent(epochUTC.plusDays(2), owner, "L1", "passageOfTime"));
 		var e1 = service.save(new CreateEvent(epochUTC, owner, CreateEvent.CreateType.DELIVERED, "w2", "v"));
-		var e4 = service.save(new UseEvent(epochUTC.plusDays(4), owner, "baker"));
+		var e4 = service.save(new UseEvent(epochUTC.plusDays(4), owner, owner2, null, "baker"));
 		assertEquals(service.findAllByProductSorted(owner).toList(), List.of(e1, e2, e3, e4));
 		
-		Product owner2 = service.ownerRepo.save(new Product("b", 1, 1));
 		var e5 = service.save(new CreateEvent(epochUTC.plusDays(2), owner2, CreateEvent.CreateType.BAKED, "k1", "u"));
 		var e6 = service.save(new MoveEvent(epochUTC.plusDays(1), owner2, "L2", "passageOfSpace"));
 		assertEquals(service.findAllByProductSorted(owner).toList(), List.of(e1, e2, e3, e4));
