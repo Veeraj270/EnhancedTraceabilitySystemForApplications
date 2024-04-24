@@ -20,6 +20,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class MockDataGenerator {
@@ -246,7 +247,7 @@ public class MockDataGenerator {
          IngredientType ingredientType = null;
          if (list.isEmpty()){
              //Currently just setting all ingredients to be non allergen, vegetarian, and vegan
-             ingredientType = new IngredientType(ingredientTypeName, info.isAllergen, false, false);
+             ingredientType = new IngredientType(ingredientTypeName, false, false, Set.of());
              ingredientType = ingredientTypeRepository.save(ingredientType);
          }
          else {
@@ -298,7 +299,7 @@ public class MockDataGenerator {
         timelineService.saveAll(events);
 
         //Add a cake to showcase intermediaries feature
-        IngredientType iType = new IngredientType("irish cream cheesecake", false, false, false);
+        IngredientType iType = new IngredientType("irish cream cheesecake", false, false, Set.of("egg", "milk"));
         iType = ingredientTypeRepository.save(iType);
 
          Product cake = new Product(
