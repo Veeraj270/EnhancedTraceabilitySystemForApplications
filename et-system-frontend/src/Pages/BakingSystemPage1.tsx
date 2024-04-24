@@ -5,13 +5,14 @@ import FinalProductsTable from "./BakingSystemPage1Components/FinalProductsTable
 import SelectedFinalProductsTable from "./BakingSystemPage1Components/SelectedFinalProductsTable";
 import IngredientQuantitiesTableRP from "./RecipePageComponents/IngredientQuantitiesTableRP";
 import {Link} from "react-router-dom";
+import {IngredientQuantity} from "./Interfaces/IngredientQuantity";
 
 const BakingSystemPage1 = () => {
 
     const [tableData, setTableData] = useState<OrderedFinalProduct[]>([])
     const [searchData, setSearchData] = useState<OrderedFinalProduct[]>([])
     const [selectedData, setSelectedData] = useState<OrderedFinalProduct[]>([])
-    const [ingredientsNeeded, setIngredientsNeeded] = useState([])
+    const [ingredientsNeeded, setIngredientsNeeded] = useState<IngredientQuantity[]>([])
 
     const fetchFinalProducts = async () => {
         const response = await fetch("http://localhost:8080/api/customerorders/fetch-ordered-final-products")
@@ -73,32 +74,32 @@ const BakingSystemPage1 = () => {
     }, [])
 
     const startBaking = async () => {
-        // By clicking the start baking button, it updates the quantities of the final products in the customer orders
-        // Might need to move it to recipe page 3
+            // By clicking the start baking button, it updates the quantities of the final products in the customer orders
+            // Might need to move it to recipe page 3
 
-        // Because there can be a lot of final products updated, and because the depth of the final product
-        // object is big, just the id's and the quantities are sent to the back-end
-        const finalProducts = selectedData.map(x =>
-            `${x.customerOrder};${x.finalProductId};${x.quantity}`
-        );
+            // Because there can be a lot of final products updated, and because the depth of the final product
+            // object is big, just the id's and the quantities are sent to the back-end
+            const finalProducts = selectedData.map(x =>
+                `${x.customerOrder};${x.finalProductId};${x.quantity}`
+            );
 
-        try {
-            const response = await fetch('http://localhost:8080/api/customerorders/edit-final-products', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(finalProducts)
-            });
+            try {
+                const response = await fetch('http://localhost:8080/api/customerorders/edit-final-products', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(finalProducts)
+                });
 
-            if(response.ok){
-                console.log("The selected customer orders are updated")
-            }else{
-                alert("Error updating selected customer orders")
+                if (response.ok) {
+                    console.log("The selected customer orders are updated")
+                } else {
+                    alert("Error updating selected customer orders")
+                }
+            } catch (e) {
+                console.log("Error updating selected customer orders: " + e)
             }
-        }catch (e) {
-            console.log("Error updating selected customer orders: " + e)
-        }
     }
 
     return (
@@ -137,7 +138,7 @@ const BakingSystemPage1 = () => {
                         </div>
                     </div>
                 <div>
-                    <Link to={'/baking-system-page-2'} state={ingredientsNeeded}><button className={'start-baking-button'} onClick={startBaking}>Start baking</button></Link>
+                    <Link to={'/baking-system-page-2'} state={{ingredientsNeeded, selectedData}}><button className={'start-baking-button'} onClick={startBaking}>Start baking</button></Link>
                 </div>
                 </div>
             </div>

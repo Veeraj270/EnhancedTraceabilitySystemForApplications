@@ -14,6 +14,10 @@
     --shadow-color: rgb(0,0,0,0.4);
 }
 
+.BS1-title{
+    margin-bottom: 20px;
+}
+
 .BS1-grid-container{
     display: grid;
     grid-template-columns: 0.33fr 0.67fr;

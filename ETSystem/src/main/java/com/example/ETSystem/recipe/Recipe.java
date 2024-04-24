@@ -43,11 +43,8 @@ public class Recipe {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<IngredientQuantity> ingredientQuantities;
 
-    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    @JoinTable(
-            joinColumns = @JoinColumn(name = "ingredient_type_id")
-    )
-    private Set<IngredientType> allergens;
+    @ElementCollection
+    private Set<String> allergens;
 
     @Column(
             name = "vegan",
@@ -77,13 +74,14 @@ public class Recipe {
         this.ingredientQuantities = ingredientQuantities;
         this.allergens = ingredientQuantities.stream().
                 map(IngredientQuantity::getIngredientType)
-                .filter(x -> x.getIsAllergen())
+                .flatMap(x -> x.getAllergens().stream())
                 .collect(Collectors.toSet());
         this.vegan = ingredientQuantities.stream()
                 .allMatch(x -> x.getIngredientType().getIsVegan());
         this.vegetarian = ingredientQuantities.stream()
                 .allMatch(x -> x.getIngredientType().getIsVegetarian());
     }
+    
     public Recipe(String label, Set<IngredientQuantity> ingredientQuantities) {
         this(label, ingredientQuantities, null);
     }
@@ -123,29 +121,36 @@ public class Recipe {
         this.label = label.trim();
     }
 
-    public @Generated Set<IngredientQuantity> getIngredientQuantities() { return ingredientQuantities; }
-
-
-    public @Generated boolean isVegan() {
-        return this.vegan;
+    public Set<IngredientQuantity> getIngredientQuantities() {
+        return ingredientQuantities;
     }
-
-    public @Generated boolean isVegetarian() {
-        return this.vegetarian;
-    }
-
-    public @Generated Set<IngredientType> getAllergens() { return allergens; }
-
+    
     public void setIngredientQuantities(Set<IngredientQuantity> ingredients) {
         this.allergens = ingredients.stream().
                 map(IngredientQuantity::getIngredientType)
-                .filter(x -> x.getIsAllergen())
+                .flatMap(x -> x.getAllergens().stream())
                 .collect(Collectors.toSet());
         this.vegan = ingredients.stream()
                 .allMatch(x -> x.getIngredientType().getIsVegan());
         this.vegetarian = ingredients.stream()
                 .allMatch(x -> x.getIngredientType().getIsVegetarian());
         this.ingredientQuantities = ingredients;
+    }
+    
+    public boolean isVegan() {
+        return this.vegan;
+    }
+    
+    public boolean isVegetarian() {
+        return this.vegetarian;
+    }
+    
+    public Set<String> getAllergens() {
+        return allergens;
+    }
+
+    public void setAllergens(Set<String> allergens){
+        this.allergens = allergens;
     }
 
     public @Generated String getDescription() {

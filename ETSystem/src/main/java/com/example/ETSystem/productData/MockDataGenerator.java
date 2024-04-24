@@ -21,6 +21,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class MockDataGenerator {
@@ -252,7 +253,7 @@ public class MockDataGenerator {
          IngredientType ingredientType = null;
          if (list.isEmpty()){
              //Currently just setting all ingredients to be non allergen, vegetarian, and vegan
-             ingredientType = new IngredientType(ingredientTypeName, info.isAllergen, false, false);
+             ingredientType = new IngredientType(ingredientTypeName, false, false, Set.of());
              ingredientType = ingredientTypeRepository.save(ingredientType);
          }
          else {
@@ -305,7 +306,7 @@ public class MockDataGenerator {
         timelineService.saveAll(events);
 
         //Add a cake to showcase intermediaries feature
-        IngredientType iType = new IngredientType("irish cream cheesecake", false, false, false);
+        IngredientType iType = new IngredientType("irish cream cheesecake", false, false, Set.of("egg", "milk"));
         iType = ingredientTypeRepository.save(iType);
 
          Product cake = new Product(
@@ -319,7 +320,7 @@ public class MockDataGenerator {
 
          productService.addNewProduct(cake);
 
-         TimelineEvent creationEvent = new CreateEvent(ZonedDateTime.now(), cake);
+         TimelineEvent creationEvent = new CreateEvent(ZonedDateTime.now(), cake, CreateEvent.CreateType.BAKED, "Kitchen 1", null);
          timelineService.save(creationEvent);
 
      }
@@ -338,14 +339,14 @@ public class MockDataGenerator {
         );
 
         productService.addNewProduct(newProduct);
-        TimelineEvent creationEvent = new CreateEvent(epochUTC, newProduct);
+        TimelineEvent creationEvent = new CreateEvent(epochUTC, newProduct, CreateEvent.CreateType.DELIVERED, null, null);
         timelineService.save(creationEvent);
      }
 
      public List<TimelineEvent> addSomeUseEvents(Product product, int num){
         List<TimelineEvent> events = new ArrayList<>();
         for (int i = 0; i < num; i ++){
-            events.add(new UseEvent(ZonedDateTime.now().minusDays(i), product));
+            events.add(new UseEvent(ZonedDateTime.now().minusDays(i), product, null, null, 1, "baker"));
         }
         return events;
      }

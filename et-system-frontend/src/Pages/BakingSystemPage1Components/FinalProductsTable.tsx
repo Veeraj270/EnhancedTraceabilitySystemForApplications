@@ -57,8 +57,12 @@ const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData,
             setSelectedData(newSelectedData)
         } else{
             // Otherwise it just adds the item to the table
-            const newSelectedData = selectedData.concat({...rowData, quantity: 1})
-            setSelectedData(newSelectedData)
+            if(selectedData.length === 0) {
+                const newSelectedData = selectedData.concat({...rowData, quantity: 1})
+                setSelectedData(newSelectedData)
+            } else {
+                alert("Select one type of product at a time")
+            }
         }
     }
 

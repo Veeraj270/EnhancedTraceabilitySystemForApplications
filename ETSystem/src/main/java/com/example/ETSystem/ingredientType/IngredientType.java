@@ -3,7 +3,10 @@ package com.example.ETSystem.ingredientType;
 import com.example.ETSystem.productData.SuppliedGood;
 import com.example.ETSystem.util.Generated;
 import jakarta.persistence.*;
+
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class IngredientType {
@@ -17,20 +20,20 @@ public class IngredientType {
     private String name;
 
     @Column(nullable = false)
-    private boolean isAllergen;
-
-    @Column(nullable = false)
     private boolean isVegan;
 
     @Column(nullable = false)
     private boolean isVegetarian;
+    
+    @ElementCollection
+    private Set<String> allergens = new HashSet<>();
 
     //Constructors
     public IngredientType() {}
 
-    public IngredientType(String name, boolean isAllergen, boolean isVegetarian, boolean isVegan) {
+    public IngredientType(String name, boolean isVegetarian, boolean isVegan, Set<String> allergens) {
         this.name = name.toLowerCase();
-        this.isAllergen = isAllergen;
+        this.allergens = allergens;
         this.isVegetarian = isVegetarian;
         this.isVegan = isVegan;
     }
@@ -45,49 +48,38 @@ public class IngredientType {
         return name;
     }
 
-    public @Generated boolean getIsAllergen() { return isAllergen; }
-
-    public @Generated boolean getIsVegetarian() { return isVegetarian; }
-
-    public @Generated boolean getIsVegan() { return isVegan; }
-
-
-    //Setters
-
-    public @Generated void setName(String name) { this.name = name; }
-
-    public @Generated void setIsAllergen(boolean isAllergen) { this.isAllergen = isAllergen; }
-
-    public @Generated void setIsVegan(boolean isVegan) {
-       this.isVegan = isVegan;
-    }
-
-    public @Generated void setId(long id) {
-        this.id = id;
-    }
-
-    public @Generated boolean isAllergen() {
-        return isAllergen;
-    }
-
-    public @Generated void setAllergen(boolean allergen) {
-        isAllergen = allergen;
-    }
-
-    public @Generated boolean isVegan() {
-        return isVegan;
-    }
-
-    public @Generated void setVegan(boolean vegan) {
-        isVegan = vegan;
-    }
-
-    public @Generated boolean isVegetarian() {
+    public boolean getIsVegetarian() {
         return isVegetarian;
     }
+    
+    public boolean getIsVegan() {
+        return isVegan;
+    }
+    
+    public Set<String> getAllergens() {
+        return allergens;
+    }
 
-    public @Generated void setVegetarian(boolean vegetarian) {
+    //Setters
+    
+    public void setId(long id) {
+        this.id = id;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public @Generated void setIsVegan(boolean vegan) {
+        isVegan = vegan;
+    }
+    
+    public void setIsVegetarian(boolean vegetarian) {
         isVegetarian = vegetarian;
+    }
+    
+    public void setAllergens(Set<String> allergens) {
+        this.allergens = allergens;
     }
 
     //Utility
@@ -98,23 +90,14 @@ public class IngredientType {
 
     @Override
     public @Generated boolean equals(Object obj){
-        if (this == obj){
-            return true;
-        }
-        if (obj == null){
-            return false;
-        }
-        if (obj instanceof IngredientType && ((IngredientType) obj).getId() == this.id){
-            return true;
-        }
-        return false;
+	    return this == obj || obj instanceof IngredientType it && it.getId() == this.id;
     }
 
     public @Generated String toString(){
         return "IngredientType{" +
                 "id=" + id +
                 ", name='" + name + "'" +
-                ", isAllergen=" + isAllergen +
+                ", allergens=" + allergens +
                 ", isVegan=" + isVegan +
                 ", isVegetarian=" + isVegetarian +
                 '}';
