@@ -59,19 +59,19 @@ public non-sealed class MoveEvent implements TimelineEvent{
 		this.owner = owner;
 	}
 	
-	public String getDestination(){
+	public @Generated String getDestination(){
 		return destination;
 	}
 	
-	public void setDestination(String destination){
+	public @Generated void setDestination(String destination){
 		this.destination = destination;
 	}
 	
-	public String getUserResponsible(){
+	public @Generated String getUserResponsible(){
 		return userResponsible;
 	}
 	
-	public void setUserResponsible(String userResponsible){
+	public @Generated void setUserResponsible(String userResponsible){
 		this.userResponsible = userResponsible;
 	}
 	

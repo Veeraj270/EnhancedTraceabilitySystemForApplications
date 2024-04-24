@@ -121,7 +121,7 @@ public class Recipe {
         this.label = label.trim();
     }
 
-    public Set<IngredientQuantity> getIngredientQuantities() {
+    public @Generated Set<IngredientQuantity> getIngredientQuantities() {
         return ingredientQuantities;
     }
     
@@ -137,19 +137,19 @@ public class Recipe {
         this.ingredientQuantities = ingredients;
     }
     
-    public boolean isVegan() {
+    public @Generated boolean isVegan() {
         return this.vegan;
     }
     
-    public boolean isVegetarian() {
+    public @Generated boolean isVegetarian() {
         return this.vegetarian;
     }
     
-    public Set<String> getAllergens() {
+    public @Generated Set<String> getAllergens() {
         return allergens;
     }
 
-    public void setAllergens(Set<String> allergens){
+    public @Generated void setAllergens(Set<String> allergens){
         this.allergens = allergens;
     }
 

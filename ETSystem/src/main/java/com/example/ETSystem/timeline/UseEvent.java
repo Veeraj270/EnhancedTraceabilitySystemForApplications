@@ -68,35 +68,35 @@ public non-sealed class UseEvent implements TimelineEvent{
 		this.owner = owner;
 	}
 	
-	public Product getResult(){
+	public @Generated Product getResult(){
 		return result;
 	}
 	
-	public void setResult(Product result){
+	public @Generated void setResult(Product result){
 		this.result = result;
 	}
 	
-	public String getLocation(){
+	public @Generated String getLocation(){
 		return location;
 	}
 	
-	public void setLocation(String location){
+	public @Generated void setLocation(String location){
 		this.location = location;
 	}
 	
-	public float getQuantityUsed(){
+	public @Generated float getQuantityUsed(){
 		return quantityUsed;
 	}
 	
-	public void setQuantityUsed(float quantityUsed){
+	public @Generated void setQuantityUsed(float quantityUsed){
 		this.quantityUsed = quantityUsed;
 	}
 	
-	public String getUserResponsible(){
+	public @Generated String getUserResponsible(){
 		return userResponsible;
 	}
 	
-	public void setUserResponsible(String userResponsible){
+	public @Generated void setUserResponsible(String userResponsible){
 		this.userResponsible = userResponsible;
 	}
 	

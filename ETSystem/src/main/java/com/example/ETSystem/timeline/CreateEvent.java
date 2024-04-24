@@ -66,28 +66,28 @@ public non-sealed class CreateEvent implements TimelineEvent{
 		this.owner = owner;
 	}
 	
-	public CreateType getCreateType(){
+	public @Generated CreateType getCreateType(){
 		return createType;
 	}
 	
-	public void setCreateType(CreateType type){
+	public @Generated void setCreateType(CreateType type){
 		this.createType = type;
 	}
 	
 	@Nullable
-	public String getLocation(){
+	public @Generated String getLocation(){
 		return location;
 	}
 	
-	public void setLocation(@Nullable String location){
+	public @Generated void setLocation(@Nullable String location){
 		this.location = location;
 	}
 	
-	public String getUserResponsible(){
+	public @Generated String getUserResponsible(){
 		return userResponsible;
 	}
 	
-	public void setUserResponsible(String userResponsible){
+	public @Generated void setUserResponsible(String userResponsible){
 		this.userResponsible = userResponsible;
 	}
 	
