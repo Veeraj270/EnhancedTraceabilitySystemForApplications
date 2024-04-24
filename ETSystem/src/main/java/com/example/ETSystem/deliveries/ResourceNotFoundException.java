@@ -7,4 +7,5 @@ public class ResourceNotFoundException extends Throwable{
     public ResourceNotFoundException(Long id, String status){
         this.id = id;
         this.status = status;
-    }}
+    }
+}

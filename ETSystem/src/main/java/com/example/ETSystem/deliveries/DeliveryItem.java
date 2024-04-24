@@ -1,5 +1,6 @@
 package com.example.ETSystem.deliveries;
 
+import com.example.ETSystem.util.Generated;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -22,27 +23,27 @@ public class DeliveryItem{
 		this.gtin = gtin;
 	}
 	
-	public long getId(){
+	public @Generated long getId(){
 		return id;
 	}
 	
-	public String getLabel(){
+	public @Generated String getLabel(){
 		return label;
 	}
 	
-	public String getGtin(){
+	public @Generated String getGtin(){
 		return gtin;
 	}
 	
-	public void setId(long id){
+	public @Generated void setId(long id){
 		this.id = id;
 	}
 	
-	public void setLabel(String label){
+	public @Generated void setLabel(String label){
 		this.label = label;
 	}
 	
-	public void setGtin(String gtin){
+	public @Generated void setGtin(String gtin){
 		this.gtin = gtin;
 	}
 }

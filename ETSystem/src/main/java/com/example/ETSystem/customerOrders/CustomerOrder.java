@@ -1,6 +1,7 @@
 package com.example.ETSystem.customerOrders;
 
 import com.example.ETSystem.finalProducts.FinalProduct;
+import com.example.ETSystem.util.Generated;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -64,40 +65,40 @@ public class CustomerOrder {
     }
 
     //Getters
-    public long getID(){ return id; }
+    public @Generated long getID(){ return id; }
 
-    public String getClient() {
+    public @Generated String getClient() {
         return client;
     }
 
-    public ZonedDateTime getDate() {
+    public @Generated ZonedDateTime getDate() {
         return date;
     }
 
-    public ZonedDateTime getDeliveryDate() {
+    public @Generated ZonedDateTime getDeliveryDate() {
         return deliveryDate;
     }
 
-    public List<FinalProduct> getFinalProducts() {
+    public @Generated List<FinalProduct> getFinalProducts() {
         return finalProducts;
     }
 
     //Setters
-    public void setId(long id){ this.id = id;}
+    public @Generated void setId(long id){ this.id = id;}
 
-    public void setClient(String client) {
+    public @Generated void setClient(String client) {
         this.client = client;
     }
 
-    public void setDate(ZonedDateTime date) {
+    public @Generated void setDate(ZonedDateTime date) {
         this.date = date;
     }
 
-    public void setFinalProducts(List<FinalProduct> finalProducts) {
+    public @Generated void setFinalProducts(List<FinalProduct> finalProducts) {
         this.finalProducts = finalProducts;
     }
 
-    public void setDeliveryDate(ZonedDateTime deliveryDate) {
+    public @Generated void setDeliveryDate(ZonedDateTime deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
 }

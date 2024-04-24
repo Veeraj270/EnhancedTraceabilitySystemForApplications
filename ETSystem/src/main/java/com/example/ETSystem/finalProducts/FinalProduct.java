@@ -1,6 +1,7 @@
 package com.example.ETSystem.finalProducts;
 
 import com.example.ETSystem.recipe.Recipe;
+import com.example.ETSystem.util.Generated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
@@ -66,37 +67,37 @@ public class FinalProduct {
         this.quantity = quantity;
     }
 
-    public Long getId(){ return id; }
-
-    public String getLabel() {
+    public @Generated Long getId(){ return id; }
+	
+    public @Generated String getLabel() {
         return label;
     }
 
-    public void setLabel(String label) {
+    public @Generated void setLabel(String label) {
         this.label = label;
     }
 
-    public float getCost() {
+    public @Generated float getCost() {
         return cost;
     }
 
-    public void setCost(float cost) {
+    public @Generated void setCost(float cost) {
         this.cost = cost;
     }
 
-    public Recipe getRecipe() {
+    public @Generated Recipe getRecipe() {
         return recipe;
     }
 
-    public void setRecipe(Recipe recipe) {
+    public @Generated void setRecipe(Recipe recipe) {
         this.recipe = recipe;
     }
 
-    public int getQuantity() {
+    public @Generated int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public @Generated void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 }

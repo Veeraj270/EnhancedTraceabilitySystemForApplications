@@ -11,6 +11,7 @@ import com.example.ETSystem.timeline.CreateEvent;
 import com.example.ETSystem.timeline.TimelineEvent;
 import com.example.ETSystem.timeline.TimelineService;
 import com.example.ETSystem.timeline.UseEvent;
+import com.example.ETSystem.util.Generated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +33,7 @@ public class MockDataGenerator {
     private final ProductRepository productRepository;
 
     @Autowired
+    @Generated
     public MockDataGenerator(SuppliedGoodRepository suppliedGoodRepository,
                              IngredientTypeRepository ingredientTypeRepository,
                              SupplierService supplierService,
@@ -46,8 +48,10 @@ public class MockDataGenerator {
         this.timelineService = timelineService;
         this.productRepository = productRepository;
     }
+	
     public record ITypeInfo(String name, boolean isAllergen){}
 
+    @Generated
     public void generateMockData(){
         //Starting Barcode - 13 digits to fit EAC format
         //SUPPLIERS
@@ -237,6 +241,8 @@ public class MockDataGenerator {
             }
         }
     }
+	
+	@Generated
      public void genTableRow(Long barcode, ITypeInfo info, Float quantity, String unit, Supplier supplier, int price){
          //Format label
          String label = String.format("%s-%s-%s", info.name.replace(" ","-").toLowerCase(), quantity, unit);
@@ -270,7 +276,8 @@ public class MockDataGenerator {
          //The suppliedGood is saved to the suppliedGood repo within this method
          supplierService.AddGoodToSupplier(supplier, entry);
      }
-
+	
+	@Generated
      public void generateMockProductData(){
         Supplier supplier1 = supplierService.GetAllSuppliers().get(0);
 
@@ -317,7 +324,8 @@ public class MockDataGenerator {
          timelineService.save(creationEvent);
 
      }
-
+    
+    @Generated
      public void addProductFromSuppliedGood(SuppliedGood good){
         ZonedDateTime epochUTC = ZonedDateTime.ofInstant(Instant.EPOCH, ZoneId.of("UTC"));
 

@@ -1,6 +1,7 @@
 package com.example.ETSystem.timeline;
 
 import com.example.ETSystem.product.Product;
+import com.example.ETSystem.util.Generated;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
@@ -41,52 +42,52 @@ public non-sealed class CreateEvent implements TimelineEvent{
 		this.userResponsible = userResponsible;
 	}
 	
-	public long getId(){
+	public @Generated long getId(){
 		return id;
 	}
 	
-	public void setId(long id){
+	public @Generated void setId(long id){
 		this.id = id;
 	}
 	
-	public ZonedDateTime getTimestamp(){
+	public @Generated ZonedDateTime getTimestamp(){
 		return timestamp;
 	}
 	
-	public void setTimestamp(ZonedDateTime timestamp){
+	public @Generated void setTimestamp(ZonedDateTime timestamp){
 		this.timestamp = timestamp;
 	}
 	
-	public Product getOwner(){
+	public @Generated Product getOwner(){
 		return owner;
 	}
 	
-	public void setOwner(Product owner){
+	public @Generated void setOwner(Product owner){
 		this.owner = owner;
 	}
 	
-	public CreateType getCreateType(){
+	public @Generated CreateType getCreateType(){
 		return createType;
 	}
 	
-	public void setCreateType(CreateType type){
+	public @Generated void setCreateType(CreateType type){
 		this.createType = type;
 	}
 	
 	@Nullable
-	public String getLocation(){
+	public @Generated String getLocation(){
 		return location;
 	}
 	
-	public void setLocation(@Nullable String location){
+	public @Generated void setLocation(@Nullable String location){
 		this.location = location;
 	}
 	
-	public String getUserResponsible(){
+	public @Generated String getUserResponsible(){
 		return userResponsible;
 	}
 	
-	public void setUserResponsible(String userResponsible){
+	public @Generated void setUserResponsible(String userResponsible){
 		this.userResponsible = userResponsible;
 	}
 	
@@ -98,11 +99,11 @@ public non-sealed class CreateEvent implements TimelineEvent{
 		return td;
 	}
 	
-	public String toString(){
+	public @Generated String toString(){
 		return "CreateEvent[id=" + id + ", ownerId=" + owner.getId() + ", timestamp=" + timestamp + ", userResponsible=" + userResponsible + "]";
 	}
 	
-	public boolean equals(Object o){
+	public @Generated boolean equals(Object o){
 		return this == o
 				|| o instanceof CreateEvent event
 				&& id == event.id
@@ -113,7 +114,7 @@ public non-sealed class CreateEvent implements TimelineEvent{
 				&& Objects.equals(userResponsible, event.userResponsible);
 	}
 	
-	public int hashCode(){
+	public @Generated int hashCode(){
 		return Objects.hash(id, timestamp, owner, createType, location, userResponsible);
 	}
 	
