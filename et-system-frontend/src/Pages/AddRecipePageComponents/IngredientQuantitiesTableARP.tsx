@@ -69,9 +69,9 @@ const IngredientQuantitiesTableARP = ({ingredientQuantities, recipe, setRecipe, 
                 <tbody>
                         {table.getCoreRowModel().rows.map((row: RowModel) => (<tr
                                 id={row.id}>
-                                <td style={{width: '60%'}}>{row.original.ingredientType.name}</td>
-                                <td style={{width: '40%'}}>{row.original.quantity}</td>
-                                <td ><button className={'delete-button'} onClick={deleteFromTable} data-id={row.id}>X</button></td>
+                                <td style={{width: '55%'}}>{row.original.ingredientType.name}</td>
+                                <td style={{width: '35%'}}>{row.original.quantity}</td>
+                                <td style={{width: '10%'}} ><button className={'delete-button'} onClick={deleteFromTable} data-id={row.id}>X</button></td>
                             </tr>))}
                 </tbody>
             </table>

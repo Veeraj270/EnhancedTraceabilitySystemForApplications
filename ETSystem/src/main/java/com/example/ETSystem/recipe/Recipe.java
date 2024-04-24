@@ -43,7 +43,10 @@ public class Recipe {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<IngredientQuantity> ingredientQuantities;
 
-    @OneToMany(cascade = CascadeType.REFRESH)
+    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @JoinTable(
+            joinColumns = @JoinColumn(name = "ingredient_type_id")
+    )
     private Set<IngredientType> allergens;
 
     @Column(

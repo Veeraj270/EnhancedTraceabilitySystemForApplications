@@ -67,6 +67,8 @@ public class FinalProduct {
         this.quantity = quantity;
     }
 
+    public @Generated Long getId(){ return id; }
+	
     public @Generated String getLabel() {
         return label;
     }

@@ -184,7 +184,9 @@
 }
 
 .RPTable-container {
-    width: 100%;
+    max-height: 100%;
+    max-width: 100%;
+    min-width: 90%;
     text-align: center;
     border-radius: 0.5rem;
     border: var(--border-color) solid 1px;
@@ -209,25 +211,19 @@
 }
 
 .IGTableRP thead {
-    width: 100%;
-    display: table;
+    width: calc(100% - 17px);
     text-align: center;
 }
 
 .IGTableRP tbody{
-    height: 255px;
     width: 100%;
+    height: 255px;
     background-color: whitesmoke;
-    display: inline-block;
+    display: block;
     overflow-y: auto;
 }
 
-.IGTableRP tbody tr{
+.IGTableRP tr{
     width: 100%;
-    display: block;
-}
-
-.IGTableRP tbody tr td{
-    width: 50%;
-    display: inline-block;
+    display: table;
 }
