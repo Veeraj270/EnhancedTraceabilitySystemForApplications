@@ -1,6 +1,7 @@
 package com.example.ETSystem.timeline;
 
 import com.example.ETSystem.product.Product;
+import com.example.ETSystem.util.Generated;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
@@ -43,59 +44,59 @@ public non-sealed class UseEvent implements TimelineEvent{
 		this.userResponsible = userResponsible;
 	}
 	
-	public long getId(){
+	public @Generated long getId(){
 		return id;
 	}
 	
-	public void setId(long id){
+	public @Generated void setId(long id){
 		this.id = id;
 	}
 	
-	public ZonedDateTime getTimestamp(){
+	public @Generated ZonedDateTime getTimestamp(){
 		return timestamp;
 	}
 	
-	public void setTimestamp(ZonedDateTime timestamp){
+	public @Generated void setTimestamp(ZonedDateTime timestamp){
 		this.timestamp = timestamp;
 	}
 	
-	public Product getOwner(){
+	public @Generated Product getOwner(){
 		return owner;
 	}
 	
-	public void setOwner(Product owner){
+	public @Generated void setOwner(Product owner){
 		this.owner = owner;
 	}
 	
-	public Product getResult(){
+	public @Generated Product getResult(){
 		return result;
 	}
 	
-	public void setResult(Product result){
+	public @Generated void setResult(Product result){
 		this.result = result;
 	}
 	
-	public String getLocation(){
+	public @Generated String getLocation(){
 		return location;
 	}
 	
-	public void setLocation(String location){
+	public @Generated void setLocation(String location){
 		this.location = location;
 	}
 	
-	public float getQuantityUsed(){
+	public @Generated float getQuantityUsed(){
 		return quantityUsed;
 	}
 	
-	public void setQuantityUsed(float quantityUsed){
+	public @Generated void setQuantityUsed(float quantityUsed){
 		this.quantityUsed = quantityUsed;
 	}
 	
-	public String getUserResponsible(){
+	public @Generated String getUserResponsible(){
 		return userResponsible;
 	}
 	
-	public void setUserResponsible(String userResponsible){
+	public @Generated void setUserResponsible(String userResponsible){
 		this.userResponsible = userResponsible;
 	}
 	
@@ -109,11 +110,11 @@ public non-sealed class UseEvent implements TimelineEvent{
 		return td;
 	}
 	
-	public String toString(){
+	public @Generated String toString(){
 		return "UseEvent[id=" + id + ", ownerId=" + owner.getId() + ", timestamp=" + timestamp + ", resultId" + result.getId() + ", location" + location + ", quantityUsed" + quantityUsed + ", userResponsible=" + userResponsible + "]";
 	}
 	
-	public boolean equals(Object o){
+	public @Generated boolean equals(Object o){
 		return this == o || o instanceof UseEvent event
 				&& id == event.id
 				&& timestamp == event.timestamp
@@ -124,7 +125,7 @@ public non-sealed class UseEvent implements TimelineEvent{
 				&& Objects.equals(userResponsible, event.userResponsible);
 	}
 	
-	public int hashCode(){
+	public @Generated int hashCode(){
 		return Objects.hash(id, timestamp, owner, result, location, quantityUsed, userResponsible);
 	}
 }

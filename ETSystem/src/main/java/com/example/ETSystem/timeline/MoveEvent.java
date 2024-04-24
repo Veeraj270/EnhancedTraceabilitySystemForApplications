@@ -1,6 +1,7 @@
 package com.example.ETSystem.timeline;
 
 import com.example.ETSystem.product.Product;
+import com.example.ETSystem.util.Generated;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
@@ -34,43 +35,43 @@ public non-sealed class MoveEvent implements TimelineEvent{
 		this.userResponsible = userResponsible;
 	}
 	
-	public long getId(){
+	public @Generated long getId(){
 		return id;
 	}
 	
-	public void setId(long id){
+	public @Generated void setId(long id){
 		this.id = id;
 	}
 	
-	public ZonedDateTime getTimestamp(){
+	public @Generated ZonedDateTime getTimestamp(){
 		return timestamp;
 	}
 	
-	public void setTimestamp(ZonedDateTime timestamp){
+	public @Generated void setTimestamp(ZonedDateTime timestamp){
 		this.timestamp = timestamp;
 	}
 	
-	public Product getOwner(){
+	public @Generated Product getOwner(){
 		return owner;
 	}
 	
-	public void setOwner(Product owner){
+	public @Generated void setOwner(Product owner){
 		this.owner = owner;
 	}
 	
-	public String getDestination(){
+	public @Generated String getDestination(){
 		return destination;
 	}
 	
-	public void setDestination(String destination){
+	public @Generated void setDestination(String destination){
 		this.destination = destination;
 	}
 	
-	public String getUserResponsible(){
+	public @Generated String getUserResponsible(){
 		return userResponsible;
 	}
 	
-	public void setUserResponsible(String userResponsible){
+	public @Generated void setUserResponsible(String userResponsible){
 		this.userResponsible = userResponsible;
 	}
 	
@@ -81,11 +82,11 @@ public non-sealed class MoveEvent implements TimelineEvent{
 		return td;
 	}
 	
-	public String toString(){
+	public @Generated String toString(){
 		return "MoveEvent[id=" + id + ", ownerId=" + owner.getId() + ", timestamp=" + timestamp + ", destination: " + destination + ", userResponsible=" + userResponsible + "]";
 	}
 	
-	public boolean equals(Object o){
+	public @Generated boolean equals(Object o){
 		return this == o
 				|| o instanceof MoveEvent event
 				&& id == event.id
@@ -94,7 +95,7 @@ public non-sealed class MoveEvent implements TimelineEvent{
 				&& Objects.equals(destination, event.destination);
 	}
 	
-	public int hashCode(){
+	public @Generated int hashCode(){
 		return Objects.hash(id, timestamp, owner, destination);
 	}
 }

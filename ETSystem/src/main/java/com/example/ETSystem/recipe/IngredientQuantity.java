@@ -1,6 +1,7 @@
 package com.example.ETSystem.recipe;
 
 import com.example.ETSystem.ingredientType.IngredientType;
+import com.example.ETSystem.util.Generated;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -34,7 +35,7 @@ public class IngredientQuantity {
 
 
     @Override
-    public boolean equals(Object o) {
+    public @Generated boolean equals(Object o) {
         if(this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
@@ -43,27 +44,27 @@ public class IngredientQuantity {
     }
 
     @Override
-    public int hashCode() {
+    public @Generated int hashCode() {
         return Objects.hash(ingredientType, quantity);
     }
 
-    public Long getId() {
+    public @Generated Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public @Generated void setId(Long id) {
         this.id = id;
     }
 
-    public IngredientType getIngredientType() {
+    public @Generated IngredientType getIngredientType() {
         return ingredientType;
     }
 
-    public void setIngredient(IngredientType ingredientType) { this.ingredientType = ingredientType; }
+    public @Generated void setIngredient(IngredientType ingredientType) { this.ingredientType = ingredientType; }
 
-    public float getQuantity() { return quantity; }
+    public @Generated float getQuantity() { return quantity; }
 
-    public void setQuantity(float quantity) {
+    public @Generated void setQuantity(float quantity) {
         this.quantity = quantity;
     }
 }

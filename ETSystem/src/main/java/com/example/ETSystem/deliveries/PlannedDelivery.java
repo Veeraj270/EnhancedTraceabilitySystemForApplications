@@ -1,6 +1,7 @@
 package com.example.ETSystem.deliveries;
 
 import com.example.ETSystem.customerOrders.CustomerOrder;
+import com.example.ETSystem.util.Generated;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
@@ -40,47 +41,47 @@ public class PlannedDelivery{
 
 	//Getters
 	
-	public long getId(){ return id;	}
+	public @Generated long getId(){ return id;	}
 	
-	public String getName(){ return name; }
+	public @Generated String getName(){ return name; }
 	
-	public String getDescription(){ return description;	}
+	public @Generated String getDescription(){ return description;	}
 
-	public boolean isComplete(){ return complete; }
+	public @Generated boolean isComplete(){ return complete; }
 
-	public ZonedDateTime getDeliveryTime(){	return deliveryTime; }
+	public @Generated ZonedDateTime getDeliveryTime(){	return deliveryTime; }
 
-	public List<DeliveryItem> getItems(){ return items;	}
+	public @Generated List<DeliveryItem> getItems(){ return items;	}
 
-	public CustomerOrder getAssociatedCustomerOrder(){ return associatedCustomerOrder; }
+	public @Generated CustomerOrder getAssociatedCustomerOrder(){ return associatedCustomerOrder; }
 
 	//Setters
 
-	public void setId(long id){ this.id = id; }
+	public @Generated void setId(long id){ this.id = id; }
 	
-	public void setName(String name){ this.name = name;	}
+	public @Generated void setName(String name){ this.name = name;	}
 	
-	public void setDescription(String description){	this.description = description;	}
+	public @Generated void setDescription(String description){	this.description = description;	}
 	
-	public void setDeliveryTime(ZonedDateTime deliveryTime){ this.deliveryTime = deliveryTime; }
+	public @Generated void setDeliveryTime(ZonedDateTime deliveryTime){ this.deliveryTime = deliveryTime; }
 	
-	public void setItems(List<DeliveryItem> items){ this.items = items;	}
+	public @Generated void setItems(List<DeliveryItem> items){ this.items = items;	}
 
-	public void setComplete(boolean complete){ this.complete = complete; }
+	public @Generated void setComplete(boolean complete){ this.complete = complete; }
 
-	public void setAssociatedCustomerOrder(CustomerOrder order){ this.associatedCustomerOrder  = order;	}
+	public @Generated void setAssociatedCustomerOrder(CustomerOrder order){ this.associatedCustomerOrder  = order;	}
 
 	//Utility
 
-	public boolean equals(Object obj){
+	public @Generated boolean equals(Object obj){
 		return obj instanceof PlannedDelivery other && other.id == id;
 	}
 	
-	public int hashCode(){
+	public @Generated int hashCode(){
 		return Objects.hashCode(id);
 	}
 	
-	public String toString(){
+	public @Generated String toString(){
 		return "PlannedDelivery{" +
 				"id=" + id +
 				", name='" + name + '\'' +

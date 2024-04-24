@@ -2,6 +2,7 @@ package com.example.ETSystem.product;
 
 import com.example.ETSystem.customerOrders.CustomerOrder;
 import com.example.ETSystem.ingredientType.IngredientType;
+import com.example.ETSystem.util.Generated;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -80,80 +81,82 @@ public class Product{
 	}
 
 	//Getters
-	public long getId(){
-	return id;
+	public @Generated long getId(){
+		return id;
+	}
+	
+	public @Generated String getLabel(){
+		return label;
+	}
+	
+	public @Generated float getMaxQuantity(){
+		return maxQuantity;
+	}
+	
+	public @Generated float getCurrentQuantity(){
+		return currentQuantity;
+	}
+	
+	public @Generated String getGtin(){
+		return gtin;
 	}
 
-	public String getLabel(){
-	return label;
+	public @Generated List<Long> getIntermediaryIds(){
+		return intermediaryIds;
 	}
 
-	public float getMaxQuantity(){
-	return maxQuantity;
+	public @Generated IngredientType getIngredientType(){
+		return ingredientType;
 	}
 
-	public float getCurrentQuantity(){
-	return currentQuantity;
+	public @Generated long getParentID(){
+		return this.parentID;
 	}
 
-	public String getGtin(){
-	return gtin;
-	}
-
-	public List<Long> getIntermediaryIds(){
-	return intermediaryIds;
-	}
-
-	public IngredientType getIngredientType(){
-	return ingredientType;
-	}
-
-	public long getParentID(){
-	return this.parentID;
-	}
-
-	public CustomerOrder getAssociatedCustomerOrder(){ return this.associatedCustomerOrder; }
-
+	public @Generated CustomerOrder getAssociatedCustomerOrder(){ return this.associatedCustomerOrder; }
+	
 	//Setters
-	public void setId(Long id){ this.id = id; }
-
-	public void setLabel(String label){
-	this.label = label;
+	public @Generated void setId(long id){
+		this.id = id;
+	}
+	
+	public @Generated void setLabel(String label){
+		this.label = label;
+	}
+	
+	public @Generated void setMaxQuantity(float maxQuantity){
+		this.maxQuantity = maxQuantity;
+	}
+	
+	public @Generated void setCurrentQuantity(float currentQuantity){
+		this.currentQuantity = currentQuantity;
+	}
+	
+	public @Generated void setGtin(String gtin){
+		this.gtin = gtin;
 	}
 
-	public void setMaxQuantity(float maxQuantity){
-	this.maxQuantity = maxQuantity;
+	public @Generated void setIntermediaryIds(List<Long> intermediaries){
+		this.intermediaryIds = intermediaries;
 	}
 
-	public void setCurrentQuantity(float currentQuantity){
-	this.currentQuantity = currentQuantity;
+	public @Generated void setIngredientType(IngredientType ingredientType){
+		this.ingredientType = ingredientType;
 	}
 
-	public void setGtin(String gtin){
-	this.gtin = gtin;
+	public @Generated void setParentID(long id){
+		this.parentID = id;
 	}
 
-	public void setIntermediaryIds(List<Long> intermediaries){
-	this.intermediaryIds = intermediaries;
-	}
-
-	public void setIngredientType(IngredientType ingredientType){
-	this.ingredientType = ingredientType;
-	}
-
-	public void setParentID(long id){
-	this.parentID = id;
-	}
-
-	public void setAssociatedCustomerOrder(CustomerOrder customerOrder){ this.associatedCustomerOrder = customerOrder; }
+	public @Generated void setAssociatedCustomerOrder(CustomerOrder customerOrder){ this.associatedCustomerOrder = customerOrder; }
 
 	//Utility
-
-	public boolean equals(Object obj){
-	return obj instanceof Product other && Objects.equals(other.id, id);
+	
+	public @Generated boolean equals(Object obj){
+		return obj instanceof Product other && Objects.equals(other.id, id);
 	}
-
-	public int hashCode(){
-	return Objects.hashCode(id);
+	
+	public @Generated int hashCode(){
+		return Objects.hashCode(id);
 	}
 }

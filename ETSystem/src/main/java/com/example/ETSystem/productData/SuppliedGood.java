@@ -2,6 +2,7 @@ package com.example.ETSystem.productData;
 
 import com.example.ETSystem.ingredientType.IngredientType;
 import com.example.ETSystem.suppliers.Supplier;
+import com.example.ETSystem.util.Generated;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -58,79 +59,79 @@ public class SuppliedGood {
     }
 
     //Getters
-    public Long getId() {
+    public @Generated Long getId() {
         return id;
     }
 
-    public String getGtin() {
+    public @Generated String getGtin() {
         return gtin;
     }
 
-    public String getUnits() {
+    public @Generated String getUnits() {
         return units;
     }
 
-    public String getLabel() {
+    public @Generated String getLabel() {
         return label;
     }
 
-    public float getQuantity() {
+    public @Generated float getQuantity() {
         return quantity;
     }
 
-    public IngredientType getIngredientType() {
+    public @Generated IngredientType getIngredientType() {
         return ingredientType;
     }
 
-    public int getPrice(){
+    public @Generated int getPrice(){
         return this.price;
     }
 
-    public float getWeight(){ return this.weight; }
+    public @Generated float getWeight(){ return this.weight; }
 
-    public Supplier getSupplier(){
+    public @Generated Supplier getSupplier(){
         return this.supplier;
     }
 
 
     //Setters
-    public void setId(Long id){
+    public @Generated void setId(Long id){
         this.id = id;
     }
     
-    public void setGtin(String gtin) {
+    public @Generated void setGtin(String gtin) {
         this.gtin = gtin;
     }
 
-    public void setLabel(String label) {
+    public @Generated void setLabel(String label) {
         this.label = label;
     }
 
-    public void setIngredientType(IngredientType ingredientType) {
+    public @Generated void setIngredientType(IngredientType ingredientType) {
         this.ingredientType = ingredientType;
     }
 
-    public void setQuantity(float quantity) {
+    public @Generated void setQuantity(float quantity) {
         this.quantity = quantity;
     }
 
-    public void setUnits(String units) {
+    public @Generated void setUnits(String units) {
         this.units = units;
     }
 
-    public void setPrice(int price){
+    public @Generated void setPrice(int price){
         this.price = price;
     }
 
-    public void setWeight(float weight){ this.weight = weight; }
+    public @Generated void setWeight(float weight){ this.weight = weight; }
 
-    public void setSupplier(Supplier supplier){
+    public @Generated void setSupplier(Supplier supplier){
         this.supplier = supplier;
     }
 
 
     //Utility
-    public String toString(){
+    public @Generated String toString(){
         return "SuppliedGood{" +
                 "id=" + id +
                 ", label=" + label +
@@ -141,12 +142,12 @@ public class SuppliedGood {
     }
 
     @Override
-    public int hashCode(){
+    public @Generated int hashCode(){
         return Objects.hash(id);
     }
 
     @Override
-    public boolean equals(Object obj){
+    public @Generated boolean equals(Object obj){
         if (this == obj){
             return true;
         }
