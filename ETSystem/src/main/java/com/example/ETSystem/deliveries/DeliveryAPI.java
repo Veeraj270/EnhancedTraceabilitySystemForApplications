@@ -110,7 +110,7 @@ public class DeliveryAPI{
 			productRepo.save(newProduct);
 
 			//Create TimeLineEvent for each new product
-			timelineService.save(new CreateEvent(ZonedDateTime.now(), newProduct));
+			timelineService.save(new CreateEvent(ZonedDateTime.now(), newProduct, CreateEvent.CreateType.DELIVERED, null, null));
 			savedProducts.add(newProduct);
 		}
 

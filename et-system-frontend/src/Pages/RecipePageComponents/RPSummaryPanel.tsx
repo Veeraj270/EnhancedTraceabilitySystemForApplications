@@ -10,7 +10,7 @@ const RPSummaryPanel = ({props}) => {
                 <b>{props.vegan ? ' (V)' : props.vegetarian ? ' (Ve)' : ""}</b>
             </p>
             <div className={"RPSummary-item"}>
-                <p><b>Allergens:&nbsp;</b>{props.allergens ? props.allergens.map((ingredientType: any) => ingredientType.name).join(", ") : ""}</p>
+                <p><b>Allergens:&nbsp;</b>{props.allergens ? props.allergens.join(", ") : ""}</p>
             </div>
             <div className={"RPSummary-item"}>
                 <p><b>Description:&nbsp;</b>{props.description}</p>
