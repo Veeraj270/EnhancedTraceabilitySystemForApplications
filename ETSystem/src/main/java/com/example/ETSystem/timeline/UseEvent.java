@@ -20,11 +20,15 @@ public non-sealed class UseEvent implements TimelineEvent{
 	@JoinColumn(name = "owner", nullable = false)
 	private Product owner;
 	
+	@Column(nullable = true)
+	private String userResponsible;
+	
 	public UseEvent(){}
 	
-	public UseEvent(ZonedDateTime timestamp, Product owner){
+	public UseEvent(ZonedDateTime timestamp, Product owner, String userResponsible){
 		this.timestamp = timestamp;
 		this.owner = owner;
+		this.userResponsible = userResponsible;
 	}
 	
 	public long getId(){
@@ -51,8 +55,16 @@ public non-sealed class UseEvent implements TimelineEvent{
 		this.owner = owner;
 	}
 	
+	public String getUserResponsible(){
+		return userResponsible;
+	}
+	
+	public void setUserResponsible(String userResponsible){
+		this.userResponsible = userResponsible;
+	}
+	
 	public String toString(){
-		return "UseEvent[id=" + id + ", ownerId=" + owner.getId() + ", timestamp=" + timestamp + "]";
+		return "UseEvent[id=" + id + ", ownerId=" + owner.getId() + ", timestamp=" + timestamp + ", userResponsible=" + userResponsible + "]";
 	}
 	
 	public boolean equals(Object o){

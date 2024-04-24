@@ -22,12 +22,16 @@ public non-sealed class MoveEvent implements TimelineEvent{
 	
 	private String destination;
 	
+	@Column(nullable = true)
+	private String userResponsible;
+	
 	public MoveEvent(){}
 	
-	public MoveEvent(ZonedDateTime timestamp, Product owner, String destination){
+	public MoveEvent(ZonedDateTime timestamp, Product owner, String destination, String userResponsible){
 		this.timestamp = timestamp;
 		this.owner = owner;
 		this.destination = destination;
+		this.userResponsible = userResponsible;
 	}
 	
 	public long getId(){
@@ -62,6 +66,14 @@ public non-sealed class MoveEvent implements TimelineEvent{
 		this.destination = destination;
 	}
 	
+	public String getUserResponsible(){
+		return userResponsible;
+	}
+	
+	public void setUserResponsible(String userResponsible){
+		this.userResponsible = userResponsible;
+	}
+	
 	public TimelineData asData(){
 		TimelineData td = TimelineEvent.super.asData();
 		td.data().put("destination", destination);
@@ -69,7 +81,7 @@ public non-sealed class MoveEvent implements TimelineEvent{
 	}
 	
 	public String toString(){
-		return "MoveEvent[id=" + id + ", ownerId=" + owner.getId() + ", timestamp=" + timestamp + ", destination: " + destination + "]";
+		return "MoveEvent[id=" + id + ", ownerId=" + owner.getId() + ", timestamp=" + timestamp + ", destination: " + destination + ", userResponsible=" + userResponsible + "]";
 	}
 	
 	public boolean equals(Object o){
