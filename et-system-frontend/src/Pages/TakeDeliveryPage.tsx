@@ -76,7 +76,7 @@ const TakeDelivery = () => {
     }
 
     const fetchDeliveryData = async (deliveryId: number) : Promise<Delivery> => {
-        const response = await fetch(`http://backend:8080/api/deliveries/fetch-planned-by-id/${deliveryId}`);
+        const response = await fetch(`/api/deliveries/fetch-planned-by-id/${deliveryId}`);
         if (!response.ok) {
             throw new Error('fetch-planned-by-id response was not ok');
         }
@@ -123,7 +123,7 @@ const TakeDelivery = () => {
 
     //Used by submitBarcode()
     const fetchProductData = async (barcode: string) => {
-        const response = await fetch(`http://backend:8080/api/lookup/barcode/lookup-by-gtin/${barcode}`);
+        const response = await fetch(`/api/lookup/barcode/lookup-by-gtin/${barcode}`);
         if (!response.ok){
             throw new Error("Error: api/lookup/barcode/lookup-by-gtin was not ok");
         }
@@ -160,7 +160,7 @@ const TakeDelivery = () => {
         }
 
         console.log(recordedDelivery);
-        let response = await fetch(`http://backend:8080/api/deliveries/add-recorded-with-products`,{
+        let response = await fetch(`/api/deliveries/add-recorded-with-products`,{
             method: "POST",
             body: JSON.stringify(recordedDelivery),
             headers: {
@@ -172,7 +172,7 @@ const TakeDelivery = () => {
         }
 
         //Mark planned delivery status as processed
-        response = await fetch(`http://backend:8080/api/deliveries/set-planned-as-complete/${deliveryId}`,{
+        response = await fetch(`/api/deliveries/set-planned-as-complete/${deliveryId}`,{
             method: "POST",
             headers: {
                 "Content-type": "application/json; charset=UTF-8"

@@ -30,7 +30,7 @@ const ProductEdit = () => {
         event.preventDefault();
 
 
-            await fetch(`http://backend:8080/api/products/add-product`, {
+            await fetch(`/api/products/add-product`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

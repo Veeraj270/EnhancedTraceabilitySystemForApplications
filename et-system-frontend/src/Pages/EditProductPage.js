@@ -20,7 +20,7 @@ const EditProductPage = () => {
 
 
     useEffect(() => {
-        fetch(`http://backend:8080/api/products/fetch-product-by-id/${id}`)
+        fetch(`/api/products/fetch-product-by-id/${id}`)
             .then(response => response.json())
             .then(data => {
                 console.log("Fetched data:", data);
@@ -47,7 +47,7 @@ const EditProductPage = () => {
         event.preventDefault();
 
 
-        await fetch(`http://backend:8080/api/products/edit/${product.id}`, {
+        await fetch(`/api/products/edit/${product.id}`, {
             //method: (product.id) ? 'PUT' : 'POST'
             method: 'PUT',
             headers: {
