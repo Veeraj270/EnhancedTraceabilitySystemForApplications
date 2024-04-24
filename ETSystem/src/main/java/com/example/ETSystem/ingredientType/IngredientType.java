@@ -1,18 +1,14 @@
 package com.example.ETSystem.ingredientType;
 
-import com.example.ETSystem.productData.SuppliedGood;
 import jakarta.persistence.*;
-
 import java.util.Objects;
-
-import static jakarta.persistence.GenerationType.SEQUENCE;
 
 @Entity
 public class IngredientType {
 
     @Id
     @GeneratedValue
-    @Column
+    @Column(name = "ingredient_type_id")
     private long id;
 
     @Column(unique = true)

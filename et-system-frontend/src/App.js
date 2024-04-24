@@ -14,6 +14,8 @@ import DeliveriesOverviewPage from "./Pages/DeliveriesOverviewPage";
 import FinalProductPage from "./Pages/FinalProductPage";
 import RecipesPage from "./Pages/RecipesPage";
 import AddRecipePage from "./Pages/AddRecipePage";
+import BakingSystemPage1 from "./Pages/BakingSystemPage1";
+import BakingSystemPage2 from "./Pages/BakingSystemPage2";
 import TracePage from "./Pages/TracePage";
 import BakingSystemPage3 from "./Pages/BakingSystemPage3";
 
@@ -45,7 +47,10 @@ function App() {
                     </Route>
                     <Route path={"/baking-system-page-3"} element={<BakingSystemPage3/>}>
                     </Route>
-
+                    <Route path={"baking-system-1"} element={<BakingSystemPage1/>}>
+                    </Route>
+                    <Route path={"baking-system-page-2"} element={<BakingSystemPage2/>}>
+                    </Route>
                 </Routes>
             </div>
         </Router>

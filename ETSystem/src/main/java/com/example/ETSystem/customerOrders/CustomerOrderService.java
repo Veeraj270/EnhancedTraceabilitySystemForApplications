@@ -1,14 +1,14 @@
 package com.example.ETSystem.customerOrders;
 
 
-import com.example.ETSystem.productData.Exceptions.ProductNotFoundException;
+import com.example.ETSystem.finalProducts.FinalProduct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class CustomerOrderService {
@@ -22,6 +22,11 @@ public class CustomerOrderService {
 
     public List<CustomerOrder> getCustomerOrders(){
         return customerOrderRepository.findAll();
+    }
+
+    public List<Pair<CustomerOrder, FinalProduct>> getOrderedFinalProducts(){
+        return getCustomerOrders().stream().flatMap(order -> { return
+            order.getFinalProducts().stream().map(finalProduct -> Pair.of(order, finalProduct));}).collect(Collectors.toList());
     }
 
     public void addNewCustomerOrder(CustomerOrder customerOrder){
@@ -43,6 +48,22 @@ public class CustomerOrderService {
         existingCustomerOrder.setClient(customerOrder.getClient());
         existingCustomerOrder.setDate(customerOrder.getDate());
         existingCustomerOrder.setFinalProducts(customerOrder.getFinalProducts());
+
+        return customerOrderRepository.save(existingCustomerOrder);
+    }
+
+    public CustomerOrder editCustomerOrderFinalProducts(Long id, Pair<Long, Integer> newFinalProductData){
+        CustomerOrder existingCustomerOrder = customerOrderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Customer order not found with id: " + id));
+        List<FinalProduct> existingFinalProducts = existingCustomerOrder.getFinalProducts();
+        existingFinalProducts.stream().map(finalProduct -> {
+            // I use findFirst() because there can't be 2 final products with the same id
+            if(newFinalProductData.getFirst() == finalProduct.getId()){
+                finalProduct.setQuantity(finalProduct.getQuantity() - newFinalProductData.getSecond());
+            }
+            return finalProduct;
+        }).collect(Collectors.toList());
+        existingCustomerOrder.setFinalProducts(existingFinalProducts);
 
         return customerOrderRepository.save(existingCustomerOrder);
     }
