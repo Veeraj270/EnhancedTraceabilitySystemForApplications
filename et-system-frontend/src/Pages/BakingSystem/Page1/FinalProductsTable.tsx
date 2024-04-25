@@ -1,29 +1,56 @@
 import {ChangeEvent, useEffect, useMemo, useState} from "react";
-import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
+import {flexRender, getCoreRowModel, HeaderGroup, useReactTable, Row} from "@tanstack/react-table";
 import React from "react";
 import {OrderedFinalProduct} from "../../Interfaces/OrderedFinalProduct";
+import '../Page3/BSP3StyleSheet.css'
 
-// @ts-ignore
-const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData, searchData, setSearchData}) => {
+import Page1Table1Row from "../BakingSystemInterfaces";
 
-    const [searchInput, setSearchInput] = useState("")
+
+interface PropTypes{
+    rawData: any
+    setRawData: any
+    selectedData: any
+    setSelectedData: any
+    searchData: any
+    setSearchData: any
+}
+
+const FinalProductsTable = (props: PropTypes) => {
+    //Destructure props
+    const rawData = props.rawData;
+    const setRawData = props.setRawData;
+    const selectedData = props.selectedData;
+    const setSelectedData = props.setSelectedData;
+    const searchData = props.searchData;
+    const setSearchData = props.setSearchData;
+
+    //State variables
+    const [searchInput, setSearchInput] = useState("");
+    const [unselectedFinalProducts, setUnselectedFinalProducts] = useState<Page1Table1Row[]>([]);
 
     const columns = useMemo(() => [
         {
             header: "Product",
-            accessorKey: "finalProduct",
+            accessorKey: "productLabel",
             size: 40
         },
         {
             header: "Quantity",
             accessorKey: "quantity",
-            size: 20
+            size: 25
         },
         {
             header: "Associated order",
-            accessorKey: "customerOrder",
-            size: 20
+            accessorKey: "associatedCustomerOrderId",
+            size: 25
+        },
+        {
+            header: "",
+            accessorKey: "actions",
+            size: 10
         }
+
     ], [])
 
     const handleChange = (event : ChangeEvent<HTMLInputElement>) => {
@@ -66,18 +93,15 @@ const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData,
         }
     }
 
-    const handleClickPlus = (event: MouseEvent, row: HTMLTableRowElement) => {
-        const rowData = row.original
+    const handleClickPlus = (event: React.MouseEvent<HTMLButtonElement>, targetRow: Page1Table1Row) => {
         // If the quantity is 1, the row should be removed after clicking the button
-        if(rowData.quantity === 1){
-            // By filtering out the row that should be removed
-            const newTableData = rawData.filter((x: OrderedFinalProduct) => x.key !== rowData.key)
+        if(targetRow.quantity === 1){
+            const newTableData = rawData.filter((row: Page1Table1Row) => row.finalProductId !== targetRow.finalProductId)
             setRawData(newTableData)
-            const newSearchData = rawData.filter((x: OrderedFinalProduct) => x.key !== rowData.key)
-            setSearchData(newSearchData)
-            // Adding the row to the data of the other table
-            updateSelectedData(rowData)
-        }else{
+
+            //Add the finalProduct to the
+            updateSelectedData(targetRow) //
+        } else {
             // This changes the quantity if the final product that is added
             // to the selected final products
             const newData = rawData.map((x: OrderedFinalProduct) => {
@@ -88,6 +112,7 @@ const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData,
                 }
             })
             setRawData(newData)
+            
             // The same goes for the searched data
             const newSearchData = searchData.map((x: OrderedFinalProduct) => {
                 if(x.key === rowData.key){
@@ -101,48 +126,66 @@ const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData,
         }
     }
 
+    //Will need changing for searching to work again
     const table = useReactTable({
-        data: searchData,
+        data: unselectedFinalProducts,
         columns: columns,
         getCoreRowModel: getCoreRowModel()
     })
 
+    const getTemplateColumns = (headerGroup : HeaderGroup<Page1Table1Row>): string => {
+        let output  = "";
+        headerGroup.headers.forEach(header => {
+            output += `${header.column.getSize()}fr `
+        })
+        return output;
+    }
+
+    const templateColumnStyle = getTemplateColumns(table.getHeaderGroups()[0]);
+
     return (
-        <div className={'FPTable-grid'}>
-        <div className={"FPTable-search-container"}>
-            <input placeholder={"Search..."} onChange={handleChange} value={searchInput}/>
-        </div>
-        <div className={"FPTable-content-div"}>
-            <table>
-                <thead>
-                {table.getHeaderGroups().map(headerGroup => (
-                    <tr key={headerGroup.id} >
-                        {headerGroup.headers.map(header => <th
-                            key={header.id} style={{width: `${header.column.getSize()}%`, textAlign: "center"}}>
-                            {flexRender(header.column.columnDef.header, header.getContext())}
-                        </th>)
-                        }
-                        <th></th>
-                    </tr>
-                ))}
-                </thead>
-                <tbody>
-                {table.getCoreRowModel().rows.map(row => (<tr
-                        key={row.id}>
-                        {row.getVisibleCells().map(cell => (
-                            <td style={{width: `${cell.column.getSize()}%`,textAlign:"center"}}>
-                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+        <div className={'BSP1-FP-table-1-grid'}>
+            <div className={"BSP1-FP-table-1-search-div"}>
+                <input placeholder={"Search..."} onChange={handleChange} value={searchInput}/>
+            </div>
+            <div className={'BSP1-FP-table-1-header-div'}>
+                <table>
+                    {table.getHeaderGroups().map(headerGroup => (
+                        <tr key={headerGroup.id}
+                            className={'BSP1-tr'}
+                            style={{gridTemplateColumns: getTemplateColumns(headerGroup)}}
+                        >
+                            {headerGroup.headers.map(header =>
+                                <th
+                                    className={'BSP1-th'}
+                                    key={header.id}>
+                                    {flexRender(header.column.columnDef.header, header.getContext())}
+                                </th>
+                            )
+                            }
+                        </tr>
+                    ))}
+                </table>
+            </div>
+            <div className={"FPTable-content-div"}>
+                <table>
+                    <tbody>
+                    {table.getCoreRowModel().rows.map(row => (
+                        <tr key={row.id}
+                           className={'BSP1-tr'}
+                           style={{gridTemplateColumns: templateColumnStyle}}
+                        >
+                            <td className={'BSP1-td'}>{row.original.productLabel}</td>
+                            <td className={'BSP1-td'}>{row.original.quantity}</td>
+                            <td className={'BSP1-td'}>{row.original.associatedOrderId}</td>
+                            <td className={'BSP1-td'}>
+                                <button onClick={(event) => {handleClickPlus(event, row.original)}}><b>+</b></button>
                             </td>
-                        ))}
-                    <td style={{textAlign:"center"}}>
-                        <button onClick={(event) => {handleClickPlus(event, row)}}><b>+</b></button>&nbsp;
-                    </td>
-                    </tr>)
-                )
-                }
-                </tbody>
-            </table>
-        </div>
+                        </tr>)
+                    )}
+                    </tbody>
+                </table>
+            </div>
         </div>
     )
 

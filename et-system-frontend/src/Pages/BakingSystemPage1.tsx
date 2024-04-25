@@ -5,15 +5,33 @@ import FinalProductsTable from "./BakingSystem/Page1/FinalProductsTable";
 import SelectedFinalProductsTable from "./BakingSystem/Page1/SelectedFinalProductsTable";
 import IngredientQuantitiesTableRP from "./RecipePageComponents/IngredientQuantitiesTableRP";
 import {Link} from "react-router-dom";
-import {IngredientQuantity} from "./Interfaces/IngredientQuantity";
+//import {IngredientQuantity} from "./Interfaces/IngredientQuantity";
+import IngredientQuantity from "./BakingSystem/BakingSystemInterfaces";
+import './BakingSystem/Page3/BSP3StyleSheet.css'
+import Page1Table1Row from "./BakingSystem/BakingSystemInterfaces";
 
-const BakingSystemPage1 = () => {
 
+
+interface PropTypes{
+    setSelectedFinalProducts: (selectedFinalProducts: OrderedFinalProduct[]) => void
+    setIngredientsNeeded: (ingredientsNeeded: IngredientQuantity[]) => void
+    ingredientsNeeded: IngredientQuantity[];
+}
+
+const BakingSystemPage1 = (props : PropTypes) => {
+    //Destructure props
+    const setSelectedFinalProduct = props.setSelectedFinalProducts;
+    const setIngredientsNeeded = props.setIngredientsNeeded;
+    const ingredientsNeeded = props.ingredientsNeeded;
+
+
+    //State variables
     const [tableData, setTableData] = useState<OrderedFinalProduct[]>([])
     const [searchData, setSearchData] = useState<OrderedFinalProduct[]>([])
     const [selectedData, setSelectedData] = useState<OrderedFinalProduct[]>([])
-    const [ingredientsNeeded, setIngredientsNeeded] = useState<IngredientQuantity[]>([])
+    //const [ingredientsNeeded, setIngredientsNeeded] = useState<IngredientQuantity[]>([])
 
+    //Fetches all final products from the back-end
     const fetchFinalProducts = async () => {
         const response = await fetch("http://localhost:8080/api/customerorders/fetch-ordered-final-products")
         if(!response.ok){
@@ -22,6 +40,7 @@ const BakingSystemPage1 = () => {
         return await response.json();
     }
 
+    //Fetches the ingredients needed for the selected final products
     const fetchIngredientsNeeded = async (idsAndQuantities: {id: number, quantity: number}[]) => {
         const params = new URLSearchParams();
 
@@ -64,8 +83,10 @@ const BakingSystemPage1 = () => {
         }
     }, [selectedData])
 
+
     useEffect(() => {
         fetchFinalProducts().then((finalProductsData) => {
+            console.log(finalProductsData);
             const newData = filterTableData(finalProductsData)
             setTableData(newData)
             setSearchData(newData)
@@ -73,37 +94,12 @@ const BakingSystemPage1 = () => {
             .catch((reason) => {console.error("Error setting final products data. " + reason)})
     }, [])
 
-    const startBaking = async () => {
-            // By clicking the start baking button, it updates the quantities of the final products in the customer orders
-            // Might need to move it to recipe page 3
+    const startBaking = () => {
 
-            // Because there can be a lot of final products updated, and because the depth of the final product
-            // object is big, just the id's and the quantities are sent to the back-end
-            const finalProducts = selectedData.map(x =>
-                `${x.customerOrder};${x.finalProductId};${x.quantity}`
-            );
-
-            try {
-                const response = await fetch('http://localhost:8080/api/customerorders/edit-final-products', {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(finalProducts)
-                });
-
-                if (response.ok) {
-                    console.log("The selected customer orders are updated")
-                } else {
-                    alert("Error updating selected customer orders")
-                }
-            } catch (e) {
-                console.log("Error updating selected customer orders: " + e)
-            }
     }
 
     return (
-        <div className="BS1-page">
+        <div className="page-container">
             <h1 className='BS1-title'>Baking System</h1>
             <div className="BS1-grid-container">
                 <div className={"BS1-grid-container-2"}>
@@ -117,8 +113,8 @@ const BakingSystemPage1 = () => {
                 />
                 </div>
                 <div className={"border-container"}>
-                    <div className={"BS1--grid-container-3"}>
-                        <div>
+                    <div className={"BS1-grid-container-3"}>
+                        <div className={'BSP1'}>
                             <h2>Selected Products</h2>
                             <SelectedFinalProductsTable
                                 selectedData={selectedData}

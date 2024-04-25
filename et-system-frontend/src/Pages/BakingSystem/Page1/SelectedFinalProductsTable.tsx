@@ -76,7 +76,7 @@ const SelectedFinalProductsTable = ({selectedData, setSelectedData, nonSelectedD
     })
 
     return(
-        <div style={{height: "435px"}}className={'FPTable-grid'}>
+        <div className={'FPTable-grid'}>
             <div className={"FPTable-content-div"}>
                 <table>
                     <thead>
