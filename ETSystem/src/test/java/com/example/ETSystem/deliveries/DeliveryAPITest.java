@@ -21,6 +21,7 @@ import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -83,7 +84,7 @@ public class DeliveryAPITest {
         //Setup recordedDeliveryInput
         RecordedDeliveryInput record = new RecordedDeliveryInput();
 
-        IngredientType iType = new IngredientType("iType", false, false, false);
+        IngredientType iType = new IngredientType("iType", false, false, Set.of());
         ingredientTypeRepository.save(iType);
 
         SuppliedGood sGood1 = new SuppliedGood("10001", "", iType, 1, "kg", 1, 1);

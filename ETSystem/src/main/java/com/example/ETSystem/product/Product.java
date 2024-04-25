@@ -2,6 +2,7 @@ package com.example.ETSystem.product;
 
 import com.example.ETSystem.customerOrders.CustomerOrder;
 import com.example.ETSystem.ingredientType.IngredientType;
+import com.example.ETSystem.util.Generated;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -37,15 +38,15 @@ public class Product{
 	@Transient
 	private transient long parentID;
 
-  public Product(){}
-  
+	public Product(){}
+
 	public Product(String label, float maxQuantity, List<Long> intermediaryIds){
 		this.label = label;
 		this.maxQuantity = maxQuantity;
 		this.currentQuantity = maxQuantity;
 		this.intermediaryIds = intermediaryIds;
 	}
-	
+
 	public Product(String label, float maxQuantity,float currentQuantity){
 		this.label = label;
 		this.maxQuantity = maxQuantity;
@@ -59,88 +60,112 @@ public class Product{
 		this.ingredientType = iType;
 	}
 
-	public Product(String gtin, String label, float maxQuantity, float currentQuantity, List<Long> intermediaryIds, IngredientType ingredientType) {
+	public Product(String gtin, String label, float maxQuantity, float currentQuantity, List<Long> intermediaryIds, IngredientType iType) {
 		this.gtin = gtin;
 		this.label = label;
 		this.maxQuantity = maxQuantity;
 		this.currentQuantity = currentQuantity;
 		this.intermediaryIds = intermediaryIds;
-		this.ingredientType = ingredientType;
+		this.ingredientType = iType;
 	}
-	
+
+	public Product(String label, float maxQuantity, float currentQuantity, List<Long> intermediaryIds, IngredientType iType, CustomerOrder associatedCustomerOrder) {
+		this.label = label;
+		this.maxQuantity = maxQuantity;
+		this.currentQuantity = currentQuantity;
+		this.intermediaryIds = intermediaryIds;
+		this.ingredientType = iType;
+		this.associatedCustomerOrder = associatedCustomerOrder;
+	}
+
+	public Product (String label, IngredientType iType, List<Long> intermediaryIds){
+		this.label = label;
+		this.ingredientType = iType;
+		this.intermediaryIds = intermediaryIds;
+	}
+
+	public Product (String label, IngredientType iType){
+		this.label = label;
+		this.ingredientType = iType;
+	}
+
 	//Getters
-	public long getId(){
+	public @Generated long getId(){
 		return id;
 	}
 	
-	public String getLabel(){
+	public @Generated String getLabel(){
 		return label;
 	}
 	
-	public float getMaxQuantity(){
+	public @Generated float getMaxQuantity(){
 		return maxQuantity;
 	}
 	
-	public float getCurrentQuantity(){
+	public @Generated float getCurrentQuantity(){
 		return currentQuantity;
 	}
 	
-	public String getGtin(){
+	public @Generated String getGtin(){
 		return gtin;
 	}
 
-	public List<Long> getIntermediaryIds(){
+	public @Generated List<Long> getIntermediaryIds(){
 		return intermediaryIds;
 	}
 
-	public IngredientType getIngredientType(){
+	public @Generated IngredientType getIngredientType(){
 		return ingredientType;
 	}
 
-	public long getParentID(){
+	public @Generated long getParentID(){
 		return this.parentID;
 	}
 
-	public CustomerOrder getAssociatedCustomerOrder(){ return this.associatedCustomerOrder; }
+	public @Generated CustomerOrder getAssociatedCustomerOrder(){ return this.associatedCustomerOrder; }
 	
 	//Setters
-	public void setLabel(String label){
+	public @Generated void setId(long id){
+		this.id = id;
+	}
+	
+	public @Generated void setLabel(String label){
 		this.label = label;
 	}
 	
-	public void setMaxQuantity(float maxQuantity){
+	public @Generated void setMaxQuantity(float maxQuantity){
 		this.maxQuantity = maxQuantity;
 	}
 	
-	public void setCurrentQuantity(float currentQuantity){
+	public @Generated void setCurrentQuantity(float currentQuantity){
 		this.currentQuantity = currentQuantity;
 	}
 	
-	public void setGtin(String gtin){
+	public @Generated void setGtin(String gtin){
 		this.gtin = gtin;
 	}
 
-	public void setIntermediaryIds(List<Long> intermediaries){
+	public @Generated void setIntermediaryIds(List<Long> intermediaries){
 		this.intermediaryIds = intermediaries;
 	}
 
-	public void setIngredientType(IngredientType ingredientType){
+	public @Generated void setIngredientType(IngredientType ingredientType){
 		this.ingredientType = ingredientType;
 	}
 
-	public void setParentID(long id){
+	public @Generated void setParentID(long id){
 		this.parentID = id;
 	}
 
-	public void setAssociatedCustomerOrder(CustomerOrder customerOrder){ this.associatedCustomerOrder = customerOrder; }
+	public @Generated void setAssociatedCustomerOrder(CustomerOrder customerOrder){ this.associatedCustomerOrder = customerOrder; }
 
 	//Utility
 	
-	public boolean equals(Object obj){
+	public @Generated boolean equals(Object obj){
 		return obj instanceof Product other && Objects.equals(other.id, id);
 	}
 	
-	public int hashCode(){
+	public @Generated int hashCode(){
 		return Objects.hashCode(id);
 	}
 }

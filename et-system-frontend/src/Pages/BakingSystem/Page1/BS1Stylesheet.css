@@ -1,0 +1,146 @@
+.BS1-page{
+    width: calc(100% - 100px);
+    height: 100%;
+    padding-left:  50px;
+    padding-right: 50px;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: azure;
+    row-gap: 20px;
+
+    --border-color: powderblue;
+    --button-color: lightcyan;
+    --shadow-color: rgb(0,0,0,0.4);
+}
+
+.BS1-title{
+    margin-bottom: 20px;
+}
+
+.BS1-grid-container{
+    display: grid;
+    grid-template-columns: 0.33fr 0.67fr;
+    width: 100%;
+    height: 600px;
+    column-gap: 40px;
+}
+
+.BS1-grid-container-2{
+    vertical-align: middle;
+}
+
+.BS1--grid-container-3{
+    display: grid;
+    grid-template-columns: 0.58fr 0.42fr;
+    width: 100%;
+    height: 510px;
+    text-align: center;
+    column-gap: 20px;
+}
+
+.border-container{
+    text-align: center;
+    padding: 15px;
+    border: 1px solid gray;
+    border-radius: 1rem;
+}
+
+.FPTable-grid{
+    display: grid;
+    grid-template-rows: 60px 60px;
+    box-shadow: 1px 1px 3px var(--shadow-color);
+    width: 100%;
+    height: 600px;
+    border-radius: 0.5rem;
+    background-color: ghostwhite;
+    border: solid var(--border-color)  2px;
+}
+
+.FPTable-grid *{
+    box-sizing: border-box;
+}
+
+.FPTable-grid th, td{
+    padding: 12px;
+}
+
+.FPTable-search-container{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 0.2rem;
+    border-bottom: var(--border-color)  solid 4px;
+    background-color: powderblue;
+    justify-content: center;
+}
+
+.FPTable-search-container input{
+    background-color: ghostwhite;
+    height: 33px;
+    width: 100%;
+    font-weight: normal;
+    padding: 8px 16px;
+    border: none;
+    box-shadow: 2px 2px 3px var(--shadow-color) inset;
+    border-radius: 0.7rem;
+    outline: none;
+}
+.FPTable-search-container input:focus{
+    box-shadow: 3px 3px 3px var(--shadow-color) inset;
+}
+
+.FPTable-search-container label{
+    font-weight: bold;
+    font-size: 16px;
+    padding-bottom: 4px;
+    padding-left: 4px;
+}
+
+.FPTable-content-div{
+    height: 438px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.FPTable-content-div td{
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    height: 40px;
+    max-height: 40px;
+    font-size: 14px;
+}
+
+.FPTable-content-div tr{
+    width: 100%;
+    max-height: 40px;
+    cursor: pointer;
+}
+
+.FPTable-content-div table{
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse ;
+    background-color: ghostwhite;
+    border-spacing: unset;
+    box-shadow: none;
+}
+
+.FPTable-content-div th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.start-baking-button{
+    font-size: 24px;
+    font-weight: bolder;
+    background-color: powderblue;
+    color: darkslategray;
+    width: 250px;
+    padding: 10px;
+    margin-top: 15px;
+    border: solid black 1px;
+    border-radius: 1rem;
+    border-radius: 0.5rem;
+}
+

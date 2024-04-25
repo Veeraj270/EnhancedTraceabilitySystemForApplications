@@ -1,11 +1,14 @@
 package com.example.ETSystem.finalProducts;
 
 
+import com.example.ETSystem.recipe.IngredientQuantity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "api/finalproducts")
@@ -27,6 +30,16 @@ public class FinalProductAPI {
     @CrossOrigin(origins = "http://localhost:3000")
     public FinalProduct getFinalProductById(@PathVariable("id") String id){
         return finalProductService.getFinalProductByID(Long.parseLong(id));
+    }
+
+    @GetMapping(path = "/get-total-ingredients")
+    @CrossOrigin(origins = "https://localhost:3000")
+    public List<IngredientQuantity> getTotalIngredients(@RequestParam List<String> idsAndQuantities){
+       List<Pair<Long, Integer>> mappedData = idsAndQuantities.stream().map(x -> {
+           String[] elements = x.split(";");
+           return Pair.of(Long.parseLong(elements[0]), Integer.parseInt(elements[1]));
+       }).toList();
+       return finalProductService.getTotalIngredientsById(mappedData);
     }
 
     @PostMapping(path = "/add")

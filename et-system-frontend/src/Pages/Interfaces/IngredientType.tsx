@@ -1,3 +1,4 @@
 export interface IngredientType{
-    name: string
+    name: string,
+    allergens: string[]
 }

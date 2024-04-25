@@ -1,6 +1,7 @@
 package com.example.ETSystem.suppliers;
 
 import com.example.ETSystem.productData.SuppliedGood;
+import com.example.ETSystem.util.Generated;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -25,27 +26,27 @@ public class Supplier{
 		setGoods(goods);
 	}
 	
-	public long getId(){
+	public @Generated long getId(){
 		return id;
 	}
 	
-	public String getName(){
+	public @Generated String getName(){
 		return name;
 	}
 
-	public List<SuppliedGood> getGoods(){
+	public @Generated List<SuppliedGood> getGoods(){
 		return suppliedGoods;
 	}
 	
-	public void setId(long id){
+	public @Generated void setId(long id){
 		this.id = id;
 	}
 	
-	public void setName(String name){
+	public @Generated void setName(String name){
 		this.name = name;
 	}
 	
-	public void setGoods(List<SuppliedGood> suppliedGoods){
+	public @Generated void setGoods(List<SuppliedGood> suppliedGoods){
 		this.suppliedGoods = suppliedGoods;
 	}
 

@@ -1,6 +1,7 @@
 package com.example.ETSystem.recipe;
 
 import com.example.ETSystem.ingredientType.IngredientType;
+import com.example.ETSystem.util.Generated;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -42,8 +43,8 @@ public class Recipe {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<IngredientQuantity> ingredientQuantities;
 
-    @OneToMany(cascade = CascadeType.REFRESH)
-    private Set<IngredientType> allergens;
+    @ElementCollection
+    private Set<String> allergens;
 
     @Column(
             name = "vegan",
@@ -73,13 +74,14 @@ public class Recipe {
         this.ingredientQuantities = ingredientQuantities;
         this.allergens = ingredientQuantities.stream().
                 map(IngredientQuantity::getIngredientType)
-                .filter(x -> x.getIsAllergen())
+                .flatMap(x -> x.getAllergens().stream())
                 .collect(Collectors.toSet());
         this.vegan = ingredientQuantities.stream()
                 .allMatch(x -> x.getIngredientType().getIsVegan());
         this.vegetarian = ingredientQuantities.stream()
                 .allMatch(x -> x.getIngredientType().getIsVegetarian());
     }
+    
     public Recipe(String label, Set<IngredientQuantity> ingredientQuantities) {
         this(label, ingredientQuantities, null);
     }
@@ -89,7 +91,7 @@ public class Recipe {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public @Generated boolean equals(Object o) {
         if(this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
@@ -99,43 +101,34 @@ public class Recipe {
     }
 
     @Override
-    public int hashCode() {
+    public @Generated int hashCode() {
         return Objects.hash(label, new HashSet<>(ingredientQuantities));
     }
 
-    public Long getId() {
+    public @Generated Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public @Generated void setId(Long id) {
         this.id = id;
     }
 
-    public String getLabel() {
+    public @Generated String getLabel() {
         return label;
     }
 
-    public void setLabel(String label) {
+    public @Generated void setLabel(String label) {
         this.label = label.trim();
     }
 
-    public Set<IngredientQuantity> getIngredientQuantities() { return ingredientQuantities; }
-
-
-    public boolean isVegan() {
-        return this.vegan;
+    public @Generated Set<IngredientQuantity> getIngredientQuantities() {
+        return ingredientQuantities;
     }
-
-    public boolean isVegetarian() {
-        return this.vegetarian;
-    }
-
-    public Set<IngredientType> getAllergens() { return allergens; }
-
+    
     public void setIngredientQuantities(Set<IngredientQuantity> ingredients) {
         this.allergens = ingredients.stream().
                 map(IngredientQuantity::getIngredientType)
-                .filter(x -> x.getIsAllergen())
+                .flatMap(x -> x.getAllergens().stream())
                 .collect(Collectors.toSet());
         this.vegan = ingredients.stream()
                 .allMatch(x -> x.getIngredientType().getIsVegan());
@@ -143,12 +136,28 @@ public class Recipe {
                 .allMatch(x -> x.getIngredientType().getIsVegetarian());
         this.ingredientQuantities = ingredients;
     }
+    
+    public @Generated boolean isVegan() {
+        return this.vegan;
+    }
+    
+    public @Generated boolean isVegetarian() {
+        return this.vegetarian;
+    }
+    
+    public @Generated Set<String> getAllergens() {
+        return allergens;
+    }
 
-    public String getDescription() {
+    public @Generated void setAllergens(Set<String> allergens){
+        this.allergens = allergens;
+    }
+
+    public @Generated String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public @Generated void setDescription(String description) {
         this.description = description;
     }
 }

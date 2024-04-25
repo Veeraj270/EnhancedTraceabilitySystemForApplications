@@ -2,6 +2,7 @@ package com.example.ETSystem.deliveries;
 
 
 import com.example.ETSystem.productData.SuppliedGood;
+import com.example.ETSystem.util.Generated;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -12,37 +13,37 @@ public class RecordedDeliveryInput {
     public Instant startTime, endTime;
     public List<SuppliedGood> recorded =  new ArrayList<>();
 
-    public RecordedDeliveryInput(){};
+    public RecordedDeliveryInput(){}
 
-    public PlannedDelivery getPlan() {
+    public @Generated PlannedDelivery getPlan() {
         return plan;
     }
 
-    public void setPlan(PlannedDelivery plan) {
+    public @Generated void setPlan(PlannedDelivery plan) {
         this.plan = plan;
     }
 
-    public Instant getStartTime() {
+    public @Generated Instant getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Instant startTime) {
+    public @Generated void setStartTime(Instant startTime) {
         this.startTime = startTime;
     }
 
-    public Instant getEndTime() {
+    public @Generated Instant getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Instant endTime) {
+    public @Generated void setEndTime(Instant endTime) {
         this.endTime = endTime;
     }
 
-    public List<SuppliedGood> getRecorded() {
+    public @Generated List<SuppliedGood> getRecorded() {
         return recorded;
     }
 
-    public void setRecorded(List<SuppliedGood> recorded) {
+    public @Generated void setRecorded(List<SuppliedGood> recorded) {
         this.recorded = recorded;
     }
 }

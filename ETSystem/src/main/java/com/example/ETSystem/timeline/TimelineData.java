@@ -10,6 +10,7 @@ import java.util.Map;
  * @param timestamp Time that this event occurred.
  * @param ownerId ID of the product that this event occurred to.
  * @param type Type of this event.
+ * @param userResponsible Username of the user responsible for this event.
  * @param data Extra type-specific data.
  */
 public record TimelineData(
@@ -17,5 +18,6 @@ public record TimelineData(
 		ZonedDateTime timestamp,
 		long ownerId,
 		String type,
+		String userResponsible,
 		Map<String, String> data
 ){}

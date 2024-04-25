@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -16,20 +18,20 @@ public class IngredientTypeAPITest {
 	@Test
 	@Transactional
 	void testRoundtrip(){
-		IngredientType inA = new IngredientType("eggs", true, true, false);
+		IngredientType inA = new IngredientType("eggs", true, false, Set.of("egg"));
 		api.addIngredientType(inA);
 		IngredientType outA = api.getIngredientTypeById(inA.getId());
 		assertEquals(outA.getName(), "eggs");
-		assertTrue(outA.getIsAllergen());
+		assertFalse(outA.getAllergens().isEmpty());
 		assertTrue(outA.getIsVegetarian());
 		assertFalse(outA.getIsVegan());
 
 
-		IngredientType inB = new IngredientType("flour", false, false, false);
+		IngredientType inB = new IngredientType("flour", false, false, Set.of());
 		api.addIngredientType(inB);
 		IngredientType outB = api.getIngredientTypeById(inB.getId());
 		assertEquals(outB.getName(), "flour");
-		assertFalse(outB.getIsAllergen());
+		assertTrue(outB.getAllergens().isEmpty());
 		assertFalse(outB.getIsVegetarian());
 		assertFalse(outB.getIsVegetarian());
 
