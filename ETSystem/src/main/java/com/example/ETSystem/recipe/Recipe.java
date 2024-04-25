@@ -43,7 +43,7 @@ public class Recipe {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<IngredientQuantity> ingredientQuantities;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> allergens;
 
     @Column(

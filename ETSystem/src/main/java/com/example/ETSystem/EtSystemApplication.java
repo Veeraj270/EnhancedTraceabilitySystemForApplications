@@ -54,15 +54,16 @@ public class EtSystemApplication{
 
 	){
 		return args -> {
-            ingredientMockData.processIngredients();
-            ingredientQuantityMockData.processIngredientQuantity();
-            recipeMockData.processRecipes();
-            finalProductMockData.processFinalProduct();
-            customerOrderMockData.processCustomerOrder();
+            //ingredientMockData.processIngredients();
+            //ingredientQuantityMockData.processIngredientQuantity();
+            //recipeMockData.processRecipes();
+            //finalProductMockData.processFinalProduct();
+            //customerOrderMockData.processCustomerOrder();
 
 			//Generate internal gtin database contents
 			mockDataGenerator.generateMockData();
  			mockDataGenerator.generateMockProductData();
+			mockDataGenerator.generateRecipes();
 
 			//Add some mock planned deliveries to the database - for development purposes
 			for (int x = 0; x < 6; x ++){

@@ -6,7 +6,10 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class RecipeService {
@@ -33,17 +36,42 @@ public class RecipeService {
 
     @Transactional
     public Recipe addNewRecipe(Recipe recipe) {
-        for (IngredientQuantity ingredientQuantity : recipe.getIngredientQuantities()){
-            // Checks if the ingredients of the recipe exist, then adds the recipe
-            List<IngredientType> optionalIngredient = ingredientTypeRepository.findByName(ingredientQuantity.getIngredientType().getName());
-            if (optionalIngredient.isEmpty()){
-                throw new IllegalArgumentException("At least one of the ingredients of the new recipe does not exist.");
+        List<IngredientQuantity> IQs = new ArrayList<>(recipe.getIngredientQuantities());
+        Set<IngredientQuantity> savedIQs = new HashSet<>();
+
+        for (int i = 0; i < IQs.size(); i++) {
+            IngredientQuantity IQ = IQs.get(i);
+            //Check if the ingredient-type already exists
+
+            List<IngredientType> ingredientList = ingredientTypeRepository.findByName(IQ.getIngredientType().getName());
+            IngredientType iType;
+
+            if (ingredientList.size() > 1){
+                //If there are multiple ingredient types with the same name, throw an exception
+                throw new RuntimeException("Multiple ingredient types with the same name exist.");
             }
+            else if (ingredientList.isEmpty()){
+                //If the ingredient type does not exist, create a new one
+                iType = ingredientTypeRepository.save(IQ.getIngredientType());
+            }
+            else{
+                iType = ingredientList.get(0);
+            }
+
+            //Update the IQ with the saved iType
+            IQ.setIngredientType(iType);
+
+            //Save the IQ
+            IngredientQuantity sIQ = ingredientQuantityRepository.save(IQ);
+
+
+            savedIQs.add(sIQ);
         }
-        if (recipeRepository.findByLabelIgnoreCase(recipe.getLabel()).isPresent()){
-            throw new IllegalArgumentException("A recipe with an identical label already exists.");
-        }
-        this.recipeRepository.save(recipe);
+
+        recipe.setIngredientQuantities(savedIQs);
+
+        recipeRepository.save(recipe);
+
         return recipe;
     }
 }
