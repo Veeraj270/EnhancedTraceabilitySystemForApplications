@@ -3,14 +3,8 @@ package com.example.ETSystem;
 import com.example.ETSystem.ingredientType.IngredientTypeRepository;
 import com.example.ETSystem.productData.SuppliedGoodRepository;
 import com.example.ETSystem.productData.MockDataGenerator;
-import com.example.ETSystem.customerOrders.CustomerOrderMockData;
 import com.example.ETSystem.deliveries.*;
-import com.example.ETSystem.finalProducts.FinalProductMockData;
-import com.example.ETSystem.product.Product;
 import com.example.ETSystem.product.ProductRepository;
-import com.example.ETSystem.recipe.IngredientMockData;
-import com.example.ETSystem.recipe.IngredientQuantityMockData;
-import com.example.ETSystem.recipe.RecipeMockData;
 import com.example.ETSystem.suppliers.SupplierService;
 import com.example.ETSystem.timeline.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +13,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
-
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @SpringBootApplication
 public class EtSystemApplication{
@@ -56,8 +45,8 @@ public class EtSystemApplication{
             //customerOrderMockData.processCustomerOrder();
 
 			//Generate internal gtin database contents
-			mockDataGenerator.generateMockData();
-			mockDataGenerator.generateRecipes();
+
+			mockDataGenerator.generateAllMockData();
 
 			/*//Add some mock planned deliveries to the database - for development purposes
 			for (int x = 0; x < 6; x ++){

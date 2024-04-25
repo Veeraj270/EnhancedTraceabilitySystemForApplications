@@ -1,5 +1,9 @@
 package com.example.ETSystem.productData;
 
+import com.example.ETSystem.customerOrders.CustomerOrder;
+import com.example.ETSystem.customerOrders.CustomerOrderRepository;
+import com.example.ETSystem.finalProducts.FinalProduct;
+import com.example.ETSystem.finalProducts.FinalProductRepository;
 import com.example.ETSystem.ingredientType.IngredientType;
 import com.example.ETSystem.ingredientType.IngredientTypeRepository;
 import com.example.ETSystem.product.Product;
@@ -37,6 +41,8 @@ public class MockDataGenerator {
     private final TimelineService timelineService;
     private final ProductRepository productRepository;
     private final RecipeService recipeService;
+    private final FinalProductRepository finalProductRepository;
+    private final CustomerOrderRepository customerOrderRepository;
 
     @Autowired
     @Generated
@@ -46,7 +52,7 @@ public class MockDataGenerator {
                              ProductService productService,
                              TimelineService timelineService,
                              ProductRepository productRepository,
-                             RecipeService recipeService){
+                             RecipeService recipeService, FinalProductRepository finalProductRepository, CustomerOrderRepository customerOrderRepository){
         this.suppliedGoodRepository = suppliedGoodRepository;
         this.ingredientTypeRepository = ingredientTypeRepository;
         this.ingredientQuantityRepository = ingredientQuantityRepository;
@@ -55,13 +61,23 @@ public class MockDataGenerator {
         this.timelineService = timelineService;
         this.productRepository = productRepository;
         this.recipeService = recipeService;
+        this.finalProductRepository = finalProductRepository;
+        this.customerOrderRepository = customerOrderRepository;
     }
 
     public record ITypeInfo(String name, boolean isAllergen){}
 
+    public void generateAllMockData(){
+        //Order must not change as one relies on the other
+        generateSuppliedGoods();
+        generateMockProducts();
+        generateMockRecipes();
+        generateMockFinalProducts();
+        generateMockCustomerOrders();
+    }
     @Generated
     @Transactional
-    public void generateMockData(){
+    public void generateSuppliedGoods(){
         //Starting Barcode - 13 digits to fit EAC format
         //SUPPLIERS
         List<String> supplierNames = List.of(
@@ -288,7 +304,7 @@ public class MockDataGenerator {
 
     @Generated
     @Transactional
-    public void generateMockProductData(){
+    public void generateMockProducts(){
         Supplier supplier1 = supplierService.GetAllSuppliers().get(0);
 
         //Add a Product for every instance of SuppliedGood held by supplier1
@@ -363,7 +379,7 @@ public class MockDataGenerator {
     }
 
     @Generated
-    public void generateRecipes(){
+    public void generateMockRecipes(){
         //Generic recipe
         IngredientType plainFlour = ingredientTypeRepository.findByName("plain-flour").get(0);
         IngredientType granulatedSugar = ingredientTypeRepository.findByName("granulated-sugar").get(0);
@@ -403,7 +419,65 @@ public class MockDataGenerator {
 
         //Temp for debug
         System.out.println("Recipes added: " + addedRecipes);
+    }
 
+    public void generateMockFinalProducts(){
+        //Use the stored recipes to generate final products
+        List<Recipe> recipes = recipeService.getRecipes();
+
+        List<Integer> quantities = List.of(6, 12, 24);
+
+        Integer defaultPrice = 1000;
+
+        for (Recipe recipe : recipes){
+            for (int quantity : quantities){
+                String label = String.format("%s x %s", quantity, recipe.getLabel());
+                FinalProduct finalProduct = new FinalProduct(label, defaultPrice * quantity, recipe, quantity);
+                finalProductRepository.save(finalProduct);
+            }
+        }
+    }
+
+    public void generateMockCustomerOrders(){
+        //Order 1
+        CustomerOrder order1 = new CustomerOrder("client1", ZonedDateTime.now(), ZonedDateTime.now().plusDays(7), new ArrayList<>());
+        AddToOrder(order1, 4, "6 x Ultimate Pistachio");
+        AddToOrder(order1, 6, "12 x Double Chocolate Crookies");
+        AddToOrder(order1, 4, "24 x Rhubarb and Custard Blondie");
+        AddToOrder(order1, 8, "6 x Blueberry Muffins");
+        customerOrderRepository.save(order1);
+
+        //Order 2
+        CustomerOrder order2 = new CustomerOrder("client2", ZonedDateTime.now(), ZonedDateTime.now().plusDays(5), new ArrayList<>());
+        AddToOrder(order2, 8, "12 x Ultimate Pistachio");
+        AddToOrder(order2, 3, "24 x Double Chocolate Crookies");
+        AddToOrder(order2, 7, "6 x Blueberry Muffins");
+        AddToOrder(order2, 2, "12 x Truffle Mushroom Croissant");
+        customerOrderRepository.save(order2);
+
+        //Order 3
+        CustomerOrder order3 = new CustomerOrder("client3", ZonedDateTime.now(), ZonedDateTime.now().plusDays(10), new ArrayList<>());
+        AddToOrder(order3, 4, "6 x Ultimate Pistachio");
+        AddToOrder(order3, 6, "12 x Rhubarb and Custard Blondie");
+        AddToOrder(order3, 2, "24 x Blueberry Muffins");
+        AddToOrder(order3, 11, "6 x Blood Orange & Raspberry Loaf");
+        customerOrderRepository.save(order3);
+    }
+
+    public void AddToOrder(CustomerOrder order, Integer quantity, String label){
+        List<FinalProduct> list =  finalProductRepository.findByLabel(label);
+
+        if (list.size() > 1){
+            throw new RuntimeException("Multiple final products with the same label found");
+        } else if (list.isEmpty()){
+            throw new RuntimeException("No final products with the label found");
+        }
+
+        FinalProduct FP = list.get(0);
+
+        for (int i = 0; i < quantity; i++){
+            order.getFinalProducts().add(FP);
+        }
     }
 }
 

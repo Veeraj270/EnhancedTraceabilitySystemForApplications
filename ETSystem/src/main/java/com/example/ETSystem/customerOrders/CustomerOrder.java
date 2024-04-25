@@ -50,7 +50,7 @@ public class CustomerOrder {
 
     private ZonedDateTime deliveryDate;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "customerOrder_Id")
     private List<FinalProduct> finalProducts = new ArrayList<>();
 

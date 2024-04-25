@@ -1,5 +1,6 @@
 package com.example.ETSystem.productData;
 
+import com.example.ETSystem.customerOrders.CustomerOrder;
 import com.example.ETSystem.ingredientType.IngredientTypeRepository;
 import com.example.ETSystem.product.ProductRepository;
 import com.example.ETSystem.product.ProductService;
@@ -44,21 +45,26 @@ public class MockDataGeneratorTest {
         this.recipeRepository = recipeRepository;
 
         recipeService = new RecipeService(recipeRepository, ingredientTypeRepository, ingredientQuantityRepository);
-        mockDataGenerator = new MockDataGenerator(suppliedGoodRepository, ingredientTypeRepository, ingredientQuantityRepository, supplierService, productService, timelineService, productRepository, recipeService);
+        mockDataGenerator = new MockDataGenerator(suppliedGoodRepository, ingredientTypeRepository, ingredientQuantityRepository, supplierService, productService, timelineService, productRepository, recipeService, finalProductRepository, customerOrderRepository);
     }
 
     @Test
     @Transactional
     public void test() {
         //Setup
-        mockDataGenerator.generateMockData();
+        mockDataGenerator.generateSuppliedGoods();
 
-        mockDataGenerator.generateRecipes();
+        mockDataGenerator.generateMockRecipes();
 
         List<Recipe> recipesList = recipeRepository.findAll();
 
         System.out.println("Recipes: " + recipesList);
 
         //This now works - will fix test later
+    }
+
+    public void test2(){
+        mockDataGenerator.generateAllMockData();
+
     }
 }
