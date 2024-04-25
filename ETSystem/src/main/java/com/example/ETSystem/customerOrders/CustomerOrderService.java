@@ -2,12 +2,15 @@ package com.example.ETSystem.customerOrders;
 
 
 import com.example.ETSystem.finalProducts.FinalProduct;
+import jakarta.persistence.criteria.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import java.util.stream.Collectors;
 
 @Component
@@ -68,4 +71,48 @@ public class CustomerOrderService {
         return customerOrderRepository.save(existingCustomerOrder);
     }
 
+
+
+    public class FinalProductData{
+        public String finalProductLabel;
+        public Integer amount;
+        public long associatedCustomerOrderID;
+
+        public FinalProductData(String finalProductLabel, Integer amount, long associatedCustomerOrderID){
+            this.finalProductLabel = finalProductLabel;
+            this.amount = amount;
+            this.associatedCustomerOrderID = associatedCustomerOrderID;
+        }
+    }
+
+
+    public List<FinalProductData> getFinalProductData(){
+        List<CustomerOrder> allOrders = customerOrderRepository.findAll();
+        List<FinalProductData> allFPData = new ArrayList<>();
+
+        for (CustomerOrder order: allOrders){
+            //Get all finalProducts from the order
+            List<FinalProduct> finalProducts = order.getFinalProducts();
+
+            //Get the orders ID
+            long orderID = order.getID();
+
+            List<FinalProductData> orderFPData = new ArrayList<>();
+
+            for (FinalProduct FP : finalProducts){
+                //Search the list to see if the final product is already in the list
+                Optional<FinalProductData> existing = orderFPData.stream().filter(x -> x.finalProductLabel.equals(FP.getLabel())).findFirst();
+
+                if (existing.isPresent()){
+                    existing.get().amount += 1;
+                } else {
+                    orderFPData.add(new FinalProductData(FP.getLabel(), 1, orderID));
+                }
+            }
+            allFPData.addAll(orderFPData);
+            orderFPData.clear();
+        }
+
+        return allFPData;
+    }
 }

@@ -29,6 +29,11 @@ public class CustomerOrderAPI {
         return customerOrderService.getOrderedFinalProducts();
     }
 
+    @GetMapping(path= "/fetch-all-fp-data")
+    public List<CustomerOrderService.FinalProductData> getFinalProductData(){
+        return customerOrderService.getFinalProductData();
+    }
+
     @GetMapping(path = "/fetch-by-id/{id}")
     public CustomerOrder getCustomerOrderById(@PathVariable("id") String id) throws Exception {
         return customerOrderService.getCustomerOrderByID(Long.parseLong(id));

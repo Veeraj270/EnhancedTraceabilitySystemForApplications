@@ -1,6 +1,7 @@
 package com.example.ETSystem.productData;
 
-import com.example.ETSystem.customerOrders.CustomerOrder;
+import com.example.ETSystem.customerOrders.CustomerOrderRepository;
+import com.example.ETSystem.finalProducts.FinalProductRepository;
 import com.example.ETSystem.ingredientType.IngredientTypeRepository;
 import com.example.ETSystem.product.ProductRepository;
 import com.example.ETSystem.product.ProductService;
@@ -30,11 +31,13 @@ public class MockDataGeneratorTest {
     private final ProductRepository productRepository;
     private final RecipeRepository recipeRepository;
     private final RecipeService recipeService;
+    private final CustomerOrderRepository customerOrderRepository;
+    private final FinalProductRepository finalProductRepository;
 
     private final MockDataGenerator mockDataGenerator;
 
     @Autowired
-    public MockDataGeneratorTest(SuppliedGoodRepository suppliedGoodRepository, IngredientTypeRepository ingredientTypeRepository, IngredientQuantityRepository ingredientQuantityRepository, SupplierService supplierService, ProductService productService, TimelineService timelineService, ProductRepository productRepository, RecipeRepository recipeRepository) {
+    public MockDataGeneratorTest(SuppliedGoodRepository suppliedGoodRepository, IngredientTypeRepository ingredientTypeRepository, IngredientQuantityRepository ingredientQuantityRepository, SupplierService supplierService, ProductService productService, TimelineService timelineService, ProductRepository productRepository, RecipeRepository recipeRepository, CustomerOrderRepository customerOrderRepository, FinalProductRepository finalProductRepository) {
         this.suppliedGoodRepository = suppliedGoodRepository;
         this.ingredientTypeRepository = ingredientTypeRepository;
         this.ingredientQuantityRepository = ingredientQuantityRepository;
@@ -43,9 +46,11 @@ public class MockDataGeneratorTest {
         this.timelineService = timelineService;
         this.productRepository = productRepository;
         this.recipeRepository = recipeRepository;
+        this.customerOrderRepository = customerOrderRepository;
+        this.finalProductRepository = finalProductRepository;
 
         recipeService = new RecipeService(recipeRepository, ingredientTypeRepository, ingredientQuantityRepository);
-        mockDataGenerator = new MockDataGenerator(suppliedGoodRepository, ingredientTypeRepository, ingredientQuantityRepository, supplierService, productService, timelineService, productRepository, recipeService, finalProductRepository, customerOrderRepository);
+        mockDataGenerator = new MockDataGenerator(suppliedGoodRepository, ingredientTypeRepository, ingredientQuantityRepository, supplierService, productService, timelineService, productRepository, recipeService, this.finalProductRepository, this.customerOrderRepository);
     }
 
     @Test

@@ -65,7 +65,7 @@ public class CustomerOrder {
     }
 
     //Getters
-    public @Generated long getID(){ return id; }
+    public @Generated Long getID(){ return id; }
 
     public @Generated String getClient() {
         return client;
@@ -101,4 +101,5 @@ public class CustomerOrder {
     public @Generated void setDeliveryDate(ZonedDateTime deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
+
 }

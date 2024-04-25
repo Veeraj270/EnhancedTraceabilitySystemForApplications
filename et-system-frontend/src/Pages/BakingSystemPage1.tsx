@@ -18,6 +18,12 @@ interface PropTypes{
     ingredientsNeeded: IngredientQuantity[];
 }
 
+interface FPData{
+    finalProductLabel: string,
+    amount: number,
+    associatedCustomerOrderID: number
+}
+
 const BakingSystemPage1 = (props : PropTypes) => {
     //Destructure props
     const setSelectedFinalProduct = props.setSelectedFinalProducts;
@@ -26,14 +32,14 @@ const BakingSystemPage1 = (props : PropTypes) => {
 
 
     //State variables
-    const [tableData, setTableData] = useState<OrderedFinalProduct[]>([])
+    const [table1Data, setTable1Data] = useState<OrderedFinalProduct[]>([])
     const [searchData, setSearchData] = useState<OrderedFinalProduct[]>([])
     const [selectedData, setSelectedData] = useState<OrderedFinalProduct[]>([])
     //const [ingredientsNeeded, setIngredientsNeeded] = useState<IngredientQuantity[]>([])
 
     //Fetches all final products from the back-end
-    const fetchFinalProducts = async () => {
-        const response = await fetch("http://localhost:8080/api/customerorders/fetch-ordered-final-products")
+    const fetchFinalProductData = async () => {
+        const response = await fetch("http://localhost:8080/api/customerorders/fetch-all-fp-data")
         if(!response.ok){
             throw new Error("Error fetching ordered final products")
         }
@@ -69,7 +75,7 @@ const BakingSystemPage1 = (props : PropTypes) => {
         return filteredTableData
     }
 
-    useEffect(() => {
+    /*useEffect(() => {
         // If there is selected products fetch the ingredients needed for those products
         if(selectedData !== undefined && selectedData.length > 0) {
             fetchIngredientsNeeded(selectedData.map(x => ({id: x.finalProductId, quantity: x.quantity}))).then((ingredientsNeededData) => {
@@ -81,17 +87,18 @@ const BakingSystemPage1 = (props : PropTypes) => {
         } else{
             setIngredientsNeeded([])
         }
-    }, [selectedData])
+    }, [selectedData])*/
 
 
     useEffect(() => {
-        fetchFinalProducts().then((finalProductsData) => {
-            console.log(finalProductsData);
-            const newData = filterTableData(finalProductsData)
+        fetchFinalProductData().then((finalProductData: any) => {
+            console.log(finalProductData);
+            setTable1Data(finalProductData);
+
+           /* const newData = filterTableData(finalProductsData)
             setTableData(newData)
-            setSearchData(newData)
-        })
-            .catch((reason) => {console.error("Error setting final products data. " + reason)})
+            setSearchData(newData)*/
+        }).catch((reason) => {console.error("Error occured as a result of fetching fpData " + reason)})
     }, [])
 
     const startBaking = () => {
@@ -103,34 +110,34 @@ const BakingSystemPage1 = (props : PropTypes) => {
             <h1 className='BS1-title'>Baking System</h1>
             <div className="BS1-grid-container">
                 <div className={"BS1-grid-container-2"}>
-                <FinalProductsTable
-                    rawData={tableData}
-                    setRawData={setTableData}
+                {<FinalProductsTable
+                    rawTableData={table1Data}
+                    setRawData={setTable1Data}
                     selectedData={selectedData}
                     setSelectedData={setSelectedData}
                     searchData={searchData}
                     setSearchData={setSearchData}
-                />
+                />}
                 </div>
                 <div className={"border-container"}>
                     <div className={"BS1-grid-container-3"}>
                         <div className={'BSP1'}>
                             <h2>Selected Products</h2>
-                            <SelectedFinalProductsTable
+                            {/*<SelectedFinalProductsTable
                                 selectedData={selectedData}
                                 setSelectedData={setSelectedData}
                                 nonSelectedData={tableData}
                                 setNonSelectedData={setTableData}
                                 searchData={searchData}
                                 setSearchData={setSearchData}
-                            />
+                            />*/}
                         </div>
                         <div>
                             <h2>Ingredients needed</h2>
-                            <IngredientQuantitiesTableRP
+                            {/*<IngredientQuantitiesTableRP
                                 ingredientQuantities={ingredientsNeeded}
                                 height={{height: "393px"}}
-                            />
+                            />*/}
                         </div>
                     </div>
                 <div>

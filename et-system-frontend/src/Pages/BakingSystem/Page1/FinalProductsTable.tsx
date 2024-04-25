@@ -5,11 +5,12 @@ import {OrderedFinalProduct} from "../../Interfaces/OrderedFinalProduct";
 import '../Page3/BSP3StyleSheet.css'
 
 import Page1Table1Row from "../BakingSystemInterfaces";
+import FPData from "../BakingSystemInterfaces";
 
 
 interface PropTypes{
-    rawData: any
-    setRawData: any
+    rawTableData: FPData[]
+    setRawTableData: (data: FPData[]) => void
     selectedData: any
     setSelectedData: any
     searchData: any
@@ -18,8 +19,9 @@ interface PropTypes{
 
 const FinalProductsTable = (props: PropTypes) => {
     //Destructure props
-    const rawData = props.rawData;
-    const setRawData = props.setRawData;
+    const rawTableData = props.rawTableData;
+    const setRawTableData = props.setRawTableData;
+
     const selectedData = props.selectedData;
     const setSelectedData = props.setSelectedData;
     const searchData = props.searchData;
@@ -31,18 +33,18 @@ const FinalProductsTable = (props: PropTypes) => {
 
     const columns = useMemo(() => [
         {
-            header: "Product",
-            accessorKey: "productLabel",
+            header: "Product Label",
+            accessorKey: "finalProductLabel",
             size: 40
         },
         {
             header: "Quantity",
-            accessorKey: "quantity",
+            accessorKey: "amount",
             size: 25
         },
         {
-            header: "Associated order",
-            accessorKey: "associatedCustomerOrderId",
+            header: "Order ID",
+            accessorKey: "associatedCustomerOrderID",
             size: 25
         },
         {
@@ -53,12 +55,17 @@ const FinalProductsTable = (props: PropTypes) => {
 
     ], [])
 
+    useEffect(() => {
+        console.log("rawTableData: ", rawTableData)
+    }, [rawTableData]);
+
+
     const handleChange = (event : ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
         setSearchInput(event.target.value)
     }
 
-    useEffect(() => {
+   /* useEffect(() => {
         if (searchInput.length > 0){
             setSearchData(rawData.filter((row: OrderedFinalProduct) => {
                 // Searching matches the label of the final product or the order id
@@ -68,9 +75,9 @@ const FinalProductsTable = (props: PropTypes) => {
         } else{
             setSearchData(rawData)
         }
-    }, [searchInput]);
+    }, [searchInput]);*/
 
-    const updateSelectedData = (rowData : any) => {
+   /* const updateSelectedData = (rowData : any) => {
         const indexOfElement = selectedData.findIndex((x: OrderedFinalProduct) => x.key === rowData.key)
         // If the item is already in the other table it increases the quantity
         if(indexOfElement !== -1){
@@ -124,11 +131,11 @@ const FinalProductsTable = (props: PropTypes) => {
             setSearchData(newSearchData)
             updateSelectedData(rowData)
         }
-    }
+    }*/
 
     //Will need changing for searching to work again
     const table = useReactTable({
-        data: unselectedFinalProducts,
+        data: rawTableData,
         columns: columns,
         getCoreRowModel: getCoreRowModel()
     })
@@ -175,9 +182,9 @@ const FinalProductsTable = (props: PropTypes) => {
                            className={'BSP1-tr'}
                            style={{gridTemplateColumns: templateColumnStyle}}
                         >
-                            <td className={'BSP1-td'}>{row.original.productLabel}</td>
-                            <td className={'BSP1-td'}>{row.original.quantity}</td>
-                            <td className={'BSP1-td'}>{row.original.associatedOrderId}</td>
+                            <td className={'BSP1-td'}>{row.original.finalProductLabel}</td>
+                            <td className={'BSP1-td'}>{row.original.amount}</td>
+                            <td className={'BSP1-td'}>{row.original.associatedCustomerOrderID}</td>
                             <td className={'BSP1-td'}>
                                 <button onClick={(event) => {handleClickPlus(event, row.original)}}><b>+</b></button>
                             </td>

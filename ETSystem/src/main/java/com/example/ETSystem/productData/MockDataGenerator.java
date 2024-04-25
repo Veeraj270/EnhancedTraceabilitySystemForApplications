@@ -416,9 +416,6 @@ public class MockDataGenerator {
         for(Recipe recipe : recipes){
             addedRecipes.add(recipeService.addNewRecipe(recipe));
         }
-
-        //Temp for debug
-        System.out.println("Recipes added: " + addedRecipes);
     }
 
     public void generateMockFinalProducts(){
