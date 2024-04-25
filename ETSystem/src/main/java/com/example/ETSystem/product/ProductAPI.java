@@ -48,7 +48,6 @@ public class ProductAPI{
     }
 
     @GetMapping(path = "/fetch-product-by-id/{id}")
-    @CrossOrigin(origins = "http://localhost:3000")
     public Product getProductById(@PathVariable("id") String id){
         return productService.getProductByID(Long.parseLong(id));
     }

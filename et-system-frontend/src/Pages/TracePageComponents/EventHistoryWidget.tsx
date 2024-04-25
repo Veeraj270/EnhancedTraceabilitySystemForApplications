@@ -153,7 +153,7 @@ const EventHistoryWidget = (props : PropTypes) => {
     }
 
     const fetchProductHistory = async (productID: number) => {
-        const res = await fetch(`http://localhost:8080/api/products/fetch-product-history/${productID}`);
+        const res = await fetch(`/api/products/fetch-product-history/${productID}`);
         if (!res.ok){
             throw new Error("fetch-product-history response was not ok")
         }

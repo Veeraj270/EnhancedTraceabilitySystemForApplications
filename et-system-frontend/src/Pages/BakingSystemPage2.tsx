@@ -106,7 +106,7 @@ const BakingSystemPage2 = () => {
     }
 
     const fetchProduct = async (productID: number) => {
-        const response = await fetch(`http://localhost:8080/api/products/fetch-product-by-id/${productID}`)
+        const response = await fetch(`/api/products/fetch-product-by-id/${productID}`)
         if(!response.ok){
             throw new Error("Error fetching ordered final products")
         }

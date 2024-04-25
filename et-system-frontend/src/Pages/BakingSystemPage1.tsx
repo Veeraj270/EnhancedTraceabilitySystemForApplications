@@ -15,7 +15,7 @@ const BakingSystemPage1 = () => {
     const [ingredientsNeeded, setIngredientsNeeded] = useState<IngredientQuantity[]>([])
 
     const fetchFinalProducts = async () => {
-        const response = await fetch("http://localhost:8080/api/customerorders/fetch-ordered-final-products")
+        const response = await fetch("/api/customerorders/fetch-ordered-final-products")
         if(!response.ok){
             throw new Error("Error fetching ordered final products")
         }
@@ -31,7 +31,7 @@ const BakingSystemPage1 = () => {
             params.append('idsAndQuantities', `${x.id};${x.quantity}`);
         });
 
-        const response = await fetch(`http://localhost:8080/api/finalproducts/get-total-ingredients?${params.toString()}`);
+        const response = await fetch(`/api/finalproducts/get-total-ingredients?${params.toString()}`);
         if (!response.ok) {
             throw new Error("Error fetching total ingredients");
         }
@@ -84,7 +84,7 @@ const BakingSystemPage1 = () => {
             );
 
             try {
-                const response = await fetch('http://localhost:8080/api/customerorders/edit-final-products', {
+                const response = await fetch('/api/customerorders/edit-final-products', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
