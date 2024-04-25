@@ -37,42 +37,16 @@ public class RecipeService {
     @Transactional
     public Recipe addNewRecipe(Recipe recipe) {
         List<IngredientQuantity> IQs = new ArrayList<>(recipe.getIngredientQuantities());
-        Set<IngredientQuantity> savedIQs = new HashSet<>();
-
+        Set<IngredientQuantity> sIQs = new HashSet<>();
         for (int i = 0; i < IQs.size(); i++) {
-            IngredientQuantity IQ = IQs.get(i);
-            //Check if the ingredient-type already exists
-
-            List<IngredientType> ingredientList = ingredientTypeRepository.findByName(IQ.getIngredientType().getName());
-            IngredientType iType;
-
-            if (ingredientList.size() > 1){
-                //If there are multiple ingredient types with the same name, throw an exception
-                throw new RuntimeException("Multiple ingredient types with the same name exist.");
-            }
-            else if (ingredientList.isEmpty()){
-                //If the ingredient type does not exist, create a new one
-                iType = ingredientTypeRepository.save(IQ.getIngredientType());
-            }
-            else{
-                iType = ingredientList.get(0);
-            }
-
-            //Update the IQ with the saved iType
-            IQ.setIngredientType(iType);
-
             //Save the IQ
-            IngredientQuantity sIQ = ingredientQuantityRepository.save(IQ);
-
-
-            savedIQs.add(sIQ);
+            IngredientQuantity IQ = new IngredientQuantity(IQs.get(i).getIngredientType(), IQs.get(i).getQuantity());
+            sIQs.add(ingredientQuantityRepository.save(IQ));
         }
 
-        recipe.setIngredientQuantities(savedIQs);
+        recipe.setIngredientQuantities(sIQs);
 
-        recipeRepository.save(recipe);
-
-        return recipe;
+        return recipeRepository.save(recipe);
     }
 }
 

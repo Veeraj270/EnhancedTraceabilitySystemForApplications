@@ -363,7 +363,6 @@ public class MockDataGenerator {
     }
 
     @Generated
-    @Transactional
     public void generateRecipes(){
         //Generic recipe
         IngredientType plainFlour = ingredientTypeRepository.findByName("plain-flour").get(0);
@@ -397,9 +396,13 @@ public class MockDataGenerator {
         //Save the recipes to the database
         List<Recipe> recipes = List.of(recipe1, recipe2, recipe3, recipe4, recipe5, recipe6);
 
+        List<Recipe> addedRecipes = new ArrayList<>();
         for(Recipe recipe : recipes){
-            recipeService.addNewRecipe(recipe);
+            addedRecipes.add(recipeService.addNewRecipe(recipe));
         }
+
+        //Temp for debug
+        System.out.println("Recipes added: " + addedRecipes);
 
     }
 }

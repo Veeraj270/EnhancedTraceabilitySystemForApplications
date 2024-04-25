@@ -45,11 +45,6 @@ public class EtSystemApplication{
 										SuppliedGoodRepository suppliedGoodRepository,
 										IngredientTypeRepository ingredientTypeRepository,
 										SupplierService supplierService,
-										IngredientMockData ingredientMockData,
-										IngredientQuantityMockData ingredientQuantityMockData,
-										RecipeMockData recipeMockData,
-										FinalProductMockData finalProductMockData,
-										CustomerOrderMockData customerOrderMockData,
 										MockDataGenerator mockDataGenerator
 
 	){
@@ -62,10 +57,9 @@ public class EtSystemApplication{
 
 			//Generate internal gtin database contents
 			mockDataGenerator.generateMockData();
- 			mockDataGenerator.generateMockProductData();
 			mockDataGenerator.generateRecipes();
 
-			//Add some mock planned deliveries to the database - for development purposes
+			/*//Add some mock planned deliveries to the database - for development purposes
 			for (int x = 0; x < 6; x ++){
 				PlannedDelivery plannedDelivery = new PlannedDelivery("Delivery " + x, "A mock delivery for development purposes", ZonedDateTime.now().plusDays(x));
 				List<DeliveryItem> plannedItems = new ArrayList<>();
@@ -87,7 +81,7 @@ public class EtSystemApplication{
 				plannedDeliveryRepository.save(plannedDelivery);
 				RecordedDelivery recordedDelivery = new RecordedDelivery(plannedDelivery, Instant.now(), Instant.now().plusSeconds(500), new ArrayList<>());
 				recordedDeliveryRepository.save(recordedDelivery);
-			}
+			}*/
 		};
 	}
 }

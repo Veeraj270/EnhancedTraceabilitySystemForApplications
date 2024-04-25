@@ -26,7 +26,7 @@ public class IngredientType {
     @Column(nullable = false)
     private boolean isVegetarian;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> allergens = new HashSet<>();
 
     //Constructors
