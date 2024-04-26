@@ -2,7 +2,6 @@ package com.example.ETSystem.customerOrders;
 
 
 import com.example.ETSystem.finalProducts.FinalProduct;
-import jakarta.persistence.criteria.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
@@ -73,12 +72,12 @@ public class CustomerOrderService {
 
 
 
-    public class FinalProductData{
+    public static class FPData {
         public String finalProductLabel;
         public Integer amount;
         public long associatedCustomerOrderID;
 
-        public FinalProductData(String finalProductLabel, Integer amount, long associatedCustomerOrderID){
+        public FPData(String finalProductLabel, Integer amount, long associatedCustomerOrderID){
             this.finalProductLabel = finalProductLabel;
             this.amount = amount;
             this.associatedCustomerOrderID = associatedCustomerOrderID;
@@ -86,9 +85,9 @@ public class CustomerOrderService {
     }
 
 
-    public List<FinalProductData> getFinalProductData(){
+    public List<FPData> getFinalProductData(){
         List<CustomerOrder> allOrders = customerOrderRepository.findAll();
-        List<FinalProductData> allFPData = new ArrayList<>();
+        List<FPData> allFPData = new ArrayList<>();
 
         for (CustomerOrder order: allOrders){
             //Get all finalProducts from the order
@@ -97,16 +96,16 @@ public class CustomerOrderService {
             //Get the orders ID
             long orderID = order.getID();
 
-            List<FinalProductData> orderFPData = new ArrayList<>();
+            List<FPData> orderFPData = new ArrayList<>();
 
             for (FinalProduct FP : finalProducts){
                 //Search the list to see if the final product is already in the list
-                Optional<FinalProductData> existing = orderFPData.stream().filter(x -> x.finalProductLabel.equals(FP.getLabel())).findFirst();
+                Optional<FPData> existing = orderFPData.stream().filter(x -> x.finalProductLabel.equals(FP.getLabel())).findFirst();
 
                 if (existing.isPresent()){
                     existing.get().amount += 1;
                 } else {
-                    orderFPData.add(new FinalProductData(FP.getLabel(), 1, orderID));
+                    orderFPData.add(new FPData(FP.getLabel(), 1, orderID));
                 }
             }
             allFPData.addAll(orderFPData);

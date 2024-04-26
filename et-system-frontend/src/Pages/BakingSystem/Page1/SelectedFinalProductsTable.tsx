@@ -1,7 +1,7 @@
 import {flexRender, getCoreRowModel, HeaderGroup, useReactTable} from "@tanstack/react-table";
 import React, {useEffect, useMemo, useState} from "react";
 
-import FPData from "../BakingSystemInterfaces";
+import {FPData} from "../BakingSystemInterfaces";
 
 interface PropTypes{
     table2Data: FPData[],
@@ -41,26 +41,6 @@ const SelectedFinalProductsTable = ( props : PropTypes) => {
         }
 
     ], [])
-
-    /*const updateNonSelectedData = (rowData: any, data: OrderedFinalProduct[], setData: any) => {
-        const indexOfElement = data.findIndex(x => x.key === rowData.key)
-
-        // If the item is already in the other table it increases the quantity
-        if(indexOfElement !== -1){
-            const newData = data.map(x => {
-                if(x.key === rowData.key){
-                    return {...x, quantity: x.quantity + 1}
-                }else{
-                    return x
-                }
-            })
-            setData(newData)
-        } else{
-            // Otherwise it just adds the item to the table
-            const newData = data.concat({...rowData, quantity: 1})
-            setData(newData)
-        }
-    }*/
 
     //Handle click event for the minus button
     const handleClickMinus = (event: React.MouseEvent, input: any) => {

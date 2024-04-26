@@ -30,7 +30,7 @@ public class CustomerOrderAPI {
     }
 
     @GetMapping(path= "/fetch-all-fp-data")
-    public List<CustomerOrderService.FinalProductData> getFinalProductData(){
+    public List<CustomerOrderService.FPData> getFinalProductData(){
         return customerOrderService.getFinalProductData();
     }
 

@@ -6,9 +6,7 @@ import SelectedFinalProductsTable from "./BakingSystem/Page1/SelectedFinalProduc
 import IngredientQuantitiesTableRP from "./RecipePageComponents/IngredientQuantitiesTableRP";
 import {Link} from "react-router-dom";
 import './BakingSystem/Page3/BSP3StyleSheet.css'
-import FPData from "./BakingSystem/BakingSystemInterfaces";
-
-
+import {FPData, IngredientQuantity} from "./BakingSystem/BakingSystemInterfaces";
 
 interface PropTypes{
     //setSelectedFinalProducts: (selectedFinalProducts: OrderedFinalProduct[]) => void
@@ -27,6 +25,9 @@ const BakingSystemPage1 = (props : PropTypes) => {
     //State variables
     const [table1Data, setTable1Data] = useState<FPData[]>([])
     const [table2Data, setTable2Data] = useState<FPData[]>([])
+    const [table3Data, setTable3Data] = useState<IngredientQuantity[]>([]);
+
+    const [ingredientTotals, setIngredientTotals] = useState<IngredientQuantity[]>([])
 
     useEffect(() => {
         setTable1Data(props.finalProductData)
@@ -42,18 +43,22 @@ const BakingSystemPage1 = (props : PropTypes) => {
 
 
     //Fetches the ingredients needed for the selected final products
-    const fetchIngredientsNeeded = async (idsAndQuantities: {id: number, quantity: number}[]) => {
-        const params = new URLSearchParams();
+    const fetchIngredientsNeeded = async (finalProductData : FPData[]) => {
+        //Add the finalProductData to the fetch request body
+        console.log(finalProductData);
 
-        // Sending the final product(which gives the recipe) and the quantity
-        // so the backend can calculate the needed ingredients
-        idsAndQuantities.forEach(x => {
-            params.append('idsAndQuantities', `${x.id};${x.quantity}`);
+
+        const response = await fetch(`http://localhost:8080/api/finalproducts/get-total-ingredients`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(finalProductData)
         });
 
-        const response = await fetch(`http://localhost:8080/api/finalproducts/get-total-ingredients?${params.toString()}`);
+        //Add the finalProductData to the request
         if (!response.ok) {
-            throw new Error("Error fetching total ingredients");
+            throw new Error("Error occurred whilst fetching total ingredients");
         }
         return await response.json();
     }
@@ -70,20 +75,21 @@ const BakingSystemPage1 = (props : PropTypes) => {
         return filteredTableData
     }
 
-    /*useEffect(() => {
-        // If there is selected products fetch the ingredients needed for those products
-        if(selectedData !== undefined && selectedData.length > 0) {
-            fetchIngredientsNeeded(selectedData.map(x => ({id: x.finalProductId, quantity: x.quantity}))).then((ingredientsNeededData) => {
-                setIngredientsNeeded(ingredientsNeededData)
-            })
-                .catch((reason) => {
-                    console.error("Error setting ingredients needed data. " + reason)
+    //When table2Data changes fetch the ingredients required to bake the selected products
+    useEffect(() => {
+        if(table2Data.length > 0) {
+            fetchIngredientsNeeded(table2Data).then((IQData : IngredientQuantity[]) => {
+                setTable3Data(IQData);
+                console.log(IQData)
+            }).catch((err) => {
+                    console.error("Error setting ingredients needed data. " + err)
                 })
         } else{
-            setIngredientsNeeded([])
+            setTable3Data([]);
         }
-    }, [selectedData])*/
+    }, [table2Data])
 
+    //Used by the SelectedFinalProductsTable component to update table1Data
     const updateTable1Data = (row : FPData) => {
         //Check if there's a row that matches the row given
         const rowIndex = table1Data.findIndex(x => equalsFPData(x, row));
@@ -98,6 +104,7 @@ const BakingSystemPage1 = (props : PropTypes) => {
         }
     }
 
+    //Used by the FinalProductsTable component to update the table2Data
     const updateTable2Data = (row : FPData) => {
         //Check if there;s a row that matches the given row
         const rowIndex = table2Data.findIndex(x => equalsFPData(x, row));
@@ -111,6 +118,8 @@ const BakingSystemPage1 = (props : PropTypes) => {
             setTable2Data(table2DataCopy)
         }
     }
+
+
     const equalsFPData = (fp1: FPData, fp2: FPData) => {
         return fp1.finalProductLabel == fp2.finalProductLabel &&
             fp1.associatedCustomerOrderID == fp2.associatedCustomerOrderID
@@ -130,10 +139,6 @@ const BakingSystemPage1 = (props : PropTypes) => {
                     setTable1Data={setTable1Data}
                     updateTable2Data={updateTable2Data}
                     equalsFPData={equalsFPData}
-                    //selectedData={selectedData}
-                    //setSelectedData={setSelectedData}
-                    //searchData={searchData}
-                    //setSearchData={setSearchData}
                 />}
                 </div>
                 <div className={"border-container"}>
@@ -149,10 +154,9 @@ const BakingSystemPage1 = (props : PropTypes) => {
                         </div>
                         <div>
                             <h2>Ingredients needed</h2>
-                            {/*<IngredientQuantitiesTableRP
-                                ingredientQuantities={ingredientsNeeded}
-                                height={{height: "393px"}}
-                            />*/}
+                            {<IngredientQuantitiesTableRP
+                                ingredientTotals={table3Data}
+                            />}
                         </div>
                     </div>
                 </div>

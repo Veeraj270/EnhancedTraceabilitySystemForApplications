@@ -1,20 +1,15 @@
 import {ChangeEvent, useEffect, useMemo, useState} from "react";
 import {flexRender, getCoreRowModel, HeaderGroup, useReactTable, Row} from "@tanstack/react-table";
 import React from "react";
-import {OrderedFinalProduct} from "../../Interfaces/OrderedFinalProduct";
 import '../Page3/BSP3StyleSheet.css'
 
-import FPData from "../BakingSystemInterfaces";
+import {FPData} from "../BakingSystemInterfaces";
 
 interface PropTypes{
     table1Data: FPData[],
     setTable1Data: (data: FPData[]) => void
     equalsFPData: (fp1: FPData, fp2: FPData) => boolean
     updateTable2Data: (row: FPData) => void
-    //selectedData: any
-    //setSelectedData: any
-    //searchData: any
-    //setSearchData: any
 }
 
 const FinalProductsTable = (props: PropTypes) => {
@@ -26,10 +21,8 @@ const FinalProductsTable = (props: PropTypes) => {
 
     //State variables
     const [searchInput, setSearchInput] = useState("");
-    //const [unselectedFinalProducts, setUnselectedFinalProducts] = useState<Page1Table1Row[]>([]);
 
-    //UseEffects
-
+    //Column definitions
     const columns = useMemo(() => [
         {
             header: "Product Label",
@@ -60,41 +53,6 @@ const FinalProductsTable = (props: PropTypes) => {
         setSearchInput(event.target.value)
     }
 
-   /* useEffect(() => {
-        if (searchInput.length > 0){
-            setSearchData(rawData.filter((row: OrderedFinalProduct) => {
-                // Searching matches the label of the final product or the order id
-                return row.finalProduct.match(RegExp(searchInput, 'i'))
-                || row.customerOrder.toString().match(searchInput)
-            }))
-        } else{
-            setSearchData(rawData)
-        }
-    }, [searchInput]);*/
-
-   /* const updateSelectedData = (rowData : any) => {
-        const indexOfElement = selectedData.findIndex((x: OrderedFinalProduct) => x.key === rowData.key)
-        // If the item is already in the other table it increases the quantity
-        if(indexOfElement !== -1){
-            const newSelectedData = selectedData.map((x: OrderedFinalProduct) => {
-                if(x.key === rowData.key){
-                    return {...x, quantity: x.quantity + 1}
-                }else{
-                    return x
-                }
-            })
-            setSelectedData(newSelectedData)
-        } else{
-            // Otherwise it just adds the item to the table
-            if(selectedData.length === 0) {
-                const newSelectedData = selectedData.concat({...rowData, quantity: 1})
-                setSelectedData(newSelectedData)
-            } else {
-                alert("Select one type of product at a time")
-            }
-        }
-    }
-    */
     const handleClickPlus = (event: React.MouseEvent, input: any) => {
         const originalRow: FPData = input.original as FPData;
 

@@ -1,14 +1,17 @@
 
 
-export default interface Page1Table1Row{
-    productLabel: string;
-    quantity: number;
-    associatedOrderId: number;
-}
 
 //Final Product Data
-export default interface FPData{
+export interface FPData{
     finalProductLabel: string,
     amount: number,
     associatedCustomerOrderID: number
+}
+
+//Ingredient Quantity
+
+export interface IngredientQuantity{
+    ingredientTypeID: number,
+    ingredientName: string,
+    quantity: number
 }

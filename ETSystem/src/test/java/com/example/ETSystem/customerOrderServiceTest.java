@@ -221,7 +221,7 @@ public class customerOrderServiceTest {
         customerOrderRepository.save(order1);
 
         //Call method to be tested
-        List<CustomerOrderService.FinalProductData> result = customerOrderService.getFinalProductData();
+        List<CustomerOrderService.FPData> result = customerOrderService.getFinalProductData();
         System.out.println();
 
 
