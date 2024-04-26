@@ -3,7 +3,7 @@ import React, {useMemo} from 'react';
 type ModalProps = {
     plannedDeliveries: PlannedDelivery[];
     onConfirm: () => void;
-    onCancel: () => void;
+    onCancel: () => void;z
 
 }
 

@@ -1,6 +1,8 @@
 import {useEffect, useMemo, useState} from "react";
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import React from "react";
+import OrderDeliveriesModal from "../CustomerOrdersPageComponents/OrderDeliveriesModal";
+import ContractsModal from "./ContractsModal";
 
 type Contract = {
     id: number;
@@ -8,10 +10,14 @@ type Contract = {
     duration: string;
     frequency: string;
 
+    dates: Date[];
+
 };
 
 const ContractsTable = () => {
     const [data, setData] = useState<Contract[]>([]);
+    const [showModal, setShowModal] = useState<boolean>(false);
+    const [currentContract, setCurrentContract] = useState<Contract | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const columns = useMemo(() => [
@@ -30,8 +36,32 @@ const ContractsTable = () => {
         {
             header: 'Frequency',
             accessorKey: 'frequency',
-        }
+        },
+        {
+            header: 'Dates',
+            id: 'dates',
+            cell: ({row}) => (
+                isLoading
+                    ? <p>Loading...</p>
+                    : <button onClick={() => handleGenerateClick(row.original)}> "Handle Orders" </button>
+            ),
+
+        },
     ], [])
+
+    const handleGenerateClick = async (contract: Contract) => {
+        setCurrentContract(contract);
+        setIsLoading(true);
+
+        try {
+            setCurrentContract(contract);
+            setShowModal(true);
+        } catch (error) {
+            console.error(error);
+        } finally{
+            setIsLoading(false);
+        }
+    };
 
     const fetchData = async () => {
         setIsLoading(true);
@@ -90,6 +120,11 @@ const ContractsTable = () => {
                 </table>
             ) : (
                 <p>No contracts found</p>
+            )}
+            {showModal && currentContract && (
+                <ContractsModal
+                    contract = {currentContract}
+                />
             )}
         </div>
     )

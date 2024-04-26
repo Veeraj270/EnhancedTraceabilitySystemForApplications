@@ -1,5 +1,6 @@
 package com.example.ETSystem.contracts;
 
+import com.example.ETSystem.customerOrders.CustomerOrder;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
@@ -58,11 +59,19 @@ public class Contract {
     @ElementCollection
     private List<ZonedDateTime> dates;
 
-    public Contract(String client, String duration, String frequency, List<ZonedDateTime> dates) {
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "contract_Id")
+    private CustomerOrder customerOrder;
+
+    public Contract() {
+    }
+
+    public Contract(String client, String duration, String frequency, List<ZonedDateTime> dates, CustomerOrder customerOrder) {
         this.client = client;
         this.duration = duration;
         this.frequency = frequency;
         this.dates = dates;
+        this.customerOrder = customerOrder;
     }
 
     public String getClient() {
