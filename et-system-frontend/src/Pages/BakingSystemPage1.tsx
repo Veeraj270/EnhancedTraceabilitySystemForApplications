@@ -12,12 +12,14 @@ interface PropTypes{
     finalProductData: FPData[]
     setPage: (page: number) => void
     setIngredientsNeeded: (ingredientsNeeded: IngredientQuantity[]) => void
+    setSelectedFPData: (selectedFPData: FPData[]) => void
 }
 
 const BakingSystemPage1 = (props : PropTypes) => {
     //Destructure props
     const setPage = props.setPage;
     const setIngredientsNeeded = props.setIngredientsNeeded;
+    const setSelectedFPData = props.setSelectedFPData;
 
     //State variables
     const [table1Data, setTable1Data] = useState<FPData[]>([])
@@ -95,6 +97,7 @@ const BakingSystemPage1 = (props : PropTypes) => {
 
     const startBaking = () => {
         setIngredientsNeeded(table3Data);
+        setSelectedFPData(table2Data);
         setPage(2);
     }
 

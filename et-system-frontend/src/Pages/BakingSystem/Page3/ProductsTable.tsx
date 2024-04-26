@@ -4,7 +4,7 @@ import {flexRender, getCoreRowModel, HeaderGroup, useReactTable} from "@tanstack
 interface TableRow{
     id: number,
     label: string,
-    oldWeight: number
+    quantityUsed: number
 }
 
 interface PropTypes{
@@ -30,8 +30,8 @@ const ProductsTable = (props : PropTypes) => {
             size: 60,
         },
         {
-            header: 'Weight',
-            accessorKey: 'oldWeight',
+            header: 'Quantity Used',
+            accessorKey: 'quantityUsed',
             size: 30,
         }
     ],[])

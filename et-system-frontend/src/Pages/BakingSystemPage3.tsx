@@ -4,54 +4,52 @@ import ProductsTable from "./BakingSystem/Page3/ProductsTable";
 import UpdatedProductsTable from "./BakingSystem/Page3/UpdatedProductsTable";
 import NewWeightWidget from "./BakingSystem/Page3/NewWeightWidget";
 import ProducedTable from "./BakingSystem/Page3/ProducedTable";
+import {FPData, UsedProduct} from "./BakingSystem/BakingSystemInterfaces";
 
 interface Table1Row{
     id: number,
     label: string,
-    oldWeight: number
+    quantityUsed: number
 }
 
 interface Table2Row{
     id: number,
     label:string,
-    oldWeight: number
+    quantityUsed: number
     newWeight: number
 }
 
-const BakingSystemPage3 = () => {
-    //Temp mock data
-    const [table1Data, setTable1Data] = useState<Table1Row[]>([])
-    let tempData1 : any[] = []
-    let id = 1
-    for (let i = 0; i < 30; i++) {
-        tempData1.push({
-            id: id + i,
-            label: 'Label',
-            oldWeight: 1
-        })
-    }
+interface PropTypes{
+    productsUsed: UsedProduct[]
+    selectedFPData: FPData[]
+}
 
-    const [table2Data, setTable2Data] = useState<Table2Row[]>([])
+const BakingSystemPage3 = (props : PropTypes) => {
+    //Destructure props
+    const productsUsed = props.productsUsed;
+    const selectedFPData = props.selectedFPData;
 
-    const table3Data = new Array(10).fill({
-        quantity: 1,
-        label: 'Cake'
-    })
+    //State variables
+    const [table1Data, setTable1Data] = useState<Table1Row[]>([]);
+    const [table2Data, setTable2Data] = useState<Table2Row[]>([]);
+    const [table3Data, setTable3Data] = useState<FPData[]>([]);
 
-    //Temporary
-    const firstRender = useRef(true);
+    const [selectedProduct, setSelectedProduct] = useState<Table1Row | null>(null);
+
+    //UseEffects
+    useEffect(() => {
+        let temp : Table1Row[] = [];
+        for (let product of productsUsed){
+            temp.push({id: product.product.id,
+                label: product.product.label ? product.product.label : "No label",
+                quantityUsed: product.quantityUsed})
+        }
+        setTable1Data(temp);
+    }, [productsUsed]);
 
     useEffect(() => {
-        if (firstRender.current){
-            firstRender.current = false;
-            setTable1Data(tempData1);
-        }
-    }, []);
-
-    //End temp
-
-
-    const [selectedProduct, setSelectedProduct] = useState<Table1Row | null>(null)
+        setTable3Data(selectedFPData);
+    }, [selectedFPData]);
 
     const searchUsedItems = (input : string): boolean => {
         for (let row of table1Data){
@@ -71,12 +69,6 @@ const BakingSystemPage3 = () => {
                 index = i;
                 break;
             }
-        }
-
-        //Check if newWeight is less than old weight
-        if (table1Data[index].oldWeight < weight){
-            alert("Entered weight is more than old weight");
-            return false;
         }
 
         //Add selected product to updated items table
@@ -108,7 +100,7 @@ const BakingSystemPage3 = () => {
             {
                 id: id,
                 label: table2Data[index].label,
-                oldWeight: table2Data[index].oldWeight
+                quantityUsed: table2Data[index].quantityUsed
             }]);
 
         //Remove from table2Data
@@ -134,7 +126,7 @@ const BakingSystemPage3 = () => {
 
     //End of temp mock data
     return (
-        <div className={'page-container'}>
+        <div className={'BS2-page-container'}>
             <h1>Baking System - Page 3</h1>
             <div className={'BSP3-description'}>
                 <p>Scan each used item and enter the new weight of the product. Upon submission the newly produced products will be added to the database,

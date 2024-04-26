@@ -7,15 +7,18 @@ import React from "react";
 import {OrderedFinalProduct} from "./Interfaces/OrderedFinalProduct";
 import {IngredientQuantity} from "./BakingSystem/BakingSystemInterfaces";
 import {FPData} from "./BakingSystem/BakingSystemInterfaces";
+import {UsedProduct} from "./BakingSystem/BakingSystemInterfaces";
 
-//Interfaces - needs to be moved to its own file
+
 const BakingSystem =  () => {
     //State variables
     const [page, setPage] = useState(1);
 
     //For storing information across pages
-    const [ingredientsNeeded, setIngredientsNeeded] = useState<IngredientQuantity[]>([]);
     const [finalProductData, setFinalProductData] = useState<FPData[]>([]);
+    const [ingredientsNeeded, setIngredientsNeeded] = useState<IngredientQuantity[]>([]);
+    const [selectedFPData, setSelectedFPData] = useState<FPData[]>([]);
+    const [productsUsed, setProductsUsed] = useState<UsedProduct[]>([]);
 
     //Fetch methods
     const fetchFinalProductData = async () => {
@@ -46,14 +49,19 @@ const BakingSystem =  () => {
                     finalProductData={finalProductData}
                     setIngredientsNeeded={setIngredientsNeeded}
                     setPage={setPage}
+                    setSelectedFPData={setSelectedFPData}
                 />
             case(2):
                 return <BakingSystemPage2
                     ingredientsNeeded={ingredientsNeeded}
                     setPage={setPage}
+                    setProductsUsed={setProductsUsed}
                 />
             case(3):
-                return <BakingSystemPage3/>
+                return <BakingSystemPage3
+                    productsUsed={productsUsed}
+                    selectedFPData={selectedFPData}
+                />
         }
     }
 

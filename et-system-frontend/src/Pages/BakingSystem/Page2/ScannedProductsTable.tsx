@@ -43,7 +43,7 @@ const ScannedProductsTable = (props : PropTypes) => {
             {
                 productID: UP.product.id,
                 productLabel: UP.product.label ? UP.product.label : "No label",
-                weight: UP.weightUsed
+                weight: UP.quantityUsed
             }
         ))
         setTableData(newTableData)

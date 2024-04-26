@@ -21,7 +21,8 @@ code {
   background-color: ghostwhite;
   height: 100vh;
   display: grid;
-  grid-template-rows: 80px;
+  grid-template-rows: 80px ;
+
   --shadow-color: rgb(0,0,0,0.4);
 }
 

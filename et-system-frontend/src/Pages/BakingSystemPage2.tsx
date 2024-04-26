@@ -13,11 +13,13 @@ import UseProductWidget from "./BakingSystem/Page2/UseProductWidget";
 interface PropTypes{
     ingredientsNeeded: IngredientQuantity[],
     setPage: (page: number) => void
+    setProductsUsed: (products: UsedProduct[]) => void
 }
 
 const BakingSystemPage2 = (props : PropTypes) => {
     //Destructure props
     const setPage = props.setPage;
+    const setProductsUsed = props.setProductsUsed;
 
     //State variables
     const [ingredientsNeeded, setIngredientsNeeded] = useState<IngredientQuantity[]>(props.ingredientsNeeded)
@@ -35,17 +37,10 @@ const BakingSystemPage2 = (props : PropTypes) => {
 
         //If it is, add the usedWeight to the existing usedWeight
         const copy = [...scannedProducts]
-        copy[index].weightUsed += usedProduct.weightUsed
+        copy[index].quantityUsed += usedProduct.quantityUsed
         setScannedProducts(copy);
         return;
     }
-
-    //Debugging
-    useEffect(() => {
-        console.log("Scanned products: ", scannedProducts);
-    }, [scannedProducts]);
-    //End-debugging
-
 
     //Used by handleSubmit()
     const updateTables = (usedProduct: UsedProduct) => {
@@ -53,8 +48,6 @@ const BakingSystemPage2 = (props : PropTypes) => {
         const IQIndex = ingredientsNeeded.findIndex((ing) =>
             ing.ingredientName === usedProduct.product.ingredientType.name
         )
-
-        console.log("product: ", usedProduct)
 
         // If the ingredient is not found - alert
         if (IQIndex === -1){
@@ -66,8 +59,8 @@ const BakingSystemPage2 = (props : PropTypes) => {
         const newIngredientsNeeded = ingredientsNeeded.map((IQ: IngredientQuantity) => {
             if(IQ.ingredientName === usedProduct.product.ingredientType.name){
                 //If the measured weight is less than the needed quantity - subtract
-                if(IQ.quantity > usedProduct.weightUsed){
-                    return {...IQ, quantity: IQ.quantity - usedProduct.weightUsed};
+                if(IQ.quantity > usedProduct.quantityUsed){
+                    return {...IQ, quantity: IQ.quantity - usedProduct.quantityUsed};
                 }
                 else{
                     //If the weight is more, remove the IQ from ingredientsNeeded
@@ -97,25 +90,35 @@ const BakingSystemPage2 = (props : PropTypes) => {
     }
 
     const handleSubmit = (productID : number, weight: number) => {
-        console.log("HandleSubmit()!!")
-
-        console.log("productID: ", productID, " weight: ", weight)
         // If both inputs are there, fetch the product from the database and update the tables
         if(productID && weight) {
             fetchProduct(productID).then(product => {
                 updateTables(
                     {
                         product: product,
-                        weightUsed: weight
+                        quantityUsed: weight
                     })
             }).catch((error) => console.log(error))
         }
     }
 
+    const submit = () => {
+        /*if (ingredientsNeeded.length !== 0){
+            alert("You still have required ingredients to scan and weight out")
+            return;
+        }*/
+
+        setProductsUsed(scannedProducts);
+        setPage(3);
+    }
+
     //Render table
     return (
-        <div className="page-container">
+        <div className="BS2-page-container">
             <h1 className="BS2-title">Baking System</h1>
+            <div className={'BSP3-description'}>
+                <p>LHS table shows the ingredients required to bake the selected product. Scan the products you are using as ingredients, then weigh out the amount you are using, and enter the amount used.</p>
+            </div>
             <div className="BS2-grid-container">
                 <div className={'BS2-column-1'}>
                     <h2>Required Ingredients</h2>
@@ -128,7 +131,9 @@ const BakingSystemPage2 = (props : PropTypes) => {
                         handleSubmit={handleSubmit}
                     />
                     <div className={'BS2-button-div'}>
-                        <button className="finished-button"> Finished </button>
+                        <button className="finished-button"
+                                onClick={submit}>
+                            Finished </button>
                     </div>
                 </div>
                 <div className={'BS2-column-3'}>

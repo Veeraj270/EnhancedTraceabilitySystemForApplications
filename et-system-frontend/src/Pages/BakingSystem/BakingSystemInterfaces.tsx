@@ -16,5 +16,5 @@ export interface IngredientQuantity{
 
 export interface UsedProduct{
     product: Product,
-    weightUsed: number
+    quantityUsed: number
 }

@@ -60,6 +60,12 @@ const UseProductWidget = (props : PropTypes) => {
                 let p = parseInt(productID);
                 handleSubmit(p, w);
 
+                setProductID("");
+                setWeight("");
+
+                if (input1Ref.current){
+                    input1Ref.current.focus();
+                }
             }
         }
     }
