@@ -1,7 +1,6 @@
 import {useEffect, useMemo, useState} from "react";
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import React from "react";
-import OrderDeliveriesModal from "../CustomerOrdersPageComponents/OrderDeliveriesModal";
 import ContractsModal from "./ContractsModal";
 
 type Contract = {
@@ -9,9 +8,16 @@ type Contract = {
     client: string;
     duration: string;
     frequency: string;
-
+    finalProducts: FinalProduct[];
     dates: Date[];
 
+};
+
+type FinalProduct = {
+    id: number;
+    label: string;
+    cost: number;
+    quantity: number;
 };
 
 const ContractsTable = () => {

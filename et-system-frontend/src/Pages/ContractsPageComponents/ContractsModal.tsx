@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import ContractsTable from "./ContractsTable";
 
 type FinalProduct = {
     id: number;
@@ -22,7 +21,7 @@ type Contract = {
     duration: string;
     frequency: string;
 
-    customerOrder: CustomerOrder;
+    finalProducts: FinalProduct[];
 
     dates: Date[];
 
@@ -31,17 +30,29 @@ type Contract = {
 const ContractsModal = ({ contract }: { contract: Contract }) => {
     const [dates, setDates] = useState(contract.dates);
 
+
+
     const removeDateAndAddOrder = async (date: Date) => {
         const updatedDates = dates.filter(d => d !== date);
         setDates(updatedDates); // takes out dates that have already been created
 
+
+        const customerOrder: CustomerOrder = {
+            id: 0,
+            client: contract.client,
+            date: new Date().toISOString(),
+            deliveryDate: new Date(date).toISOString(),
+            finalProducts: contract.finalProducts
+        };
+
+        console.log(JSON.stringify(customerOrder));
         try {
-            const response = await fetch('http://localhost:3000/api/customerorders/add', {
+            const response = await fetch('http://localhost:8080/api/customerorders/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(contract.customerOrder),
+                body: JSON.stringify(customerOrder),
             });
             if (!response.ok) throw new Error('Failed to add customer order');
             console.log('Order added');
@@ -56,9 +67,9 @@ const ContractsModal = ({ contract }: { contract: Contract }) => {
             <div>
                 <h3>Final Products:</h3>
                 <ul>
-                    {contract.customerOrder.finalProducts.map((product, index) => (
+                    { contract.finalProducts ? contract.finalProducts.map((product, index) => (
                         <li key={index}>{product.label}</li>
-                    ))}
+                    )) : <li>No Products</li>}
                 </ul>
             </div>
             <table>
