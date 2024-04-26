@@ -7,6 +7,8 @@ import {OrderedFinalProduct} from "./Interfaces/OrderedFinalProduct";
 
 import {IngredientQuantity} from "./BakingSystem/BakingSystemInterfaces";
 import {UsedProduct} from "./BakingSystem/BakingSystemInterfaces";
+import NewWeightWidget from "./BakingSystem/Page3/NewWeightWidget";
+import UseProductWidget from "./BakingSystem/Page2/UseProductWidget";
 
 interface PropTypes{
     ingredientsNeeded: IngredientQuantity[],
@@ -20,19 +22,6 @@ const BakingSystemPage2 = (props : PropTypes) => {
     //State variables
     const [ingredientsNeeded, setIngredientsNeeded] = useState<IngredientQuantity[]>(props.ingredientsNeeded)
     const [scannedProducts, setScannedProducts] = useState<UsedProduct[]>([])
-
-    //For the inputs
-    const [productID, setProductID] = useState<number>()
-    const [weight, setWeight] = useState<number>()
-
-    //Input change handlers
-    const handleChangeProductID = (event: ChangeEvent<HTMLInputElement>) => {
-        setProductID(parseFloat(event.target.value))
-    }
-
-    const handleChangeWeight = (event: ChangeEvent<HTMLInputElement>) => {
-        setWeight(parseFloat(event.target.value))
-    }
 
     //Used by updateTables()
     const updateScannedProducts = (usedProduct: UsedProduct) => {
@@ -65,13 +54,13 @@ const BakingSystemPage2 = (props : PropTypes) => {
             ing.ingredientName === usedProduct.product.ingredientType.name
         )
 
+        console.log("product: ", usedProduct)
+
         // If the ingredient is not found - alert
         if (IQIndex === -1){
             alert("The ingredient type of this product doesn't match any ingredients from the table")
             return;
         }
-
-        console.log("product: ", usedProduct)
 
         // If the ingredient is found update it
         const newIngredientsNeeded = ingredientsNeeded.map((IQ: IngredientQuantity) => {
@@ -95,12 +84,7 @@ const BakingSystemPage2 = (props : PropTypes) => {
         setIngredientsNeeded(filteredIngredientsNeeded)
 
         //Add the used product to the scanned products table
-        if (weight){
-            updateScannedProducts(usedProduct);
-        }
-
-        setProductID(undefined)
-        setWeight(undefined)
+        updateScannedProducts(usedProduct);
     }
 
     //Used by handleSubmit()
@@ -112,7 +96,10 @@ const BakingSystemPage2 = (props : PropTypes) => {
         return await response.json();
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = (productID : number, weight: number) => {
+        console.log("HandleSubmit()!!")
+
+        console.log("productID: ", productID, " weight: ", weight)
         // If both inputs are there, fetch the product from the database and update the tables
         if(productID && weight) {
             fetchProduct(productID).then(product => {
@@ -125,6 +112,7 @@ const BakingSystemPage2 = (props : PropTypes) => {
         }
     }
 
+    //Render table
     return (
         <div className="page-container">
             <h1 className="BS2-title">Baking System</h1>
@@ -136,32 +124,9 @@ const BakingSystemPage2 = (props : PropTypes) => {
                     />
                 </div>
                 <div className={'BS2-column-2'}>
-                    <div className={'input-container'}>
-                        <h2 className='input-container-title'>Weigh needed ingredients</h2>
-                        <div className={'BS2-grid-container-inputs'}>
-                            <div>
-                                <h3>Product ID</h3>
-                                <input className={'BS2-input-box'}
-                                       onChange={handleChangeProductID}
-                                       value={productID ? productID : ''}
-                                       type={"number"}
-                                />
-                            </div>
-                            <div>
-                                <h3>Weight</h3>
-                                <input className={'BS2-input-box'}
-                                       type={"number"}
-                                       onChange={handleChangeWeight}
-                                       value={weight ? weight : ''}
-                                />
-                            </div>
-                        </div>
-                        <button
-                            className={'BS2-submit-button'}
-                            onClick={handleSubmit}>
-                            Submit
-                        </button>
-                    </div>
+                    <UseProductWidget
+                        handleSubmit={handleSubmit}
+                    />
                     <div className={'BS2-button-div'}>
                         <button className="finished-button"> Finished </button>
                     </div>

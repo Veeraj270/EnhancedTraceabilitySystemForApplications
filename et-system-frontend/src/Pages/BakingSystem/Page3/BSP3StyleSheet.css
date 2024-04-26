@@ -180,6 +180,9 @@
     grid-template-columns: 0.8fr 0.2fr;
     column-gap: 2px;
     padding: 10px;
+
+    min-height: 0;
+    min-width: 0;
 }
 
 .BSP3-input-wrapper input{
