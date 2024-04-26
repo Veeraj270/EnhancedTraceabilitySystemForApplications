@@ -6,13 +6,18 @@ import FPData from "../BakingSystemInterfaces";
 interface PropTypes{
     table2Data: FPData[],
     setTable2Data: (data: FPData[]) => void
+    equalsFPData: (fp1: FPData, fp2: FPData) => boolean
+    updateTable1Data: (row: FPData) => void
 }
-// @ts-ignore
+
 const SelectedFinalProductsTable = ( props : PropTypes) => {
+    //Destructure props
     const table2Data = props.table2Data;
     const setTable2Data = props.setTable2Data;
+    const updateTable1Data = props.updateTable1Data;
+    const equalsFPData = props.equalsFPData;
 
-
+    //Column definitions
     const columns = useMemo(() => [
         {
             header: "Product Label",
@@ -57,44 +62,31 @@ const SelectedFinalProductsTable = ( props : PropTypes) => {
         }
     }*/
 
+    //Handle click event for the minus button
     const handleClickMinus = (event: React.MouseEvent, input: any) => {
         const originalRow: FPData = input.original as FPData;
 
-        console.log("handleClickMinus()")
-        console.log("input:" + input)
-        console.log("originalRow:" + originalRow)
-        // If the quantity is 1, the row should be removed after clicking the button
+        // If the amount is 1, the row should be removed after clicking the button
         if(originalRow.amount === 1){
             // Filtering out the row that should be removed
             const newTable2Data = table2Data.filter(row  => !equalsFPData(row, originalRow))
             setTable2Data(newTable2Data)
 
-            // Adding the row to the data of the other table
-            //updateNonSelectedData(rowData, nonSelectedData, setNonSelectedData)
-            //updateNonSelectedData(rowData, searchData, setSearchData)
-        }else{
-            // This changes the quantity if the final product that is subtracted
-            // from the selected final products
+        } else {
+            // If the amount is more than 1, the amount should be decreased by 1
             const newTable2Data: FPData[] = table2Data.map(row => {
                 if (equalsFPData(row, originalRow)){
-                    return {...row, amount: row.amount - 1}
+                    return {...row, amount: row.amount - 1};
                 } else {
-                    return row
+                    return row;
                 }
             })
-
-            // @ts-ignore
-            props.setTable2Data(newTable2Data)
-            //setSelectedData(newData)
-            //updateNonSelectedData(rowData, nonSelectedData, setNonSelectedData)
-            //updateNonSelectedData(rowData, searchData, setSearchData)
+            setTable2Data(newTable2Data)
         }
+
+        updateTable1Data(originalRow);
     }
 
-    const equalsFPData = (fp1: FPData, fp2: FPData) => {
-        return fp1.finalProductLabel == fp2.finalProductLabel &&
-            fp1.associatedCustomerOrderID == fp2.associatedCustomerOrderID
-    }
     const table = useReactTable({
         data: table2Data,
         columns: columns,

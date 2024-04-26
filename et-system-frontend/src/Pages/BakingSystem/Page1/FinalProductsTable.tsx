@@ -9,6 +9,8 @@ import FPData from "../BakingSystemInterfaces";
 interface PropTypes{
     table1Data: FPData[],
     setTable1Data: (data: FPData[]) => void
+    equalsFPData: (fp1: FPData, fp2: FPData) => boolean
+    updateTable2Data: (row: FPData) => void
     //selectedData: any
     //setSelectedData: any
     //searchData: any
@@ -17,21 +19,16 @@ interface PropTypes{
 
 const FinalProductsTable = (props: PropTypes) => {
     //Destructure props
+    const table1Data = props.table1Data;
+    const setTable1Data = props.setTable1Data;
+    const equalsFPData = props.equalsFPData;
+    const updateTable2Data = props.updateTable2Data;
 
     //State variables
     const [searchInput, setSearchInput] = useState("");
     //const [unselectedFinalProducts, setUnselectedFinalProducts] = useState<Page1Table1Row[]>([]);
-    const [table1Data, setTable1Data] = useState<FPData[]>([])
 
     //UseEffects
-    useEffect(() => {
-        setTable1Data(props.table1Data);
-    }, [props.table1Data]);
-
-
-    useEffect(() => {
-
-    }, []);
 
     const columns = useMemo(() => [
         {
@@ -97,39 +94,28 @@ const FinalProductsTable = (props: PropTypes) => {
             }
         }
     }
+    */
+    const handleClickPlus = (event: React.MouseEvent, input: any) => {
+        const originalRow: FPData = input.original as FPData;
 
-    const handleClickPlus = (event: React.MouseEvent<HTMLButtonElement>, targetRow: Page1Table1Row) => {
-        // If the quantity is 1, the row should be removed after clicking the button
-        if(targetRow.quantity === 1){
-            const newTableData = rawData.filter((row: Page1Table1Row) => row.finalProductId !== targetRow.finalProductId)
-            setRawData(newTableData)
-
-            //Add the finalProduct to the
-            updateSelectedData(targetRow) //
+        // If the amount is 1, the row should be removed after clicking the button
+        if(originalRow.amount === 1){
+            const newTable1Data = table1Data.filter((row) => !equalsFPData(row, originalRow));
+            setTable1Data(newTable1Data);
         } else {
-            // This changes the quantity if the final product that is added
-            // to the selected final products
-            const newData = rawData.map((x: OrderedFinalProduct) => {
-                if(x.key === rowData.key){
-                    return {...x, quantity: x.quantity - 1}
+            // If the amount is more than 1, the amount should be decreased by 1
+            const newTable1Data: FPData[] = table1Data.map((row: FPData) => {
+                if(equalsFPData(row, originalRow)){
+                    return {...row, amount: row.amount - 1};
                 }else{
-                    return x
+                    return row;
                 }
             })
-            setRawData(newData)
-            
-            // The same goes for the searched data
-            const newSearchData = searchData.map((x: OrderedFinalProduct) => {
-                if(x.key === rowData.key){
-                    return {...x, quantity: x.quantity - 1}
-                }else{
-                    return x
-                }
-            })
-            setSearchData(newSearchData)
-            updateSelectedData(rowData)
+            setTable1Data(newTable1Data);
         }
-    }*/
+        updateTable2Data(originalRow);
+    }
+
 
     //Will need changing for searching to work again
     const table = useReactTable({
@@ -185,7 +171,7 @@ const FinalProductsTable = (props: PropTypes) => {
                             <td className={'BSP1-td'}>{row.original.amount}</td>
                             <td className={'BSP1-td'}>{row.original.associatedCustomerOrderID}</td>
                             <td className={'BSP1-td'}>
-                                <button onClick={(event) => {handleClickPlus(event, row.original)}}><b>+</b></button>
+                                <button onClick={(event) => {handleClickPlus(event, row)}}><b>+</b></button>
                             </td>
                         </tr>)
                     )}

@@ -30,7 +30,6 @@ const BakingSystemPage1 = (props : PropTypes) => {
 
     useEffect(() => {
         setTable1Data(props.finalProductData)
-        setTable2Data(props.finalProductData)
     }, [props.finalProductData]);
 
     useEffect(() => {
@@ -85,6 +84,37 @@ const BakingSystemPage1 = (props : PropTypes) => {
         }
     }, [selectedData])*/
 
+    const updateTable1Data = (row : FPData) => {
+        //Check if there's a row that matches the row given
+        const rowIndex = table1Data.findIndex(x => equalsFPData(x, row));
+
+        if (rowIndex === -1){
+            setTable1Data(table1Data => { return [...table1Data, {...row, amount: 1}]})
+        }
+        else {
+            let table1DataCopy = [...table1Data];
+            table1DataCopy[rowIndex].amount += 1;
+            setTable1Data(table1DataCopy)
+        }
+    }
+
+    const updateTable2Data = (row : FPData) => {
+        //Check if there;s a row that matches the given row
+        const rowIndex = table2Data.findIndex(x => equalsFPData(x, row));
+
+        if (rowIndex === -1){
+            setTable2Data(table2Data => {return [...table2Data, {...row, amount: 1}]})
+        }
+        else {
+            let table2DataCopy = [...table2Data];
+            table2DataCopy[rowIndex].amount += 1;
+            setTable2Data(table2DataCopy)
+        }
+    }
+    const equalsFPData = (fp1: FPData, fp2: FPData) => {
+        return fp1.finalProductLabel == fp2.finalProductLabel &&
+            fp1.associatedCustomerOrderID == fp2.associatedCustomerOrderID
+    }
 
     const startBaking = () => {
 
@@ -98,6 +128,8 @@ const BakingSystemPage1 = (props : PropTypes) => {
                 {<FinalProductsTable
                     table1Data={table1Data}
                     setTable1Data={setTable1Data}
+                    updateTable2Data={updateTable2Data}
+                    equalsFPData={equalsFPData}
                     //selectedData={selectedData}
                     //setSelectedData={setSelectedData}
                     //searchData={searchData}
@@ -111,10 +143,8 @@ const BakingSystemPage1 = (props : PropTypes) => {
                             {<SelectedFinalProductsTable
                                 table2Data={table2Data}
                                 setTable2Data={setTable2Data}
-                                //selectedData={selectedData}
-                                //setSelectedData={setSelectedData}
-                                //searchData={searchData}
-                                //setSearchData={setSearchData
+                                updateTable1Data={updateTable1Data}
+                                equalsFPData={equalsFPData}
                             />}
                         </div>
                         <div>

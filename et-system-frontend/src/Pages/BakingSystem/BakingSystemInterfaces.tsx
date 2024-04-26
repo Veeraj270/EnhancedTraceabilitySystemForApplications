@@ -1,8 +1,4 @@
 
-export default interface IngredientQuantity{
-    ingredientType: string
-    quantity: number
-}
 
 export default interface Page1Table1Row{
     productLabel: string;
