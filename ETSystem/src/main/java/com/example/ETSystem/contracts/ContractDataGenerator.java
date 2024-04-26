@@ -2,7 +2,6 @@ package com.example.ETSystem.contracts;
 
 import com.example.ETSystem.finalProducts.FinalProduct;
 import com.example.ETSystem.finalProducts.FinalProductRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,14 +25,9 @@ public class ContractDataGenerator {
 
         List<ZonedDateTime> dates = new ArrayList<>() {};
 
-        dates.add(zdt);
-        dates.add(zdt.plusMonths(1));
-        dates.add(zdt.plusMonths(2));
-
-
-
-        Long one = 1L;
-
+        dates.add(zdt.plusMonths(3).plusDays(4));
+        dates.add(zdt.plusMonths(1).plusDays(6));
+        dates.add(zdt.plusMonths(2).plusDays(3));
 
         List<FinalProduct> finalProductList = new ArrayList<>();
         FinalProduct finalProduct = finalProductRepository.findById(1L).orElseThrow();
