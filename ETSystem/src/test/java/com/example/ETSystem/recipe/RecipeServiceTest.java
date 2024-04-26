@@ -54,30 +54,15 @@ public class RecipeServiceTest {
 
     @Test
     @Transactional
-    void testIngredient(){
-        // Correctly saving name of Ingredient
-        assertEquals(milk.getName(), "milk");
-        assertEquals(flour.getName(), "flour");
-
-        // Correctly saving ingredient in repository
-        List<IngredientType> list = ingredientTypeRepository.findAll();
-        assertTrue(ingredientTypeRepository.findAll().containsAll(List.of(milk, flour, chocolate, vanilla)));
-    }
-
-    @Test
-    @Transactional
-    void testRecipe(){
-        IngredientQuantity flour_500 = new IngredientQuantity();
+    void testRecipeService(){
+        // Test the setters once
+        IngredientQuantity flour_500 = new IngredientQuantity(flour, 500);
         flour_500.setIngredient(flour);
         flour_500.setQuantity(500);
 
-        IngredientQuantity chocolate_300 = new IngredientQuantity();
-        chocolate_300.setIngredient(chocolate);
-        chocolate_300.setQuantity(300);
+        IngredientQuantity chocolate_300 = new IngredientQuantity(chocolate, 300);
 
-        IngredientQuantity vanilla_100 = new IngredientQuantity();
-        vanilla_100.setIngredient(vanilla);
-        vanilla_100.setQuantity(100);
+        IngredientQuantity vanilla_100 = new IngredientQuantity(vanilla, 100);
 
         // flour_500 cannot be used a second time because it is
         // already managed by some Recipe entity(rec1 in this case)
@@ -88,21 +73,25 @@ public class RecipeServiceTest {
 
         var rec1 = recipeService.addNewRecipe(new Recipe("Vanilla Cake", Set.of(vanilla_100, flour_500)));
 
-        //assertEquals(recipeRepository.findAll().stream().toList(), List.of(rec1)); DOES NOT WORK AS MOCK DATA IS PRESENT ALSO, ADAPTATION IS BELOW:
-        assertTrue(recipeRepository.findAll().contains(rec1));
-
-        var rec2 = recipeService.addNewRecipe(new Recipe("Chocolate Cake Test", Set.of(chocolate_300, flour_500_2))); //PLEASE NOTE I ADDED THE "TEST". MOCK DATA CONTAINS OBJECT WITH SAME
-        //LABEL AND RECIPESERVICE THROWS AN ERROR AS A RESULT. THIS SHOULD NOT BE THE CASE AS THE ONLY UNIQUE IDENTIFIER IS THE ID, DUPLICATE LABELS SHOULD BE PREVENTED
-        //AT AN API LEVEL NOT AT A REPOSITORY LEVEL
-
+        assertEquals(recipeRepository.findAll().stream().toList(), List.of(rec1));
+        // Testing in case of using the constructor
         assertEquals(List.of(), rec1.getAllergens().stream().toList());
+        assertTrue(rec1.isVegetarian());
+        assertTrue(rec1.isVegan());
+
+        var rec2 = new Recipe();
+        rec2.setLabel("Chocolate Cake Test");
+        rec2.setIngredientQuantities(Set.of(chocolate_300, flour_500_2));
+        recipeService.addNewRecipe(rec2);
+
+        // Testing the in case of using non-trivial ingredientQuantities setter
         assertEquals(List.of("milk"), rec2.getAllergens().stream().toList());
-	    assertTrue(rec1.isVegetarian());
-	    assertTrue(rec1.isVegan());
 	    assertTrue(rec2.isVegetarian());
 	    assertFalse(rec2.isVegan());
 
-        assertEquals(recipeRepository.findAll().stream().toList(), List.of(rec1, rec2));
+        // Testing getRecipes()
+        assertEquals(recipeService.getRecipes(), List.of(rec1, rec2));
+        assertEquals(recipeService.getRecipes(), recipeRepository.findAll().stream().toList());
 
         IngredientQuantity mango_invalid = new IngredientQuantity();
         mango_invalid.setIngredient(new IngredientType("mango", true, true, Set.of()));
