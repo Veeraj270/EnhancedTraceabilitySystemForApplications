@@ -1,10 +1,11 @@
 package com.example.ETSystem.contracts;
 
-import com.example.ETSystem.customerOrders.CustomerOrder;
+import com.example.ETSystem.finalProducts.FinalProduct;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
@@ -59,19 +60,20 @@ public class Contract {
     @ElementCollection
     private List<ZonedDateTime> dates;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "contract_Id")
-    private CustomerOrder customerOrder;
+    private List<FinalProduct> finalProducts = new ArrayList<>();
+
 
     public Contract() {
     }
 
-    public Contract(String client, String duration, String frequency, List<ZonedDateTime> dates, CustomerOrder customerOrder) {
+    public Contract(String client, String duration, String frequency, List<ZonedDateTime> dates, List<FinalProduct> finalProducts) {
         this.client = client;
         this.duration = duration;
         this.frequency = frequency;
         this.dates = dates;
-        this.customerOrder = customerOrder;
+        this.finalProducts = finalProducts;
     }
 
     public String getClient() {
@@ -105,6 +107,14 @@ public class Contract {
     public void setDates(List<ZonedDateTime> dates) {
         this.dates = dates;
     }
-};
+
+    public List<FinalProduct> getFinalProducts() {
+        return finalProducts;
+    }
+
+    public void setFinalProducts(List<FinalProduct> finalProducts) {
+        this.finalProducts = finalProducts;
+    }
+}
 
 
