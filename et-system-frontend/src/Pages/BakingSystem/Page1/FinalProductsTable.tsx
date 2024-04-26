@@ -4,48 +4,50 @@ import React from "react";
 import {OrderedFinalProduct} from "../../Interfaces/OrderedFinalProduct";
 import '../Page3/BSP3StyleSheet.css'
 
-import Page1Table1Row from "../BakingSystemInterfaces";
 import FPData from "../BakingSystemInterfaces";
 
-
 interface PropTypes{
-    rawTableData: FPData[]
-    setRawTableData: (data: FPData[]) => void
-    selectedData: any
-    setSelectedData: any
-    searchData: any
-    setSearchData: any
+    table1Data: FPData[],
+    setTable1Data: (data: FPData[]) => void
+    //selectedData: any
+    //setSelectedData: any
+    //searchData: any
+    //setSearchData: any
 }
 
 const FinalProductsTable = (props: PropTypes) => {
     //Destructure props
-    const rawTableData = props.rawTableData;
-    const setRawTableData = props.setRawTableData;
-
-    const selectedData = props.selectedData;
-    const setSelectedData = props.setSelectedData;
-    const searchData = props.searchData;
-    const setSearchData = props.setSearchData;
 
     //State variables
     const [searchInput, setSearchInput] = useState("");
-    const [unselectedFinalProducts, setUnselectedFinalProducts] = useState<Page1Table1Row[]>([]);
+    //const [unselectedFinalProducts, setUnselectedFinalProducts] = useState<Page1Table1Row[]>([]);
+    const [table1Data, setTable1Data] = useState<FPData[]>([])
+
+    //UseEffects
+    useEffect(() => {
+        setTable1Data(props.table1Data);
+    }, [props.table1Data]);
+
+
+    useEffect(() => {
+
+    }, []);
 
     const columns = useMemo(() => [
         {
             header: "Product Label",
             accessorKey: "finalProductLabel",
-            size: 40
+            size: 60
         },
         {
             header: "Quantity",
             accessorKey: "amount",
-            size: 25
+            size: 15
         },
         {
             header: "Order ID",
             accessorKey: "associatedCustomerOrderID",
-            size: 25
+            size: 15
         },
         {
             header: "",
@@ -54,10 +56,6 @@ const FinalProductsTable = (props: PropTypes) => {
         }
 
     ], [])
-
-    useEffect(() => {
-        console.log("rawTableData: ", rawTableData)
-    }, [rawTableData]);
 
 
     const handleChange = (event : ChangeEvent<HTMLInputElement>) => {
@@ -135,12 +133,13 @@ const FinalProductsTable = (props: PropTypes) => {
 
     //Will need changing for searching to work again
     const table = useReactTable({
-        data: rawTableData,
+        data: table1Data,
         columns: columns,
         getCoreRowModel: getCoreRowModel()
     })
 
-    const getTemplateColumns = (headerGroup : HeaderGroup<Page1Table1Row>): string => {
+    //For table column formatting
+    const getTemplateColumns = (headerGroup : HeaderGroup<FPData>): string => {
         let output  = "";
         headerGroup.headers.forEach(header => {
             output += `${header.column.getSize()}fr `
@@ -174,7 +173,7 @@ const FinalProductsTable = (props: PropTypes) => {
                     ))}
                 </table>
             </div>
-            <div className={"FPTable-content-div"}>
+            <div className={"BSP1-FP-table-1-rows-div"}>
                 <table>
                     <tbody>
                     {table.getCoreRowModel().rows.map(row => (

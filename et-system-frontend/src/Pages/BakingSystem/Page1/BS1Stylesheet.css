@@ -50,6 +50,48 @@
     min-height: 0;
 }
 
+.BSP1-FP-table-2-grid{
+    display: grid;
+    grid-template-rows: 60px 1fr;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: ghostwhite;
+    box-shadow: 1px 1px 3px var(--shadow-color);
+    border: 2px solid #eae7e7;
+
+    min-width: 0;
+    min-height: 0;
+}
+
+.BSP1-FP-table-2-grid tbody{
+    display: grid;
+    height: 100%;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+}
+
+.BSP1-FP-table-2-grid table{
+    display: grid;
+    height: 100%;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+}
+
+
+
+
+.BSP1-FP-table-1-grid tbody{
+    display: grid;
+    height: 100%;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+}
+
 .BSP1-FP-table-1-grid table{
     display: grid;
     height: 100%;
@@ -95,6 +137,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 10px;
 
     min-width: 0;
     min-height: 0;
@@ -140,6 +183,29 @@
     box-shadow: 3px 3px 3px var(--shadow-color) inset;
 }
 
+.BSP1-FP-table-1-rows-div{
+    display: grid;
+    height: 100%;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    scrollbar-width: thin;
+    scrollbar-color: #d9d9d9 rgba(248, 248, 255, 0);
+    scrollbar-arrow-color: rgba(221, 221, 221, 0);
+}
+
+.BSP1-FP-table-1-rows-div table{
+    display: grid;
+    height: fit-content;
+    width: 100%;
+    min-height: 0;
+    min-width: 0;
+}
+
 .FPTable-search-container label{
     font-weight: bold;
     font-size: 16px;
@@ -147,19 +213,7 @@
     padding-left: 4px;
 }
 
-.FPTable-content-div{
-    height: 438px;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
 
-.FPTable-content-div td{
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-    height: 40px;
-    max-height: 40px;
-    font-size: 14px;
-}
 
 .FPTable-content-div tr{
     width: 100%;

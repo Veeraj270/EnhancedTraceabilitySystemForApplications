@@ -10,13 +10,6 @@ export default interface Page1Table1Row{
     associatedOrderId: number;
 }
 
-export default interface Page1Table1Row{
-    finalProductId: number;
-    productLabel: string;
-    quantity: number;
-    associatedOrderId: number;
-}
-
 //Final Product Data
 export default interface FPData{
     finalProductLabel: string,

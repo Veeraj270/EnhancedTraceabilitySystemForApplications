@@ -5,46 +5,42 @@ import FinalProductsTable from "./BakingSystem/Page1/FinalProductsTable";
 import SelectedFinalProductsTable from "./BakingSystem/Page1/SelectedFinalProductsTable";
 import IngredientQuantitiesTableRP from "./RecipePageComponents/IngredientQuantitiesTableRP";
 import {Link} from "react-router-dom";
-//import {IngredientQuantity} from "./Interfaces/IngredientQuantity";
-import IngredientQuantity from "./BakingSystem/BakingSystemInterfaces";
 import './BakingSystem/Page3/BSP3StyleSheet.css'
-import Page1Table1Row from "./BakingSystem/BakingSystemInterfaces";
+import FPData from "./BakingSystem/BakingSystemInterfaces";
 
 
 
 interface PropTypes{
-    setSelectedFinalProducts: (selectedFinalProducts: OrderedFinalProduct[]) => void
-    setIngredientsNeeded: (ingredientsNeeded: IngredientQuantity[]) => void
-    ingredientsNeeded: IngredientQuantity[];
-}
-
-interface FPData{
-    finalProductLabel: string,
-    amount: number,
-    associatedCustomerOrderID: number
+    //setSelectedFinalProducts: (selectedFinalProducts: OrderedFinalProduct[]) => void
+    //setIngredientsNeeded: (ingredientsNeeded: IngredientQuantity[]) => void
+    //ingredientsNeeded: IngredientQuantity[];
+    finalProductData: FPData[]
 }
 
 const BakingSystemPage1 = (props : PropTypes) => {
     //Destructure props
-    const setSelectedFinalProduct = props.setSelectedFinalProducts;
-    const setIngredientsNeeded = props.setIngredientsNeeded;
-    const ingredientsNeeded = props.ingredientsNeeded;
+    //const setSelectedFinalProduct = props.setSelectedFinalProducts;
+    //const setIngredientsNeeded = props.setIngredientsNeeded;
+    //const ingredientsNeeded = props.ingredientsNeeded;
 
 
     //State variables
-    const [table1Data, setTable1Data] = useState<OrderedFinalProduct[]>([])
-    const [searchData, setSearchData] = useState<OrderedFinalProduct[]>([])
-    const [selectedData, setSelectedData] = useState<OrderedFinalProduct[]>([])
+    const [table1Data, setTable1Data] = useState<FPData[]>([])
+    const [table2Data, setTable2Data] = useState<FPData[]>([])
+
+    useEffect(() => {
+        setTable1Data(props.finalProductData)
+        setTable2Data(props.finalProductData)
+    }, [props.finalProductData]);
+
+    useEffect(() => {
+        console.log("table2Data: ", table2Data)
+    }, [table2Data]);
+
+    //const [searchData, setSearchData] = useState<OrderedFinalProduct[]>([])
+    //const [selectedData, setSelectedData] = useState<OrderedFinalProduct[]>([])
     //const [ingredientsNeeded, setIngredientsNeeded] = useState<IngredientQuantity[]>([])
 
-    //Fetches all final products from the back-end
-    const fetchFinalProductData = async () => {
-        const response = await fetch("http://localhost:8080/api/customerorders/fetch-all-fp-data")
-        if(!response.ok){
-            throw new Error("Error fetching ordered final products")
-        }
-        return await response.json();
-    }
 
     //Fetches the ingredients needed for the selected final products
     const fetchIngredientsNeeded = async (idsAndQuantities: {id: number, quantity: number}[]) => {
@@ -90,17 +86,6 @@ const BakingSystemPage1 = (props : PropTypes) => {
     }, [selectedData])*/
 
 
-    useEffect(() => {
-        fetchFinalProductData().then((finalProductData: any) => {
-            console.log(finalProductData);
-            setTable1Data(finalProductData);
-
-           /* const newData = filterTableData(finalProductsData)
-            setTableData(newData)
-            setSearchData(newData)*/
-        }).catch((reason) => {console.error("Error occured as a result of fetching fpData " + reason)})
-    }, [])
-
     const startBaking = () => {
 
     }
@@ -111,26 +96,26 @@ const BakingSystemPage1 = (props : PropTypes) => {
             <div className="BS1-grid-container">
                 <div className={"BS1-grid-container-2"}>
                 {<FinalProductsTable
-                    rawTableData={table1Data}
-                    setRawData={setTable1Data}
-                    selectedData={selectedData}
-                    setSelectedData={setSelectedData}
-                    searchData={searchData}
-                    setSearchData={setSearchData}
+                    table1Data={table1Data}
+                    setTable1Data={setTable1Data}
+                    //selectedData={selectedData}
+                    //setSelectedData={setSelectedData}
+                    //searchData={searchData}
+                    //setSearchData={setSearchData}
                 />}
                 </div>
                 <div className={"border-container"}>
                     <div className={"BS1-grid-container-3"}>
                         <div className={'BSP1'}>
                             <h2>Selected Products</h2>
-                            {/*<SelectedFinalProductsTable
-                                selectedData={selectedData}
-                                setSelectedData={setSelectedData}
-                                nonSelectedData={tableData}
-                                setNonSelectedData={setTableData}
-                                searchData={searchData}
-                                setSearchData={setSearchData}
-                            />*/}
+                            {<SelectedFinalProductsTable
+                                table2Data={table2Data}
+                                setTable2Data={setTable2Data}
+                                //selectedData={selectedData}
+                                //setSelectedData={setSelectedData}
+                                //searchData={searchData}
+                                //setSearchData={setSearchData
+                            />}
                         </div>
                         <div>
                             <h2>Ingredients needed</h2>
@@ -140,9 +125,6 @@ const BakingSystemPage1 = (props : PropTypes) => {
                             />*/}
                         </div>
                     </div>
-                <div>
-                    <Link to={'/baking-system-page-2'} state={{ingredientsNeeded, selectedData}}><button className={'start-baking-button'} onClick={startBaking}>Start baking</button></Link>
-                </div>
                 </div>
             </div>
         </div>
