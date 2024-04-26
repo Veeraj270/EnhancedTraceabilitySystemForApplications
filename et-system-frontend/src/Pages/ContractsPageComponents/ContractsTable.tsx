@@ -130,6 +130,7 @@ const ContractsTable = () => {
             {showModal && currentContract && (
                 <ContractsModal
                     contract = {currentContract}
+                    onClose = {() => setShowModal(false)}
                 />
             )}
         </div>

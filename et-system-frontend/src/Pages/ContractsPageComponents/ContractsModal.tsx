@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
 
+type ModalProps = {
+    contract: Contract;
+    onClose: () => void;
+}
+
 type FinalProduct = {
     id: number;
     label: string;
@@ -27,7 +32,7 @@ type Contract = {
 
 };
 
-const ContractsModal = ({ contract }: { contract: Contract }) => {
+const ContractsModal: React.FC<ModalProps> = ({ contract, onClose }) => {
     const [dates, setDates] = useState(contract.dates);
 
 
@@ -45,6 +50,15 @@ const ContractsModal = ({ contract }: { contract: Contract }) => {
             finalProducts: contract.finalProducts
         };
 
+        const contractWithoutDate : Contract = {
+            id: contract.id,
+            client: contract.client,
+            duration: contract.duration,
+            frequency: contract.frequency,
+            finalProducts: contract.finalProducts,
+            dates: updatedDates
+        };
+
         console.log(JSON.stringify(customerOrder));
         try {
             const response = await fetch('http://localhost:8080/api/customerorders/add', {
@@ -58,6 +72,21 @@ const ContractsModal = ({ contract }: { contract: Contract }) => {
             console.log('Order added');
         } catch (error) {
             console.error('Failed to add customer order:', error);
+        }
+
+        console.log(JSON.stringify(contractWithoutDate));
+        try {
+            const response = await fetch('http://localhost:8080/api/contracts/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(contractWithoutDate),
+            });
+            if (!response.ok) throw new Error('Failed update contract');
+            console.log('Contract updated');
+        } catch (error) {
+            console.error(error);
         }
     };
 
@@ -92,7 +121,7 @@ const ContractsModal = ({ contract }: { contract: Contract }) => {
                 ))}
                 </tbody>
             </table>
-            <button onClick={() => console.log('Modal closed')}>Close</button>
+            <button onClick={onClose}>Close</button>
         </div>
     );
 };
