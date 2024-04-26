@@ -13,8 +13,6 @@
     min-height: 0;
 }
 
-
-
 .BS1-grid-container-2{
     vertical-align: middle;
 }
@@ -112,7 +110,6 @@
     min-height: 0;
 }
 
-
 .BSP1-FP-table-1-grid tbody{
     display: grid;
     height: 100%;
@@ -171,7 +168,6 @@
 
     overflow: hidden;
 }
-
 
 .BSP1-FP-table-1-header-div{
     display: grid;

@@ -45,8 +45,6 @@ const IngredientQuantitiesTableRP = ( props: PropTypes) => {
 
     const templateColumnStyle = getTemplateColumns(table.getHeaderGroups()[0]);
 
-    console.log("templateColumnStyle: ", templateColumnStyle)
-
     //Render Table
     return (
             <div className={'BSP1-FP-table-2-grid'}>
