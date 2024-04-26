@@ -7,12 +7,13 @@
     display: grid;
     grid-template-columns: 1fr 2fr;
     column-gap: 40px;
-
     height: 100%;
     width: 100%;
     min-width: 0;
     min-height: 0;
 }
+
+
 
 .BS1-grid-container-2{
     vertical-align: middle;
@@ -27,11 +28,41 @@
     column-gap: 20px;
 }
 
-.border-container{
+.BS1-RHS-container{
     text-align: center;
     padding: 15px;
-    border: 1px solid gray;
+
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 0.8fr;
+
+    column-gap: 20px;
+
+    border: 2px solid #eae7e7;;
     border-radius: 1rem;
+
+    min-height: 0px;
+    min-width: 0px;
+}
+
+.BSP1-RHS-column-1{
+    display: grid;
+    grid-template-rows: 40px 1fr;
+    grid-row-gap: 20px;
+    height: 100%;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+}
+
+.BSP1-RHS-column-2{
+    display: grid;
+    grid-template-rows: 40px 1fr 50px;
+    grid-row-gap: 20px;
+    height: 100%;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
 }
 
 .BSP1-FP-table-1-grid{
@@ -82,8 +113,6 @@
 }
 
 
-
-
 .BSP1-FP-table-1-grid tbody{
     display: grid;
     height: 100%;
@@ -103,12 +132,10 @@
 .BSP1-tr{
     height: 100%;
     width: 100%;
-
     display: grid;
     min-width: 0;
     min-height: 0;
     font-size: 16px;
-
     overflow: hidden;
 }
 
@@ -206,45 +233,15 @@
     min-width: 0;
 }
 
-.FPTable-search-container label{
-    font-weight: bold;
-    font-size: 16px;
-    padding-bottom: 4px;
-    padding-left: 4px;
-}
-
-
-
-.FPTable-content-div tr{
-    width: 100%;
-    max-height: 40px;
-    cursor: pointer;
-}
-
-.FPTable-content-div table{
-    width: 100%;
-    text-align: left;
-    border-collapse: collapse ;
-    background-color: ghostwhite;
-    border-spacing: unset;
-    box-shadow: none;
-}
-
-.FPTable-content-div th, td {
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-}
-
-.start-baking-button{
+.BS1-baking-button{
     font-size: 24px;
     font-weight: bolder;
     background-color: powderblue;
     color: darkslategray;
-    width: 250px;
+    width: 100%;
+    height: 100%;
     padding: 10px;
-    margin-top: 15px;
     border: solid black 1px;
-    border-radius: 1rem;
     border-radius: 0.5rem;
 }
 

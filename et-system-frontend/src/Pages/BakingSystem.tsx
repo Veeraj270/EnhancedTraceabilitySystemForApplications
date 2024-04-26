@@ -5,8 +5,8 @@ import BakingSystemPage2 from "./BakingSystemPage2";
 import BakingSystemPage3 from "./BakingSystemPage3";
 import React from "react";
 import {OrderedFinalProduct} from "./Interfaces/OrderedFinalProduct";
-import IngredientQuantity from "./BakingSystem/BakingSystemInterfaces";
-import FPData from "./BakingSystem/BakingSystemInterfaces";
+import {IngredientQuantity} from "./BakingSystem/BakingSystemInterfaces";
+import {FPData} from "./BakingSystem/BakingSystemInterfaces";
 
 //Interfaces - needs to be moved to its own file
 const BakingSystem =  () => {
@@ -14,7 +14,6 @@ const BakingSystem =  () => {
     const [page, setPage] = useState(1);
 
     //For storing information across pages
-    const [selectedFinalProducts, setSelectedFinalProducts] = useState<OrderedFinalProduct[]>([]);
     const [ingredientsNeeded, setIngredientsNeeded] = useState<IngredientQuantity[]>([]);
     const [finalProductData, setFinalProductData] = useState<FPData[]>([]);
 
@@ -39,27 +38,26 @@ const BakingSystem =  () => {
             .catch(err => console.log(err));
     }, []);
 
-    useEffect(() => {
-        console.log("Final Product Data: ", finalProductData)
-    }, [finalProductData]);
-
-    console.log("BakingSystem.tsx rendered");
-
+    //Render the correct page depending on the value of page state variable
     const renderPage = () => {
         switch (page) {
             case(1):
                 return <BakingSystemPage1
                     finalProductData={finalProductData}
-                    //setSelectedFinalProducts={setSelectedFinalProducts}
-                    //setIngredientsNeeded={setIngredientsNeeded}
-                    //ingredientsNeeded={ingredientsNeeded}
+                    setIngredientsNeeded={setIngredientsNeeded}
+                    setPage={setPage}
                 />
             case(2):
-                return <BakingSystemPage2/>
+                return <BakingSystemPage2
+                    ingredientsNeeded={ingredientsNeeded}
+                    setPage={setPage}
+                />
             case(3):
                 return <BakingSystemPage3/>
         }
     }
+
+    //Render the baking system
     return (
         <div>
             {renderPage()}

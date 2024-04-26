@@ -4,28 +4,26 @@ import IngredientQuantitiesTableRP from "./RecipePageComponents/IngredientQuanti
 import {UsedProduct} from "./Interfaces/UsedProduct";
 import ScannedProductsTable from "./BakingSystem/Page2/ScannedProductsTable";
 import "./BakingSystem/Page2/BS2Stylesheet.css"
-import {IngredientQuantity} from "./Interfaces/IngredientQuantity";
 import {OrderedFinalProduct} from "./Interfaces/OrderedFinalProduct";
 
-const BakingSystemPage2 = () => {
+import {IngredientQuantity} from "./BakingSystem/BakingSystemInterfaces";
 
+interface PropTypes{
+    ingredientsNeeded: IngredientQuantity[],
+    setPage: (page: number) => void
+}
+
+const BakingSystemPage2 = (props : PropTypes) => {
+    //Destructure props
+    const setPage = props.setPage;
+
+    console.log("ingredientsNeeded: ", props.ingredientsNeeded)
+    //State variables
     const [scannedProducts, setScannedProducts] = useState<UsedProduct[]>([])
     const [productID, setProductID] = useState<number>()
     const [weight, setWeight] = useState<number>()
-    const [ingredientsNeeded, setIngredientsNeeded] = useState<IngredientQuantity[]>([])
+    const [ingredientsNeeded, setIngredientsNeeded] = useState<IngredientQuantity[]>(props.ingredientsNeeded)
     const [selectedData, setSelectedData] = useState<OrderedFinalProduct[]>()
-
-    const location = useLocation();
-
-    useEffect(() => {
-        // This is data passed from the first page of the baking system
-        if(location.state && location.state.ingredientsNeeded && location.state.selectedData){
-            setIngredientsNeeded(location.state.ingredientsNeeded)
-            setSelectedData(location.state.selectedData)
-        }else{
-            console.log("No ingredients were passed to this page")
-        }
-    }, [location.state.ingredientsNeeded])
 
     const handleChangeProductID = (event: ChangeEvent<HTMLInputElement>) => {
         setProductID(parseFloat(event.target.value))
@@ -66,12 +64,13 @@ const BakingSystemPage2 = () => {
     const updateTables = (product: UsedProduct) => {
         // Find the ingredient whose quantity needs subtracting
         const ingredientIndex = ingredientsNeeded.findIndex((ing) =>
-            ing.ingredientType?.name === product.product.ingredientType.name
+            ing.ingredientName === product.product.ingredientType.name
         )
+
         // If the ingredient is found update it
         if(ingredientIndex !== -1){
             const newIngredientsNeeded = ingredientsNeeded.map((x: IngredientQuantity) => {
-                if(x.ingredientType?.name === product.product.ingredientType.name){
+                if(x.ingredientName === product.product.ingredientType.name){
                     // If the measured weight is less than the needed quantity - subtract
                     if(x.quantity > product.weight){
                         return {...x, quantity: x.quantity - product.weight}
@@ -83,19 +82,22 @@ const BakingSystemPage2 = () => {
                     return x
                 }
             })
-            // Removing the undefined elements
+          /*  // Removing the undefined elements
             if(newIngredientsNeeded.filter(x => x !== undefined) !== undefined) {
                 const filteredIngredientsNeeded = newIngredientsNeeded.filter(x => x !== undefined)
                 setIngredientsNeeded(filteredIngredientsNeeded)
             } else {
                 setIngredientsNeeded([])
-            }
+            }*/
 
             // Add the fetched product and the weight to the scanned products table data
-            updateScannedProducts({
-                product: product.product,
-                weight: weight
-            })
+            if (weight){
+                updateScannedProducts({
+                    product: product.product,
+                    weight: weight
+                })
+
+            }
 
             setProductID(undefined)
             setWeight(undefined)
@@ -127,14 +129,13 @@ const BakingSystemPage2 = () => {
     }
 
     return (
-        <div className="BS2-page">
+        <div className="page-container">
             <h1 className="BS2-title">Baking System</h1>
             <div className="BS2-grid-container">
                 <div>
-                    <IngredientQuantitiesTableRP
-                        ingredientQuantities={ingredientsNeeded}
-                        height={{height: "500px"}}
-                    />
+                 {   <IngredientQuantitiesTableRP
+                        ingredientTotals={ingredientsNeeded}
+                    />}
                 </div>
                 <div className="weigh-outer-container">
                     <div className="weigh-container">

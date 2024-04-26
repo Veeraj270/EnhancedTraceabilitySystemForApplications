@@ -9,45 +9,27 @@ import './BakingSystem/Page3/BSP3StyleSheet.css'
 import {FPData, IngredientQuantity} from "./BakingSystem/BakingSystemInterfaces";
 
 interface PropTypes{
-    //setSelectedFinalProducts: (selectedFinalProducts: OrderedFinalProduct[]) => void
-    //setIngredientsNeeded: (ingredientsNeeded: IngredientQuantity[]) => void
-    //ingredientsNeeded: IngredientQuantity[];
     finalProductData: FPData[]
+    setPage: (page: number) => void
+    setIngredientsNeeded: (ingredientsNeeded: IngredientQuantity[]) => void
 }
 
 const BakingSystemPage1 = (props : PropTypes) => {
     //Destructure props
-    //const setSelectedFinalProduct = props.setSelectedFinalProducts;
-    //const setIngredientsNeeded = props.setIngredientsNeeded;
-    //const ingredientsNeeded = props.ingredientsNeeded;
-
+    const setPage = props.setPage;
+    const setIngredientsNeeded = props.setIngredientsNeeded;
 
     //State variables
     const [table1Data, setTable1Data] = useState<FPData[]>([])
     const [table2Data, setTable2Data] = useState<FPData[]>([])
     const [table3Data, setTable3Data] = useState<IngredientQuantity[]>([]);
 
-    const [ingredientTotals, setIngredientTotals] = useState<IngredientQuantity[]>([])
-
     useEffect(() => {
         setTable1Data(props.finalProductData)
     }, [props.finalProductData]);
 
-    useEffect(() => {
-        console.log("table2Data: ", table2Data)
-    }, [table2Data]);
-
-    //const [searchData, setSearchData] = useState<OrderedFinalProduct[]>([])
-    //const [selectedData, setSelectedData] = useState<OrderedFinalProduct[]>([])
-    //const [ingredientsNeeded, setIngredientsNeeded] = useState<IngredientQuantity[]>([])
-
-
     //Fetches the ingredients needed for the selected final products
     const fetchIngredientsNeeded = async (finalProductData : FPData[]) => {
-        //Add the finalProductData to the fetch request body
-        console.log(finalProductData);
-
-
         const response = await fetch(`http://localhost:8080/api/finalproducts/get-total-ingredients`, {
             method: 'POST',
             headers: {
@@ -56,23 +38,10 @@ const BakingSystemPage1 = (props : PropTypes) => {
             body: JSON.stringify(finalProductData)
         });
 
-        //Add the finalProductData to the request
         if (!response.ok) {
             throw new Error("Error occurred whilst fetching total ingredients");
         }
         return await response.json();
-    }
-
-    const filterTableData = (data: any) => {
-        // Filtering out the data we need
-        const filteredTableData = data.map((productAndOrder: any) => ({
-            key: productAndOrder.first.id.toString() + productAndOrder.second.id.toString(),
-            customerOrder: productAndOrder.first.id,
-            finalProduct: productAndOrder.second.label,
-            quantity: productAndOrder.second.quantity,
-            finalProductId: productAndOrder.second.id
-        }))
-        return filteredTableData
     }
 
     //When table2Data changes fetch the ingredients required to bake the selected products
@@ -119,16 +88,17 @@ const BakingSystemPage1 = (props : PropTypes) => {
         }
     }
 
-
     const equalsFPData = (fp1: FPData, fp2: FPData) => {
         return fp1.finalProductLabel == fp2.finalProductLabel &&
             fp1.associatedCustomerOrderID == fp2.associatedCustomerOrderID
     }
 
     const startBaking = () => {
-
+        setIngredientsNeeded(table3Data);
+        setPage(2);
     }
 
+    //Render the page
     return (
         <div className="page-container">
             <h1 className='BS1-title'>Baking System</h1>
@@ -141,9 +111,8 @@ const BakingSystemPage1 = (props : PropTypes) => {
                     equalsFPData={equalsFPData}
                 />}
                 </div>
-                <div className={"border-container"}>
-                    <div className={"BS1-grid-container-3"}>
-                        <div className={'BSP1'}>
+                <div className={"BS1-RHS-container"}>
+                        <div className={'BSP1-RHS-column-1'}>
                             <h2>Selected Products</h2>
                             {<SelectedFinalProductsTable
                                 table2Data={table2Data}
@@ -152,13 +121,13 @@ const BakingSystemPage1 = (props : PropTypes) => {
                                 equalsFPData={equalsFPData}
                             />}
                         </div>
-                        <div>
+                        <div className={'BSP1-RHS-column-2'}>
                             <h2>Ingredients needed</h2>
                             {<IngredientQuantitiesTableRP
                                 ingredientTotals={table3Data}
                             />}
+                            <button className={'BS1-baking-button'} onClick={startBaking}>Start Baking</button>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>

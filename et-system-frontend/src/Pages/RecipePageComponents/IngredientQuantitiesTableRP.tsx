@@ -1,7 +1,7 @@
 import React, {useMemo} from "react";
-import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
+import {flexRender, getCoreRowModel, HeaderGroup, useReactTable} from "@tanstack/react-table";
 import '../RecipePageComponents/RPStylesheet.css'
-import {IngredientQuantity} from "../BakingSystem/BakingSystemInterfaces";
+import {FPData, IngredientQuantity} from "../BakingSystem/BakingSystemInterfaces";
 
 
 
@@ -12,7 +12,7 @@ interface PropTypes{
 const IngredientQuantitiesTableRP = ( props: PropTypes) => {
     //Destructure props
     const ingredientTotals = props.ingredientTotals;
-
+    console.log("IngredientTotals: ", props.ingredientTotals)
     //Column definition
     const columns = useMemo(() => [
         {
@@ -34,27 +34,58 @@ const IngredientQuantitiesTableRP = ( props: PropTypes) => {
         getCoreRowModel: getCoreRowModel()
     })
 
+    //For table column formatting
+    const getTemplateColumns = (headerGroup : HeaderGroup<FPData>): string => {
+        let output  = "";
+        headerGroup.headers.forEach(header => {
+            output += `${header.column.getSize()}fr `
+        })
+        return output;
+    }
+
+    const templateColumnStyle = getTemplateColumns(table.getHeaderGroups()[0]);
+
+    console.log("templateColumnStyle: ", templateColumnStyle)
+
     //Render Table
     return (
-            <div className={'RPTable-container'}>
-                <table className={'IGTableRP'}>
-                    <thead>
+            <div className={'BSP1-FP-table-2-grid'}>
+                <div className={'BSP1-FP-table-1-header-div'}>
+                    <table>
                         {table.getHeaderGroups().map(headerGroup => (
-                            <tr key={headerGroup.id}>
-                                {headerGroup.headers.map(header => <th key={header.id} style = {{width: `${header.column.getSize()}%`}}>
-                                    {flexRender(header.column.columnDef.header, header.getContext())}
-                                </th>)}
+                            <tr key={headerGroup.id}
+                                className={'BSP1-tr'}
+                                style={{gridTemplateColumns: templateColumnStyle}}
+                            >
+                                {headerGroup.headers.map(header =>
+                                    <th key={header.id}
+                                        className={'BSP1-th'}>
+                                        {flexRender(header.column.columnDef.header, header.getContext())}
+                                    </th>)}
                             </tr>
                         ))}
-                    </thead>
-                    <tbody>
-                        {table.getCoreRowModel().rows.map(row => (<tr
-                            key={row.id}>
-                            <td style={{width: '50%'}}>{row.original.ingredientName}</td>
-                            <td style={{width: '50%'}}>{row.original.quantity}</td>
-                        </tr>))}
-                    </tbody>
-                </table>
+                    </table>
+                </div>
+                <div className={'BSP1-FP-table-1-rows-div'}>
+                    <table>
+                        <tbody>
+                            {table.getCoreRowModel().rows.map(row =>
+                                (<tr key={row.id}
+                                     className={'BSP1-tr'}
+                                     style={{gridTemplateColumns: templateColumnStyle}}
+                                    >
+                                        {row.getVisibleCells().map(cell => (
+                                            <td key={cell.id}
+                                                className={'BSP1-td'}
+                                            >
+                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                            </td>
+                                        ))}
+                            </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
     )
 }
