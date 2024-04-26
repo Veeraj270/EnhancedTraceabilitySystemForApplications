@@ -40,6 +40,10 @@ public class Product{
 
 	public Product(){}
 
+	public Product(String label){
+		this.label = label;
+	}
+
 	public Product(String label, float maxQuantity, List<Long> intermediaryIds){
 		this.label = label;
 		this.maxQuantity = maxQuantity;
