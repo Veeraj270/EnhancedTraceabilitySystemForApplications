@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/products")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class ProductAPI{
 
 	private final ProductService productService;
@@ -48,7 +48,6 @@ public class ProductAPI{
     }
 
     @GetMapping(path = "/fetch-product-by-id/{id}")
-    @CrossOrigin(origins = "http://localhost:3000")
     public Product getProductById(@PathVariable("id") String id){
         return productService.getProductByID(Long.parseLong(id));
     }

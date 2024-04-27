@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/auto-order")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class AutoOrderAPI {
 
     private final AutoOrderService autoOrderService;

@@ -102,7 +102,7 @@ const CustomerOrdersTable = () => {
         setIsLoading(true);
 
         try {
-            const response = await fetch('http://localhost:8080/api/auto-order/auto-gen-orders', {
+            const response = await fetch('/api/auto-order/auto-gen-orders', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -127,7 +127,7 @@ const CustomerOrdersTable = () => {
     //Calls Confirm on AutoGen API
     const handleConfirm = async () => {
         try {
-            const response = await fetch('http://localhost:8080/api/auto-order/auto-gen-orders/confirm', {
+            const response = await fetch('/api/auto-order/auto-gen-orders/confirm', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -152,7 +152,7 @@ const CustomerOrdersTable = () => {
     //Calls Cancel on AutoGen API
     const handleCancel = async () => {
         try{
-            const response = await fetch('http://localhost:8080/api/auto-order/auto-gen-orders/cancel', {
+            const response = await fetch('/api/auto-order/auto-gen-orders/cancel', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -176,7 +176,7 @@ const CustomerOrdersTable = () => {
 
     const fetchData = async (): Promise<void> => {
         try {
-            const response = await fetch('http://localhost:8080/api/customerorders/fetch');
+            const response = await fetch('/api/customerorders/fetch');
             console.log("Fetch Request!")
             if (!response.ok) {
                 throw new Error("Fetch customerOrders request was not ok");

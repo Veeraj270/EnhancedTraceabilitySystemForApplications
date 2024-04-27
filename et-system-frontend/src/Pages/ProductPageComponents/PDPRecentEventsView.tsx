@@ -50,7 +50,7 @@ const PDPRecentEventsView = ( props: PropType ) =>{
 
     //Fetch timeline history
     const fetchHistory = async (id: number): Promise<any> => {
-        const res = await fetch(`http://localhost:8080/api/products/fetch-product-history/${id}`);
+        const res = await fetch(`/api/products/fetch-product-history/${id}`);
         if (!res.ok){
             throw new Error("fetch-product-history response was not ok")
         }

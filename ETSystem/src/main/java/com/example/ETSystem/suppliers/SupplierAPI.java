@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 @RestController
 @RequestMapping(path = "api/suppliers")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class SupplierAPI {
 
 	private final SupplierRepository supplierRepo;

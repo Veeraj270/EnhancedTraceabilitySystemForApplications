@@ -8,7 +8,7 @@ import java.util.List;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 @RequestMapping(path = "api/recipes")
 public class RecipeAPI {
 

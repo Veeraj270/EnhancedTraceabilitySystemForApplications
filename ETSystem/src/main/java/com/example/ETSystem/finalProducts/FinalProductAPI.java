@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "api/finalproducts")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class FinalProductAPI {
     private final FinalProductService finalProductService;
 
@@ -27,13 +27,11 @@ public class FinalProductAPI {
     }
 
     @GetMapping(path = "/fetch-by-id/{id}")
-    @CrossOrigin(origins = "http://localhost:3000")
     public FinalProduct getFinalProductById(@PathVariable("id") String id){
         return finalProductService.getFinalProductByID(Long.parseLong(id));
     }
 
     @GetMapping(path = "/get-total-ingredients")
-    @CrossOrigin(origins = "https://localhost:3000")
     public List<IngredientQuantity> getTotalIngredients(@RequestParam List<String> idsAndQuantities){
        List<Pair<Long, Integer>> mappedData = idsAndQuantities.stream().map(x -> {
            String[] elements = x.split(";");
