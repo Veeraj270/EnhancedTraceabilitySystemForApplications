@@ -52,24 +52,4 @@ public class MockDataGeneratorTest {
         recipeService = new RecipeService(recipeRepository, ingredientTypeRepository, ingredientQuantityRepository);
         mockDataGenerator = new MockDataGenerator(suppliedGoodRepository, ingredientTypeRepository, ingredientQuantityRepository, supplierService, productService, timelineService, productRepository, recipeService, this.finalProductRepository, this.customerOrderRepository);
     }
-
-    @Test
-    @Transactional
-    public void test() {
-        //Setup
-        mockDataGenerator.generateSuppliedGoods();
-
-        mockDataGenerator.generateMockRecipes();
-
-        List<Recipe> recipesList = recipeRepository.findAll();
-
-        System.out.println("Recipes: " + recipesList);
-
-        //This now works - will fix test later
-    }
-
-    public void test2(){
-        mockDataGenerator.generateAllMockData();
-
-    }
 }

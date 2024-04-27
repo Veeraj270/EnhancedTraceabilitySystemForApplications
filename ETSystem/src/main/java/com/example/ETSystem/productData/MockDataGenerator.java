@@ -348,7 +348,6 @@ public class MockDataGenerator {
 
         TimelineEvent creationEvent = new CreateEvent(ZonedDateTime.now(), cake, CreateEvent.CreateType.BAKED, "Kitchen 1", null);
         timelineService.save(creationEvent);
-
     }
 
     @Transactional

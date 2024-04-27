@@ -24,11 +24,6 @@ public class CustomerOrderAPI {
         return customerOrderService.getCustomerOrders();
     }
 
-    @GetMapping(path = "/fetch-ordered-final-products")
-    public List<Pair<CustomerOrder, FinalProduct>> getOrderedFinalProducts() {
-        return customerOrderService.getOrderedFinalProducts();
-    }
-
     @GetMapping(path= "/fetch-all-fp-data")
     public List<CustomerOrderService.FPData> getFinalProductData(){
         return customerOrderService.getFinalProductData();

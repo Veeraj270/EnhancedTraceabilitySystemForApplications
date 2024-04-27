@@ -26,11 +26,6 @@ public class CustomerOrderService {
         return customerOrderRepository.findAll();
     }
 
-    public List<Pair<CustomerOrder, FinalProduct>> getOrderedFinalProducts(){
-        return getCustomerOrders().stream().flatMap(order -> { return
-            order.getFinalProducts().stream().map(finalProduct -> Pair.of(order, finalProduct));}).collect(Collectors.toList());
-    }
-
     public void addNewCustomerOrder(CustomerOrder customerOrder){
         customerOrderRepository.save(customerOrder);
     }
@@ -69,8 +64,6 @@ public class CustomerOrderService {
 
         return customerOrderRepository.save(existingCustomerOrder);
     }
-
-
 
     public static class FPData {
         public long finalProductID;

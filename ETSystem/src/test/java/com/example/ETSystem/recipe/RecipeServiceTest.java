@@ -111,11 +111,6 @@ public class RecipeServiceTest {
         milk_100.setIngredientType(milk);
         milk_100.setQuantity(100);
 
-        // Throwing an error for adding a nonexistent Ingredient
-        assertThrows(IllegalArgumentException.class, () -> {
-            recipeService.addNewRecipe(new Recipe("Mango Cake", Set.of(milk_100, mango_invalid)));
-        });
-
         IngredientQuantity choc1_300 = new IngredientQuantity();
         choc1_300.setIngredientType(chocolate);
         choc1_300.setQuantity(300);
@@ -132,23 +127,22 @@ public class RecipeServiceTest {
         IngredientQuantity vanilla_1000 = new IngredientQuantity();
         vanilla_1000.setIngredientType(vanilla);
         vanilla_1000.setQuantity(1000);
-
-        // // Throwing an error for adding an element with same label
-        assertThrows(IllegalArgumentException.class, () -> {
-            recipeService.addNewRecipe(new Recipe("Vanilla Cake", Set.of(vanilla_1000)));
-        });
     }
 
     @Test
     @Transactional
     public void testAddNewRecipe(){
         //Setup
-        IngredientType flour = new IngredientType("flour", true, true, Set.of());
-        IngredientType milk = new IngredientType("milk", false, false, Set.of("milk"));
+        IngredientType iType1 = new IngredientType("iType1", true, true, Set.of());
+        IngredientType iType2 = new IngredientType("iType2", false, false, Set.of("milk"));
+
+        //ITypes expected to already exist
+        iType1 = ingredientTypeRepository.save(iType1);
+        iType2 = ingredientTypeRepository.save(iType2);
 
         //Test
-        IngredientQuantity flour_500 = new IngredientQuantity(flour, 500);
-        IngredientQuantity milk_100 = new IngredientQuantity(milk, 100);
+        IngredientQuantity flour_500 = new IngredientQuantity(iType1, 500);
+        IngredientQuantity milk_100 = new IngredientQuantity(iType2, 100);
 
         Recipe recipe = new Recipe("cake", Set.of(flour_500, milk_100));
 

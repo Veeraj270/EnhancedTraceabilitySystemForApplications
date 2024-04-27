@@ -173,41 +173,6 @@ public class customerOrderServiceTest {
 
     @Test
     @Transactional
-    public void testGetOrderedFinalProducts(){
-
-        ArrayList<FinalProduct> finalProducts = new ArrayList<>();
-
-        CustomerOrder order1 = new CustomerOrder("Cafe1", ZonedDateTime.now(), ZonedDateTime.now().plusDays(7), finalProducts);
-
-        order1 = customerOrderRepository.save(order1);
-
-        assertEquals(customerOrderService.getOrderedFinalProducts(), List.of());
-
-        FinalProduct finalProduct1 = new FinalProduct();
-        FinalProduct finalProduct2 = new FinalProduct();
-        FinalProduct finalProduct3 = new FinalProduct();
-
-        ArrayList<FinalProduct> finalProducts2 = new ArrayList<>();
-        finalProducts2.add(finalProduct1);
-        ArrayList<FinalProduct> finalProducts3 = new ArrayList<>();
-        finalProducts3.add(finalProduct2);
-        finalProducts3.add(finalProduct3);
-
-        CustomerOrder order2 = new CustomerOrder("Cafe2", ZonedDateTime.now(), ZonedDateTime.now().plusDays(7), finalProducts2);
-        CustomerOrder order3 = new CustomerOrder("Cafe3", ZonedDateTime.now(), ZonedDateTime.now().plusDays(7), finalProducts3);
-
-        order2 = customerOrderRepository.save(order2);
-
-        assertEquals(customerOrderService.getOrderedFinalProducts(), List.of(Pair.of(order2, finalProduct1)));
-
-        order3 = customerOrderRepository.save(order3);
-
-        assertEquals(customerOrderService.getOrderedFinalProducts(), List.of(Pair.of(order2, finalProduct1), Pair.of(order3, finalProduct2), Pair.of(order3, finalProduct3)));
-
-    }
-
-    @Test
-    @Transactional
     public void testGetFinalProductData(){
         //Setup
         CustomerOrder order1 = new CustomerOrder("order", ZonedDateTime.now(), ZonedDateTime.now().plusDays(7), new ArrayList<>());
@@ -222,10 +187,9 @@ public class customerOrderServiceTest {
 
         //Call method to be tested
         List<CustomerOrderService.FPData> result = customerOrderService.getFinalProductData();
-        System.out.println();
 
 
-        //Check result
+        //Check result - needs doing
 
     }
 

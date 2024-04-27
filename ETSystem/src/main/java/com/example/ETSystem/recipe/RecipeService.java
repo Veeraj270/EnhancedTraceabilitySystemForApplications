@@ -3,6 +3,7 @@ package com.example.ETSystem.recipe;
 import com.example.ETSystem.ingredientType.IngredientType;
 import com.example.ETSystem.ingredientType.IngredientTypeRepository;
 import jakarta.transaction.Transactional;
+import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -37,6 +38,8 @@ public class RecipeService {
     @Transactional
     public Recipe addNewRecipe(Recipe recipe) {
         List<IngredientQuantity> IQs = new ArrayList<>(recipe.getIngredientQuantities());
+
+        //Save the IQs
         Set<IngredientQuantity> sIQs = new HashSet<>();
         for (int i = 0; i < IQs.size(); i++) {
             //Save the IQ
@@ -46,6 +49,7 @@ public class RecipeService {
 
         recipe.setIngredientQuantities(sIQs);
 
+        //Save the recipe
         return recipeRepository.save(recipe);
     }
 }
