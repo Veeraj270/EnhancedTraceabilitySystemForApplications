@@ -73,17 +73,18 @@ public class CustomerOrderService {
 
 
     public static class FPData {
+        public long finalProductID;
         public String finalProductLabel;
         public Integer amount;
         public long associatedCustomerOrderID;
 
-        public FPData(String finalProductLabel, Integer amount, long associatedCustomerOrderID){
+        public FPData(long finalProductID, String finalProductLabel, Integer amount, long associatedCustomerOrderID){
+            this.finalProductID = finalProductID;
             this.finalProductLabel = finalProductLabel;
             this.amount = amount;
             this.associatedCustomerOrderID = associatedCustomerOrderID;
         }
     }
-
 
     public List<FPData> getFinalProductData(){
         List<CustomerOrder> allOrders = customerOrderRepository.findAll();
@@ -105,7 +106,7 @@ public class CustomerOrderService {
                 if (existing.isPresent()){
                     existing.get().amount += 1;
                 } else {
-                    orderFPData.add(new FPData(FP.getLabel(), 1, orderID));
+                    orderFPData.add(new FPData(FP.getId(), FP.getLabel(), 1, orderID));
                 }
             }
             allFPData.addAll(orderFPData);

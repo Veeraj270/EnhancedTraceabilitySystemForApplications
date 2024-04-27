@@ -24,6 +24,27 @@ interface PropTypes{
     selectedFPData: FPData[]
 }
 
+//The expected data formats to be sent to the backend
+interface BakedProduct{
+    amount: number,
+    finalProductId: number,
+    customerOrderId: number,
+}
+
+interface UsedProduct{
+    productId: number,
+    quantityUsed: number,
+    newQuantity: number,
+}
+
+interface BPStruct{
+    usedProducts: UsedProduct[],
+    bakedProducts: BakedProduct[],
+    location: string,
+    userResponsible: string
+}
+
+
 const BakingSystemPage3 = (props : PropTypes) => {
     //Destructure props
     const productsUsed = props.productsUsed;
@@ -45,7 +66,7 @@ const BakingSystemPage3 = (props : PropTypes) => {
                 quantityUsed: product.quantityUsed})
         }
         setTable1Data(temp);
-    }, [productsUsed]);
+    }, []);
 
     useEffect(() => {
         setTable3Data(selectedFPData);
@@ -89,12 +110,13 @@ const BakingSystemPage3 = (props : PropTypes) => {
     const removeProduct = (id: number) => {
         //Find product id in table2Data
         let index = -1;
-        for (let i = 0; i < table1Data.length; i ++){
+        for (let i = 0; i < table2Data.length; i ++){
             if (table2Data[i].id === id){
                 index = i;
                 break;
             }
         }
+
         //Add to table1Data
         setTable1Data([...table1Data,
             {
@@ -122,6 +144,70 @@ const BakingSystemPage3 = (props : PropTypes) => {
 
         //To be implemented during integration of all 3 baking system pages into a single system
 
+        console.log(table3Data);
+        console.log(table2Data);
+
+        //Convert to the expected data format
+        const data = convertToBPStruct();
+
+        console.log("BPStruct: ", data)
+
+        //Send the data to the backend
+        sendToBackend(data).then((res) => {
+            alert("Data submitted successfully")
+        }).catch((error) => {
+            console.error("Error submitting data to the backend: " + error)
+        })
+    }
+
+    const sendToBackend = async (data : BPStruct) => {
+        const res = await fetch("http://localhost:8080/api/baking-system/process-bp-struct", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+
+        const resJSON = await res.json();
+
+        if (!resJSON.ok){
+            alert("Error submitting data to the backend")
+            throw new Error("Error submitting data to the backend")
+        }
+
+        return resJSON
+
+    }
+    const convertToBPStruct = () : BPStruct => {
+        let usedProducts : UsedProduct[] = [];
+        let bakedProducts : BakedProduct[] = [];
+
+        let location = "Bakery";
+        let userResponsible = "Admin";
+
+        for (let product of table2Data){
+            usedProducts.push({
+                productId: product.id,
+                quantityUsed: product.quantityUsed,
+                newQuantity: product.newWeight
+            })
+        }
+
+        for (let FP of table3Data){
+            bakedProducts.push({
+                amount: FP.amount,
+                finalProductId: FP.finalProductID,
+                customerOrderId: FP.associatedCustomerOrderID
+            })
+        }
+
+        return {
+            usedProducts: usedProducts,
+            bakedProducts: bakedProducts,
+            location: location,
+            userResponsible: userResponsible
+        }
     }
 
     //End of temp mock data

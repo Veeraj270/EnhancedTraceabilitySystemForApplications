@@ -2,6 +2,7 @@ import Product from "../Interfaces/Product";
 
 //Final Product Data
 export interface FPData{
+    finalProductID: number,
     finalProductLabel: string,
     amount: number,
     associatedCustomerOrderID: number
