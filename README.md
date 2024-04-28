@@ -118,58 +118,72 @@ The database, frontend, and backend can be started in tandem using Docker Compos
 
 - Docker Engine: <a name="docker-engine">https://docs.docker.com/engine/install/</a>
 
-**Instructions**
+# Developer Instructions
 
-Pull the postgres image:
+When developing, it is advisable to utilise a Docker container for the database and to then manually launch the Java backend and React frontend. This approach enables real-time updates to the frontend whenever modifications are made. Setup instructions for this are below.
 
-```
-docker pull postgres
-```
+**Edit back end properties files**
 
-Create docker network to attatch containers to:
+Navigate to:
 
-```
-docker network create --subnet=172.18.0.0/16 mynet
-```
+`ETSystem/src/java/resources/application.properties`
 
-Create postgres container with the relevant environment variables that is attatched to the mynet network:
+Replace the line:
 
-```
-docker run -d --ip 172.18.0.2 -p 5432:5432 -e POSTGRES_PASSWORD=admin -e POSTGRES_USER=admin -e POSTGRES_DB=etsystemdatabase --name=postgres_con postgres
-```
+`spring.datasource.url=jdbc:postgresql://db/etsystemdatabase`
 
-**Useful docker commands**
+With:
 
-Inspect a container:
+`spring.datasource.url=jdbc:postgresql://localhost:5432/etsystemdatabase`
 
-```
-docker inspect <container>
-```
+**Edit front end package.json**
 
-Remove all containers from docker:
+Navigate to:
 
-```
-docker rm -f $(docker ps -aq)
-```
+`et-system-frontend/src/package.json`
 
-Remove a network from docker:
+Replace the line:
 
-```
-docker network remove <name of network>
-```
+`"proxy": "[http://backend:8080](http://backend:8080/)"`
 
-### Manually Starting Backend
+With:
 
-- Navigate to `./ETSystem`.
-- Clean the build directory and then build the project from scratch:  `./gradlew clean build`.
-- Run ETSystem via: `./gradlew bootRun`.
-- The back end should now be running.
+`"proxy": "http://localhost:8080"`
 
-### Manually Starting the Front-End
+**Note:** These changes will need to reverted when pushing to a branch intended for release.
 
-- Navigate to `./et-system-front-end`.
-- Run `npm install` to install required dependencies.
-- Run `npm start` to start the website.
-- Open `localhost:3000` to access the website.
+**Starting the database:**
 
-A manually started frontend also supports *hot-reloading*: when source files are changed, the website will automatically reload the files and refresh.
+Once docker is installed begin by pulling the postgres image:
+
+`docker pull postgres`
+
+Create a docker network to attach containers to:
+
+`docker network create --subnet=172.18.0.0/16 db`
+
+Create a postgres container to hold the database:
+
+`docker run -d --network=db --ip 172.18.0.2 -p 5432:5432 -e POSTGRES_PASSWORD=admin -e POSTGRES_USER=admin -e POSTGRES_DB=etsystemdatabase --name=postgres_con postgres`
+
+**Starting the backend:**
+
+Navigate to:
+
+`./ETSystem`
+
+Start the backend by entering the command:
+
+`./gradlew bootRun`
+
+**Starting the front end:**
+
+Navigate to:
+
+`./et-system-frontend`
+
+Run `npm instal` to install required dependencies
+
+Run `npm start` to start the frontend
+
+Navigate to `[localhost:3000](http://localhost:3000)` on your chosen web browser to access the website.
