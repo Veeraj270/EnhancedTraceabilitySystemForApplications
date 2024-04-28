@@ -49,22 +49,8 @@ public class FinalProductService {
         existingFinalProduct.setQuantity(finalProduct.getQuantity());
 
         return finalProductRepository.save(existingFinalProduct);
-
     }
 
-   /* public List<IngredientQuantity> getTotalIngredientsById(List<Pair<Long, Integer>> finalProductIds){
-        List<FinalProduct> finalProducts =  finalProductIds.stream()
-                .map(x -> {
-                    FinalProduct finalProduct = this.getFinalProductByID(x.getFirst());
-                    finalProduct.setQuantity(x.getSecond());
-                    return finalProduct;
-                })
-                .toList();
-        return getTotalIngredients(finalProducts);
-    }*/
-
-
-    //Convert the above record into a basic class
     public class IQData{
         public Long ingredientTypeId;
         public String ingredientName;
@@ -75,17 +61,6 @@ public class FinalProductService {
             this.ingredientName = ingredientName;
             this.quantity = quantity;
         }
-
-    }
-
-    public void addIQData(List<IQData> totals, IQData IQ){
-        for (IQData total : totals){
-            if (total.ingredientTypeId == IQ.ingredientTypeId){
-                total.quantity += IQ.quantity;
-                return;
-            }
-        }
-        totals.add(IQ);
     }
 
     public List<IQData> getTotalIngredients(List<CustomerOrderService.FPData> finalProductData){
@@ -118,8 +93,16 @@ public class FinalProductService {
                 addIQData(totals, toAdd);
             }
         }
-
         return totals;
     }
 
+    public void addIQData(List<IQData> totals, IQData IQ){
+        for (IQData total : totals){
+            if (total.ingredientTypeId == IQ.ingredientTypeId){
+                total.quantity += IQ.quantity;
+                return;
+            }
+        }
+        totals.add(IQ);
+    }
 }

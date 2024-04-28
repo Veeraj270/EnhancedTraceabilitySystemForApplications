@@ -1,13 +1,9 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
-import { useLocation } from 'react-router-dom';
+import React, {useState} from 'react';
 import IngredientQuantitiesTableRP from "./RecipePageComponents/IngredientQuantitiesTableRP";
 import ScannedProductsTable from "./BakingSystem/Page2/ScannedProductsTable";
 import "./BakingSystem/Page2/BS2Stylesheet.css"
-import {OrderedFinalProduct} from "./Interfaces/OrderedFinalProduct";
-
 import {IngredientQuantity} from "./BakingSystem/BakingSystemInterfaces";
 import {UsedProduct} from "./BakingSystem/BakingSystemInterfaces";
-import NewWeightWidget from "./BakingSystem/Page3/NewWeightWidget";
 import UseProductWidget from "./BakingSystem/Page2/UseProductWidget";
 
 interface PropTypes{
@@ -82,7 +78,7 @@ const BakingSystemPage2 = (props : PropTypes) => {
 
     //Used by handleSubmit()
     const fetchProduct = async (productID: number) => {
-        const response = await fetch(`http://localhost:8080/api/products/fetch-product-by-id/${productID}`)
+        const response = await fetch(`/api/products/fetch-product-by-id/${productID}`)
         if(!response.ok){
             throw new Error("Error fetching ordered final products")
         }

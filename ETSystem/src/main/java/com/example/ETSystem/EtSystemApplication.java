@@ -38,39 +38,7 @@ public class EtSystemApplication{
 
 	){
 		return args -> {
-            //ingredientMockData.processIngredients();
-            //ingredientQuantityMockData.processIngredientQuantity();
-            //recipeMockData.processRecipes();
-            //finalProductMockData.processFinalProduct();
-            //customerOrderMockData.processCustomerOrder();
-
-			//Generate internal gtin database contents
-
 			mockDataGenerator.generateAllMockData();
-
-			/*//Add some mock planned deliveries to the database - for development purposes
-			for (int x = 0; x < 6; x ++){
-				PlannedDelivery plannedDelivery = new PlannedDelivery("Delivery " + x, "A mock delivery for development purposes", ZonedDateTime.now().plusDays(x));
-				List<DeliveryItem> plannedItems = new ArrayList<>();
-				for (int i = 1; i < 20 ; i ++){
-					DeliveryItem deliveryItem = new DeliveryItem();
-					deliveryItem.setGtin(Long.toString(1000000000000L + i));
-					deliveryItem.setLabel("Item " + i);
-					deliveryItemRepository.save(deliveryItem);
-					plannedItems.add(deliveryItem);
-				}
-				plannedDelivery.setItems(plannedItems);
-				plannedDeliveryRepository.save(plannedDelivery);
-			}
-
-			//Add some mock recorded deliveries to the database - for development purposes
-			for (int x = 1; x < 4; x ++){
-				PlannedDelivery plannedDelivery = new PlannedDelivery("Test-Delivery ", "description",ZonedDateTime.now().plusDays(x - 4));
-				plannedDelivery.setComplete(true);
-				plannedDeliveryRepository.save(plannedDelivery);
-				RecordedDelivery recordedDelivery = new RecordedDelivery(plannedDelivery, Instant.now(), Instant.now().plusSeconds(500), new ArrayList<>());
-				recordedDeliveryRepository.save(recordedDelivery);
-			}*/
 		};
 	}
 }

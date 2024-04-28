@@ -15,33 +15,26 @@ public class FinalProductMockData {
     @Autowired
     private RecipeRepository recipeRepository;
 
-
     public void processFinalProduct() throws Exception{
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode root = objectMapper.readTree(getClass().getResourceAsStream("/MOCK_FINALPRODUCTS.json"));
 
+        for(JsonNode node : root) {
+            String label = node.get("label").asText();
+            float cost = (float)node.get("cost").asDouble();
+            int quantity = node.get("quantity").asInt();
+            long recipeId = node.get("recipe").asLong();
 
-    ObjectMapper objectMapper = new ObjectMapper();
-    JsonNode root = objectMapper.readTree(getClass().getResourceAsStream("/MOCK_FINALPRODUCTS.json"));
+            Recipe recipe = recipeRepository.findById(recipeId)
+                    .orElseThrow(() -> new RuntimeException("RecipeId does not match a recipe"));
 
-    for(JsonNode node : root) {
-        String label = node.get("label").asText();
-        float cost = (float)node.get("cost").asDouble();
-        int quantity = node.get("quantity").asInt();
-        long recipeId = node.get("recipe").asLong();
+            FinalProduct finalProduct = new FinalProduct();
+            finalProduct.setLabel(label);
+            finalProduct.setCost(cost);
+            finalProduct.setQuantity(quantity);
+            finalProduct.setRecipe(recipe);
 
-
-        Recipe recipe = recipeRepository.findById(recipeId)
-                .orElseThrow(() -> new RuntimeException("RecipeId does not match a recipe"));
-
-
-        FinalProduct finalProduct = new FinalProduct();
-        finalProduct.setLabel(label);
-        finalProduct.setCost(cost);
-        finalProduct.setQuantity(quantity);
-        finalProduct.setRecipe(recipe);
-
-        finalProductRepository.save(finalProduct);
-
-
+            finalProductRepository.save(finalProduct);
         }
     }
 }

@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from "react";
 import "./BakingSystem/Page1/BS1Stylesheet.css"
-import {OrderedFinalProduct} from "./Interfaces/OrderedFinalProduct";
 import FinalProductsTable from "./BakingSystem/Page1/FinalProductsTable";
 import SelectedFinalProductsTable from "./BakingSystem/Page1/SelectedFinalProductsTable";
 import IngredientQuantitiesTableRP from "./RecipePageComponents/IngredientQuantitiesTableRP";
-import {Link} from "react-router-dom";
 import './BakingSystem/Page3/BSP3StyleSheet.css'
 import {FPData, IngredientQuantity} from "./BakingSystem/BakingSystemInterfaces";
 
@@ -32,7 +30,7 @@ const BakingSystemPage1 = (props : PropTypes) => {
 
     //Fetches the ingredients needed for the selected final products
     const fetchIngredientsNeeded = async (finalProductData : FPData[]) => {
-        const response = await fetch(`http://localhost:8080/api/finalproducts/get-total-ingredients`, {
+        const response = await fetch(`/api/finalproducts/get-total-ingredients`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

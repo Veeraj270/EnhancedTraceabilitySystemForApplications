@@ -32,7 +32,6 @@ public class FinalProductAPI {
     }
 
     @PostMapping(path = "/get-total-ingredients")
-
     public List<FinalProductService.IQData> getTotalIngredients(@RequestBody List<CustomerOrderService.FPData> finalProductData){
         return finalProductService.getTotalIngredients(finalProductData);
     }

@@ -25,20 +25,4 @@ public class finalProductServiceTest {
         this.finalProductService = finalProductService;
         this.mockDataGenerator = mockDataGenerator;
     }
-
-    //Written for dev purposes - needs finishing later
-    @Test
-    @Transactional
-    public void testGetTotalIngredients(){
-       /* //Setup
-        mockDataGenerator.generateAllMockData();
-
-        CustomerOrderService.FPData fpData = new CustomerOrderService.FPData(,"6 x Ultimate Pistachio", 6, 1);
-        List<CustomerOrderService.FPData> inputData = List.of(fpData);
-        //Test
-        List<FinalProductService.IQData>  result =  finalProductService.getTotalIngredients(inputData);
-
-        System.out.println();
-        //Check results*/
-    }
 }

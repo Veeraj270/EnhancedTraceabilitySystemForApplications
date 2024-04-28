@@ -1,76 +1,36 @@
-import React, {useEffect, useRef, useState} from "react"
+import React, {useEffect, useState} from "react"
 import './BakingSystem/Page3/BSP3StyleSheet.css'
 import ProductsTable from "./BakingSystem/Page3/ProductsTable";
 import UpdatedProductsTable from "./BakingSystem/Page3/UpdatedProductsTable";
 import NewWeightWidget from "./BakingSystem/Page3/NewWeightWidget";
 import ProducedTable from "./BakingSystem/Page3/ProducedTable";
-import {FPData, UsedProduct} from "./BakingSystem/BakingSystemInterfaces";
-
-interface Table1Row{
-    id: number,
-    label: string,
-    quantityUsed: number
-}
-
-interface Table2Row{
-    id: number,
-    label:string,
-    quantityUsed: number
-    newWeight: number
-}
+import {
+    BPStruct, BPStructBP,
+    BPStructUP,
+    FPData,
+    P3Table1Row,
+    P3Table2Row,
+} from "./BakingSystem/BakingSystemInterfaces";
 
 interface PropTypes{
-    productsUsed: UsedProduct[]
+    table1Data: P3Table1Row[]
     selectedFPData: FPData[]
+    processFinished: () => void
 }
-
-//The expected data formats to be sent to the backend
-interface BakedProduct{
-    amount: number,
-    finalProductId: number,
-    customerOrderId: number,
-}
-
-interface UsedProduct{
-    productId: number,
-    quantityUsed: number,
-    newQuantity: number,
-}
-
-interface BPStruct{
-    usedProducts: UsedProduct[],
-    bakedProducts: BakedProduct[],
-    location: string,
-    userResponsible: string
-}
-
 
 const BakingSystemPage3 = (props : PropTypes) => {
     //Destructure props
-    const productsUsed = props.productsUsed;
-    const selectedFPData = props.selectedFPData;
+    const processFinished = props.processFinished;
 
     //State variables
-    const [table1Data, setTable1Data] = useState<Table1Row[]>([]);
-    const [table2Data, setTable2Data] = useState<Table2Row[]>([]);
-    const [table3Data, setTable3Data] = useState<FPData[]>([]);
-
-    const [selectedProduct, setSelectedProduct] = useState<Table1Row | null>(null);
-
-    //UseEffects
-    useEffect(() => {
-        let temp : Table1Row[] = [];
-        for (let product of productsUsed){
-            temp.push({id: product.product.id,
-                label: product.product.label ? product.product.label : "No label",
-                quantityUsed: product.quantityUsed})
-        }
-        setTable1Data(temp);
-    }, []);
+    const [table1Data, setTable1Data] = useState<P3Table1Row[]>(props.table1Data);
+    const [table2Data, setTable2Data] = useState<P3Table2Row[]>([]);
+    const [table3Data, setTable3Data] = useState<FPData[]>(props.selectedFPData);
+    const [selectedProduct, setSelectedProduct] = useState<P3Table1Row | null>(null);
 
     useEffect(() => {
-        setTable3Data(selectedFPData);
-    }, [selectedFPData]);
+        setTable1Data(props.table1Data)
+    }, [props.table1Data]);
 
     const searchUsedItems = (input : string): boolean => {
         for (let row of table1Data){
@@ -132,25 +92,14 @@ const BakingSystemPage3 = (props : PropTypes) => {
     }
 
     const submit = () => {
-        console.log("Submit")
-
         //Check that all items have been updated with new weights
         if (table1Data.length != 0){
             alert("All items must be updated with new weights before submission");
             return;
         }
 
-        //Send the list of updated used items and newly produced items to the backend [need to write the back-end methods first]
-
-        //To be implemented during integration of all 3 baking system pages into a single system
-
-        console.log(table3Data);
-        console.log(table2Data);
-
         //Convert to the expected data format
         const data = convertToBPStruct();
-
-        console.log("BPStruct: ", data)
 
         //Send the data to the backend
         sendToBackend(data).then((res) => {
@@ -158,10 +107,12 @@ const BakingSystemPage3 = (props : PropTypes) => {
         }).catch((error) => {
             console.error("Error submitting data to the backend: " + error)
         })
+
+        processFinished();
     }
 
     const sendToBackend = async (data : BPStruct) => {
-        const res = await fetch("http://localhost:8080/api/baking-system/process-bp-struct", {
+        const res = await fetch("/api/baking-system/process-bp-struct", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -177,11 +128,11 @@ const BakingSystemPage3 = (props : PropTypes) => {
         }
 
         return resJSON
-
     }
+
     const convertToBPStruct = () : BPStruct => {
-        let usedProducts : UsedProduct[] = [];
-        let bakedProducts : BakedProduct[] = [];
+        let usedProducts : BPStructUP[] = [];
+        let bakedProducts : BPStructBP[] = [];
 
         let location = "Bakery";
         let userResponsible = "Admin";
