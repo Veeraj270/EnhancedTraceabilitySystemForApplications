@@ -16,7 +16,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.lang.reflect.Array;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -159,6 +162,8 @@ public class ProductServiceTest {
         Product p8 = productService.addNewProduct(new Product("p8", ing, List.of(p1.getId())));
         Product p9 = productService.addNewProduct(new Product("p9", ing));
 
+        // Test getProducts()
+        assertEquals(productService.getProducts(), productRepository.findAll());
         assertEquals(productService.getProducts(), List.of(p1, p2, p3, p4, p5, p6, p7, p8, p9));
 
     }
@@ -171,14 +176,31 @@ public class ProductServiceTest {
         Product inter1 = productService.addNewProduct(new Product("Inter1"));
         Product inter2 = productService.addNewProduct(new Product("Inter2"));
 
-        Product product = productService.addNewProduct(new Product("Old product", 50, 50));
+        // Added the product to database
+        Product product = productService.addNewProduct(new Product("Old Product", 50, 50));
 
-        Product newProduct = new Product("New product", 100, 100);
-        newProduct.setParentID(parentProduct.getId());
-        newProduct.setIntermediaryIds(List.of(inter1.getId(), inter2.getId()));
+        // Changed the Product
+        product.setLabel("New Product");
+        product.setCurrentQuantity(10);
+        product.setMaxQuantity(10);
+        product.setParentID(parentProduct.getId());
+        // Make sure a mutable list is set otherwise it gives an error
+        product.setIntermediaryIds(new ArrayList<>(List.of(inter1.getId(), inter2.getId())));
 
-        productService.editProduct(product.getId(), newProduct);
-        assertEquals(productService.getProductByID(product.getId()), newProduct);
+        productService.editProduct(product.getId(), product);
+        // Check if the Product is changed in the database
+        assertEquals(productService.getProductByID(product.getId()), product);
+
+    }
+
+    @Test
+    @Transactional
+    public void testGetProductIntermediaries(){
+        Product inter1 = productService.addNewProduct(new Product("Inter1"));
+        Product inter2 = productService.addNewProduct(new Product("Inter2", 10, List.of(inter1.getId())));
+        Product inter3 = productService.addNewProduct(new Product("Inter3", 10, List.of(inter1.getId())));
+
+        Product product = productService.addNewProduct(new Product("Product", 10, List.of(inter2.getId(), inter3.getId())));
 
     }
 

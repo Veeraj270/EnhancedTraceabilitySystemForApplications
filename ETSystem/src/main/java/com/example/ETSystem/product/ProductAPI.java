@@ -25,11 +25,6 @@ public class ProductAPI{
 		return productService.getProducts();
 	}
 
-	@GetMapping(path = "/fetch-product-intermediaries/{id}")
-	public List<Product> getProductIntermediaries(@PathVariable("id") long id){
-		return productService.getProductIntermediaries(id);
-	}
-
 	@GetMapping(path = "/fetch-product-history/{id}")
 	public List<TimelineData> fetchProductHistory(@PathVariable("id") long id){
 		return productService.getProductHistory(id);
