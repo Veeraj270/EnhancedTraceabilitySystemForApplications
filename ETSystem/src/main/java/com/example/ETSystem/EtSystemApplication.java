@@ -1,5 +1,6 @@
 package com.example.ETSystem;
 
+import com.example.ETSystem.contracts.ContractDataGenerator;
 import com.example.ETSystem.ingredientType.IngredientTypeRepository;
 import com.example.ETSystem.productData.SuppliedGoodRepository;
 import com.example.ETSystem.productData.MockDataGenerator;
@@ -26,15 +27,7 @@ public class EtSystemApplication{
 	)
 	@Bean
 	@Autowired
-	CommandLineRunner commandLineRunner(ProductRepository productRepository,
-                                        TimelineService timelineService,
-                                        PlannedDeliveryRepository plannedDeliveryRepository,
-										DeliveryItemRepository deliveryItemRepository,
-										RecordedDeliveryRepository recordedDeliveryRepository,
-										SuppliedGoodRepository suppliedGoodRepository,
-										IngredientTypeRepository ingredientTypeRepository,
-										SupplierService supplierService,
-										MockDataGenerator mockDataGenerator,
+	CommandLineRunner commandLineRunner(MockDataGenerator mockDataGenerator,
                                         ContractDataGenerator contractDataGenerator
 
 
