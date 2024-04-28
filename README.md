@@ -95,6 +95,10 @@ related to the baking process to the backend.
 
 ## Developer Instructions
 
+The system can either be run using *Docker Compose* or manually. Manual running is advised, since it allows for hot-reloading of the frontend and faster restarts overall, but requires more computer-specific setup; running through Docker Compose may be easier, and is more similar to the production environment, but will have slower restarts and is more resource-intensive overall.
+
+### Manually Running
+
 **Prerequisites**
 
 Before you begin, ensure you have met the following requirements:
@@ -103,11 +107,11 @@ Before you begin, ensure you have met the following requirements:
 - You have installed [Gradle](https://gradle.org/install/).
 - You have installed [Docker](https://docs.docker.com/get-docker/).
 - You have installed [Node.js and npm](https://nodejs.org/en/download/).
-- You have a basic understanding of Java, Spring Boot, Kotlin, Gradle, JavaScript, npm, React, and TypeScript.
+- You have a basic understanding of Java, Spring Boot, Gradle, JavaScript, npm, React, and TypeScript.
 
 **Getting Started**
 
-When developing, it is advisable to utilise a Docker container for the database and to then manually launch the Java backend and React frontend. This approach enables real-time updates to the frontend whenever modifications are made. Setup instructions for this are below.
+When developing, it is advisable to utilise a Docker container for the database, though using a system-wide Postgres installation is possible.
 
 **Edit back end properties files**
 
@@ -131,7 +135,7 @@ Navigate to:
 
 Replace the line:
 
-`"proxy": "[http://backend:8080](http://backend:8080/)"`
+`"proxy": "http://backend:8080"`
 
 With:
 
@@ -171,7 +175,86 @@ Run `npm install` to install required dependencies
 
 Run `npm start` to start the frontend
 
-Navigate to `[localhost:3000](http://localhost:3000)` on your chosen web browser to access the website.
+Navigate to [`localhost:3000`](http://localhost:3000) on your chosen web browser to access the website.
+
+### Running via Docker Compose
+
+**Prerequisites**
+
+Before you begin, ensure you have met the following requirements:
+
+- You have installed the latest version of [Java](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html).
+- You have installed [Gradle](https://gradle.org/install/).
+- You have installed [Docker](https://docs.docker.com/get-docker/).
+- You have a basic understanding of Java, Spring Boot, Gradle, JavaScript, npm, React, and TypeScript.
+
+**Running**
+
+Run the commands:
+```shell
+cd ./ETSystem/
+./gradlew bootJar
+cd ../docker/
+docker compose up --build
+```
+
+This may take some time, especially on the first run. After the system finishes starting up, navigate to [`localhost:3000`](http://localhost:3000) on your chosen web browser to access the website.
+
+The database will be wiped on each restart.
+
+### Deployment
+
+We use AWS for deployment:
+- Docker images of the backend and frontend are stored on our Elastic Container Registry (ECR) instance, and automatically pushed by a GitHub workflow.
+- [`ecs-cli`](https://github.com/aws/amazon-ecs-cli) is used to setup a VM cluster to run the containers.
+- `ecs-cli` is then used to deploy our containers, using a modified `docker-compose.yml` along with `ecs-params.yml`.
+
+Assuming you have already authenticated with our AWS account and do not already have a cluster, run the commands:
+```shell
+cd ./docker/aws/
+ecs-cli up --capability-iam --region eu-west-2 --size 2 --instance-type t2.medium
+# Wait...
+ecs-cli compose up
+# Wait...
+ecs-cli compose ps
+```
+
+You may be able to use smaller containers or clusters; these parameters were found via trial and error, with the main limiting factor being the RAM usage of the frontend.
+
+Expect to wait a long time after most `ecs-cli` commands. The final command, `compose ps`, will show you the IP address of your frontend; expect output like:
+```
+Name                                                  State    Ports                         TaskDefinition  Health
+cd-cluster/73466ffbf346486ca81cd24a69a624a4/backend   RUNNING  3.10.203.244:8080->8080/tcp   aws:13          HEALTHY
+cd-cluster/73466ffbf346486ca81cd24a69a624a4/db        RUNNING  3.10.203.244:32768->5432/tcp  aws:13          HEALTHY
+cd-cluster/73466ffbf346486ca81cd24a69a624a4/frontend  RUNNING  3.10.203.244:3000->3000/tcp   aws:13          UNKNOWN
+```
+
+If you're working with a new cluster and not reusing an existing one, you'll need to adjust the security group settings to allow users to connect to the site. The created EC2 VMs share a security group; to this group, add an Inbound Rule that allows TCP traffic from all IP addresses to the ports 3000 and 8080.
+
+To view logs for the servers, open the AWS Consolve, then go to CloudWatch > Log groups > ets > either `frontend/frontend/<hash>`, `backend/backend/<hash>`, or `db/db/<hash>` as appropriate.
+
+To shut down the deployed server, use:
+```shell
+ecs-cli compose down
+```
+
+To shut down the cluster, use:
+```shell
+ecs-cli down
+```
+
+Note that you **do not need to re-create the cluster to update the deployed version**. Assuming the images have been updated, it is sufficient to restart the servers:
+```shell
+ecs-cli compose down
+ecs-cli compose up
+```
+
+Budget usage is dictated by the cluster being up, so take it down while not in use.
+
+To run this on a different AWS account, you will need to:
+- Edit `/aws/docker-compose.yml` to refer to your own container registry.
+- Create an IAM role with the `CloudWatchFullAccessV2` and `AmazonEC2ContainerRegistryFullAccess` permission policies, and either name it `ETS-CD` or modify `ecs-params.yml` to refer to your role's name.
+- For GitHub actions to automatically push to your registry, set up [OpenID Connect](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services) for your AWS account for your repo.
 
 ## Group Members
 
