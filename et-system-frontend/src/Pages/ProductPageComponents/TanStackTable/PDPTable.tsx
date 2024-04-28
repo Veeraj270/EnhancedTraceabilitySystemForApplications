@@ -6,6 +6,8 @@ import {
 
 import React, {useEffect, useMemo, useState} from "react";
 import Product from "../../Interfaces/Product";
+import {Simulate} from "react-dom/test-utils";
+import error = Simulate.error;
 
 
 interface propType{
@@ -39,7 +41,7 @@ const PDPTable = ( props: propType ) => {
                 setTableData(formattedRows);
                 setFilteredTable(formattedRows);
             }
-        )
+        ).catch(err => console.log(err))
     }, [])
 
     useEffect(() => {

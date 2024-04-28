@@ -30,7 +30,7 @@ const BakingSystemPage1 = (props : PropTypes) => {
 
     //Fetches the ingredients needed for the selected final products
     const fetchIngredientsNeeded = async (finalProductData : FPData[]) => {
-        const response = await fetch(`/api/finalproducts/get-total-ingredients`, {
+       /* const response = await fetch(`/api/finalproducts/get-total-ingredients`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -41,7 +41,8 @@ const BakingSystemPage1 = (props : PropTypes) => {
         if (!response.ok) {
             throw new Error("Error occurred whilst fetching total ingredients");
         }
-        return await response.json();
+        return await response.json();*/
+        return [];
     }
 
     //When table2Data changes fetch the ingredients required to bake the selected products
@@ -79,11 +80,12 @@ const BakingSystemPage1 = (props : PropTypes) => {
         const rowIndex = table2Data.findIndex(x => equalsFPData(x, row));
 
         if (rowIndex === -1){
-            setTable2Data(table2Data => {return [...table2Data, {...row, amount: 1}]})
+
+            setTable2Data(prevState => [...prevState, {...row, amount: 1}]);
         }
         else {
             let table2DataCopy = [...table2Data];
-            table2DataCopy[rowIndex].amount += 1;
+            table2DataCopy[rowIndex] = {...table2DataCopy[rowIndex], amount: table2DataCopy[rowIndex].amount + 1};
             setTable2Data(table2DataCopy)
         }
     }

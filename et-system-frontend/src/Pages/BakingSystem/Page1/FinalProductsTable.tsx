@@ -4,9 +4,10 @@ import React from "react";
 import '../Page3/BSP3StyleSheet.css'
 
 import {FPData} from "../BakingSystemInterfaces";
+import {tab} from "@testing-library/user-event/dist/tab";
 
 interface PropTypes{
-    table1Data: FPData[],
+    table1Data: FPData[]
     setTable1Data: (data: FPData[]) => void
     equalsFPData: (fp1: FPData, fp2: FPData) => boolean
     updateTable2Data: (row: FPData) => void
@@ -21,6 +22,13 @@ const FinalProductsTable = (props: PropTypes) => {
 
     //State variables
     const [searchInput, setSearchInput] = useState("");
+    const [filteredTable1Data, setFilteredTable1Data] = useState<FPData[]>([]);
+
+    //Use Effects
+    useEffect(() => {
+        setFilteredTable1Data(table1Data.filter((row: FPData) =>{
+            return row.finalProductLabel.match(searchInput)}));
+    }, [setTable1Data, table1Data, searchInput]);
 
     //Column definitions
     const columns = useMemo(() => [
@@ -55,29 +63,28 @@ const FinalProductsTable = (props: PropTypes) => {
 
     const handleClickPlus = (event: React.MouseEvent, input: any) => {
         const originalRow: FPData = input.original as FPData;
-
+        let newTable1Data: FPData[] = [];
         // If the amount is 1, the row should be removed after clicking the button
         if(originalRow.amount === 1){
-            const newTable1Data = table1Data.filter((row) => !equalsFPData(row, originalRow));
-            setTable1Data(newTable1Data);
+            newTable1Data = table1Data.filter((row) => !equalsFPData(row, originalRow));
         } else {
             // If the amount is more than 1, the amount should be decreased by 1
-            const newTable1Data: FPData[] = table1Data.map((row: FPData) => {
+            newTable1Data = table1Data.map((row: FPData) => {
                 if(equalsFPData(row, originalRow)){
                     return {...row, amount: row.amount - 1};
                 }else{
                     return row;
                 }
             })
-            setTable1Data(newTable1Data);
         }
+        setTable1Data(newTable1Data);
         updateTable2Data(originalRow);
+        console.log("handleClickPlus() complete")
     }
 
-
-    //Will need changing for searching to work again
+    //Table definition
     const table = useReactTable({
-        data: table1Data,
+        data: filteredTable1Data,
         columns: columns,
         getCoreRowModel: getCoreRowModel()
     })
@@ -100,6 +107,7 @@ const FinalProductsTable = (props: PropTypes) => {
             </div>
             <div className={'BSP1-FP-table-1-header-div'}>
                 <table>
+                    <thead>
                     {table.getHeaderGroups().map(headerGroup => (
                         <tr key={headerGroup.id}
                             className={'BSP1-tr'}
@@ -115,6 +123,7 @@ const FinalProductsTable = (props: PropTypes) => {
                             }
                         </tr>
                     ))}
+                    </thead>
                 </table>
             </div>
             <div className={"BSP1-FP-table-1-rows-div"}>
