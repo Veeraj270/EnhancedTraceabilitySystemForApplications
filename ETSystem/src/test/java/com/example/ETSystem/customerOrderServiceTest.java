@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.util.Pair;
 
+import com.example.ETSystem.productData.MockDataGenerator;
+
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,16 +34,18 @@ public class customerOrderServiceTest {
     private final CustomerOrderService customerOrderService;
     private final FinalProductRepository finalProductRepository;
     private final RecipeRepository recipeRepository;
+    private final MockDataGenerator mockDataGenerator;
 
     @Autowired
     public customerOrderServiceTest(CustomerOrderRepository customerOrderRepository,
                                     FinalProductRepository finalProductRepository,
-                                    RecipeRepository recipeRepository
-    ){
+                                    RecipeRepository recipeRepository,
+                                    MockDataGenerator mockDataGenerator){
         this.customerOrderRepository = customerOrderRepository;
         this.customerOrderService = new CustomerOrderService(customerOrderRepository);
         this.finalProductRepository = finalProductRepository;
         this.recipeRepository = recipeRepository;
+        this.mockDataGenerator = mockDataGenerator;
     }
 
     @BeforeAll
@@ -169,36 +173,39 @@ public class customerOrderServiceTest {
 
     @Test
     @Transactional
-    public void testGetOrderedFinalProducts(){
+    public void testGetFinalProductData(){
+        //Setup
+        CustomerOrder order1 = new CustomerOrder("order", ZonedDateTime.now(), ZonedDateTime.now().plusDays(7), new ArrayList<>());
 
-        ArrayList<FinalProduct> finalProducts = new ArrayList<>();
+        mockDataGenerator.generateAllMockData();
 
-        CustomerOrder order1 = new CustomerOrder("Cafe1", ZonedDateTime.now(), ZonedDateTime.now().plusDays(7), finalProducts);
+        AddToOrder(order1, 4, "6 x Ultimate Pistachio");
+        AddToOrder(order1, 6, "12 x Double Chocolate Crookies");
+        AddToOrder(order1, 4, "24 x Rhubarb and Custard Blondie");
+        AddToOrder(order1, 8, "6 x Blueberry Muffins");
+        customerOrderRepository.save(order1);
 
-        order1 = customerOrderRepository.save(order1);
+        //Call method to be tested
+        List<CustomerOrderService.FPData> result = customerOrderService.getFinalProductData();
 
-        assertEquals(customerOrderService.getOrderedFinalProducts(), List.of());
 
-        FinalProduct finalProduct1 = new FinalProduct();
-        FinalProduct finalProduct2 = new FinalProduct();
-        FinalProduct finalProduct3 = new FinalProduct();
+        //Check result - needs doing
 
-        ArrayList<FinalProduct> finalProducts2 = new ArrayList<>();
-        finalProducts2.add(finalProduct1);
-        ArrayList<FinalProduct> finalProducts3 = new ArrayList<>();
-        finalProducts3.add(finalProduct2);
-        finalProducts3.add(finalProduct3);
+    }
 
-        CustomerOrder order2 = new CustomerOrder("Cafe2", ZonedDateTime.now(), ZonedDateTime.now().plusDays(7), finalProducts2);
-        CustomerOrder order3 = new CustomerOrder("Cafe3", ZonedDateTime.now(), ZonedDateTime.now().plusDays(7), finalProducts3);
+    public void AddToOrder(CustomerOrder order, Integer quantity, String label){
+        List<FinalProduct> list =  finalProductRepository.findByLabel(label);
 
-        order2 = customerOrderRepository.save(order2);
+        if (list.size() > 1){
+            throw new RuntimeException("Multiple final products with the same label found");
+        } else if (list.isEmpty()){
+            throw new RuntimeException("No final products with the label found");
+        }
 
-        assertEquals(customerOrderService.getOrderedFinalProducts(), List.of(Pair.of(order2, finalProduct1)));
+        FinalProduct FP = list.get(0);
 
-        order3 = customerOrderRepository.save(order3);
-
-        assertEquals(customerOrderService.getOrderedFinalProducts(), List.of(Pair.of(order2, finalProduct1), Pair.of(order3, finalProduct2), Pair.of(order3, finalProduct3)));
-
+        for (int i = 0; i < quantity; i++){
+            order.getFinalProducts().add(FP);
+        }
     }
 }

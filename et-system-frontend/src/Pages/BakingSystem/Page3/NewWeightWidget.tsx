@@ -1,5 +1,4 @@
-import React, {ChangeEvent, useState} from "react"
-import { FaArrowRight } from "react-icons/fa6";
+import React from "react"
 import Input2 from "./NewWeightWidget/Input2";
 import Input1 from "./NewWeightWidget/Input1";
 import { GiWeight } from "react-icons/gi";

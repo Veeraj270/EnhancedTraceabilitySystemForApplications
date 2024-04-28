@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import java.util.stream.Collectors;
 
 @Component
@@ -22,11 +24,6 @@ public class CustomerOrderService {
 
     public List<CustomerOrder> getCustomerOrders(){
         return customerOrderRepository.findAll();
-    }
-
-    public List<Pair<CustomerOrder, FinalProduct>> getOrderedFinalProducts(){
-        return getCustomerOrders().stream().flatMap(order -> { return
-            order.getFinalProducts().stream().map(finalProduct -> Pair.of(order, finalProduct));}).collect(Collectors.toList());
     }
 
     public void addNewCustomerOrder(CustomerOrder customerOrder){
@@ -68,4 +65,47 @@ public class CustomerOrderService {
         return customerOrderRepository.save(existingCustomerOrder);
     }
 
+    public static class FPData {
+        public long finalProductID;
+        public String finalProductLabel;
+        public Integer amount;
+        public long associatedCustomerOrderID;
+
+        public FPData(long finalProductID, String finalProductLabel, Integer amount, long associatedCustomerOrderID){
+            this.finalProductID = finalProductID;
+            this.finalProductLabel = finalProductLabel;
+            this.amount = amount;
+            this.associatedCustomerOrderID = associatedCustomerOrderID;
+        }
+    }
+
+    public List<FPData> getFinalProductData(){
+        List<CustomerOrder> allOrders = customerOrderRepository.findAll();
+        List<FPData> allFPData = new ArrayList<>();
+
+        for (CustomerOrder order: allOrders){
+            //Get all finalProducts from the order
+            List<FinalProduct> finalProducts = order.getFinalProducts();
+
+            //Get the orders ID
+            long orderID = order.getID();
+
+            List<FPData> orderFPData = new ArrayList<>();
+
+            for (FinalProduct FP : finalProducts){
+                //Search the list to see if the final product is already in the list
+                Optional<FPData> existing = orderFPData.stream().filter(x -> x.finalProductLabel.equals(FP.getLabel())).findFirst();
+
+                if (existing.isPresent()){
+                    existing.get().amount += 1;
+                } else {
+                    orderFPData.add(new FPData(FP.getId(), FP.getLabel(), 1, orderID));
+                }
+            }
+            allFPData.addAll(orderFPData);
+            orderFPData.clear();
+        }
+
+        return allFPData;
+    }
 }

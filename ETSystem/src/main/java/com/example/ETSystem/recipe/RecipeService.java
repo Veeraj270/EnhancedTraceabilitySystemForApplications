@@ -3,10 +3,14 @@ package com.example.ETSystem.recipe;
 import com.example.ETSystem.ingredientType.IngredientType;
 import com.example.ETSystem.ingredientType.IngredientTypeRepository;
 import jakarta.transaction.Transactional;
+import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class RecipeService {
@@ -33,18 +37,20 @@ public class RecipeService {
 
     @Transactional
     public Recipe addNewRecipe(Recipe recipe) {
-        for (IngredientQuantity ingredientQuantity : recipe.getIngredientQuantities()){
-            // Checks if the ingredients of the recipe exist, then adds the recipe
-            List<IngredientType> optionalIngredient = ingredientTypeRepository.findByName(ingredientQuantity.getIngredientType().getName());
-            if (optionalIngredient.isEmpty()){
-                throw new IllegalArgumentException("At least one of the ingredients of the new recipe does not exist.");
-            }
+        List<IngredientQuantity> IQs = new ArrayList<>(recipe.getIngredientQuantities());
+
+        //Save the IQs
+        Set<IngredientQuantity> sIQs = new HashSet<>();
+        for (int i = 0; i < IQs.size(); i++) {
+            //Save the IQ
+            IngredientQuantity IQ = new IngredientQuantity(IQs.get(i).getIngredientType(), IQs.get(i).getQuantity());
+            sIQs.add(ingredientQuantityRepository.save(IQ));
         }
-        if (recipeRepository.findByLabelIgnoreCase(recipe.getLabel()).isPresent()){
-            throw new IllegalArgumentException("A recipe with an identical label already exists.");
-        }
-        this.recipeRepository.save(recipe);
-        return recipe;
+
+        recipe.setIngredientQuantities(sIQs);
+
+        //Save the recipe
+        return recipeRepository.save(recipe);
     }
 }
 

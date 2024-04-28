@@ -4,7 +4,7 @@ import {flexRender, getCoreRowModel, HeaderGroup, useReactTable} from "@tanstack
 interface TableRow{
     id: number,
     label: string,
-    oldWeight: number
+    quantityUsed: number
 }
 
 interface PropTypes{
@@ -30,8 +30,8 @@ const ProductsTable = (props : PropTypes) => {
             size: 60,
         },
         {
-            header: 'Weight',
-            accessorKey: 'oldWeight',
+            header: 'Quantity Used',
+            accessorKey: 'quantityUsed',
             size: 30,
         }
     ],[])
@@ -61,12 +61,12 @@ const ProductsTable = (props : PropTypes) => {
                 <table>
                     {table.getHeaderGroups().map(headerGroup => (
                         <tr key={headerGroup.id}
-                            className={'BSP3-tr'}
+                            className={'BSP1-tr'}
                             style={{gridTemplateColumns: getTemplateColumns(headerGroup)}}
                         >
                             {headerGroup.headers.map(header =>
                                 <th
-                                    className={'BSP3-th'}
+                                    className={'BSP1-th'}
                                     key={header.id}>
                                     {flexRender(header.column.columnDef.header, header.getContext())}
                                 </th>

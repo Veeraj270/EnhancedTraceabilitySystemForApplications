@@ -128,10 +128,14 @@ public class BakingSystemServiceTest {
         IQ = IQRepository.save(IQ);
 
         Recipe recipe = new Recipe("cake", Set.of(IQ), "description");
+        recipeRepository.save(recipe);
+
         FinalProduct finalProduct =  new FinalProduct("5 x cake", 10000, recipe, 5);
+        finalProductRepository.save(finalProduct);
 
         Product ingredient = new Product("flour", 500, 500, iType);
         ingredient = productRepository.save(ingredient);
+
 
         CustomerOrder order = new CustomerOrder("client", ZonedDateTime.now(), ZonedDateTime.now(), List.of(finalProduct));
         order = customerOrderRepository.save(order);
@@ -189,7 +193,7 @@ public class BakingSystemServiceTest {
 
         //CreateBPStruct
         List<UsedProduct> usedProducts = List.of(new UsedProduct(ingredient.getId(), 300, 200));
-        List<BakedProduct> bakedProducts = List.of(new BakedProduct(finalProduct.getId(), order.getID()));
+        List<BakedProduct> bakedProducts = List.of(new BakedProduct(1,finalProduct.getId(), order.getID()));
 
         BPStruct bpStruct = new BakingSystemService.BPStruct(usedProducts, bakedProducts, "kitchen", "user");
 

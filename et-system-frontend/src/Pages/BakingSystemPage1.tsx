@@ -1,150 +1,140 @@
 import React, {useEffect, useState} from "react";
 import "./BakingSystem/Page1/BS1Stylesheet.css"
-import {OrderedFinalProduct} from "./Interfaces/OrderedFinalProduct";
 import FinalProductsTable from "./BakingSystem/Page1/FinalProductsTable";
 import SelectedFinalProductsTable from "./BakingSystem/Page1/SelectedFinalProductsTable";
 import IngredientQuantitiesTableRP from "./RecipePageComponents/IngredientQuantitiesTableRP";
-import {Link} from "react-router-dom";
-import {IngredientQuantity} from "./Interfaces/IngredientQuantity";
+import './BakingSystem/Page3/BSP3StyleSheet.css'
+import {FPData, IngredientQuantity} from "./BakingSystem/BakingSystemInterfaces";
 
-const BakingSystemPage1 = () => {
+interface PropTypes{
+    finalProductData: FPData[]
+    setPage: (page: number) => void
+    setIngredientsNeeded: (ingredientsNeeded: IngredientQuantity[]) => void
+    setSelectedFPData: (selectedFPData: FPData[]) => void
+}
 
-    const [tableData, setTableData] = useState<OrderedFinalProduct[]>([])
-    const [searchData, setSearchData] = useState<OrderedFinalProduct[]>([])
-    const [selectedData, setSelectedData] = useState<OrderedFinalProduct[]>([])
-    const [ingredientsNeeded, setIngredientsNeeded] = useState<IngredientQuantity[]>([])
+const BakingSystemPage1 = (props : PropTypes) => {
+    //Destructure props
+    const setPage = props.setPage;
+    const setIngredientsNeeded = props.setIngredientsNeeded;
+    const setSelectedFPData = props.setSelectedFPData;
 
-    const fetchFinalProducts = async () => {
-        const response = await fetch("/api/customerorders/fetch-ordered-final-products")
-        if(!response.ok){
-            throw new Error("Error fetching ordered final products")
-        }
-        return await response.json();
-    }
+    //State variables
+    const [table1Data, setTable1Data] = useState<FPData[]>([])
+    const [table2Data, setTable2Data] = useState<FPData[]>([])
+    const [table3Data, setTable3Data] = useState<IngredientQuantity[]>([]);
 
-    const fetchIngredientsNeeded = async (idsAndQuantities: {id: number, quantity: number}[]) => {
-        const params = new URLSearchParams();
+    useEffect(() => {
+        setTable1Data(props.finalProductData)
+    }, [props.finalProductData]);
 
-        // Sending the final product(which gives the recipe) and the quantity
-        // so the backend can calculate the needed ingredients
-        idsAndQuantities.forEach(x => {
-            params.append('idsAndQuantities', `${x.id};${x.quantity}`);
+    //Fetches the ingredients needed for the selected final products
+    const fetchIngredientsNeeded = async (finalProductData : FPData[]) => {
+       /* const response = await fetch(`/api/finalproducts/get-total-ingredients`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(finalProductData)
         });
 
-        const response = await fetch(`/api/finalproducts/get-total-ingredients?${params.toString()}`);
         if (!response.ok) {
-            throw new Error("Error fetching total ingredients");
+            throw new Error("Error occurred whilst fetching total ingredients");
         }
-        return await response.json();
+        return await response.json();*/
+        return [];
     }
 
-    const filterTableData = (data: any) => {
-        // Filtering out the data we need
-        const filteredTableData = data.map((productAndOrder: any) => ({
-            key: productAndOrder.first.id.toString() + productAndOrder.second.id.toString(),
-            customerOrder: productAndOrder.first.id,
-            finalProduct: productAndOrder.second.label,
-            quantity: productAndOrder.second.quantity,
-            finalProductId: productAndOrder.second.id
-        }))
-        return filteredTableData
-    }
-
+    //When table2Data changes fetch the ingredients required to bake the selected products
     useEffect(() => {
-        // If there is selected products fetch the ingredients needed for those products
-        if(selectedData !== undefined && selectedData.length > 0) {
-            fetchIngredientsNeeded(selectedData.map(x => ({id: x.finalProductId, quantity: x.quantity}))).then((ingredientsNeededData) => {
-                setIngredientsNeeded(ingredientsNeededData)
-            })
-                .catch((reason) => {
-                    console.error("Error setting ingredients needed data. " + reason)
+        if(table2Data.length > 0) {
+            fetchIngredientsNeeded(table2Data).then((IQData : IngredientQuantity[]) => {
+                setTable3Data(IQData);
+                console.log(IQData)
+            }).catch((err) => {
+                    console.error("Error setting ingredients needed data. " + err)
                 })
         } else{
-            setIngredientsNeeded([])
+            setTable3Data([]);
         }
-    }, [selectedData])
+    }, [table2Data])
 
-    useEffect(() => {
-        fetchFinalProducts().then((finalProductsData) => {
-            const newData = filterTableData(finalProductsData)
-            setTableData(newData)
-            setSearchData(newData)
-        })
-            .catch((reason) => {console.error("Error setting final products data. " + reason)})
-    }, [])
+    //Used by the SelectedFinalProductsTable component to update table1Data
+    const updateTable1Data = (row : FPData) => {
+        //Check if there's a row that matches the row given
+        const rowIndex = table1Data.findIndex(x => equalsFPData(x, row));
 
-    const startBaking = async () => {
-            // By clicking the start baking button, it updates the quantities of the final products in the customer orders
-            // Might need to move it to recipe page 3
-
-            // Because there can be a lot of final products updated, and because the depth of the final product
-            // object is big, just the id's and the quantities are sent to the back-end
-            const finalProducts = selectedData.map(x =>
-                `${x.customerOrder};${x.finalProductId};${x.quantity}`
-            );
-
-            try {
-                const response = await fetch('/api/customerorders/edit-final-products', {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(finalProducts)
-                });
-
-                if (response.ok) {
-                    console.log("The selected customer orders are updated")
-                } else {
-                    alert("Error updating selected customer orders")
-                }
-            } catch (e) {
-                console.log("Error updating selected customer orders: " + e)
-            }
+        if (rowIndex === -1){
+            setTable1Data(table1Data => { return [...table1Data, {...row, amount: 1}]})
+        }
+        else {
+            let table1DataCopy = [...table1Data];
+            table1DataCopy[rowIndex].amount += 1;
+            setTable1Data(table1DataCopy)
+        }
     }
 
+    //Used by the FinalProductsTable component to update the table2Data
+    const updateTable2Data = (row : FPData) => {
+        //Check if there;s a row that matches the given row
+        const rowIndex = table2Data.findIndex(x => equalsFPData(x, row));
+
+        if (rowIndex === -1){
+
+            setTable2Data(prevState => [...prevState, {...row, amount: 1}]);
+        }
+        else {
+            let table2DataCopy = [...table2Data];
+            table2DataCopy[rowIndex] = {...table2DataCopy[rowIndex], amount: table2DataCopy[rowIndex].amount + 1};
+            setTable2Data(table2DataCopy)
+        }
+    }
+
+    const equalsFPData = (fp1: FPData, fp2: FPData) => {
+        return fp1.finalProductLabel == fp2.finalProductLabel &&
+            fp1.associatedCustomerOrderID == fp2.associatedCustomerOrderID
+    }
+
+    const startBaking = () => {
+        setIngredientsNeeded(table3Data);
+        setSelectedFPData(table2Data);
+        setPage(2);
+    }
+
+    //Render the page
     return (
-        <div className="BS1-page">
+        <div className="page-container">
             <h1 className='BS1-title'>Baking System</h1>
             <div className="BS1-grid-container">
                 <div className={"BS1-grid-container-2"}>
-                <FinalProductsTable
-                    rawData={tableData}
-                    setRawData={setTableData}
-                    selectedData={selectedData}
-                    setSelectedData={setSelectedData}
-                    searchData={searchData}
-                    setSearchData={setSearchData}
-                />
+                {<FinalProductsTable
+                    table1Data={table1Data}
+                    setTable1Data={setTable1Data}
+                    updateTable2Data={updateTable2Data}
+                    equalsFPData={equalsFPData}
+                />}
                 </div>
-                <div className={"border-container"}>
-                    <div className={"BS1--grid-container-3"}>
-                        <div>
+                <div className={"BS1-RHS-container"}>
+                        <div className={'BSP1-RHS-column-1'}>
                             <h2>Selected Products</h2>
-                            <SelectedFinalProductsTable
-                                selectedData={selectedData}
-                                setSelectedData={setSelectedData}
-                                nonSelectedData={tableData}
-                                setNonSelectedData={setTableData}
-                                searchData={searchData}
-                                setSearchData={setSearchData}
-                            />
+                            {<SelectedFinalProductsTable
+                                table2Data={table2Data}
+                                setTable2Data={setTable2Data}
+                                updateTable1Data={updateTable1Data}
+                                equalsFPData={equalsFPData}
+                            />}
                         </div>
-                        <div>
+                        <div className={'BSP1-RHS-column-2'}>
                             <h2>Ingredients needed</h2>
-                            <IngredientQuantitiesTableRP
-                                ingredientQuantities={ingredientsNeeded}
-                                height={{height: "393px"}}
-                            />
+                            {<IngredientQuantitiesTableRP
+                                ingredientTotals={table3Data}
+                            />}
+                            <button className={'BS1-baking-button'} onClick={startBaking}>Start Baking</button>
                         </div>
-                    </div>
-                <div>
-                    <Link to={'/baking-system-page-2'} state={{ingredientsNeeded, selectedData}}><button className={'start-baking-button'} onClick={startBaking}>Start baking</button></Link>
-                </div>
                 </div>
             </div>
         </div>
     )
-
 }
 
 export default BakingSystemPage1

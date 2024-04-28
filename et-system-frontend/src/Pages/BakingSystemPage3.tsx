@@ -1,57 +1,36 @@
-import React, {useEffect, useRef, useState} from "react"
+import React, {useEffect, useState} from "react"
 import './BakingSystem/Page3/BSP3StyleSheet.css'
 import ProductsTable from "./BakingSystem/Page3/ProductsTable";
 import UpdatedProductsTable from "./BakingSystem/Page3/UpdatedProductsTable";
 import NewWeightWidget from "./BakingSystem/Page3/NewWeightWidget";
 import ProducedTable from "./BakingSystem/Page3/ProducedTable";
+import {
+    BPStruct, BPStructBP,
+    BPStructUP,
+    FPData,
+    P3Table1Row,
+    P3Table2Row,
+} from "./BakingSystem/BakingSystemInterfaces";
 
-interface Table1Row{
-    id: number,
-    label: string,
-    oldWeight: number
+interface PropTypes{
+    table1Data: P3Table1Row[]
+    selectedFPData: FPData[]
+    processFinished: () => void
 }
 
-interface Table2Row{
-    id: number,
-    label:string,
-    oldWeight: number
-    newWeight: number
-}
+const BakingSystemPage3 = (props : PropTypes) => {
+    //Destructure props
+    const processFinished = props.processFinished;
 
-const BakingSystemPage3 = () => {
-    //Temp mock data
-    const [table1Data, setTable1Data] = useState<Table1Row[]>([])
-    let tempData1 : any[] = []
-    let id = 1
-    for (let i = 0; i < 30; i++) {
-        tempData1.push({
-            id: id + i,
-            label: 'Label',
-            oldWeight: 1
-        })
-    }
-
-    const [table2Data, setTable2Data] = useState<Table2Row[]>([])
-
-    const table3Data = new Array(10).fill({
-        quantity: 1,
-        label: 'Cake'
-    })
-
-    //Temporary
-    const firstRender = useRef(true);
+    //State variables
+    const [table1Data, setTable1Data] = useState<P3Table1Row[]>(props.table1Data);
+    const [table2Data, setTable2Data] = useState<P3Table2Row[]>([]);
+    const [table3Data, setTable3Data] = useState<FPData[]>(props.selectedFPData);
+    const [selectedProduct, setSelectedProduct] = useState<P3Table1Row | null>(null);
 
     useEffect(() => {
-        if (firstRender.current){
-            firstRender.current = false;
-            setTable1Data(tempData1);
-        }
-    }, []);
-
-    //End temp
-
-
-    const [selectedProduct, setSelectedProduct] = useState<Table1Row | null>(null)
+        setTable1Data(props.table1Data)
+    }, [props.table1Data]);
 
     const searchUsedItems = (input : string): boolean => {
         for (let row of table1Data){
@@ -73,12 +52,6 @@ const BakingSystemPage3 = () => {
             }
         }
 
-        //Check if newWeight is less than old weight
-        if (table1Data[index].oldWeight < weight){
-            alert("Entered weight is more than old weight");
-            return false;
-        }
-
         //Add selected product to updated items table
         if (selectedProduct){
             setTable2Data([...table2Data, {...selectedProduct, newWeight: weight}]);
@@ -97,18 +70,19 @@ const BakingSystemPage3 = () => {
     const removeProduct = (id: number) => {
         //Find product id in table2Data
         let index = -1;
-        for (let i = 0; i < table1Data.length; i ++){
+        for (let i = 0; i < table2Data.length; i ++){
             if (table2Data[i].id === id){
                 index = i;
                 break;
             }
         }
+
         //Add to table1Data
         setTable1Data([...table1Data,
             {
                 id: id,
                 label: table2Data[index].label,
-                oldWeight: table2Data[index].oldWeight
+                quantityUsed: table2Data[index].quantityUsed
             }]);
 
         //Remove from table2Data
@@ -118,23 +92,78 @@ const BakingSystemPage3 = () => {
     }
 
     const submit = () => {
-        console.log("Submit")
-
         //Check that all items have been updated with new weights
         if (table1Data.length != 0){
             alert("All items must be updated with new weights before submission");
             return;
         }
 
-        //Send the list of updated used items and newly produced items to the backend [need to write the back-end methods first]
+        //Convert to the expected data format
+        const data = convertToBPStruct();
 
-        //To be implemented during integration of all 3 baking system pages into a single system
+        //Send the data to the backend
+        sendToBackend(data).then((res) => {
+            alert("Data submitted successfully")
+        }).catch((error) => {
+            console.error("Error submitting data to the backend: " + error)
+        })
 
+        processFinished();
+    }
+
+    const sendToBackend = async (data : BPStruct) => {
+        const res = await fetch("/api/baking-system/process-bp-struct", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+
+        const resJSON = await res.json();
+
+        if (!resJSON.ok){
+            alert("Error submitting data to the backend")
+            throw new Error("Error submitting data to the backend")
+        }
+
+        return resJSON
+    }
+
+    const convertToBPStruct = () : BPStruct => {
+        let usedProducts : BPStructUP[] = [];
+        let bakedProducts : BPStructBP[] = [];
+
+        let location = "Bakery";
+        let userResponsible = "Admin";
+
+        for (let product of table2Data){
+            usedProducts.push({
+                productId: product.id,
+                quantityUsed: product.quantityUsed,
+                newQuantity: product.newWeight
+            })
+        }
+
+        for (let FP of table3Data){
+            bakedProducts.push({
+                amount: FP.amount,
+                finalProductId: FP.finalProductID,
+                customerOrderId: FP.associatedCustomerOrderID
+            })
+        }
+
+        return {
+            usedProducts: usedProducts,
+            bakedProducts: bakedProducts,
+            location: location,
+            userResponsible: userResponsible
+        }
     }
 
     //End of temp mock data
     return (
-        <div className={'page-container'}>
+        <div className={'BS2-page-container'}>
             <h1>Baking System - Page 3</h1>
             <div className={'BSP3-description'}>
                 <p>Scan each used item and enter the new weight of the product. Upon submission the newly produced products will be added to the database,
