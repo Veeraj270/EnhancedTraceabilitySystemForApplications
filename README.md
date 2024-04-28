@@ -36,9 +36,51 @@ A simple stock control system that allows users:
   want the Cakesmiths' directors to be able to produce traceability data that can be proven to have not been doctored. Possible
   use case of blockchain technology.
 
+## User Instructions / Features:
+
+To access the website navigate to [url]. Once on the page, the user can navigate between different pages using the LHS menu.
+
+- **Inventory System -** Allows you to search the inventory by product label, ID, or GTIN (if it was a delivered ingredient). You can click on individual
+table rows to bring up details about the product, including a view of the recent events associated with the product.
+
+
+- **Customer Orders Page -** Allows you to view all customer orders, view what the client has ordered for each, and trigger the auto-generation of an
+order to suppliers that includes the ingredients required to bake the ordered products.
+
+
+- **Deliveries System -** It allows you to view all scheduled incoming deliveries and cancel them if needed. You can select deliveries and press
+“process” in order to begin taking in the delivery.
+
+
+- **Take Deliveries Page -** It allows you to view the items expected for delivery. Scan the barcodes of the delivered items and submit the delivery 
+to the backend.
+
+
+- **Recipes System -** Allows the user to view and add recipes to the system.
+
+
+- **Traceability Page -** Allows the user to search for a specific product by its ID. The displayed node-link graph shows what specific products
+were used as ingredients during the baking of the product. When the user selects a specific node on the graph, an event
+history shows on the bottom RHS, which details the events that have occurred in relation to the product in chronological order.
+
+### Baking System
+
+- **Page 1 -** The LHS table shows the baked goods that need baking. The user can select which ones they plan to bake. As the
+user selects cakes, the ingredients required to bake them are added up. Pressing “Start Baking” takes the user to page 2.
+
+
+- **Page 2 -** The user can scan the barcodes of the ingredients they are using and enter the amount of the scanned product
+that they have used. Once all the required ingredients have been weighed out and recorded, the user can press “Finished”
+to take them to page 3.
+
+
+- **Page 3:** Once the user has finished actually baking all of the baked goods, they finish the baking process by selecting
+each ingredient, scanning its barcode, and weighing it so that its new weight can be recorded. Pressing submit triggers the submission of all data 
+related to the baking process to the backend.
+
 ## Tech Stack
 ### Frontend
-- HTML, CSS, JavaScript
+- HTML, CSS, JavaScript, TypeScript
 - React JS
 
 ### Backend
