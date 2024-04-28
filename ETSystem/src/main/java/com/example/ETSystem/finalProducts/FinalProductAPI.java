@@ -1,9 +1,7 @@
 package com.example.ETSystem.finalProducts;
 
-
 import com.example.ETSystem.customerOrders.CustomerOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Pair;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/finalproducts")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class FinalProductAPI {
     private final FinalProductService finalProductService;
 
@@ -26,7 +24,6 @@ public class FinalProductAPI {
     }
 
     @GetMapping(path = "/fetch-by-id/{id}")
-    @CrossOrigin(origins = "http://localhost:3000")
     public FinalProduct getFinalProductById(@PathVariable("id") String id){
         return finalProductService.getFinalProductByID(Long.parseLong(id));
     }
@@ -47,5 +44,4 @@ public class FinalProductAPI {
         FinalProduct editedProduct = finalProductService.editFinalProduct(id, finalProduct);
         return ResponseEntity.ok(editedProduct);
     }
-
 }

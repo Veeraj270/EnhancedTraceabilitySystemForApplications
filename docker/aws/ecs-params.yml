@@ -1,0 +1,28 @@
+version: 1
+task_definition:
+  task_execution_role: ETS-CD
+  services:
+    frontend:
+      essential: true
+      depends_on:
+      - container_name: backend
+        condition: HEALTHY
+    backend:
+      essential: true
+      depends_on:
+      - container_name: db
+        condition: HEALTHY
+      healthcheck:
+        test: ["CMD-SHELL", "echo success"]
+        interval: 5s
+        timeout: 10s
+        retries: 2
+        start_period: 30s
+    db:
+      essential: true
+      healthcheck:
+        test: ["CMD-SHELL", "echo success"]
+        interval: 5s
+        timeout: 10s
+        retries: 2
+        start_period: 30s

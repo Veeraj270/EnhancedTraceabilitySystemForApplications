@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/lookup/barcode")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class BarcodeAPI{
 	private static final List<String> opffLabels = List.of(
 			"generic_name", "generic_name_en",

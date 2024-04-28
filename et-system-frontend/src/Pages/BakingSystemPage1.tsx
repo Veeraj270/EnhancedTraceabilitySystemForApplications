@@ -133,7 +133,6 @@ const BakingSystemPage1 = (props : PropTypes) => {
             </div>
         </div>
     )
-
 }
 
 export default BakingSystemPage1
