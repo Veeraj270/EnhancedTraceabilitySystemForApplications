@@ -1,44 +1,42 @@
 # Enhanced Traceability System
 
-By Izzeldeen Abumatar, Veeraj Bhagwat, Matthew Cudby, and Josif Trenchovski, under mentorship of Tom Burt-Gray.
+## Introduction
 
-## Summary
+The objective of the project it build an enhanced traceability system that allows an industrial baker like [Cakesmiths](https://www.cakesmiths.com/)
+to track the production of their baked goods from their beginnings as delivered ingredients the point of sale. Given the scope of the
+project and the given development time it is a proof of concept rather than a complete application.
 
-The goal of the project is to develop a comprehensive system for the tracking of the production of Cakesmiths baked goods from their beginnings as raw ingredients, to their point of sale, to aid in conforming to the [Government's Standards for Traceability](https://www.food.gov.uk/business-guidance/managing-food-safety#traceability).
 
-## Expectation of Final Product
-The aim is to provide a piece of desktop software that provides accurate tracking of the production process, easy information retrieval, and intuitive visualization on the efficiency of their production lines. Aside from the desktop application, the system will also require an auxiliary platform for the real-time input of data during the production and delivery processes.
+The project was expected to be in direct collaboration with Cakesmiths, however they removed themselves from the 
+University of Bristol Software Engineering Project, for unknown reasons. The project was then continued based of the initial brief they 
+provided. 
 
-The intended use of the software is for warehouse & factory staff to be able to log the delivery of goods to their premises, and then log further information regarding the production & sale of Cakesmiths products. This data will then be available to directors & managers in such a way that they can clearly visualize the provenance of all products and the day to day efficiency of their operations. At most, the only personal data that might be required will be that of email addresses, passwords, and role for the creation of user accounts.
+The system features a web application that consists of an inventory system, customer orders page, deliveries system, take deliveries page,
+recipes system, and traceability page. The system is designed to provide accurate tracking of the production process, easy information retrieval,
+and intuitive visualization on the efficiency of their production lines.
 
-## Minimum Viable Product [MVP]
-A simple stock control system that allows users:
-- Add ingredients to the database.
-- Add products, "produced" from these ingredients into the database.
-- View all products currently on the database
-- Use a basic traceability page, that can search for the intermediary ingredients of a product and list them in a tree diagram
-- View the history of any product conceptualised as a series of **events** in chronological order.
 
-## User Stories
-- As a **warehouse staff member**, I'd like to be able to scan and log the arrival of raw ingredients into the system such
-  that we accurately tracker the inventory from the moment it arrives at our premises.
-- As a **production line baker**, I want a user-friendly interface that allows us to pick from a list of previously defined
-  recipes and log exactly which ingredients were used in the production of the product. I'd like to be able to input data
-  regarding loss and waste during the production process.
-- As a **company director**, I want a system that provides key insights into the efficiency of our production process via
-  intuitive data graphics. Also, I want the system to be able to provide in depth traceability data on any finished product
-  that was produced on our premises.
-- As a **user** across all levels, I want the system to have an intuitive graphical interface that makes for easy navigation
-  and data interpretation thus reducing the risk of human error and improving overall operational efficiency.
-- As a **system administrator**, I want a robust account system with multiple levels of seniority along with robust security
-  features that ensure employees are able to and only able to access features relevant to their role.
-- As a **government employee**, in the case that a batch of Cakesmiths pbitcoinroducts causes members of the public to fall ill, I
-  want the Cakesmiths' directors to be able to produce traceability data that can be proven to have not been doctored. Possible
-  use case of blockchain technology.
+### User Stories
+
+- As a **warehouse staff member**, I’d like to be view incoming deliveries and log the arrival of new ingredients into our warehouse s.t. that we can track and
+record when and what was delivered.
+
+
+- As a **baker**, I want to be able to pick products from a list of what needs to be baked. I then want to be able to record how much of each ingredient I
+used during the production of the selected products.
+
+
+- As a **company director**, I want a system that provides a clear key insights into the efficiency of our production process via intuitive data representation.
+I also want the system to allow for the visualisation of the events tied to any product s.t. I can clearly decipher the series of events that lead to contamination
+in the event that this occurs.
+
+
+- As a **user across all levels**, I want the system to have an intuitive GUI that makes for easy navigation of the system. Thus improving overall operational
+efficiency.
 
 ## User Instructions / Features:
 
-To access the website navigate to [url]. Once on the page, the user can navigate between different pages using the LHS menu.
+To access the website navigate to [url] at which the system is hosted. Once on the page, the user can navigate between different pages using the LHS menu.
 
 - **Inventory System -** Allows you to search the inventory by product label, ID, or GTIN (if it was a delivered ingredient). You can click on individual
 table rows to bring up details about the product, including a view of the recent events associated with the product.
@@ -97,28 +95,17 @@ related to the baking process to the backend.
 
 ## Developer Instructions
 
-### Via Docker Compose
-
-The database, frontend, and backend can be started in tandem using Docker Compose.
-
 **Prerequisites**
 
-- Docker Engine: <a name="docker-engine">https://docs.docker.com/engine/install/</a>
+Before you begin, ensure you have met the following requirements:
 
-**Instructions**
+- You have installed the latest version of [Java](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html).
+- You have installed [Gradle](https://gradle.org/install/).
+- You have installed [Docker](https://docs.docker.com/get-docker/).
+- You have installed [Node.js and npm](https://nodejs.org/en/download/).
+- You have a basic understanding of Java, Spring Boot, Kotlin, Gradle, JavaScript, npm, React, and TypeScript.
 
-- In the `./ETSystem` directory, run `./gradlew bootJar` to build the backend.
-- Start Docker (e.g. via Docker Desktop).
-- In the `./docker/` directory, run `docker compose up`.
-- After initialization, access the website through `localhost:3000`.
-
-### Manually Starting Database
-
-**Prerequisites**
-
-- Docker Engine: <a name="docker-engine">https://docs.docker.com/engine/install/</a>
-
-# Developer Instructions
+**Getting Started**
 
 When developing, it is advisable to utilise a Docker container for the database and to then manually launch the Java backend and React frontend. This approach enables real-time updates to the frontend whenever modifications are made. Setup instructions for this are below.
 
@@ -170,7 +157,7 @@ Create a postgres container to hold the database:
 
 Navigate to:
 
-`./ETSystem`
+`/ETSystem`
 
 Start the backend by entering the command:
 
@@ -178,12 +165,21 @@ Start the backend by entering the command:
 
 **Starting the front end:**
 
-Navigate to:
+Navigate to: `/et-system-frontend`
 
-`./et-system-frontend`
-
-Run `npm instal` to install required dependencies
+Run `npm install` to install required dependencies
 
 Run `npm start` to start the frontend
 
 Navigate to `[localhost:3000](http://localhost:3000)` on your chosen web browser to access the website.
+
+## Group Members
+
+| Member  | Account                                                    |
+|---------|------------------------------------------------------------|
+| Matthew | [@matthewcudby22896](https://github.com/matthewCudby22896) |
+| Veeraj  | [@Veeraj270](https://github.com/Veeraj270)                 |
+| Luna    | [@l-Luna](https://github.com/l-Luna)                       |
+| Luna    | [@qc22435](https://github.com/qc22435)                     | 
+
+Under the mentorship of Tom Burt-Gray.
