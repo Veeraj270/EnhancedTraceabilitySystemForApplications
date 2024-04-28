@@ -15,10 +15,7 @@ public class FinalProductMockData {
     @Autowired
     private RecipeRepository recipeRepository;
 
-
     public void processFinalProduct() throws Exception{
-
-
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode root = objectMapper.readTree(getClass().getResourceAsStream("/MOCK_FINALPRODUCTS.json"));
 
@@ -28,10 +25,8 @@ public class FinalProductMockData {
             int quantity = node.get("quantity").asInt();
             long recipeId = node.get("recipe").asLong();
 
-
             Recipe recipe = recipeRepository.findById(recipeId)
                     .orElseThrow(() -> new RuntimeException("RecipeId does not match a recipe"));
-
 
             FinalProduct finalProduct = new FinalProduct();
             finalProduct.setLabel(label);
@@ -40,8 +35,6 @@ public class FinalProductMockData {
             finalProduct.setRecipe(recipe);
 
             finalProductRepository.save(finalProduct);
-
-
         }
     }
 }

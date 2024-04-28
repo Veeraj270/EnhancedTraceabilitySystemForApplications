@@ -16,7 +16,7 @@ const AddRecipePage = () => {
     })
 
     const fetchIngredientTypes = async () => {
-        const response = await fetch("http://localhost:8080/api/ingredients/fetch-ingredient-types")
+        const response = await fetch("/api/ingredients/fetch-ingredient-types")
         if (!response.ok){
             throw new Error("Error fetching ingredient types")
         }
@@ -53,7 +53,7 @@ const AddRecipePage = () => {
 
         event.preventDefault();
         try {
-            const response = await fetch('http://localhost:8080/api/recipes/add-recipe', {
+            const response = await fetch('/api/recipes/add-recipe', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',

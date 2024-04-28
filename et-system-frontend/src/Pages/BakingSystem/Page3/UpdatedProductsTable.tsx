@@ -4,7 +4,7 @@ import {flexRender, getCoreRowModel, HeaderGroup, useReactTable} from "@tanstack
 interface Table2Row{
     id: number,
     label:string,
-    oldWeight: number
+    quantityUsed: number
     newWeight: number
 }
 
@@ -40,8 +40,8 @@ const UpdatedProductsTable = (props : PropTypes) => {
             size: 50,
         },
         {
-            header: 'Old Weight',
-            accessorKey: 'oldWeight',
+            header: 'Quantity Used',
+            accessorKey: 'quantityUsed',
             size: 10,
         },
         {
@@ -106,7 +106,7 @@ const UpdatedProductsTable = (props : PropTypes) => {
                         >
                             <td className={'BSP3-td'}>{row.original.id}</td>
                             <td className={'BSP3-td'}>{row.original.label}</td>
-                            <td className={'BSP3-td'}>{row.original.oldWeight}</td>
+                            <td className={'BSP3-td'}>{row.original.quantityUsed}</td>
                             <td className={'BSP3-td'}>{row.original.newWeight}</td>
                             <td className={'BSP3-td'}>
                                 <button className={'BSP3-remove-button'} onClick={removeFromTable} data-id={row.original.id}>X</button>

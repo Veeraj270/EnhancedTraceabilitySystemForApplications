@@ -38,12 +38,10 @@ public class Recipe {
     )
     private String label;
 
-    // cascade = CascadeType.ALL makes sure when saving/deleting/... a Recipe object into the db,
-    // the appropriate IngredientQuantity objects are saved/deleted/... as well
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany()
     private Set<IngredientQuantity> ingredientQuantities;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> allergens;
 
     @Column(

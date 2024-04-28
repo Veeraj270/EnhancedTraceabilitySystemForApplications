@@ -27,7 +27,7 @@ const DeliveriesOverviewPage = () => {
 
     //Fetch Functions
     const fetchScheduled = async () => {
-        const response = await fetch('http://localhost:8080/api/deliveries/fetch-unprocessed-planned');
+        const response = await fetch('/api/deliveries/fetch-unprocessed-planned');
         if (!response.ok){
             throw new Error("response from fetch-planned request was not ok");
         }
@@ -35,7 +35,7 @@ const DeliveriesOverviewPage = () => {
     }
 
     const fetchRecorded = async () => {
-        const response = await fetch ('http://localhost:8080/api/deliveries/fetch-recorded');
+        const response = await fetch('/api/deliveries/fetch-recorded');
         if (!response.ok){
             throw new Error("response from fetch-planned request was not ok");
         }
@@ -101,7 +101,7 @@ const DeliveriesOverviewPage = () => {
 
     //Called by "CANCEL" button click handler
     const cancelDelivery = () => {
-        fetch(`http://localhost:8080/api/deliveries/delete-planned-delivery/${selectedPDelivery}`,{
+        fetch(`/api/deliveries/delete-planned-delivery/${selectedPDelivery}`,{
             method: "POST",
             headers: {
                 "Content-type": "application/json; charset=UTF-8"

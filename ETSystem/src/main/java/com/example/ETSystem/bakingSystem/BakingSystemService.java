@@ -113,31 +113,33 @@ public class BakingSystemService {
 
     public record UsedProduct(Long productId, float quantityUsed, float newQuantity){}
 
-    public record BakedProduct(Long finalProductId, Long customerOrderId){}
+    public record BakedProduct(Integer amount, Long finalProductId, Long customerOrderId){}
 
     public record BPStruct(List<UsedProduct> usedProducts,
-                           List<BakedProduct> bakedProduct,
+                           List<BakedProduct> bakedProducts,
                            String location,
                            String userResponsible){}
 
     public void processBPStruct(BPStruct bpStruct){
         List<UsedProduct> usedProducts = bpStruct.usedProducts();
-        List<BakedProduct> bakedProducts = bpStruct.bakedProduct();
+        List<BakedProduct> bakedProducts = bpStruct.bakedProducts();
         List<Long> ingredientIDs = usedProducts.stream().map(UsedProduct::productId).toList();
 
         List<Product> newlyAddedProducts = new ArrayList<>();
 
         for (BakedProduct bakedProduct : bakedProducts){
-            //Find the associated final product
-            FinalProduct finalProduct = finalProductRepository.findById(bakedProduct.finalProductId())
-                    .orElseThrow(() -> new RuntimeException("Final product with id " + bakedProduct.finalProductId() + " not found."));
+            for (int i = 0; i < bakedProduct.amount(); i ++){
+                //Find the associated final product
+                FinalProduct finalProduct = finalProductRepository.findById(bakedProduct.finalProductId())
+                        .orElseThrow(() -> new RuntimeException("Final product with id " + bakedProduct.finalProductId() + " not found."));
 
-            //Check that the associated customerOrder exists
-            CustomerOrder customerOrder = customerOrderRepository.findById(bakedProduct.customerOrderId())
-                    .orElseThrow(() -> new RuntimeException("Customer order with id " + bakedProduct.customerOrderId() + " not found."));
+                //Check that the associated customerOrder exists
+                CustomerOrder customerOrder = customerOrderRepository.findById(bakedProduct.customerOrderId())
+                        .orElseThrow(() -> new RuntimeException("Customer order with id " + bakedProduct.customerOrderId() + " not found."));
 
-            //Create the new product based of the finalProduct
-            newlyAddedProducts.add(bakeProduct(finalProduct, ingredientIDs, bpStruct.location(), bpStruct.userResponsible(), customerOrder));
+                //Create the new product based of the finalProduct
+                newlyAddedProducts.add(bakeProduct(finalProduct, ingredientIDs, bpStruct.location(), bpStruct.userResponsible(), customerOrder));
+            }
         }
 
         for (UsedProduct usedProduct : usedProducts){

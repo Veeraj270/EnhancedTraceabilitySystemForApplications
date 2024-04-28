@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "api/baking-system")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class BakingSystemAPI {
     private final BakingSystemService bakingSystemService;
 

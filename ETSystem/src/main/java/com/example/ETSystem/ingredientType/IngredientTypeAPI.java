@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/ingredients")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class IngredientTypeAPI {
 
 	private final IngredientTypeRepository ingredientTypeRepository;

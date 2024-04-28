@@ -1,148 +1,150 @@
 import {ChangeEvent, useEffect, useMemo, useState} from "react";
-import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
+import {flexRender, getCoreRowModel, HeaderGroup, useReactTable, Row} from "@tanstack/react-table";
 import React from "react";
-import {OrderedFinalProduct} from "../../Interfaces/OrderedFinalProduct";
+import '../Page3/BSP3StyleSheet.css'
 
-// @ts-ignore
-const FinalProductsTable = ({rawData, setRawData, selectedData, setSelectedData, searchData, setSearchData}) => {
+import {FPData} from "../BakingSystemInterfaces";
+import {tab} from "@testing-library/user-event/dist/tab";
 
-    const [searchInput, setSearchInput] = useState("")
+interface PropTypes{
+    table1Data: FPData[]
+    setTable1Data: (data: FPData[]) => void
+    equalsFPData: (fp1: FPData, fp2: FPData) => boolean
+    updateTable2Data: (row: FPData) => void
+}
 
+const FinalProductsTable = (props: PropTypes) => {
+    //Destructure props
+    const table1Data = props.table1Data;
+    const setTable1Data = props.setTable1Data;
+    const equalsFPData = props.equalsFPData;
+    const updateTable2Data = props.updateTable2Data;
+
+    //State variables
+    const [searchInput, setSearchInput] = useState("");
+    const [filteredTable1Data, setFilteredTable1Data] = useState<FPData[]>([]);
+
+    //Use Effects
+    useEffect(() => {
+        setFilteredTable1Data(table1Data.filter((row: FPData) =>{
+            return row.finalProductLabel.match(searchInput)}));
+    }, [setTable1Data, table1Data, searchInput]);
+
+    //Column definitions
     const columns = useMemo(() => [
         {
-            header: "Product",
-            accessorKey: "finalProduct",
-            size: 40
+            header: "Product Label",
+            accessorKey: "finalProductLabel",
+            size: 60
         },
         {
             header: "Quantity",
-            accessorKey: "quantity",
-            size: 20
+            accessorKey: "amount",
+            size: 15
         },
         {
-            header: "Associated order",
-            accessorKey: "customerOrder",
-            size: 20
+            header: "Order ID",
+            accessorKey: "associatedCustomerOrderID",
+            size: 15
+        },
+        {
+            header: "",
+            accessorKey: "actions",
+            size: 10
         }
+
     ], [])
+
 
     const handleChange = (event : ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
         setSearchInput(event.target.value)
     }
 
-    useEffect(() => {
-        if (searchInput.length > 0){
-            setSearchData(rawData.filter((row: OrderedFinalProduct) => {
-                // Searching matches the label of the final product or the order id
-                return row.finalProduct.match(RegExp(searchInput, 'i'))
-                || row.customerOrder.toString().match(searchInput)
-            }))
-        } else{
-            setSearchData(rawData)
-        }
-    }, [searchInput]);
-
-    const updateSelectedData = (rowData : any) => {
-        const indexOfElement = selectedData.findIndex((x: OrderedFinalProduct) => x.key === rowData.key)
-        // If the item is already in the other table it increases the quantity
-        if(indexOfElement !== -1){
-            const newSelectedData = selectedData.map((x: OrderedFinalProduct) => {
-                if(x.key === rowData.key){
-                    return {...x, quantity: x.quantity + 1}
+    const handleClickPlus = (event: React.MouseEvent, input: any) => {
+        const originalRow: FPData = input.original as FPData;
+        let newTable1Data: FPData[] = [];
+        // If the amount is 1, the row should be removed after clicking the button
+        if(originalRow.amount === 1){
+            newTable1Data = table1Data.filter((row) => !equalsFPData(row, originalRow));
+        } else {
+            // If the amount is more than 1, the amount should be decreased by 1
+            newTable1Data = table1Data.map((row: FPData) => {
+                if(equalsFPData(row, originalRow)){
+                    return {...row, amount: row.amount - 1};
                 }else{
-                    return x
+                    return row;
                 }
             })
-            setSelectedData(newSelectedData)
-        } else{
-            // Otherwise it just adds the item to the table
-            if(selectedData.length === 0) {
-                const newSelectedData = selectedData.concat({...rowData, quantity: 1})
-                setSelectedData(newSelectedData)
-            } else {
-                alert("Select one type of product at a time")
-            }
         }
+        setTable1Data(newTable1Data);
+        updateTable2Data(originalRow);
+        console.log("handleClickPlus() complete")
     }
 
-    const handleClickPlus = (event: MouseEvent, row: HTMLTableRowElement) => {
-        const rowData = row.original
-        // If the quantity is 1, the row should be removed after clicking the button
-        if(rowData.quantity === 1){
-            // By filtering out the row that should be removed
-            const newTableData = rawData.filter((x: OrderedFinalProduct) => x.key !== rowData.key)
-            setRawData(newTableData)
-            const newSearchData = rawData.filter((x: OrderedFinalProduct) => x.key !== rowData.key)
-            setSearchData(newSearchData)
-            // Adding the row to the data of the other table
-            updateSelectedData(rowData)
-        }else{
-            // This changes the quantity if the final product that is added
-            // to the selected final products
-            const newData = rawData.map((x: OrderedFinalProduct) => {
-                if(x.key === rowData.key){
-                    return {...x, quantity: x.quantity - 1}
-                }else{
-                    return x
-                }
-            })
-            setRawData(newData)
-            // The same goes for the searched data
-            const newSearchData = searchData.map((x: OrderedFinalProduct) => {
-                if(x.key === rowData.key){
-                    return {...x, quantity: x.quantity - 1}
-                }else{
-                    return x
-                }
-            })
-            setSearchData(newSearchData)
-            updateSelectedData(rowData)
-        }
-    }
-
+    //Table definition
     const table = useReactTable({
-        data: searchData,
+        data: filteredTable1Data,
         columns: columns,
         getCoreRowModel: getCoreRowModel()
     })
 
+    //For table column formatting
+    const getTemplateColumns = (headerGroup : HeaderGroup<FPData>): string => {
+        let output  = "";
+        headerGroup.headers.forEach(header => {
+            output += `${header.column.getSize()}fr `
+        })
+        return output;
+    }
+
+    const templateColumnStyle = getTemplateColumns(table.getHeaderGroups()[0]);
+
     return (
-        <div className={'FPTable-grid'}>
-        <div className={"FPTable-search-container"}>
-            <input placeholder={"Search..."} onChange={handleChange} value={searchInput}/>
-        </div>
-        <div className={"FPTable-content-div"}>
-            <table>
-                <thead>
-                {table.getHeaderGroups().map(headerGroup => (
-                    <tr key={headerGroup.id} >
-                        {headerGroup.headers.map(header => <th
-                            key={header.id} style={{width: `${header.column.getSize()}%`, textAlign: "center"}}>
-                            {flexRender(header.column.columnDef.header, header.getContext())}
-                        </th>)
-                        }
-                        <th></th>
-                    </tr>
-                ))}
-                </thead>
-                <tbody>
-                {table.getCoreRowModel().rows.map(row => (<tr
-                        key={row.id}>
-                        {row.getVisibleCells().map(cell => (
-                            <td style={{width: `${cell.column.getSize()}%`,textAlign:"center"}}>
-                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+        <div className={'BSP1-FP-table-1-grid'}>
+            <div className={"BSP1-FP-table-1-search-div"}>
+                <input placeholder={"Search..."} onChange={handleChange} value={searchInput}/>
+            </div>
+            <div className={'BSP1-FP-table-1-header-div'}>
+                <table>
+                    <thead>
+                    {table.getHeaderGroups().map(headerGroup => (
+                        <tr key={headerGroup.id}
+                            className={'BSP1-tr'}
+                            style={{gridTemplateColumns: getTemplateColumns(headerGroup)}}
+                        >
+                            {headerGroup.headers.map(header =>
+                                <th
+                                    className={'BSP1-th'}
+                                    key={header.id}>
+                                    {flexRender(header.column.columnDef.header, header.getContext())}
+                                </th>
+                            )
+                            }
+                        </tr>
+                    ))}
+                    </thead>
+                </table>
+            </div>
+            <div className={"BSP1-FP-table-1-rows-div"}>
+                <table>
+                    <tbody>
+                    {table.getCoreRowModel().rows.map(row => (
+                        <tr key={row.id}
+                           className={'BSP1-tr'}
+                           style={{gridTemplateColumns: templateColumnStyle}}
+                        >
+                            <td className={'BSP1-td'}>{row.original.finalProductLabel}</td>
+                            <td className={'BSP1-td'}>{row.original.amount}</td>
+                            <td className={'BSP1-td'}>{row.original.associatedCustomerOrderID}</td>
+                            <td className={'BSP1-td'}>
+                                <button onClick={(event) => {handleClickPlus(event, row)}}><b>+</b></button>
                             </td>
-                        ))}
-                    <td style={{textAlign:"center"}}>
-                        <button onClick={(event) => {handleClickPlus(event, row)}}><b>+</b></button>&nbsp;
-                    </td>
-                    </tr>)
-                )
-                }
-                </tbody>
-            </table>
-        </div>
+                        </tr>)
+                    )}
+                    </tbody>
+                </table>
+            </div>
         </div>
     )
 

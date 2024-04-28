@@ -3,6 +3,7 @@ package com.example.ETSystem.ingredientType;
 import com.example.ETSystem.productData.SuppliedGood;
 import com.example.ETSystem.util.Generated;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Fetch;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -24,8 +25,8 @@ public class IngredientType {
 
     @Column(nullable = false)
     private boolean isVegetarian;
-    
-    @ElementCollection
+
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> allergens = new HashSet<>();
 
     //Constructors
@@ -90,7 +91,7 @@ public class IngredientType {
 
     @Override
     public @Generated boolean equals(Object obj){
-	    return this == obj || obj instanceof IngredientType it && it.getId() == this.id;
+	    return this == obj || obj instanceof IngredientType it && it.getId() == this.id && it.getName().equals(this.name);
     }
 
     public @Generated String toString(){

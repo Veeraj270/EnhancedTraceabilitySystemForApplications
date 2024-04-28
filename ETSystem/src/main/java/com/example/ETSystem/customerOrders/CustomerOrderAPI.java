@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/customerorders")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class CustomerOrderAPI {
     private final CustomerOrderService customerOrderService;
 
@@ -24,9 +24,9 @@ public class CustomerOrderAPI {
         return customerOrderService.getCustomerOrders();
     }
 
-    @GetMapping(path = "/fetch-ordered-final-products")
-    public List<Pair<CustomerOrder, FinalProduct>> getOrderedFinalProducts() {
-        return customerOrderService.getOrderedFinalProducts();
+    @GetMapping(path= "/fetch-all-fp-data")
+    public List<CustomerOrderService.FPData> getFinalProductData(){
+        return customerOrderService.getFinalProductData();
     }
 
     @GetMapping(path = "/fetch-by-id/{id}")

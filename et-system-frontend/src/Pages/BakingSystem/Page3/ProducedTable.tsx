@@ -1,13 +1,9 @@
 import React, {useMemo} from "react";
 import {flexRender, getCoreRowModel, HeaderGroup, useReactTable} from "@tanstack/react-table";
-
-interface TableRow{
-    quantity: number,
-    label: string
-}
+import {FPData} from "../BakingSystemInterfaces";
 
 interface PropTypes{
-    products: TableRow[]
+    products: FPData[]
 }
 const ProducedTable = (props : PropTypes) => {
     //Destructure props
@@ -16,15 +12,20 @@ const ProducedTable = (props : PropTypes) => {
     //Define Columns
     const columns = useMemo(() =>[
         {
-            header: 'Quantity',
-            accessorKey: 'quantity',
+            header: 'No.',
+            accessorKey: 'amount',
             size: 20,
         },
         {
             header: 'Label',
-            accessorKey: 'label',
+            accessorKey: 'finalProductLabel',
             size: 80,
         },
+        {
+            header: 'Order ID',
+            accessorKey: 'associatedCustomerOrderID',
+            size: 20
+        }
     ],[])
 
     const table = useReactTable({
@@ -33,7 +34,7 @@ const ProducedTable = (props : PropTypes) => {
         getCoreRowModel: getCoreRowModel(),
     })
 
-    const getTemplateColumns = (headerGroup : HeaderGroup<TableRow>): string => {
+    const getTemplateColumns = (headerGroup : HeaderGroup<FPData>): string => {
         let output  = "";
         headerGroup.headers.forEach(header => {
             output += `${header.column.getSize()}fr `
@@ -55,7 +56,7 @@ const ProducedTable = (props : PropTypes) => {
                     {table.getHeaderGroups().map(headerGroup => (
                         <tr key={headerGroup.id}
                             className={'BSP3-tr'}
-                            style={{gridTemplateColumns: getTemplateColumns(headerGroup)}}
+                            style={{gridTemplateColumns: templateColumnStyle}}
                         >
                             {headerGroup.headers.map(header =>
                                 <th

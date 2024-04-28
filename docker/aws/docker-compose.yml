@@ -1,0 +1,52 @@
+version: '2'
+
+services:
+  frontend:
+    image: 992382812807.dkr.ecr.eu-west-2.amazonaws.com/ets-frontend:latest
+    mem_limit: 1500m
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    links:
+      - backend
+    logging:
+      driver: awslogs
+      options:
+         awslogs-group: ets
+         awslogs-region: eu-west-2
+         awslogs-stream-prefix: frontend
+  backend:
+    image: 992382812807.dkr.ecr.eu-west-2.amazonaws.com/ets-backend:latest
+    mem_limit: 1024m
+    depends_on:
+      - db
+    links:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
+      - SPRING_DATASOURCE_USERNAME=compose-postgres
+      - SPRING_DATASOURCE_PASSWORD=compose-postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+    ports:
+      - "8080:8080"
+    logging:
+      driver: awslogs
+      options:
+         awslogs-group: ets
+         awslogs-region: eu-west-2
+         awslogs-stream-prefix: backend
+  db:
+    image: 'postgres:13.1-alpine'
+    mem_limit: 1024m
+    environment:
+      - POSTGRES_USER=compose-postgres
+      - POSTGRES_PASSWORD=compose-postgres
+    ports:
+      - "5432"
+    logging:
+      driver: awslogs
+      options:
+         awslogs-group: ets
+         awslogs-region: eu-west-2
+         awslogs-stream-prefix: db

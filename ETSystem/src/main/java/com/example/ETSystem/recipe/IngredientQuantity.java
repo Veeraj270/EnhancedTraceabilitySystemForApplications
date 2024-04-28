@@ -17,9 +17,7 @@ public class IngredientQuantity {
     )
     private Long id;
 
-    // CascadeType.MERGE connects the object with the appropriate Ingredient
-    // One Ingredient object can be merged with many IngredientQuantity objects
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @ManyToOne
     private IngredientType ingredientType;
 
     @Column
@@ -38,7 +36,9 @@ public class IngredientQuantity {
         if (o == null || getClass() != o.getClass()) return false;
 
         IngredientQuantity that = (IngredientQuantity) o;
-        return Objects.equals(this.getQuantity(), that.getQuantity()) && Objects.equals(this.getIngredientType(), that.getIngredientType()) && this.getId() == that.getId();
+        return  this.getId() == that.getId() &&
+                this.getIngredientType().equals(that.getIngredientType()) &&
+                this.getQuantity() == that.getQuantity();
     }
 
     @Override
@@ -58,7 +58,7 @@ public class IngredientQuantity {
         return ingredientType;
     }
 
-    public @Generated void setIngredient(IngredientType ingredientType) { this.ingredientType = ingredientType; }
+    public @Generated void setIngredientType(IngredientType ingredientType) { this.ingredientType = ingredientType; }
 
     public @Generated float getQuantity() { return quantity; }
 

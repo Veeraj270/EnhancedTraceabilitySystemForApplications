@@ -1,18 +1,15 @@
 package com.example.ETSystem.finalProducts;
 
-
-import com.example.ETSystem.recipe.IngredientQuantity;
+import com.example.ETSystem.customerOrders.CustomerOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Pair;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "api/finalproducts")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class FinalProductAPI {
     private final FinalProductService finalProductService;
 
@@ -27,19 +24,13 @@ public class FinalProductAPI {
     }
 
     @GetMapping(path = "/fetch-by-id/{id}")
-    @CrossOrigin(origins = "http://localhost:3000")
     public FinalProduct getFinalProductById(@PathVariable("id") String id){
         return finalProductService.getFinalProductByID(Long.parseLong(id));
     }
 
-    @GetMapping(path = "/get-total-ingredients")
-    @CrossOrigin(origins = "https://localhost:3000")
-    public List<IngredientQuantity> getTotalIngredients(@RequestParam List<String> idsAndQuantities){
-       List<Pair<Long, Integer>> mappedData = idsAndQuantities.stream().map(x -> {
-           String[] elements = x.split(";");
-           return Pair.of(Long.parseLong(elements[0]), Integer.parseInt(elements[1]));
-       }).toList();
-       return finalProductService.getTotalIngredientsById(mappedData);
+    @PostMapping(path = "/get-total-ingredients")
+    public List<FinalProductService.IQData> getTotalIngredients(@RequestBody List<CustomerOrderService.FPData> finalProductData){
+        return finalProductService.getTotalIngredients(finalProductData);
     }
 
     @PostMapping(path = "/add")
@@ -53,5 +44,4 @@ public class FinalProductAPI {
         FinalProduct editedProduct = finalProductService.editFinalProduct(id, finalProduct);
         return ResponseEntity.ok(editedProduct);
     }
-
 }

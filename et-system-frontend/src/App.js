@@ -18,6 +18,7 @@ import BakingSystemPage1 from "./Pages/BakingSystemPage1";
 import BakingSystemPage2 from "./Pages/BakingSystemPage2";
 import TracePage from "./Pages/TracePage";
 import BakingSystemPage3 from "./Pages/BakingSystemPage3";
+import BakingSystem from "./Pages/BakingSystem";
 
 function App() {
     return (
@@ -51,6 +52,7 @@ function App() {
                     </Route>
                     <Route path={"baking-system-page-2"} element={<BakingSystemPage2/>}>
                     </Route>
+                    <Route path={"/baking-system"} element={<BakingSystem/>}></Route>
                 </Routes>
             </div>
         </Router>

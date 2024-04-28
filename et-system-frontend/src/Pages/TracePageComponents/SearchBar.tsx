@@ -34,7 +34,7 @@ const SearchBar = (props : PropTypes) => {
     }
 
     const fetchTraceData = async (id : string) => {
-        const res = await fetch(`http://localhost:8080/api/products/fetch-trace-data/${id}`);
+        const res = await fetch(`/api/products/fetch-trace-data/${id}`);
         if (!res.ok){
             throw new Error("fetch-trace-data response was not ok")
         }

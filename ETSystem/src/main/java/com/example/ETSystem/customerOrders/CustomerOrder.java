@@ -50,7 +50,7 @@ public class CustomerOrder {
 
     private ZonedDateTime deliveryDate;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "customerOrder_Id")
     private List<FinalProduct> finalProducts = new ArrayList<>();
 
@@ -65,7 +65,7 @@ public class CustomerOrder {
     }
 
     //Getters
-    public @Generated long getID(){ return id; }
+    public @Generated Long getID(){ return id; }
 
     public @Generated String getClient() {
         return client;
@@ -101,4 +101,5 @@ public class CustomerOrder {
     public @Generated void setDeliveryDate(ZonedDateTime deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
+
 }

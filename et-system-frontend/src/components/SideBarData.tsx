@@ -15,12 +15,6 @@ export const SideBarData = [
         cName: 'nav-text'
     },
     {
-        title: 'Bake',
-        path: '/baking-system-1',
-        icon: <MdBakeryDining/>,
-        cName: 'nav-text'
-    },
-    {
         title: 'Inventory',
         path: '/products',
         icon: <GiWoodenCrate/>,
@@ -45,14 +39,8 @@ export const SideBarData = [
         cName: 'nav-text'
     },
     {
-        title: 'Add Products',
-        path: '/add',
-        icon: <FaPlus/>,
-        cName: 'nav-text'
-    },
-    {
-        title: 'BS - Page 3',
-        path: '/baking-system-page-3',
+        title: 'Baking System',
+        path: '/baking-system',
         icon: <FaPlus/>,
         cName: 'nav-text'
     }
