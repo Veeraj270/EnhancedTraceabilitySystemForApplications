@@ -6,7 +6,7 @@ import {
 
 import React, {useEffect, useMemo, useState} from "react";
 import Product from "../../Interfaces/Product";
-import searchBar from "../../TracePageComponents/SearchBar";
+
 
 interface propType{
     setSelected: (n : any) => void;
@@ -102,7 +102,7 @@ const PDPTable = ( props: propType ) => {
 
     //Fetch all products from the product repo
     const fetchRawData = async () => {
-        const res = await fetch("http://localhost:8080/api/products/fetch-products")
+        const res = await fetch("/api/products/fetch-products")
         if (!res.ok){
             throw new Error("fetch-products response was not ok")
         }

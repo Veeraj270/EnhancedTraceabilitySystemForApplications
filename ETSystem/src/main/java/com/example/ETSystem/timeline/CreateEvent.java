@@ -1,6 +1,8 @@
 package com.example.ETSystem.timeline;
 
 import com.example.ETSystem.product.Product;
+import com.example.ETSystem.util.Generated;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
@@ -20,48 +22,103 @@ public non-sealed class CreateEvent implements TimelineEvent{
 	@JoinColumn(name = "owner", nullable = false)
 	private Product owner;
 	
+	@Enumerated
+	private CreateType createType;
+	
+	@Column(nullable = true)
+	private String location;
+	
+	@Column(nullable = true)
+	private String userResponsible;
+	
 	public CreateEvent(){
 	}
 	
-	public CreateEvent(ZonedDateTime timestamp, Product owner){
+	public CreateEvent(ZonedDateTime timestamp, Product owner, CreateType createType, String location, String userResponsible){
 		this.timestamp = timestamp;
 		this.owner = owner;
+		this.createType = createType;
+		this.location = location;
+		this.userResponsible = userResponsible;
 	}
 	
-	public long getId(){
+	public @Generated long getId(){
 		return id;
 	}
 	
-	public void setId(long id){
+	public @Generated void setId(long id){
 		this.id = id;
 	}
 	
-	public ZonedDateTime getTimestamp(){
+	public @Generated ZonedDateTime getTimestamp(){
 		return timestamp;
 	}
 	
-	public void setTimestamp(ZonedDateTime timestamp){
+	public @Generated void setTimestamp(ZonedDateTime timestamp){
 		this.timestamp = timestamp;
 	}
 	
-	public Product getOwner(){
+	public @Generated Product getOwner(){
 		return owner;
 	}
 	
-	public void setOwner(Product owner){
+	public @Generated void setOwner(Product owner){
 		this.owner = owner;
 	}
-
-	public String toString(){
-		return "CreateEvent[id=" + id + ", ownerId=" + owner.getId() + ", timestamp=" + timestamp + "]";
+	
+	public @Generated CreateType getCreateType(){
+		return createType;
 	}
 	
-	public boolean equals(Object o){
-		return this == o ||
-				o instanceof CreateEvent event && id == event.id && timestamp == event.timestamp && Objects.equals(owner, event.owner);
+	public @Generated void setCreateType(CreateType type){
+		this.createType = type;
 	}
 	
-	public int hashCode(){
-		return Objects.hash(id, timestamp, owner);
+	@Nullable
+	public @Generated String getLocation(){
+		return location;
+	}
+	
+	public @Generated void setLocation(@Nullable String location){
+		this.location = location;
+	}
+	
+	public @Generated String getUserResponsible(){
+		return userResponsible;
+	}
+	
+	public @Generated void setUserResponsible(String userResponsible){
+		this.userResponsible = userResponsible;
+	}
+	
+	public TimelineData asData(){
+		TimelineData td = TimelineEvent.super.asData();
+		td.data().put("createType", createType.name());
+		if(location != null)
+			td.data().put("location", location);
+		return td;
+	}
+	
+	public @Generated String toString(){
+		return "CreateEvent[id=" + id + ", ownerId=" + owner.getId() + ", timestamp=" + timestamp + ", userResponsible=" + userResponsible + "]";
+	}
+	
+	public @Generated boolean equals(Object o){
+		return this == o
+				|| o instanceof CreateEvent event
+				&& id == event.id
+				&& Objects.equals(timestamp, event.timestamp)
+				&& Objects.equals(owner, event.owner)
+				&& Objects.equals(createType, event.createType)
+				&& Objects.equals(location, event.location)
+				&& Objects.equals(userResponsible, event.userResponsible);
+	}
+	
+	public @Generated int hashCode(){
+		return Objects.hash(id, timestamp, owner, createType, location, userResponsible);
+	}
+	
+	public enum CreateType{
+		DELIVERED, BAKED
 	}
 }

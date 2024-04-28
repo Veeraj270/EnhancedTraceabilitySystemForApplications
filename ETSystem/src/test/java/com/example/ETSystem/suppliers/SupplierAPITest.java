@@ -9,12 +9,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.TestPropertySource;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -38,7 +37,7 @@ public class SupplierAPITest {
 	void testRoundTrip(){
 		Supplier testSupplier = new Supplier("testing supplier", new ArrayList<>());
 
-		IngredientType eggsType = ingredientTypeAPI.addIngredientType(new IngredientType("Eggs", true, true, false));
+		IngredientType eggsType = ingredientTypeAPI.addIngredientType(new IngredientType("Eggs", true, false, Set.of("egg")));
 		SuppliedGood inEggsGood = new SuppliedGood("1653317388987","brown-eggs-20-units", eggsType, 20F, "units", 0);
 
 		supplierService.AddGoodToSupplier(testSupplier, inEggsGood);
@@ -69,9 +68,9 @@ public class SupplierAPITest {
 		Supplier testSupplier = new Supplier("testing supplier", new ArrayList<>());
 
 		// ingredient types to search by
-		IngredientType uniqA = ingredientTypeAPI.addIngredientType(new IngredientType("Unique A", false, false, false)),
-				uniqB = ingredientTypeAPI.addIngredientType(new IngredientType("Unique B", false, false, false)),
-				unobtainable = ingredientTypeAPI.addIngredientType(new IngredientType("Unobtainium", false, false, false));
+		IngredientType uniqA = ingredientTypeAPI.addIngredientType(new IngredientType("Unique A", false, false, Set.of())),
+				uniqB = ingredientTypeAPI.addIngredientType(new IngredientType("Unique B", false, false, Set.of())),
+				unobtainable = ingredientTypeAPI.addIngredientType(new IngredientType("Unobtainium", false, false, Set.of()));
 		
 		// goods with different types
 		SuppliedGood likeA1 = supplierService.AddGoodToSupplier(testSupplier, new SuppliedGood("0000000000000","A-like 1", uniqA, 10F, "kg", 0)),

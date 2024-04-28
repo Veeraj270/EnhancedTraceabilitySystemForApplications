@@ -1,14 +1,16 @@
 package com.example.ETSystem.customerOrders;
 
 
-import com.example.ETSystem.productData.Exceptions.ProductNotFoundException;
+import com.example.ETSystem.finalProducts.FinalProduct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
-import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import java.util.stream.Collectors;
 
 @Component
 public class CustomerOrderService {
@@ -47,4 +49,63 @@ public class CustomerOrderService {
         return customerOrderRepository.save(existingCustomerOrder);
     }
 
+    public CustomerOrder editCustomerOrderFinalProducts(Long id, Pair<Long, Integer> newFinalProductData){
+        CustomerOrder existingCustomerOrder = customerOrderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Customer order not found with id: " + id));
+        List<FinalProduct> existingFinalProducts = existingCustomerOrder.getFinalProducts();
+        existingFinalProducts.stream().map(finalProduct -> {
+            // I use findFirst() because there can't be 2 final products with the same id
+            if(newFinalProductData.getFirst() == finalProduct.getId()){
+                finalProduct.setQuantity(finalProduct.getQuantity() - newFinalProductData.getSecond());
+            }
+            return finalProduct;
+        }).collect(Collectors.toList());
+        existingCustomerOrder.setFinalProducts(existingFinalProducts);
+
+        return customerOrderRepository.save(existingCustomerOrder);
+    }
+
+    public static class FPData {
+        public long finalProductID;
+        public String finalProductLabel;
+        public Integer amount;
+        public long associatedCustomerOrderID;
+
+        public FPData(long finalProductID, String finalProductLabel, Integer amount, long associatedCustomerOrderID){
+            this.finalProductID = finalProductID;
+            this.finalProductLabel = finalProductLabel;
+            this.amount = amount;
+            this.associatedCustomerOrderID = associatedCustomerOrderID;
+        }
+    }
+
+    public List<FPData> getFinalProductData(){
+        List<CustomerOrder> allOrders = customerOrderRepository.findAll();
+        List<FPData> allFPData = new ArrayList<>();
+
+        for (CustomerOrder order: allOrders){
+            //Get all finalProducts from the order
+            List<FinalProduct> finalProducts = order.getFinalProducts();
+
+            //Get the orders ID
+            long orderID = order.getID();
+
+            List<FPData> orderFPData = new ArrayList<>();
+
+            for (FinalProduct FP : finalProducts){
+                //Search the list to see if the final product is already in the list
+                Optional<FPData> existing = orderFPData.stream().filter(x -> x.finalProductLabel.equals(FP.getLabel())).findFirst();
+
+                if (existing.isPresent()){
+                    existing.get().amount += 1;
+                } else {
+                    orderFPData.add(new FPData(FP.getId(), FP.getLabel(), 1, orderID));
+                }
+            }
+            allFPData.addAll(orderFPData);
+            orderFPData.clear();
+        }
+
+        return allFPData;
+    }
 }

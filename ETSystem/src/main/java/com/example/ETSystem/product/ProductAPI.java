@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/products")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class ProductAPI{
 
 	private final ProductService productService;
@@ -48,10 +48,31 @@ public class ProductAPI{
     }
 
     @GetMapping(path = "/fetch-product-by-id/{id}")
-    @CrossOrigin(origins = "http://localhost:3000")
     public Product getProductById(@PathVariable("id") String id){
         return productService.getProductByID(Long.parseLong(id));
     }
+
+	@GetMapping(path = "/fetch-graph/{id}")
+	public ProductService.Graph getGraph(@PathVariable("id") String id){
+		Product product = productService.getProductByID(Long.parseLong(id));
+		return productService.getGraph(product);
+	}
+
+	//Used by the new traceability page
+	@GetMapping(path = "fetch-trace-data/{id}")
+	public ProductService.TraceData getTraceAbilityData(@PathVariable("id") String id) throws Exception {
+		try {
+			return productService.getTraceabilityData(id);
+		} catch (Exception e){
+			//This is expected to happen if the product is not found
+			if (e.getMessage().equals("product not found")) {
+				return new ProductService.TraceData(false,null, null, null);
+			}
+			//Something back has occurred
+			throw new Exception("Exception thrown in getTraceAbilityData: " + e.getMessage());
+		}
+	}
+
 }
 
 

@@ -1,25 +1,24 @@
 package com.example.ETSystem.ingredientType;
 
 import com.example.ETSystem.productData.SuppliedGood;
+import com.example.ETSystem.util.Generated;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Fetch;
 
+import java.util.HashSet;
 import java.util.Objects;
-
-import static jakarta.persistence.GenerationType.SEQUENCE;
+import java.util.Set;
 
 @Entity
 public class IngredientType {
 
     @Id
     @GeneratedValue
-    @Column
+    @Column(name = "ingredient_type_id")
     private long id;
 
     @Column(unique = true)
     private String name;
-
-    @Column(nullable = false)
-    private boolean isAllergen;
 
     @Column(nullable = false)
     private boolean isVegan;
@@ -27,96 +26,79 @@ public class IngredientType {
     @Column(nullable = false)
     private boolean isVegetarian;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<String> allergens = new HashSet<>();
+
     //Constructors
     public IngredientType() {}
 
-    public IngredientType(String name, boolean isAllergen, boolean isVegetarian, boolean isVegan) {
+    public IngredientType(String name, boolean isVegetarian, boolean isVegan, Set<String> allergens) {
         this.name = name.toLowerCase();
-        this.isAllergen = isAllergen;
+        this.allergens = allergens;
         this.isVegetarian = isVegetarian;
         this.isVegan = isVegan;
     }
 
     //Getters
 
-    public long getId() {
+    public @Generated long getId() {
         return id;
     }
 
-    public String getName() {
+    public @Generated String getName() {
         return name;
     }
 
-    public boolean getIsAllergen() { return isAllergen; }
-
-    public boolean getIsVegetarian() { return isVegetarian; }
-
-    public boolean getIsVegan() { return isVegan; }
-
-
-    //Setters
-
-    public void setName(String name) { this.name = name; }
-
-    public void setIsAllergen(boolean isAllergen) { this.isAllergen = isAllergen; }
-
-    public void setIsVegan(boolean isVegan) {
-       this.isVegan = isVegan;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public boolean isAllergen() {
-        return isAllergen;
-    }
-
-    public void setAllergen(boolean allergen) {
-        isAllergen = allergen;
-    }
-
-    public boolean isVegan() {
-        return isVegan;
-    }
-
-    public void setVegan(boolean vegan) {
-        isVegan = vegan;
-    }
-
-    public boolean isVegetarian() {
+    public @Generated boolean getIsVegetarian() {
         return isVegetarian;
     }
+    
+    public @Generated boolean getIsVegan() {
+        return isVegan;
+    }
+    
+    public @Generated Set<String> getAllergens() {
+        return allergens;
+    }
 
-    public void setVegetarian(boolean vegetarian) {
+    //Setters
+    
+    public @Generated void setId(long id) {
+        this.id = id;
+    }
+    
+    public @Generated void setName(String name) {
+        this.name = name;
+    }
+
+    public @Generated void setIsVegan(boolean vegan) {
+        isVegan = vegan;
+    }
+    
+    public @Generated void setIsVegetarian(boolean vegetarian) {
         isVegetarian = vegetarian;
+    }
+    
+    public @Generated void setAllergens(Set<String> allergens) {
+        this.allergens = allergens;
     }
 
     //Utility
     @Override
-    public int hashCode() {
+    public @Generated int hashCode() {
         return Objects.hash(id);
     }
 
     @Override
-    public boolean equals(Object obj){
-        if (this == obj){
-            return true;
-        }
-        if (obj == null){
-            return false;
-        }
-        if (obj instanceof IngredientType && ((IngredientType) obj).getId() == this.id){
-            return true;
-        }
-        return false;
+    public @Generated boolean equals(Object obj){
+	    return this == obj || obj instanceof IngredientType it && it.getId() == this.id && it.getName().equals(this.name);
     }
 
-    public String toString(){
+    public @Generated String toString(){
         return "IngredientType{" +
                 "id=" + id +
                 ", name='" + name + "'" +
-                ", isAllergen=" + isAllergen +
+                ", allergens=" + allergens +
                 ", isVegan=" + isVegan +
                 ", isVegetarian=" + isVegetarian +
                 '}';

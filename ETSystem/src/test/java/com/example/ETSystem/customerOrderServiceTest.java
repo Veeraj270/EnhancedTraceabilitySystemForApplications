@@ -1,6 +1,5 @@
 package com.example.ETSystem;
 
-
 import com.example.ETSystem.customerOrders.CustomerOrder;
 import com.example.ETSystem.customerOrders.CustomerOrderRepository;
 import com.example.ETSystem.customerOrders.CustomerOrderService;
@@ -10,13 +9,14 @@ import com.example.ETSystem.recipe.IngredientQuantity;
 import com.example.ETSystem.recipe.Recipe;
 import com.example.ETSystem.recipe.RecipeRepository;
 import jakarta.transaction.Transactional;
-import org.antlr.v4.runtime.misc.Array2DHashSet;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.data.util.Pair;
+
+import com.example.ETSystem.productData.MockDataGenerator;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -25,8 +25,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -35,16 +34,18 @@ public class customerOrderServiceTest {
     private final CustomerOrderService customerOrderService;
     private final FinalProductRepository finalProductRepository;
     private final RecipeRepository recipeRepository;
+    private final MockDataGenerator mockDataGenerator;
 
     @Autowired
     public customerOrderServiceTest(CustomerOrderRepository customerOrderRepository,
                                     FinalProductRepository finalProductRepository,
-                                    RecipeRepository recipeRepository
-    ){
+                                    RecipeRepository recipeRepository,
+                                    MockDataGenerator mockDataGenerator){
         this.customerOrderRepository = customerOrderRepository;
         this.customerOrderService = new CustomerOrderService(customerOrderRepository);
         this.finalProductRepository = finalProductRepository;
         this.recipeRepository = recipeRepository;
+        this.mockDataGenerator = mockDataGenerator;
     }
 
     @BeforeAll
@@ -168,5 +169,43 @@ public class customerOrderServiceTest {
 
         assert result.getClient().equals(updatedClient);
         assert result.getFinalProducts().equals(updatedFinalProducts);
+    }
+
+    @Test
+    @Transactional
+    public void testGetFinalProductData(){
+        //Setup
+        CustomerOrder order1 = new CustomerOrder("order", ZonedDateTime.now(), ZonedDateTime.now().plusDays(7), new ArrayList<>());
+
+        mockDataGenerator.generateAllMockData();
+
+        AddToOrder(order1, 4, "6 x Ultimate Pistachio");
+        AddToOrder(order1, 6, "12 x Double Chocolate Crookies");
+        AddToOrder(order1, 4, "24 x Rhubarb and Custard Blondie");
+        AddToOrder(order1, 8, "6 x Blueberry Muffins");
+        customerOrderRepository.save(order1);
+
+        //Call method to be tested
+        List<CustomerOrderService.FPData> result = customerOrderService.getFinalProductData();
+
+
+        //Check result - needs doing
+
+    }
+
+    public void AddToOrder(CustomerOrder order, Integer quantity, String label){
+        List<FinalProduct> list =  finalProductRepository.findByLabel(label);
+
+        if (list.size() > 1){
+            throw new RuntimeException("Multiple final products with the same label found");
+        } else if (list.isEmpty()){
+            throw new RuntimeException("No final products with the label found");
+        }
+
+        FinalProduct FP = list.get(0);
+
+        for (int i = 0; i < quantity; i++){
+            order.getFinalProducts().add(FP);
+        }
     }
 }

@@ -4,6 +4,8 @@ import { FaBookOpen } from "react-icons/fa";
 import { PiTreeStructure } from "react-icons/pi";
 import { FaBirthdayCake } from "react-icons/fa";
 import {GiWoodenCrate} from "react-icons/gi";
+import {MdBakeryDining} from "react-icons/md";
+import React from "react";
 import { FaFileContract } from "react-icons/fa";
 
 
@@ -33,15 +35,15 @@ export const SideBarData = [
         cName: 'nav-text'
     },
     {
-        title: 'Add Products',
-        path: '/add',
-        icon: <FaPlus/>,
-        cName: 'nav-text'
-    },
-    {
         title: 'Traceability',
         path: '/traceability',
         icon: <PiTreeStructure/>,
+        cName: 'nav-text'
+    },
+    {
+        title: 'Baking System',
+        path: '/baking-system',
+        icon: <FaPlus/>,
         cName: 'nav-text'
     },
     {

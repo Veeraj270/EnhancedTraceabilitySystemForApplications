@@ -4,16 +4,16 @@ import React, {useEffect, useState} from "react";
 import RPSummaryPanel from "./RecipePageComponents/RPSummaryPanel";
 import IngredientQuantitiesTableRP from "./RecipePageComponents/IngredientQuantitiesTableRP";
 import {Link} from "react-router-dom";
+import {IngredientQuantity} from "./BakingSystem/BakingSystemInterfaces";
 
 const RecipesPage = () => {
-
-    const [recipeData, setRecipesData] = useState([])
-    const [ingredientQuantitiesData, setIngredientQuantitiesData] = useState([])
-    const [selectedRecipeID, setSelectedRecipeID] = useState(-1)
-    const [selectedRecipe, setSelectedRecipe] = useState({})
+    const [recipeData, setRecipesData] = useState([]);
+    const [ingredientQuantitiesData, setIngredientQuantitiesData] = useState<IngredientQuantity[]>([]);
+    const [selectedRecipeID, setSelectedRecipeID] = useState(-1);
+    const [selectedRecipe, setSelectedRecipe] = useState({});
 
     const fetchRecipes = async () => {
-        const response = await fetch("http://localhost:8080/api/recipes/fetch-recipes")
+        const response = await fetch("/api/recipes/fetch-recipes")
         if (!response.ok){
             throw new Error("Error fetching recipes")
         }
@@ -30,11 +30,23 @@ const RecipesPage = () => {
 
     useEffect(() => {
         if (selectedRecipeID !== -1){
-            const selected = recipeData.filter((recipe) => recipe.id === selectedRecipeID).at(0)
-            setIngredientQuantitiesData(selected.ingredientQuantities)
-            setSelectedRecipe(selected)
+            const selected = recipeData.filter((recipe: any) => recipe.id === selectedRecipeID).at(0)
+
+            if (selected){
+                setSelectedRecipe(selected)
+                setIngredientQuantitiesData(convertToIQs(selected.ingredientQuantities));
+            }
         }
     }, [selectedRecipeID]);
+
+    const convertToIQs = (input: any) => {
+        return input.map((rawIQ : any) => {
+            return {
+                ingredientName: rawIQ.ingredientType.name,
+                quantity: rawIQ.quantity
+            }
+        })
+    }
 
     return (
         <div className='recipe-page'>
@@ -52,7 +64,7 @@ const RecipesPage = () => {
                     <RPSummaryPanel
                         props={selectedRecipe}
                     />
-                    <IngredientQuantitiesTableRP ingredientQuantities={ingredientQuantitiesData}/>
+                    <IngredientQuantitiesTableRP ingredientTotals={ingredientQuantitiesData}/>
                 </div>
             </div>
         </div>

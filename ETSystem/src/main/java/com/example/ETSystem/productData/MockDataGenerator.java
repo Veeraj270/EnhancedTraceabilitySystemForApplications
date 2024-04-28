@@ -1,16 +1,26 @@
 package com.example.ETSystem.productData;
 
+import com.example.ETSystem.customerOrders.CustomerOrder;
+import com.example.ETSystem.customerOrders.CustomerOrderRepository;
+import com.example.ETSystem.finalProducts.FinalProduct;
+import com.example.ETSystem.finalProducts.FinalProductRepository;
 import com.example.ETSystem.ingredientType.IngredientType;
 import com.example.ETSystem.ingredientType.IngredientTypeRepository;
 import com.example.ETSystem.product.Product;
 import com.example.ETSystem.product.ProductRepository;
 import com.example.ETSystem.product.ProductService;
+import com.example.ETSystem.recipe.IngredientQuantity;
+import com.example.ETSystem.recipe.IngredientQuantityRepository;
+import com.example.ETSystem.recipe.Recipe;
+import com.example.ETSystem.recipe.RecipeService;
 import com.example.ETSystem.suppliers.Supplier;
 import com.example.ETSystem.suppliers.SupplierService;
 import com.example.ETSystem.timeline.CreateEvent;
 import com.example.ETSystem.timeline.TimelineEvent;
 import com.example.ETSystem.timeline.TimelineService;
 import com.example.ETSystem.timeline.UseEvent;
+import com.example.ETSystem.util.Generated;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,40 +29,60 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class MockDataGenerator {
     private final SuppliedGoodRepository suppliedGoodRepository;
     private final IngredientTypeRepository ingredientTypeRepository;
+    private final IngredientQuantityRepository ingredientQuantityRepository;
     private final SupplierService supplierService;
     private final ProductService productService;
     private final TimelineService timelineService;
     private final ProductRepository productRepository;
+    private final RecipeService recipeService;
+    private final FinalProductRepository finalProductRepository;
+    private final CustomerOrderRepository customerOrderRepository;
 
     @Autowired
+    @Generated
     public MockDataGenerator(SuppliedGoodRepository suppliedGoodRepository,
                              IngredientTypeRepository ingredientTypeRepository,
-                             SupplierService supplierService,
+                             IngredientQuantityRepository ingredientQuantityRepository, SupplierService supplierService,
                              ProductService productService,
                              TimelineService timelineService,
-                             ProductRepository productRepository
-    ){
+                             ProductRepository productRepository,
+                             RecipeService recipeService, FinalProductRepository finalProductRepository, CustomerOrderRepository customerOrderRepository){
         this.suppliedGoodRepository = suppliedGoodRepository;
         this.ingredientTypeRepository = ingredientTypeRepository;
+        this.ingredientQuantityRepository = ingredientQuantityRepository;
         this.supplierService = supplierService;
         this.productService = productService;
         this.timelineService = timelineService;
         this.productRepository = productRepository;
+        this.recipeService = recipeService;
+        this.finalProductRepository = finalProductRepository;
+        this.customerOrderRepository = customerOrderRepository;
     }
 
-    public void generateMockData(){
+    public record ITypeInfo(String name, boolean isAllergen){}
+
+    public void generateAllMockData(){
+        //Order must not change as one relies on the other
+        generateSuppliedGoods();
+        generateMockProducts();
+        generateMockRecipes();
+        generateMockFinalProducts();
+        generateMockCustomerOrders();
+    }
+    @Generated
+    @Transactional
+    public void generateSuppliedGoods(){
         //Starting Barcode - 13 digits to fit EAC format
         //SUPPLIERS
         List<String> supplierNames = List.of(
                 "Cisco",
-                "Andrew Ingredients",
-                "Harry Harvey",
-                "Brakes"
+                "Andrew Ingredients"
         );
 
         ArrayList<Supplier> suppliers = new ArrayList<Supplier>();
@@ -64,106 +94,108 @@ public class MockDataGenerator {
         int unitPrice = 10000;
         //INGREDIENTS
         //Flours
-        List<String> flours = List.of(
-                "Bread Flour",
-                "Strong Flour",
-                "Wholemeal Flour",
-                "Plain Flour",
-                "Self Raising Flour",
-                "Rice Flour"
+        List<ITypeInfo> flours = List.of(
+                new ITypeInfo("Bread Flour", false),
+                new ITypeInfo("Strong Flour", false),
+                new ITypeInfo("Wholemeal Flour", false),
+                new ITypeInfo("Plain Flour", false),
+                new ITypeInfo("Self Raising Flour", false),
+                new ITypeInfo("Rice Flour", false)
         );
 
         //Sugar Types
-        List<String> sugars = List.of(
-                "Granulated Sugar",
-                "Caster Sugar",
-                "Icing Sugar",
-                "Light Brown Sugar",
-                "Dark Brown Sugar",
-                "Demerara Sugar"
+        List<ITypeInfo> sugars = List.of(
+                new ITypeInfo("Granulated Sugar", false),
+                new ITypeInfo("Caster Sugar", false),
+                new ITypeInfo("Icing Sugar", false),
+                new ITypeInfo("Light Brown Sugar", false),
+                new ITypeInfo("Dark Brown Sugar", false),
+                new ITypeInfo("Demerara Sugar", false)
         );
 
 
-        List<String> nuts = List.of(
-                "Almonds",
-                "Peanuts",
-                "Hazelnuts",
-                "Walnuts",
-                "Cashew nuts"
+        List<ITypeInfo> nuts = List.of(
+                new ITypeInfo("Almonds", true),
+                new ITypeInfo("Peanuts", true),
+                new ITypeInfo("Hazelnuts", true),
+                new ITypeInfo("Walnuts", true),
+                new ITypeInfo("Cashew nuts", true)
         );
 
         //Spices
-        List<String> Spices = List.of(
-                "Ground Cinnamon",
-                "Ground Nutmeg",
-                "Ground Cloves",
-                "Ground Ginger",
-                "All Spice",
-                "Anise",
-                "Black Pepper",
-                "Saffron",
-                "Cayenne Pepper",
-                "Black Pepper"
+        List<ITypeInfo> Spices = List.of(
+                new ITypeInfo("Ground Cinnamon", false),
+                new ITypeInfo("Ground Nutmeg", false),
+                new ITypeInfo("Ground Cloves", false),
+                new ITypeInfo("Ground Ginger", false),
+                new ITypeInfo("All Spice", false),
+                new ITypeInfo("Anise", false),
+                new ITypeInfo("Black Pepper", false),
+                new ITypeInfo("Saffron", false),
+                new ITypeInfo("Cayenne Pepper", false),
+                new ITypeInfo("Black Pepper", false)
         );
 
         //Liquids
-        List<String> liquids = List.of(
-                "Coconut Oil",
-                "Palm Oil",
-                "Soybean Oil",
-                "Canola Oil",
-                "Olive Oil",
-                "Sunflower Oil",
-                "Semi-Skimmed Milk",
-                "Whole Milk"
+        List<ITypeInfo> liquids = List.of(
+                new ITypeInfo("Coconut Oil", false),
+                new ITypeInfo("Palm Oil", false),
+                new ITypeInfo("Soybean Oil", false),
+                new ITypeInfo("Canola Oil", false),
+                new ITypeInfo("Olive Oil", false),
+                new ITypeInfo("Sunflower Oil", false),
+                new ITypeInfo("Vegetable Oil", false),
+                new ITypeInfo("Soya Oil", true),
+                new ITypeInfo("Semi-Skimmed Milk", true),
+                new ITypeInfo("Whole Milk", true)
         );
 
         //Fresh Fruit & Veg
-        List<String> fruitAndVeg = List.of(
-                "Apples",
-                "Bananas",
-                "Blueberries",
-                "Strawberries",
-                "Raspberries",
-                "Lemons",
-                "Oranges",
-                "Limes",
-                "Pumpkin",
-                "Carrots",
-                "Zucchini",
-                "Sweet Potatoes",
-                "Pears",
-                "Peaches",
-                "Apricots",
-                "Cherries",
-                "Blackberries",
-                "Mangoes",
-                "Pineapple",
-                "Cranberries",
-                "Rhubarb",
-                "Kiwifruit",
-                "Grapes",
-                "Figs",
-                "Dates",
-                "Coconut",
-                "Avocado",
-                "Beetroot"
+        List<ITypeInfo> fruitAndVeg = List.of(
+                new ITypeInfo("Apples", false),
+                new ITypeInfo("Bananas", false),
+                new ITypeInfo("Blueberries", false),
+                new ITypeInfo("Strawberries", false),
+                new ITypeInfo("Raspberries", false),
+                new ITypeInfo("Lemons", false),
+                new ITypeInfo("Oranges", false),
+                new ITypeInfo("Limes", false),
+                new ITypeInfo("Pumpkin", false),
+                new ITypeInfo("Carrots", false),
+                new ITypeInfo("Zucchini", false),
+                new ITypeInfo("Sweet Potatoes", false),
+                new ITypeInfo("Pears", false),
+                new ITypeInfo("Peaches", false),
+                new ITypeInfo("Apricots", false),
+                new ITypeInfo("Cherries", false),
+                new ITypeInfo("Blackberries", false),
+                new ITypeInfo("Mangoes", false),
+                new ITypeInfo("Pineapple", false),
+                new ITypeInfo("Cranberries", false),
+                new ITypeInfo("Rhubarb", false),
+                new ITypeInfo("Kiwifruit", false),
+                new ITypeInfo("Grapes", false),
+                new ITypeInfo("Figs", false),
+                new ITypeInfo("Dates", false),
+                new ITypeInfo("Coconut", false),
+                new ITypeInfo("Avocado", false),
+                new ITypeInfo("Beetroot", false)
         );
 
         //Butters
-        List<String> buttersAndCream = List.of(
-                "Salted Butter",
-                "Unsalted Butter",
-                "Sour Cream",
-                "Cottage Cheese",
-                "Cheddar Cheese"
+        List<ITypeInfo> buttersAndCream = List.of(
+                new ITypeInfo("Salted Butter", true),
+                new ITypeInfo("Unsalted Butter", true),
+                new ITypeInfo("Sour Cream", true),
+                new ITypeInfo("Cottage Cheese", true),
+                new ITypeInfo("Cheddar Cheese", true)
         );
 
-        //Chocolate
-        List<String> chocolates = List.of(
-                "Dark Chocolate",
-                "White Chocolate",
-                "Milk Chocolate"
+        //Chocolates
+        List<ITypeInfo> chocolates = List.of(
+                new ITypeInfo("Dark Chocolate", true),
+                new ITypeInfo("White Chocolate", true),
+                new ITypeInfo("Milk Chocolate", true)
         );
 
         int i = 1;
@@ -173,18 +205,18 @@ public class MockDataGenerator {
             //Bulk Ingredients
             String unit = "kg";
             for (Float quantity : quantities){
-                for (String name : flours){
+                for (ITypeInfo info : flours){
                     barcode ++;
-                    genTableRow(barcode, name, quantity, unit, supplier, (int) (unitPrice * quantity));
+                    genTableRow(barcode, info, quantity, unit, supplier, (int) (unitPrice * quantity));
                 }
-                for (String name : sugars){
+                for (ITypeInfo info: sugars){
                     barcode ++;
-                    genTableRow(barcode, name, quantity, unit, supplier, (int)(unitPrice * quantity));
+                    genTableRow(barcode, info, quantity, unit, supplier, (int)(unitPrice * quantity));
 
                 }
-                for (String name : fruitAndVeg){
+                for (ITypeInfo info: fruitAndVeg){
                     barcode ++;
-                    genTableRow(barcode, name, quantity, unit, supplier,(int) (unitPrice * quantity));
+                    genTableRow(barcode, info, quantity, unit, supplier,(int) (unitPrice * quantity));
                 }
             }
 
@@ -192,17 +224,17 @@ public class MockDataGenerator {
             quantities = List.of(5F,2.5F, 1F, 0.5F);
             unit = "kg";
             for (Float quantity : quantities){
-                for (String name : buttersAndCream){
+                for (ITypeInfo info : buttersAndCream){
                     barcode ++;
-                    genTableRow(barcode, name, quantity, unit, supplier, (int) (unitPrice * quantity));
+                    genTableRow(barcode, info, quantity, unit, supplier, (int) (unitPrice * quantity));
                 }
-                for (String name : chocolates){
+                for (ITypeInfo info: chocolates){
                     barcode ++;
-                    genTableRow(barcode, name, quantity, unit, supplier, (int) (unitPrice * quantity));
+                    genTableRow(barcode, info, quantity, unit, supplier, (int) (unitPrice * quantity));
                 }
-                for (String name : nuts){
+                for (ITypeInfo info: nuts){
                     barcode ++;
-                    genTableRow(barcode, name, quantity, unit, supplier, (int) (unitPrice * quantity));
+                    genTableRow(barcode, info, quantity, unit, supplier, (int) (unitPrice * quantity));
                 }
             }
 
@@ -210,9 +242,9 @@ public class MockDataGenerator {
             quantities = List.of(5F, 2.5F, 1F, 0.5F);
             unit = "L";
             for (Float quantity : quantities){
-                for (String name : liquids){
+                for (ITypeInfo info: liquids){
                     barcode ++;
-                    genTableRow(barcode, name, quantity, unit, supplier, (int) (unitPrice * quantity));
+                    genTableRow(barcode, info, quantity, unit, supplier, (int) (unitPrice * quantity));
                 }
             }
 
@@ -231,47 +263,48 @@ public class MockDataGenerator {
 
                 );
                 supplierService.AddGoodToSupplier(supplier, entry);
-
-
             }
         }
     }
 
-     public void genTableRow(Long barcode,String name, Float quantity, String unit, Supplier supplier, int price){
-         //Format label
-         String label = String.format("%s-%s-%s", name.replace(" ","-").toLowerCase(), quantity, unit);
-         String ingredientTypeName = name.replace(" ","-").toLowerCase();
+    @Generated
+    @Transactional
+    public void genTableRow(Long barcode, ITypeInfo info, Float quantity, String unit, Supplier supplier, int price){
+        //Format label
+        String label = String.format("%s-%s-%s", info.name.replace(" ","-").toLowerCase(), quantity, unit);
+        String ingredientTypeName = info.name.replace(" ","-").toLowerCase();
 
-         List<IngredientType> list = ingredientTypeRepository.findByName(ingredientTypeName);
+        List<IngredientType> list = ingredientTypeRepository.findByName(ingredientTypeName);
 
-         IngredientType ingredientType = null;
-         if (list.isEmpty()){
-             //Currently just setting all ingredients to be non allergen, vegetarian, and vegan
-             ingredientType = new IngredientType(ingredientTypeName, false, false, false);
-             ingredientType = ingredientTypeRepository.save(ingredientType);
-         }
-         else {
-             ingredientType = list.get(0);
-         }
+        IngredientType ingredientType = null;
+        if (list.isEmpty()){
+            //Currently just setting all ingredients to be non allergen, vegetarian, and vegan
+            ingredientType = new IngredientType(ingredientTypeName, false, false, Set.of());
+            ingredientType = ingredientTypeRepository.save(ingredientType);
+        } else {
+            ingredientType = list.get(0);
+        }
 
-         //Crude implementation:
-         float weight = quantity; //Will result in inaccurate weights for liquids with density != density of water
+        //Crude implementation:
+        float weight = quantity; //Will result in inaccurate weights for liquids with density != density of water
 
-         SuppliedGood entry = new SuppliedGood(
-                 barcode.toString(),
-                 label,
-                 ingredientType,
-                 quantity,
-                 unit,
-                 price,
-                 weight
-         );
+        SuppliedGood entry = new SuppliedGood(
+            barcode.toString(),
+            label,
+            ingredientType,
+            quantity,
+            unit,
+            price,
+            weight
+        );
 
-         //The suppliedGood is saved to the suppliedGood repo within this method
-         supplierService.AddGoodToSupplier(supplier, entry);
-     }
+        //The suppliedGood is saved to the suppliedGood repo within this method
+        supplierService.AddGoodToSupplier(supplier, entry);
+    }
 
-     public void generateMockProductData(){
+    @Generated
+    @Transactional
+    public void generateMockProducts(){
         Supplier supplier1 = supplierService.GetAllSuppliers().get(0);
 
         //Add a Product for every instance of SuppliedGood held by supplier1
@@ -299,48 +332,148 @@ public class MockDataGenerator {
         timelineService.saveAll(events);
 
         //Add a cake to showcase intermediaries feature
-        IngredientType iType = new IngredientType("irish cream cheesecake", false, false, false);
+        IngredientType iType = new IngredientType("irish cream cheesecake", false, false, Set.of("egg", "milk"));
         iType = ingredientTypeRepository.save(iType);
 
-         Product cake = new Product(
-                "5000000000001",
-                "irish cream cheesecake",
-                20,
-                20,
-                List.of(1L,2L,3L),
-                iType
-         );
+        Product cake = new Product(
+            "5000000000001",
+            "irish cream cheesecake",
+            20,
+            20,
+            List.of(1L,2L,3L),
+            iType
+        );
 
-         productService.addNewProduct(cake);
+        productService.addNewProduct(cake);
 
-         TimelineEvent creationEvent = new CreateEvent(ZonedDateTime.now(), cake);
-         timelineService.save(creationEvent);
+        TimelineEvent creationEvent = new CreateEvent(ZonedDateTime.now(), cake, CreateEvent.CreateType.BAKED, "Kitchen 1", null);
+        timelineService.save(creationEvent);
+    }
 
-     }
-
-     public void addProductFromSuppliedGood(SuppliedGood good){
+    @Transactional
+    @Generated
+    public void addProductFromSuppliedGood(SuppliedGood good){
         ZonedDateTime epochUTC = ZonedDateTime.ofInstant(Instant.EPOCH, ZoneId.of("UTC"));
 
         Product newProduct = new Product(
-                good.getGtin(),
-                good.getLabel(),
-                good.getQuantity(),
-                good.getQuantity(),
-                List.of(),
-                good.getIngredientType()
+            good.getGtin(),
+            good.getLabel(),
+            good.getQuantity(),
+            good.getQuantity(),
+            List.of(),
+            good.getIngredientType()
         );
 
         productService.addNewProduct(newProduct);
-        TimelineEvent creationEvent = new CreateEvent(epochUTC, newProduct);
-        timelineService.save(creationEvent);
-     }
+            TimelineEvent creationEvent = new CreateEvent(epochUTC, newProduct, CreateEvent.CreateType.DELIVERED, null, null);
+            timelineService.save(creationEvent);
+        }
 
-     public List<TimelineEvent> addSomeUseEvents(Product product, int num){
+        public List<TimelineEvent> addSomeUseEvents(Product product, int num){
         List<TimelineEvent> events = new ArrayList<>();
         for (int i = 0; i < num; i ++){
-            events.add(new UseEvent(ZonedDateTime.now().minusDays(i), product));
+            events.add(new UseEvent(ZonedDateTime.now().minusDays(i), product, null, null, 1, "baker"));
         }
         return events;
-     }
+    }
+
+    @Generated
+    public void generateMockRecipes(){
+        //Generic recipe
+        IngredientType plainFlour = ingredientTypeRepository.findByName("plain-flour").get(0);
+        IngredientType granulatedSugar = ingredientTypeRepository.findByName("granulated-sugar").get(0);
+        IngredientType unsaltedButter = ingredientTypeRepository.findByName("unsalted-butter").get(0);
+        IngredientType almonds = ingredientTypeRepository.findByName("almonds").get(0);
+        IngredientType darkChocolate = ingredientTypeRepository.findByName("dark-chocolate").get(0);
+
+        //Assuming quantities are in kg
+        IngredientQuantity IQ1 = new IngredientQuantity(plainFlour, 0.5F);
+        IngredientQuantity IQ2 = new IngredientQuantity(granulatedSugar, 0.25F);
+        IngredientQuantity IQ3 = new IngredientQuantity(unsaltedButter, 0.25F);
+        IngredientQuantity IQ4 = new IngredientQuantity(almonds, 0.1F);
+        IngredientQuantity IQ5 = new IngredientQuantity(darkChocolate, 0.1F);
+
+        Set<IngredientQuantity> ingredientsSet = Set.of(IQ1, IQ2, IQ3, IQ4, IQ5);
+
+        //Create several recipes with the same ingredients for simplicity’s sake
+        Recipe recipe1 = new Recipe("Ultimate Pistachio", ingredientsSet, "Ultimate Pistachio Recipe");
+
+        Recipe recipe2 = new Recipe("Double Chocolate Crookies", ingredientsSet, "Double Chocolate Crookies Recipe");
+
+        Recipe recipe3 = new Recipe("Rhubarb and Custard Blondie", ingredientsSet, "Rhubarb and Custard Blondie Recipe");
+
+        Recipe recipe4 = new Recipe("Blueberry Muffins", ingredientsSet, "Blueberry Muffins Recipe");
+
+        Recipe recipe5 = new Recipe("Blood Orange & Raspberry Loaf", ingredientsSet, "Blood Orange & Raspberry Loaf Recipe");
+
+        Recipe recipe6 = new Recipe("Truffle Mushroom Croissant", ingredientsSet, "Truffle Mushroom Croissant Recipe");
+
+        //Save the recipes to the database
+        List<Recipe> recipes = List.of(recipe1, recipe2, recipe3, recipe4, recipe5, recipe6);
+
+        List<Recipe> addedRecipes = new ArrayList<>();
+        for(Recipe recipe : recipes){
+            addedRecipes.add(recipeService.addNewRecipe(recipe));
+        }
+    }
+
+    public void generateMockFinalProducts(){
+        //Use the stored recipes to generate final products
+        List<Recipe> recipes = recipeService.getRecipes();
+
+        List<Integer> quantities = List.of(6, 12, 24);
+
+        Integer defaultPrice = 1000;
+
+        for (Recipe recipe : recipes){
+            for (int quantity : quantities){
+                String label = String.format("%s x %s", quantity, recipe.getLabel());
+                FinalProduct finalProduct = new FinalProduct(label, defaultPrice * quantity, recipe, quantity);
+                finalProductRepository.save(finalProduct);
+            }
+        }
+    }
+
+    public void generateMockCustomerOrders(){
+        //Order 1
+        CustomerOrder order1 = new CustomerOrder("client1", ZonedDateTime.now(), ZonedDateTime.now().plusDays(7), new ArrayList<>());
+        AddToOrder(order1, 4, "6 x Ultimate Pistachio");
+        AddToOrder(order1, 6, "12 x Double Chocolate Crookies");
+        AddToOrder(order1, 4, "24 x Rhubarb and Custard Blondie");
+        AddToOrder(order1, 8, "6 x Blueberry Muffins");
+        customerOrderRepository.save(order1);
+
+        //Order 2
+        CustomerOrder order2 = new CustomerOrder("client2", ZonedDateTime.now(), ZonedDateTime.now().plusDays(5), new ArrayList<>());
+        AddToOrder(order2, 8, "12 x Ultimate Pistachio");
+        AddToOrder(order2, 3, "24 x Double Chocolate Crookies");
+        AddToOrder(order2, 7, "6 x Blueberry Muffins");
+        AddToOrder(order2, 2, "12 x Truffle Mushroom Croissant");
+        customerOrderRepository.save(order2);
+
+        //Order 3
+        CustomerOrder order3 = new CustomerOrder("client3", ZonedDateTime.now(), ZonedDateTime.now().plusDays(10), new ArrayList<>());
+        AddToOrder(order3, 4, "6 x Ultimate Pistachio");
+        AddToOrder(order3, 6, "12 x Rhubarb and Custard Blondie");
+        AddToOrder(order3, 2, "24 x Blueberry Muffins");
+        AddToOrder(order3, 11, "6 x Blood Orange & Raspberry Loaf");
+        customerOrderRepository.save(order3);
+    }
+
+    public void AddToOrder(CustomerOrder order, Integer quantity, String label){
+        List<FinalProduct> list =  finalProductRepository.findByLabel(label);
+
+        if (list.size() > 1){
+            throw new RuntimeException("Multiple final products with the same label found");
+        } else if (list.isEmpty()){
+            throw new RuntimeException("No final products with the label found");
+        }
+
+        FinalProduct FP = list.get(0);
+
+        for (int i = 0; i < quantity; i++){
+            order.getFinalProducts().add(FP);
+        }
+    }
 }
 

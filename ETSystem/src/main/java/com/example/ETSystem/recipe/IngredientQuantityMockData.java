@@ -29,7 +29,7 @@ public class IngredientQuantityMockData {
                     .orElseThrow(() -> new RuntimeException("IngredientId does not match an ingredient"));
 
             IngredientQuantity ingredientQuantity = new IngredientQuantity();
-            ingredientQuantity.setIngredient(ingredient);
+            ingredientQuantity.setIngredientType(ingredient);
             ingredientQuantity.setQuantity(quantity);
 
             ingredientQuantityRepository.save(ingredientQuantity);

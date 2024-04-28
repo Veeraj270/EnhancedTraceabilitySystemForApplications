@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("api/deliveries")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class DeliveryAPI{
 
 	private final Logger logger = LoggerFactory.getLogger(DeliveryAPI.class);
@@ -110,7 +110,7 @@ public class DeliveryAPI{
 			productRepo.save(newProduct);
 
 			//Create TimeLineEvent for each new product
-			timelineService.save(new CreateEvent(ZonedDateTime.now(), newProduct));
+			timelineService.save(new CreateEvent(ZonedDateTime.now(), newProduct, CreateEvent.CreateType.DELIVERED, null, null));
 			savedProducts.add(newProduct);
 		}
 

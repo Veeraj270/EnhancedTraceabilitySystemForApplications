@@ -1,6 +1,7 @@
 package com.example.ETSystem.recipe;
 
 import com.example.ETSystem.ingredientType.IngredientType;
+import com.example.ETSystem.util.Generated;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -16,9 +17,7 @@ public class IngredientQuantity {
     )
     private Long id;
 
-    // CascadeType.MERGE connects the object with the appropriate Ingredient
-    // One Ingredient object can be merged with many IngredientQuantity objects
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @ManyToOne
     private IngredientType ingredientType;
 
     @Column
@@ -31,39 +30,39 @@ public class IngredientQuantity {
         this.quantity = quantity;
     };
 
-
-
     @Override
-    public boolean equals(Object o) {
+    public @Generated boolean equals(Object o) {
         if(this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
         IngredientQuantity that = (IngredientQuantity) o;
-        return Objects.equals(this.getQuantity(), that.getQuantity()) && Objects.equals(this.getIngredientType(), that.getIngredientType());
+        return  this.getId() == that.getId() &&
+                this.getIngredientType().equals(that.getIngredientType()) &&
+                this.getQuantity() == that.getQuantity();
     }
 
     @Override
-    public int hashCode() {
+    public @Generated int hashCode() {
         return Objects.hash(ingredientType, quantity);
     }
 
-    public Long getId() {
+    public @Generated Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public @Generated void setId(Long id) {
         this.id = id;
     }
 
-    public IngredientType getIngredientType() {
+    public @Generated IngredientType getIngredientType() {
         return ingredientType;
     }
 
-    public void setIngredient(IngredientType ingredientType) { this.ingredientType = ingredientType; }
+    public @Generated void setIngredientType(IngredientType ingredientType) { this.ingredientType = ingredientType; }
 
-    public float getQuantity() { return quantity; }
+    public @Generated float getQuantity() { return quantity; }
 
-    public void setQuantity(float quantity) {
+    public @Generated void setQuantity(float quantity) {
         this.quantity = quantity;
     }
 }

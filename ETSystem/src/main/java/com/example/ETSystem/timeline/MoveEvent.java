@@ -1,6 +1,7 @@
 package com.example.ETSystem.timeline;
 
 import com.example.ETSystem.product.Product;
+import com.example.ETSystem.util.Generated;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
@@ -20,47 +21,81 @@ public non-sealed class MoveEvent implements TimelineEvent{
 	@JoinColumn(name = "owner", nullable = false)
 	private Product owner;
 	
+	private String destination;
+	
+	@Column(nullable = true)
+	private String userResponsible;
+	
 	public MoveEvent(){}
 	
-	public MoveEvent(ZonedDateTime timestamp, Product owner){
+	public MoveEvent(ZonedDateTime timestamp, Product owner, String destination, String userResponsible){
 		this.timestamp = timestamp;
 		this.owner = owner;
+		this.destination = destination;
+		this.userResponsible = userResponsible;
 	}
 	
-	public long getId(){
+	public @Generated long getId(){
 		return id;
 	}
 	
-	public void setId(long id){
+	public @Generated void setId(long id){
 		this.id = id;
 	}
 	
-	public ZonedDateTime getTimestamp(){
+	public @Generated ZonedDateTime getTimestamp(){
 		return timestamp;
 	}
 	
-	public void setTimestamp(ZonedDateTime timestamp){
+	public @Generated void setTimestamp(ZonedDateTime timestamp){
 		this.timestamp = timestamp;
 	}
 	
-	public Product getOwner(){
+	public @Generated Product getOwner(){
 		return owner;
 	}
 	
-	public void setOwner(Product owner){
+	public @Generated void setOwner(Product owner){
 		this.owner = owner;
 	}
 	
-	public String toString(){
-		return "MoveEvent[id=" + id + ", ownerId=" + owner.getId() + ", timestamp=" + timestamp + "]";
+	public @Generated String getDestination(){
+		return destination;
 	}
 	
-	public boolean equals(Object o){
-		return this == o ||
-				o instanceof MoveEvent event && id == event.id && timestamp == event.timestamp && Objects.equals(owner, event.owner);
+	public @Generated void setDestination(String destination){
+		this.destination = destination;
 	}
 	
-	public int hashCode(){
-		return Objects.hash(id, timestamp, owner);
+	public @Generated String getUserResponsible(){
+		return userResponsible;
+	}
+	
+	public @Generated void setUserResponsible(String userResponsible){
+		this.userResponsible = userResponsible;
+	}
+	
+	public TimelineData asData(){
+		TimelineData td = TimelineEvent.super.asData();
+		if(destination != null)
+			td.data().put("destination", destination);
+		return td;
+	}
+	
+	public @Generated String toString(){
+		return "MoveEvent[id=" + id + ", ownerId=" + owner.getId() + ", timestamp=" + timestamp + ", destination: " + destination + ", userResponsible=" + userResponsible + "]";
+	}
+	
+	public @Generated boolean equals(Object o){
+		return this == o
+				|| o instanceof MoveEvent event
+				&& id == event.id
+				&& timestamp == event.timestamp
+				&& Objects.equals(owner, event.owner)
+				&& Objects.equals(destination, event.destination);
+	}
+	
+	public @Generated int hashCode(){
+		return Objects.hash(id, timestamp, owner, destination);
 	}
 }

@@ -4,6 +4,7 @@ import SearchBarWidget from "./ProductPageComponents/SearchBarWidget";
 import {useEffect, useState} from "react";
 import PDPDetailsView from "./ProductPageComponents/PDPDetailsView";
 import Product from "./Interfaces/Product"
+import React from "react";
 
 
 const ProductsPage = () => {
@@ -34,7 +35,7 @@ const ProductsPage = () => {
     }, [selected]);
 
     const fetchHistory = async (id: number) => {
-        const res = await fetch(`http://localhost:8080/api/products/fetch-product-history/${id}`);
+        const res = await fetch(`/api/products/fetch-product-history/${id}`);
         if (!res.ok){
             throw new Error("fetch-product-history response was not ok")
         }
