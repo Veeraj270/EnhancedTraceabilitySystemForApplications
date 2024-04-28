@@ -2,6 +2,7 @@ import {useEffect, useMemo, useState} from "react";
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import React from "react";
 import ContractsModal from "./ContractsModal";
+import "./ContractsTable.css";
 
 type Contract = {
     id: number;
@@ -96,11 +97,11 @@ const ContractsTable = () => {
     });
 
     return (
-        <div>
+        <div className="contracts-table-container">
             {isLoading? (
                 <p>Loading...</p>
             ) : data.length > 0 ? (
-                <table>
+                <table className="contracts-table">
                     <thead>
                     {table.getHeaderGroups().map(headerGroup => (
                         <tr key={headerGroup.id}>
