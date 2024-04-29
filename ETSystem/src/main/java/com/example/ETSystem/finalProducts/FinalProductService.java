@@ -27,8 +27,8 @@ public class FinalProductService {
         return finalProductRepository.findAll();
     }
 
-    public void addNewFinalProduct(FinalProduct finalProduct){
-        finalProductRepository.save(finalProduct);
+    public FinalProduct addNewFinalProduct(FinalProduct finalProduct){
+        return finalProductRepository.save(finalProduct);
     }
 
     public FinalProduct getFinalProductByID(Long id){
@@ -51,7 +51,7 @@ public class FinalProductService {
         return finalProductRepository.save(existingFinalProduct);
     }
 
-    public class IQData{
+    public static class IQData{
         public Long ingredientTypeId;
         public String ingredientName;
         public float quantity;

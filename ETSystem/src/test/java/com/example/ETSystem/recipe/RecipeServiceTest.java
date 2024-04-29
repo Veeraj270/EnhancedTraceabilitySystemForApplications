@@ -52,13 +52,7 @@ public class RecipeServiceTest {
         vanilla = ingredientTypeAPI.addIngredientType(new IngredientType("vanilla", true, true, Set.of()));
     }
 
-    @Test
-    @Transactional
-    void testRecipeService(){
-        // Test the setters once
-        IngredientQuantity flour_500 = new IngredientQuantity(flour, 500);
-        flour_500.setIngredient(flour);
-    void testIngredient(){
+    void testIngredient() {
         // Correctly saving name of Ingredient
         assertEquals(milk.getName(), "milk");
         assertEquals(flour.getName(), "flour");
@@ -70,18 +64,16 @@ public class RecipeServiceTest {
 
     @Test
     @Transactional
-    void testRecipe(){
+    void testRecipe() {
         IngredientQuantity flour_500 = new IngredientQuantity();
         flour_500.setIngredientType(flour);
         flour_500.setQuantity(500);
 
         IngredientQuantity chocolate_300 = new IngredientQuantity(chocolate, 300);
-        IngredientQuantity chocolate_300 = new IngredientQuantity();
         chocolate_300.setIngredientType(chocolate);
         chocolate_300.setQuantity(300);
 
         IngredientQuantity vanilla_100 = new IngredientQuantity(vanilla, 100);
-        IngredientQuantity vanilla_100 = new IngredientQuantity();
         vanilla_100.setIngredientType(vanilla);
         vanilla_100.setQuantity(100);
 
@@ -107,8 +99,8 @@ public class RecipeServiceTest {
 
         // Testing the in case of using non-trivial ingredientQuantities setter
         assertEquals(List.of("milk"), rec2.getAllergens().stream().toList());
-	    assertTrue(rec2.isVegetarian());
-	    assertFalse(rec2.isVegan());
+        assertTrue(rec2.isVegetarian());
+        assertFalse(rec2.isVegan());
 
         // Testing getRecipes()
         assertEquals(recipeService.getRecipes(), List.of(rec1, rec2));
@@ -141,7 +133,7 @@ public class RecipeServiceTest {
 
     @Test
     @Transactional
-    public void testAddNewRecipe(){
+    public void testAddNewRecipe() {
         //Setup
         IngredientType iType1 = new IngredientType("iType1", true, true, Set.of());
         IngredientType iType2 = new IngredientType("iType2", false, false, Set.of("milk"));
@@ -165,4 +157,6 @@ public class RecipeServiceTest {
         Recipe savedRecipe = recipes.get(0);
 
         assertEquals("cake", savedRecipe.getLabel());
-    }}
+    }
+
+}
