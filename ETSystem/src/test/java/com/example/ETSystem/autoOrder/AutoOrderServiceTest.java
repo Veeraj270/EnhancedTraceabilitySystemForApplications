@@ -132,8 +132,8 @@ public class AutoOrderServiceTest {
         assertThat(result)
                 .extracting((IQ) -> IQ.getIngredientType().getName(), IngredientQuantity::getQuantity)
                 .containsExactlyInAnyOrder(
-                        Tuple.tuple("sugar", 300.0f),
-                        Tuple.tuple("flour", 300.0f)
+                        Tuple.tuple("sugar", 900.0f),
+                        Tuple.tuple("flour", 900.0f)
                 );
     }
 
@@ -316,10 +316,12 @@ public class AutoOrderServiceTest {
                 .containsExactlyInAnyOrder(
                         "sugar1",
                         "sugar1",
-                        "sugar3",
+                        "sugar9",
+                        "sugar9",
                         "flour1",
                         "flour1",
-                        "flour3"
+                        "flour9",
+                        "flour9"
                 );
     }
 

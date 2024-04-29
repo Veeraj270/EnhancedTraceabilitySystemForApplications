@@ -87,7 +87,7 @@ public class FinalProductService {
                 IQData toAdd = new IQData(
                         IQ.getIngredientType().getId(),
                         IQ.getIngredientType().getName(),
-                        IQ.getQuantity() * FPD.amount
+                        IQ.getQuantity() * FPD.amount * finalProduct.getQuantity()
                 );
 
                 addIQData(totals, toAdd);
