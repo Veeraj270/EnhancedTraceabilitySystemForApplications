@@ -247,23 +247,6 @@ public class MockDataGenerator {
                     genTableRow(barcode, info, quantity, unit, supplier, (int) (unitPrice * quantity));
                 }
             }
-
-            List<String> units = List.of("kg", "kg", "kg", "kg", "L");
-            for(int g = 1; g < 6; g++){
-                IngredientType ingredient = ingredientTypeRepository.findById((long)g)
-                        .orElseThrow(() -> new RuntimeException("When applying suppliers to the ingredient mockdata from the ingredients file, the ingredients could not be found"));
-                barcode++;
-                SuppliedGood entry = new SuppliedGood(
-                        barcode.toString(),
-                        ingredient.getName(),
-                        ingredient,
-                        quantities.get(1),
-                        units.get(g - 1),
-                        (int) (unitPrice * quantities.get(1))
-
-                );
-                supplierService.AddGoodToSupplier(supplier, entry);
-            }
         }
     }
 

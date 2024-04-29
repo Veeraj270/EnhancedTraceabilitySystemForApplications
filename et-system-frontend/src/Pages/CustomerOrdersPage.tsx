@@ -215,15 +215,20 @@ const CustomerOrdersPage = () => {
                 )
             case 2:
                 return (
-                    <ViewOrderTable
-                        table2Data={table2Data}
-                    />
+                    <div className={'COP-OI-column'}>
+                        <div className={'COP-header-div'}>
+                            <h2>Ordered Items</h2>
+                        </div>
+                        <ViewOrderTable
+                            table2Data={table2Data}
+                        />
+                    </div>
                 )
             case 3:
                 return (
                     <div className={'COP-IO-column'}>
                         <div className={'COP-header-div'}>
-                            <h2>Suggested Order</h2>
+                            <h2>Suggested Ingredient Order</h2>
                         </div>
                         <ViewIngredientOrderTable
                             table3Data={table3Data}
