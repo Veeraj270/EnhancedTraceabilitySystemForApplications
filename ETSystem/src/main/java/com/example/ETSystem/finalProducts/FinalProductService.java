@@ -9,6 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -60,6 +61,19 @@ public class FinalProductService {
             this.ingredientTypeId = ingredientTypeId;
             this.ingredientName = ingredientName;
             this.quantity = quantity;
+        }
+
+        @Override
+        public boolean equals(final Object o) {
+            if (this == o) return true;
+            if (null == o || this.getClass() != o.getClass()) return false;
+            final IQData iqData = (IQData) o;
+            return 0 == Float.compare(iqData.quantity, quantity) && Objects.equals(this.ingredientTypeId, iqData.ingredientTypeId) && Objects.equals(this.ingredientName, iqData.ingredientName);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(this.ingredientTypeId, this.ingredientName, this.quantity);
         }
     }
 
