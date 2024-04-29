@@ -4,8 +4,6 @@ import {
     flexRender, HeaderGroup,
 } from '@tanstack/react-table';
 import { useEffect, useMemo, useState } from "react";
-import {Link} from "react-router-dom";
-import OrderDeliveriesModal from "./OrderDeliveriesModal";
 import {Table1Row} from "./COPInterfaces";
 import React from 'react';
 

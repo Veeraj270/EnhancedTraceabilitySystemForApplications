@@ -311,43 +311,6 @@ public class MockDataGenerator {
         for (SuppliedGood good: supplier1.getGoods()){
             addProductFromSuppliedGood(good);
         }
-
-        //Add some custom data that has some actual events for the Viva Presentation
-        Product product1 = productRepository.findById(1L).get();
-        List<TimelineEvent> events = addSomeUseEvents(product1,  9);
-        product1.setCurrentQuantity(product1.getCurrentQuantity() * (10 - events.size())/10);
-        productRepository.save(product1);
-        timelineService.saveAll(events);
-
-        Product product2 = productRepository.findById(2L).get();
-        events = addSomeUseEvents(product2,  4);
-        product2.setCurrentQuantity(product2.getCurrentQuantity() * (10 - events.size())/10);
-        productRepository.save(product2);
-        timelineService.saveAll(events);
-
-        Product product3 = productRepository.findById(3L).get();
-        events = addSomeUseEvents(product3,  7);
-        product3.setCurrentQuantity(product3.getCurrentQuantity() * (10 - events.size())/10);
-        productRepository.save(product3);
-        timelineService.saveAll(events);
-
-        //Add a cake to showcase intermediaries feature
-        IngredientType iType = new IngredientType("irish cream cheesecake", false, false, Set.of("egg", "milk"));
-        iType = ingredientTypeRepository.save(iType);
-
-        Product cake = new Product(
-            "5000000000001",
-            "irish cream cheesecake",
-            20,
-            20,
-            List.of(1L,2L,3L),
-            iType
-        );
-
-        productService.addNewProduct(cake);
-
-        TimelineEvent creationEvent = new CreateEvent(ZonedDateTime.now(), cake, CreateEvent.CreateType.BAKED, "Kitchen 1", null);
-        timelineService.save(creationEvent);
     }
 
     @Transactional
@@ -367,9 +330,9 @@ public class MockDataGenerator {
         productService.addNewProduct(newProduct);
             TimelineEvent creationEvent = new CreateEvent(epochUTC, newProduct, CreateEvent.CreateType.DELIVERED, null, null);
             timelineService.save(creationEvent);
-        }
+    }
 
-        public List<TimelineEvent> addSomeUseEvents(Product product, int num){
+    public List<TimelineEvent> addSomeUseEvents(Product product, int num){
         List<TimelineEvent> events = new ArrayList<>();
         for (int i = 0; i < num; i ++){
             events.add(new UseEvent(ZonedDateTime.now().minusDays(i), product, null, null, 1, "baker"));
