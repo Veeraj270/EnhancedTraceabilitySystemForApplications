@@ -1,11 +1,15 @@
 # Enhanced Traceability System
 
+## Documentation
+
+- [**Kanban**](https://github.com/orgs/spe-uob/projects/141/views/1)
+- [**Milestones**](https://github.com/spe-uob/2023-EnhancedTraceabilitySystem/milestones)
+
 ## Introduction
 
 The objective of the project it build an enhanced traceability system that allows an industrial baker like [Cakesmiths](https://www.cakesmiths.com/)
 to track the production of their baked goods from their beginnings as delivered ingredients the point of sale. Given the scope of the
 project and the given development time it is a proof of concept rather than a complete application.
-
 
 The project was expected to be in direct collaboration with Cakesmiths, however they removed themselves from the 
 University of Bristol Software Engineering Project, for unknown reasons. The project was then continued based of the initial brief they 
