@@ -36,7 +36,7 @@ const CustomerOrdersPage = () => {
         fetchOrders().then((data) => {
             setRawOrderData(data);
             setTable1Data(formatOrders(data));
-        })
+        }).catch((err) => {console.error("Error fetching customer orders: " + err)});
     }, []);
 
     //Fetches raw customer orders data
