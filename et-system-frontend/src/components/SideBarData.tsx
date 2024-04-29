@@ -6,6 +6,8 @@ import { FaBirthdayCake } from "react-icons/fa";
 import {GiWoodenCrate} from "react-icons/gi";
 import {MdBakeryDining} from "react-icons/md";
 import React from "react";
+import { FaFileContract } from "react-icons/fa";
+
 
 export const SideBarData = [
     {
@@ -43,7 +45,13 @@ export const SideBarData = [
         path: '/baking-system',
         icon: <FaPlus/>,
         cName: 'nav-text'
+    },
+    {
+        title: 'Contracts',
+        path: '/contracts',
+        icon: <FaFileContract/>,
+        cName: 'nav-text'
     }
-    ]
+]
 
 export default SideBarData
