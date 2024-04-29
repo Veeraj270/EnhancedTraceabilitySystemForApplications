@@ -130,16 +130,17 @@
 .finished-button{
     width: 80%;
     height: 20%;
-
-    font-size: 24px;
-    font-weight: bolder;
-    background-color: powderblue;
+    font-size: 18px;
     color: darkslategray;
     padding: 10px;
     margin-top: 15px;
-    border: solid black 1px;
-    border-radius: 1rem;
+
+    border: 2px solid #d7d5d5;
     border-radius: 0.5rem;
+    font-weight: bold;
+    overflow: hidden;
+    cursor: pointer;
+
 }
 
 .BSP2-widget-1{

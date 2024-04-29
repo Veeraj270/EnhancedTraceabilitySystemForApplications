@@ -73,7 +73,7 @@ const BakingSystem =  () => {
         //Set page to page 1
         setPage(1);
 
-        alert("Baking Process Submitted Successfully");
+        alert("Baking process submitted successfully");
     }
 
     //Render the correct page depending on the value of page state variable
