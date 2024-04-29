@@ -30,7 +30,7 @@ const BakingSystemPage1 = (props : PropTypes) => {
 
     //Fetches the ingredients needed for the selected final products
     const fetchIngredientsNeeded = async (finalProductData : FPData[]) => {
-       /* const response = await fetch(`/api/finalproducts/get-total-ingredients`, {
+        const response = await fetch(`/api/finalproducts/get-total-ingredients`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -41,7 +41,7 @@ const BakingSystemPage1 = (props : PropTypes) => {
         if (!response.ok) {
             throw new Error("Error occurred whilst fetching total ingredients");
         }
-        return await response.json();*/
+        return await response.json();
         return [];
     }
 
