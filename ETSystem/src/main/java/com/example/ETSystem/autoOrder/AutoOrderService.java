@@ -235,7 +235,7 @@ public class AutoOrderService {
             int quantity = finalProduct.getQuantity();
             Recipe recipe = finalProduct.getRecipe();
             for (IngredientQuantity IQ : recipe.getIngredientQuantities()){
-                IngredientQuantity newIQ = new IngredientQuantity(IQ.getIngredientType(), IQ.getQuantity() * quantity);
+                IngredientQuantity newIQ = new IngredientQuantity(IQ.getIngredientType(), IQ.getQuantity());
                 iQuantities.add(newIQ);
             }
         }
