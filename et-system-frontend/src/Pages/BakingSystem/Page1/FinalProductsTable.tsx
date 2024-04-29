@@ -79,7 +79,6 @@ const FinalProductsTable = (props: PropTypes) => {
         }
         setTable1Data(newTable1Data);
         updateTable2Data(originalRow);
-        console.log("handleClickPlus() complete")
     }
 
     //Table definition
