@@ -24,8 +24,8 @@ public class ContractAPI {
     }
 
     @GetMapping(path = "/fetch-by-id/{id}")
-    public Contract getContractById(@PathVariable("id") String id) throws Exception {
-        return contractService.getContractByID(Long.parseLong(id));
+    public Contract getContractById(@PathVariable long id) throws Exception {
+        return contractService.getContractByID(id);
     }
 
     @PostMapping(path = "/add")
@@ -35,7 +35,7 @@ public class ContractAPI {
     }
 
     @PutMapping(path = "/edit/{id}")
-    public ResponseEntity<Contract> editContract(@PathVariable Long id, @RequestBody Contract contract){
+    public ResponseEntity<Contract> editContract(@PathVariable long id, @RequestBody Contract contract){
         Contract editedContract = contractService.editContract(id, contract);
         return ResponseEntity.ok(editedContract);
     }
