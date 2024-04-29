@@ -29,7 +29,11 @@ public class FinalProductService {
     }
 
     public FinalProduct addNewFinalProduct(FinalProduct finalProduct){
-        return finalProductRepository.save(finalProduct);
+        if(finalProductRepository.findByLabel(finalProduct.getLabel()).isEmpty()) {
+            return finalProductRepository.save(finalProduct);
+        } else {
+            throw new IllegalArgumentException("Final product with the same label./g already exists");
+        }
     }
 
     public FinalProduct getFinalProductByID(Long id){
@@ -42,8 +46,7 @@ public class FinalProductService {
     }
 
     public FinalProduct editFinalProduct(Long id, FinalProduct finalProduct){
-        FinalProduct existingFinalProduct = finalProductRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+        FinalProduct existingFinalProduct = getFinalProductByID(id);
         existingFinalProduct.setLabel(finalProduct.getLabel());
         existingFinalProduct.setCost(finalProduct.getCost());
         existingFinalProduct.setRecipe(finalProduct.getRecipe());
@@ -70,11 +73,6 @@ public class FinalProductService {
             final IQData iqData = (IQData) o;
             return 0 == Float.compare(iqData.quantity, quantity) && Objects.equals(this.ingredientTypeId, iqData.ingredientTypeId) && Objects.equals(this.ingredientName, iqData.ingredientName);
         }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(this.ingredientTypeId, this.ingredientName, this.quantity);
-        }
     }
 
     public List<IQData> getTotalIngredients(List<CustomerOrderService.FPData> finalProductData){
@@ -87,9 +85,6 @@ public class FinalProductService {
 
             if (list.size() == 0){
                 throw new ResponseStatusException(NOT_FOUND, "Unable to find product with label" + FPD.finalProductLabel);
-            }
-            if (list.size() > 1){
-                throw new RuntimeException("Multiple finalProducts with the same label found");
             }
 
             FinalProduct finalProduct = list.get(0);

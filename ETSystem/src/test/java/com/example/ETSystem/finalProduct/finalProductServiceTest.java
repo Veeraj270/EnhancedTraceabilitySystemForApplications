@@ -135,18 +135,20 @@ public class finalProductServiceTest {
                 .FPData(finalProduct1.getId(), finalProduct1.getLabel(), 5, 1);
         CustomerOrderService.FPData FPData2 = new CustomerOrderService
                 .FPData(finalProduct2.getId(), finalProduct2.getLabel(), 5, 1);
+        CustomerOrderService.FPData FPData3 = new CustomerOrderService
+                .FPData(finalProduct2.getId(), "Non-existent", 5, 1);
 
         FinalProductService.IQData IQData1 = new FinalProductService.IQData(
                 ingType1.getId(),
                 ingType1.getName(),
                 150);
-
         FinalProductService.IQData IQData2 = new FinalProductService.IQData(
                 ingType2.getId(),
                 ingType2.getName(),
                 50);
 
         assertEquals(finalProductService.getTotalIngredients(List.of(FPData1, FPData2)), List.of(IQData1, IQData2));
+        assertThrows(ResponseStatusException.class, () -> {finalProductService.getTotalIngredients(List.of(FPData3));});
 
     }
 }
