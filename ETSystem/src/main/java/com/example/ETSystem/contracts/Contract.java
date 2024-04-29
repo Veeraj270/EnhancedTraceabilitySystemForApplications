@@ -29,7 +29,7 @@ public class Contract {
             nullable = false
     )
     @JsonProperty
-    private Long id;
+    private long id;
 
     @Column(
             name = "client",

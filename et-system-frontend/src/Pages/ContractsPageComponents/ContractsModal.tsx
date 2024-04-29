@@ -61,7 +61,7 @@ const ContractsModal: React.FC<ModalProps> = ({ contract, onClose }) => {
 
         console.log(JSON.stringify(customerOrder));
         try {
-            const response = await fetch('http://localhost:8080/api/customerorders/add', {
+            const response = await fetch('/api/customerorders/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ const ContractsModal: React.FC<ModalProps> = ({ contract, onClose }) => {
 
         console.log(JSON.stringify(contractWithoutDate));
         try {
-            const response = await fetch('http://localhost:8080/api/contracts/add', {
+            const response = await fetch('/api/contracts/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

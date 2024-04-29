@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/contracts")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class ContractAPI {
     private final ContractService contractService;
 

@@ -50,7 +50,7 @@ const ContractsTable = () => {
             cell: ({row}) => (
                 isLoading
                     ? <p>Loading...</p>
-                    : <button onClick={() => handleGenerateClick(row.original)}> "Handle Orders" </button>
+                    : <button onClick={() => handleGenerateClick(row.original)}> Handle Orders </button>
             ),
 
         },
@@ -73,7 +73,7 @@ const ContractsTable = () => {
     const fetchData = async () => {
         setIsLoading(true);
         try{
-            const response = await fetch('http://localhost:8080/api/contracts/fetch');
+            const response = await fetch('/api/contracts/fetch');
             if (!response.ok) {
                 throw new Error("Fetch Contracts not ok");
             }
