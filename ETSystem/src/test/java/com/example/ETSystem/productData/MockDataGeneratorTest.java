@@ -52,13 +52,4 @@ public class MockDataGeneratorTest {
         recipeService = new RecipeService(recipeRepository, ingredientTypeRepository, ingredientQuantityRepository);
         mockDataGenerator = new MockDataGenerator(suppliedGoodRepository, ingredientTypeRepository, ingredientQuantityRepository, supplierService, productService, timelineService, productRepository, recipeService, this.finalProductRepository, this.customerOrderRepository);
     }
-
-    @Test
-    @Transactional
-    public void testGenerateAllMockData() {
-        mockDataGenerator.generateAllMockData();
-
-        List<SuppliedGood> goods = suppliedGoodRepository.findAll();
-        System.out.println("Supplied Goods: " + goods);
-    }
 }

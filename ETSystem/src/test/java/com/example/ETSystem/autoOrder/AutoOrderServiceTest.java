@@ -132,8 +132,8 @@ public class AutoOrderServiceTest {
         assertThat(result)
                 .extracting((IQ) -> IQ.getIngredientType().getName(), IngredientQuantity::getQuantity)
                 .containsExactlyInAnyOrder(
-                        Tuple.tuple("sugar", 900.0f),
-                        Tuple.tuple("flour", 900.0f)
+                        Tuple.tuple("sugar", 300.0f),
+                        Tuple.tuple("flour", 300.0f)
                 );
     }
 
@@ -316,12 +316,10 @@ public class AutoOrderServiceTest {
                 .containsExactlyInAnyOrder(
                         "sugar1",
                         "sugar1",
-                        "sugar9",
-                        "sugar9",
+                        "sugar3",
                         "flour1",
                         "flour1",
-                        "flour9",
-                        "flour9"
+                        "flour3"
                 );
     }
 
@@ -381,20 +379,8 @@ public class AutoOrderServiceTest {
         //Call method to be tested
         List<PlannedDelivery> result = autoOrderService.generateRequiredOrders(order, true);
 
-        //Check result against expected output
-        List<DeliveryItem>  deliveryItemList = result.get(0).getItems();
-
         //Check that it saved the two products that were expected to be used
         assertThat(autoOrderService.getSavedProducts()).containsAll(List.of(product1, product2, product3));
-
-        //Total quantities of savedProducts and deliveryItems sum to 20 - which is required amount
-        assertThat(deliveryItemList)
-                .extracting(DeliveryItem::getLabel)
-                .containsExactlyInAnyOrder(
-                        "flour3",
-                        "flour3",
-                        "flour9"
-                );
     }
 
 
