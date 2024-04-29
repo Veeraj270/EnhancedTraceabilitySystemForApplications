@@ -19,6 +19,7 @@ import BakingSystemPage2 from "./Pages/BakingSystemPage2";
 import TracePage from "./Pages/TracePage";
 import BakingSystemPage3 from "./Pages/BakingSystemPage3";
 import BakingSystem from "./Pages/BakingSystem";
+import ContractsPage from "./Pages/ContractsPage";
 
 function App() {
     return (
@@ -53,6 +54,11 @@ function App() {
                     <Route path={"baking-system-page-2"} element={<BakingSystemPage2/>}>
                     </Route>
                     <Route path={"/baking-system"} element={<BakingSystem/>}></Route>
+                    <Route path={"/contracts"} element={<ContractsPage/>}>
+                    </Route>
+
+
+
                 </Routes>
             </div>
         </Router>

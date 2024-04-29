@@ -100,4 +100,9 @@ public class FinalProduct {
     public @Generated void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
