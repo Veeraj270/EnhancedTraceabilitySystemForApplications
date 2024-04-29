@@ -32,7 +32,7 @@ public class FinalProductService {
         if(finalProductRepository.findByLabel(finalProduct.getLabel()).isEmpty()) {
             return finalProductRepository.save(finalProduct);
         } else {
-            throw new IllegalArgumentException("Final product with the same label./g already exists");
+            throw new IllegalArgumentException("Final product with the same label already exists");
         }
     }
 

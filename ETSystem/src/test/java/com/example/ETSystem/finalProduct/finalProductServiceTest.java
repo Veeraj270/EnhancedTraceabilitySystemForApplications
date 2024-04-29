@@ -50,6 +50,18 @@ public class finalProductServiceTest {
 
     @Test
     @Transactional
+    void testAddNewFinalProduct(){
+        Recipe recipe = new Recipe("recipe", Set.of());
+        recipeService.addNewRecipe(recipe);
+
+        FinalProduct fp1 = finalProductService.addNewFinalProduct(new FinalProduct("fp1", 10, recipe, 10));
+        assertEquals(finalProductService.getFinalProductByID(fp1.getId()), fp1);
+
+        assertThrows(IllegalArgumentException.class, () -> {finalProductService.addNewFinalProduct(fp1);});
+    }
+
+    @Test
+    @Transactional
     void testGetFinalProducts(){
         Recipe recipe = new Recipe("recipe", Set.of());
         recipeService.addNewRecipe(recipe);
