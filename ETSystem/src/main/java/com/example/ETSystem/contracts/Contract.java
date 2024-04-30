@@ -58,7 +58,7 @@ public class Contract {
 
 
     @ElementCollection
-    private List<ZonedDateTime> dates;
+    private List<ZonedDateTime> dates = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "contract_Id")
@@ -76,6 +76,7 @@ public class Contract {
         this.finalProducts = finalProducts;
     }
 
+    public Long getID() {return id;}
     public String getClient() {
         return client;
     }

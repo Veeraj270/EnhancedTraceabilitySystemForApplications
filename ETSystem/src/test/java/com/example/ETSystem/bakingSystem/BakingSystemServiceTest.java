@@ -26,6 +26,7 @@ import com.example.ETSystem.bakingSystem.BakingSystemService.BPStruct;
 import com.example.ETSystem.bakingSystem.BakingSystemService.UsedProduct;
 import com.example.ETSystem.bakingSystem.BakingSystemService.BakedProduct;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.ZonedDateTime;
 import java.util.List;

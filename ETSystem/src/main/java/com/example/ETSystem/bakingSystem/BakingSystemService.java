@@ -51,8 +51,6 @@ public class BakingSystemService {
         if (res.isEmpty()){
             //If not, add it
             compositeIType = iTypeRepository.save(compositeIType);
-        } else if(res.size() > 1){
-            throw new RuntimeException("Multiple composite ingredient types found in the database.");
         } else {
             compositeIType = res.get(0);
         }
