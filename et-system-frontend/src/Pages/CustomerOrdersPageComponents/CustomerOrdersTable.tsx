@@ -1,241 +1,131 @@
 import {
     useReactTable,
     getCoreRowModel,
-    flexRender,
+    flexRender, HeaderGroup,
 } from '@tanstack/react-table';
 import { useEffect, useMemo, useState } from "react";
-import {Link} from "react-router-dom";
-import OrderDeliveriesModal from "./OrderDeliveriesModal";
-const CustomerOrdersTable = () => {
-    const [data, setData] = useState<CustomerOrder[]>([]);
-    const [showModal, setShowModal] = useState<boolean>(false);
-    const [plannedDeliveries, setPlannedDeliveries] = useState<PlannedDelivery[]>([]);
-    const [currentOrder, setCurrentOrder] = useState<CustomerOrder | null>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(false)
+import {Table1Row} from "./COPInterfaces";
+import React from 'react';
 
+interface PropTypes {
+    table1Data: Table1Row[]
+    viewOrder: (orderID : number) => void
+    genIngredientOrder: (orderID: number) => void
+}
 
-    type PlannedDelivery = {
-        id: number;
-        name: string;
-        description: string;
-        deliveryTime: string;
-        items: DeliveryItem[];
-
-    };
-
-    type DeliveryItem = {
-        id: number;
-        label: string;
-        gtin: string;
-    }
-
-
-    type FinalProduct = {
-        id: number;
-        label: string;
-        cost: number;
-        quantity: number;
-    };
-
-    type CustomerOrder = {
-        id: number;
-        client: string;
-        date: string;
-        deliveryDate: string;
-        finalProducts: FinalProduct[];
-    };
-
-    const formatDate = (dateString) => {
-        const options = { year: 'numeric', month:'numeric', day:'numeric'};
-        return new Date(dateString).toLocaleDateString(undefined, options)
-    }
-
-
+const CustomerOrdersTable = (props : PropTypes) => {
+    //Column definitions
     const columns = useMemo(() => [
         {
-            header: 'ID',
-            accessorKey: 'id',
-            cell: ({getValue}) => {
-                const value = getValue();
-                return <Link to={`/customerorderdetails/${value}`}>{value}</Link>
-            },
-
+            header: "Client",
+            accessorKey: "client",
+            size: 20
         },
         {
-            header: 'Client',
-            accessorKey: 'client',
-        },
-
-        {
-            header: 'Date',
+            header: "Date",
             accessorKey: "date",
-            cell: ({getValue}) => formatDate(getValue()),
+            size: 20
         },
         {
-            header: 'DeliveryDate',
-            accessorKey: "deliveryDate",
-            cell: ({getValue}) => formatDate(getValue()),
-        },
-
-        {
-            header: 'Order Size',
-            accessorFn: (row: {
-                finalProducts: any[];
-            }) => row.finalProducts.reduce((total, product) => total + product.quantity, 0),
-            id: 'finalProductsQuantityTotal',
+            header: "Due Date",
+            accessorKey: "dueData",
+            size: 20
         },
         {
-            header: 'Generate',
-            id: 'generate',
-            cell: ({row}) => (
-                isLoading
-                    ? <p>Loading...</p>
-                    : <button onClick={() => handleGenerateClick(row.original)}> "Generate" </button>
-            ),
-
+            header: "",
+            accessorKey: "view",
+            size: 20
         },
-    ], []);
-
-    //Calls the AutoGenAPI to gen
-    const handleGenerateClick = async (order: CustomerOrder) => {
-        setCurrentOrder(order);
-        setIsLoading(true);
-
-        try {
-            const response = await fetch('/api/auto-order/auto-gen-orders', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-
-                },
-                body: JSON.stringify(order),
-            });
-            if (!response.ok) {
-                throw new Error('AutoOrderAPI Gen call was not okay')
-            }
-            const deliveries = await response.json();
-            setPlannedDeliveries(deliveries);
-            setShowModal(true);
-        } catch (error) {
-            console.error(error);
-        } finally{
-            setIsLoading(false);
-
-        }
-    };
-
-    //Calls Confirm on AutoGen API
-    const handleConfirm = async () => {
-        try {
-            const response = await fetch('/api/auto-order/auto-gen-orders/confirm', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-
-                },
-            })
-
-            if(!response.ok) {
-                throw new Error('AutoGen confirm call was not ok');
-            }
-
-            const result = await response.json();
-            console.log("Confirm successful", result);
-
-            setShowModal(false);
-        } catch(error) {
-            console.error(error);
+        {
+            header: "",
+            accessorKey: "gen",
+            size: 20
         }
 
-    };
+    ], [])
 
-    //Calls Cancel on AutoGen API
-    const handleCancel = async () => {
-        try{
-            const response = await fetch('/api/auto-order/auto-gen-orders/cancel', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
 
-            if(!response.ok) {
-                throw new Error('AutoGen cancel call was not okay');
-            }
+    //Click handlers
+    const handleViewClick = (event: React.MouseEvent, row: any) => {
+        const original = row.original as Table1Row;
+        props.viewOrder(original.id);
+    }
 
-            const result = await response.json()
-            console.log("Cancel successful", result);
+    const handleGenClick = (event: React.MouseEvent, row: any) => {
+        const original = row.original as Table1Row;
+        props.genIngredientOrder(original.id);
+    }
 
-            setShowModal(false);
-        } catch(error) {
-            console.error(error);
-        }
-    };
-
-    //Fetches data for customerOrders table
-
-    const fetchData = async (): Promise<void> => {
-        try {
-            const response = await fetch('/api/customerorders/fetch');
-            console.log("Fetch Request!")
-            if (!response.ok) {
-                throw new Error("Fetch customerOrders request was not ok");
-            }
-            const customerOrders: CustomerOrder[] = await response.json();
-            setData(customerOrders);
-            console.log(customerOrders)
-        } catch (error) {
-            console.error("Error occurred within fetchData(): ", error);
-        }
-    };
-
-    useEffect(() => {
-        fetchData().then();
-    }, []);
-
+    //Table definition
     const table = useReactTable({
-        data,
-        columns,
+        data: props.table1Data,
+        columns: columns,
         getCoreRowModel: getCoreRowModel(),
     });
 
+    //For table column formatting
+    const getTemplateColumns = (headerGroup : HeaderGroup<Table1Row>): string => {
+        let output  = "";
+        headerGroup.headers.forEach(header  => {
+            output += `${header.column.getSize()}fr `
+        })
+        return output;
+    }
+
+    const templateColumnStyle = getTemplateColumns(table.getHeaderGroups()[0]);
+
+    //Render the table
     return (
-        <div>
-            {data.length > 0 ? (
+        <div className={'COP-table-grid'}>
+            <div className={'COP-table-header-div'}>
                 <table>
                     <thead>
                     {table.getHeaderGroups().map(headerGroup => (
-                        <tr key={headerGroup.id}>
-                            {headerGroup.headers.map(header => (
-                                <th key={header.id}>
+                        <tr key={headerGroup.id}
+                            className={'COP-tr'}
+                            style={{gridTemplateColumns: getTemplateColumns(headerGroup)}}
+                        >
+                            {headerGroup.headers.map(header =>
+                                <th
+                                    className={'COP-th'}
+                                    key={header.id}>
                                     {flexRender(header.column.columnDef.header, header.getContext())}
                                 </th>
-                            ))}
+                            )
+                            }
                         </tr>
                     ))}
                     </thead>
+                </table>
+            </div>
+            <div className={'COP-table-rows-div'}>
+                <table>
                     <tbody>
-                    {table.getRowModel().rows.map(row => (
-                        <tr key={row.id}>
-                            {row.getVisibleCells().map(cell => (
-                                <td key={cell.id}>
-                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                </td>
-                            ))}
-                        </tr>
-                    ))}
+                    {table.getCoreRowModel().rows.map(row => (
+                        <tr key={row.id}
+                            className={'COP-tr'}
+                            style={{gridTemplateColumns: templateColumnStyle}}
+                        >
+                            <td className={'COP-td'}>{row.original.client}</td>
+                            <td className={'COP-td'}>{row.original.date}</td>
+                            <td className={'COP-td'}>{row.original.dueDate}</td>
+                            <td className={'COP-td'}>
+                                <button
+                                    onClick={(event) => {handleViewClick(event, row)}}
+                                    className={'COP-button-2'}
+                                ><b>View</b></button>
+                            </td>
+                            <td className={'COP-td'}>
+                                <button
+                                    onClick={(event) => {handleGenClick(event, row)}}
+                                    className={'COP-button-2'}
+                                ><b>Gen Ingredient Order</b></button>
+                            </td>
+                        </tr>)
+                    )}
                     </tbody>
                 </table>
-            ) : (
-                <p>Loading</p>
-            )}
-            {showModal && currentOrder && (
-                <OrderDeliveriesModal
-                    plannedDeliveries={plannedDeliveries}
-                    onConfirm={handleConfirm}
-                    onCancel={handleCancel}
-                    />
-            )}
+            </div>
         </div>
     );
 };

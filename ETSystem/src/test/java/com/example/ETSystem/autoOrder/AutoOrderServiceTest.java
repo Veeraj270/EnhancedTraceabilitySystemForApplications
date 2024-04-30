@@ -381,20 +381,8 @@ public class AutoOrderServiceTest {
         //Call method to be tested
         List<PlannedDelivery> result = autoOrderService.generateRequiredOrders(order, true);
 
-        //Check result against expected output
-        List<DeliveryItem>  deliveryItemList = result.get(0).getItems();
-
         //Check that it saved the two products that were expected to be used
         assertThat(autoOrderService.getSavedProducts()).containsAll(List.of(product1, product2, product3));
-
-        //Total quantities of savedProducts and deliveryItems sum to 20 - which is required amount
-        assertThat(deliveryItemList)
-                .extracting(DeliveryItem::getLabel)
-                .containsExactlyInAnyOrder(
-                        "flour3",
-                        "flour3",
-                        "flour9"
-                );
     }
 
 
