@@ -153,11 +153,11 @@ public class finalProductServiceTest {
         FinalProductService.IQData IQData1 = new FinalProductService.IQData(
                 ingType1.getId(),
                 ingType1.getName(),
-                150);
+                1500);
         FinalProductService.IQData IQData2 = new FinalProductService.IQData(
                 ingType2.getId(),
                 ingType2.getName(),
-                50);
+                500);
 
         assertEquals(finalProductService.getTotalIngredients(List.of(FPData1, FPData2)).get(0), List.of(IQData1, IQData2).get(0));
         assertEquals(finalProductService.getTotalIngredients(List.of(FPData1, FPData2)).get(1), List.of(IQData1, IQData2).get(1));
