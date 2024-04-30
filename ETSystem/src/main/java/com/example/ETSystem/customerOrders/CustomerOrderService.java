@@ -26,8 +26,8 @@ public class CustomerOrderService {
         return customerOrderRepository.findAll();
     }
 
-    public void addNewCustomerOrder(CustomerOrder customerOrder){
-        customerOrderRepository.save(customerOrder);
+    public CustomerOrder addNewCustomerOrder(CustomerOrder customerOrder){
+        return customerOrderRepository.save(customerOrder);
     }
 
     public CustomerOrder getCustomerOrderByID(Long id){
