@@ -76,7 +76,10 @@ public class Contract {
         this.finalProducts = finalProducts;
     }
 
-    public Long getID() {return id;}
+    public long getID() {
+        return id;
+    }
+
     public String getClient() {
         return client;
     }

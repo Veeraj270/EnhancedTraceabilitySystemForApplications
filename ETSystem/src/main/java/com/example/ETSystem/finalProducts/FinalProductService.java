@@ -66,12 +66,12 @@ public class FinalProductService {
             this.quantity = quantity;
         }
 
-        @Override
-        public boolean equals(final Object o) {
-            if (this == o) return true;
-            if (null == o || this.getClass() != o.getClass()) return false;
-            final IQData iqData = (IQData) o;
-            return 0 == Float.compare(iqData.quantity, quantity) && Objects.equals(this.ingredientTypeId, iqData.ingredientTypeId) && Objects.equals(this.ingredientName, iqData.ingredientName);
+        public boolean equals(Object o){
+            return o == this
+                    || o instanceof IQData other
+                    && other.quantity == quantity
+                    && Objects.equals(ingredientTypeId, other.ingredientTypeId)
+                    && Objects.equals(ingredientName, other.ingredientName);
         }
     }
 
