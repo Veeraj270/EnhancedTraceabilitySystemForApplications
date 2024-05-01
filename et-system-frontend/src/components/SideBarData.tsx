@@ -2,7 +2,6 @@ import { FaWarehouse } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
 import { FaBookOpen } from "react-icons/fa";
 import { PiTreeStructure } from "react-icons/pi";
-import { FaBirthdayCake } from "react-icons/fa";
 import {GiWoodenCrate} from "react-icons/gi";
 import React from "react";
 import { FaFileContract } from "react-icons/fa";
