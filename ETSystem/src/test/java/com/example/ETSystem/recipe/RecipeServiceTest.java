@@ -52,9 +52,7 @@ public class RecipeServiceTest {
         vanilla = ingredientTypeAPI.addIngredientType(new IngredientType("vanilla", true, true, Set.of()));
     }
 
-    @Test
-    @Transactional
-    void testIngredient(){
+    void testIngredient() {
         // Correctly saving name of Ingredient
         assertEquals(milk.getName(), "milk");
         assertEquals(flour.getName(), "flour");
@@ -66,16 +64,16 @@ public class RecipeServiceTest {
 
     @Test
     @Transactional
-    void testRecipe(){
+    void testRecipe() {
         IngredientQuantity flour_500 = new IngredientQuantity();
         flour_500.setIngredientType(flour);
         flour_500.setQuantity(500);
 
-        IngredientQuantity chocolate_300 = new IngredientQuantity();
+        IngredientQuantity chocolate_300 = new IngredientQuantity(chocolate, 300);
         chocolate_300.setIngredientType(chocolate);
         chocolate_300.setQuantity(300);
 
-        IngredientQuantity vanilla_100 = new IngredientQuantity();
+        IngredientQuantity vanilla_100 = new IngredientQuantity(vanilla, 100);
         vanilla_100.setIngredientType(vanilla);
         vanilla_100.setQuantity(100);
 
@@ -88,21 +86,25 @@ public class RecipeServiceTest {
 
         var rec1 = recipeService.addNewRecipe(new Recipe("Vanilla Cake", Set.of(vanilla_100, flour_500)));
 
-        //assertEquals(recipeRepository.findAll().stream().toList(), List.of(rec1)); DOES NOT WORK AS MOCK DATA IS PRESENT ALSO, ADAPTATION IS BELOW:
-        assertTrue(recipeRepository.findAll().contains(rec1));
-
-        var rec2 = recipeService.addNewRecipe(new Recipe("Chocolate Cake Test", Set.of(chocolate_300, flour_500_2))); //PLEASE NOTE I ADDED THE "TEST". MOCK DATA CONTAINS OBJECT WITH SAME
-        //LABEL AND RECIPESERVICE THROWS AN ERROR AS A RESULT. THIS SHOULD NOT BE THE CASE AS THE ONLY UNIQUE IDENTIFIER IS THE ID, DUPLICATE LABELS SHOULD BE PREVENTED
-        //AT AN API LEVEL NOT AT A REPOSITORY LEVEL
-
+        assertEquals(recipeRepository.findAll().stream().toList(), List.of(rec1));
+        // Testing in case of using the constructor
         assertEquals(List.of(), rec1.getAllergens().stream().toList());
-        assertEquals(List.of("milk"), rec2.getAllergens().stream().toList());
-	    assertTrue(rec1.isVegetarian());
-	    assertTrue(rec1.isVegan());
-	    assertTrue(rec2.isVegetarian());
-	    assertFalse(rec2.isVegan());
+        assertTrue(rec1.isVegetarian());
+        assertTrue(rec1.isVegan());
 
-        assertEquals(recipeRepository.findAll().stream().toList(), List.of(rec1, rec2));
+        var rec2 = new Recipe();
+        rec2.setLabel("Chocolate Cake Test");
+        rec2.setIngredientQuantities(Set.of(chocolate_300, flour_500_2));
+        recipeService.addNewRecipe(rec2);
+
+        // Testing the in case of using non-trivial ingredientQuantities setter
+        assertEquals(List.of("milk"), rec2.getAllergens().stream().toList());
+        assertTrue(rec2.isVegetarian());
+        assertFalse(rec2.isVegan());
+
+        // Testing getRecipes()
+        assertEquals(recipeService.getRecipes(), List.of(rec1, rec2));
+        assertEquals(recipeService.getRecipes(), recipeRepository.findAll().stream().toList());
 
         IngredientQuantity mango_invalid = new IngredientQuantity();
         mango_invalid.setIngredientType(new IngredientType("mango", true, true, Set.of()));
@@ -131,7 +133,7 @@ public class RecipeServiceTest {
 
     @Test
     @Transactional
-    public void testAddNewRecipe(){
+    public void testAddNewRecipe() {
         //Setup
         IngredientType iType1 = new IngredientType("iType1", true, true, Set.of());
         IngredientType iType2 = new IngredientType("iType2", false, false, Set.of("milk"));
@@ -155,4 +157,6 @@ public class RecipeServiceTest {
         Recipe savedRecipe = recipes.get(0);
 
         assertEquals("cake", savedRecipe.getLabel());
-    }}
+    }
+
+}

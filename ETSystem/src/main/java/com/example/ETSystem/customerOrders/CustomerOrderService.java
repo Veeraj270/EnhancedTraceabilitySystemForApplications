@@ -30,37 +30,20 @@ public class CustomerOrderService {
         customerOrderRepository.save(customerOrder);
     }
 
-    public CustomerOrder getCustomerOrderByID(Long id) throws Exception {
+    public CustomerOrder getCustomerOrderByID(Long id){
         if(customerOrderRepository.findById(id).isPresent()){
             return customerOrderRepository.findById(id).get();
         }
         else{
-            throw new Exception("Unable to find customer order");
+            throw new IllegalArgumentException("Unable to find customer order");
         }
     }
 
     public CustomerOrder editCustomerOrder(Long id, CustomerOrder customerOrder){
-        CustomerOrder existingCustomerOrder = customerOrderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Customer order not found with id: " + id));
+        CustomerOrder existingCustomerOrder = getCustomerOrderByID(id);
         existingCustomerOrder.setClient(customerOrder.getClient());
         existingCustomerOrder.setDate(customerOrder.getDate());
         existingCustomerOrder.setFinalProducts(customerOrder.getFinalProducts());
-
-        return customerOrderRepository.save(existingCustomerOrder);
-    }
-
-    public CustomerOrder editCustomerOrderFinalProducts(Long id, Pair<Long, Integer> newFinalProductData){
-        CustomerOrder existingCustomerOrder = customerOrderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Customer order not found with id: " + id));
-        List<FinalProduct> existingFinalProducts = existingCustomerOrder.getFinalProducts();
-        existingFinalProducts.stream().map(finalProduct -> {
-            // I use findFirst() because there can't be 2 final products with the same id
-            if(newFinalProductData.getFirst() == finalProduct.getId()){
-                finalProduct.setQuantity(finalProduct.getQuantity() - newFinalProductData.getSecond());
-            }
-            return finalProduct;
-        }).collect(Collectors.toList());
-        existingCustomerOrder.setFinalProducts(existingFinalProducts);
 
         return customerOrderRepository.save(existingCustomerOrder);
     }
