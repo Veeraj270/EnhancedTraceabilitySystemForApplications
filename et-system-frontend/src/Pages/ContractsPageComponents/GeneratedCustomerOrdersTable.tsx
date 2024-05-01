@@ -41,18 +41,18 @@ const GeneratedCustomerOrdersTable = (props : PropTypes) => {
 
     //Render table
     return (
-        <div className={'Contract-table-grid'}>
-            <div className={'Contract-table-header-div'}>
+        <div className={'Contracts-table-grid'}>
+            <div className={'Contracts-table-header-div'}>
                 <table>
                     <thead>
                     {table.getHeaderGroups().map(headerGroup => (
                         <tr key={headerGroup.id}
-                            className={'Contract-tr'}
+                            className={'Contracts-tr'}
                             style={{gridTemplateColumns: templateColumnStyle}}
                         >
                             {headerGroup.headers.map(header =>
                                 <th
-                                    className={'Contract-th'}
+                                    className={'Contracts-th'}
                                     key={header.id}>
                                     {flexRender(header.column.columnDef.header, header.getContext())}
                                 </th>
@@ -68,12 +68,12 @@ const GeneratedCustomerOrdersTable = (props : PropTypes) => {
                     <tbody>
                     {table.getCoreRowModel().rows.map(row => (
                         <tr key={row.id}
-                            className={'Contract-tr'}
+                            className={'Contracts-tr'}
                             style={{gridTemplateColumns: templateColumnStyle}}
                         >
                             {row.getVisibleCells().map(cell => (
                                 <td key={cell.id}
-                                    className={'Contract-td'}
+                                    className={'Contracts-td'}
                                 >
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                 </td>

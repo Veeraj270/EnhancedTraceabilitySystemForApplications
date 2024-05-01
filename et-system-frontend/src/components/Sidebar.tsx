@@ -16,7 +16,6 @@ const Sidebar = () => {
                         <Link to={item.path}>
                             {item.icon}
                             <b>&nbsp;{item.title}</b>
-
                         </Link>
                     </li>
                 )

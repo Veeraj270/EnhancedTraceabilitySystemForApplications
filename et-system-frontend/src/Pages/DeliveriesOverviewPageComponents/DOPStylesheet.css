@@ -184,7 +184,7 @@
     padding-bottom: 4px;
 }
 .DOP-T-search-container input{
-    background-color: ghostwhite;
+    background-color: var(--white);
     height: 30px;
     width: 100%;
 

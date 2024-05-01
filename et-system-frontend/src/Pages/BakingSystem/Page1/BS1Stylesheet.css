@@ -211,7 +211,7 @@
 }
 
 .BSP1-FP-table-1-search-div input{
-    background-color: ghostwhite;
+    background-color: var(--white);
     height: 33px;
     width: 100%;
     font-weight: normal;
