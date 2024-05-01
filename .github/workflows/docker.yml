@@ -47,7 +47,7 @@ jobs:
       run: |
         wget https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest
         chmod +x ./ecs-cli-linux-amd64-latest
-        ./ecs-cli-linux-amd64-latest configure --cluster cd-cluster --region eu-west-2 --config-name default_conf
-        ./ecs-cli-linux-amd64-latest configure default default_conf
+        ./ecs-cli-linux-amd64-latest configure --cluster cd-cluster --region eu-west-2
+        ./ecs-cli-linux-amd64-latest configure default --config-name default
         ./ecs-cli-linux-amd64-latest compose up
       working-directory: "./docker/aws/"
