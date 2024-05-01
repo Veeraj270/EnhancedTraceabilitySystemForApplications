@@ -31,12 +31,7 @@ const DatesTable = (props : PropTypes) => {
         props.makeOrder(original.contract, original.date);
 
         setTableData(data => data.filter(dataRow => dataRow !== original));
-
     }
-
-
-
-
 
     //Table definition
     const table = useReactTable({
