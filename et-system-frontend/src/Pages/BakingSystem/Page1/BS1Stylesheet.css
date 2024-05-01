@@ -65,14 +65,14 @@
 
 .BSP1-FP-table-1-grid{
     display: grid;
-    grid-template-rows: 60px 60px 1fr;
+    grid-template-rows: 120px 1fr;
 
     height: 100%;
     width: 100%;
 
     background-color: ghostwhite;
     box-shadow: 1px 1px 3px var(--shadow-color);
-    border: 2px solid #eae7e7;
+    border: 2px solid var(--light-grey);
 
     border-radius: 0.5rem;
     min-width: 0;
@@ -88,8 +88,8 @@
 
     background-color: ghostwhite;
     box-shadow: 1px 1px 3px var(--shadow-color);
-    border: 2px solid #eae7e7;
-
+    border: 2px solid var(--light-grey);
+    border-radius: 0.5rem;
     min-width: 0;
     min-height: 0;
 }
@@ -134,13 +134,15 @@
     min-height: 0;
     font-size: 16px;
     overflow: hidden;
+    background-color: inherit;
+    border-radius: 0.25rem 0.25rem 0rem 0rem;
 }
 
 .BSP1-th{
     height: 100%;
     width: 100%;
-
-    background-color: #f3f3ff;
+    color: var(--white);
+    background-color: inherit;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -150,6 +152,8 @@
     font-size: 14px;
     padding: 0;
     margin: 0;
+
+    border-radius: 0.5rem 0.5rem 0rem 0rem;
 
     overflow: hidden;
 }
@@ -175,10 +179,25 @@
     width: 100%;
     min-width: 0;
     min-height: 0;
+    background-color: var(--turqoise);
+    border-radius: 0.25rem 0.25rem 0rem 0rem;
+
 }
 
 .FPTable-grid th, td{
     padding: 12px;
+}
+
+.BSP1-upper-wrapper{
+    display: grid;
+
+    grid-template-rows: 60px 60px;
+
+    min-width: 0;
+    min-height: 0;
+
+    background-color: var(--turqoise);
+    border-radius: 0.25rem;
 }
 
 .BSP1-FP-table-1-search-div{
@@ -186,8 +205,6 @@
     flex-direction: column;
     padding: 10px;
     border-radius: 0.2rem;
-    border-bottom: var(--border-color)  solid 4px;
-    background-color: azure;
     justify-content: center;
 }
 
@@ -241,3 +258,8 @@
     cursor: pointer;
 }
 
+.BSP1-table-button{
+    background-color: orange;
+    border-radius: 0.25rem;
+    border-color: var(--light-grey);
+}

@@ -2,12 +2,15 @@ package com.example.ETSystem.bakingSystem;
 
 import com.example.ETSystem.customerOrders.CustomerOrder;
 import com.example.ETSystem.customerOrders.CustomerOrderRepository;
+import com.example.ETSystem.customerOrders.CustomerOrderService;
 import com.example.ETSystem.finalProducts.FinalProduct;
 import com.example.ETSystem.finalProducts.FinalProductRepository;
+import com.example.ETSystem.finalProducts.FinalProductService;
 import com.example.ETSystem.ingredientType.IngredientType;
 import com.example.ETSystem.ingredientType.IngredientTypeRepository;
 import com.example.ETSystem.product.Product;
 import com.example.ETSystem.product.ProductRepository;
+import com.example.ETSystem.product.ProductService;
 import com.example.ETSystem.recipe.IngredientQuantity;
 import com.example.ETSystem.recipe.IngredientQuantityRepository;
 import com.example.ETSystem.recipe.Recipe;
@@ -23,6 +26,7 @@ import com.example.ETSystem.bakingSystem.BakingSystemService.BPStruct;
 import com.example.ETSystem.bakingSystem.BakingSystemService.UsedProduct;
 import com.example.ETSystem.bakingSystem.BakingSystemService.BakedProduct;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -32,10 +36,13 @@ import java.util.Set;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class BakingSystemServiceTest {
     private final ProductRepository productRepository;
+    private final ProductService productService;
     private final IngredientTypeRepository iTypeRepository;
     private final IngredientQuantityRepository IQRepository;
     private final CustomerOrderRepository customerOrderRepository;
+    private final CustomerOrderService customerOrderService;
     private final FinalProductRepository finalProductRepository;
+    private final FinalProductService finalProductService;
     private final RecipeRepository recipeRepository;
 
     //Needed for timeline service
@@ -48,28 +55,34 @@ public class BakingSystemServiceTest {
 
     @Autowired
     public BakingSystemServiceTest(ProductRepository productRepository,
+                                   ProductService productService,
                                    IngredientTypeRepository iTypeRepository,
                                    CreateEventRepository createRepo,
                                    MoveEventRepository moveRepo,
                                    UseEventRepository useRepo,
                                    IngredientQuantityRepository IQRepository,
                                    CustomerOrderRepository customerOrderRepository,
+                                   CustomerOrderService customerOrderService,
                                    FinalProductRepository finalProductRepository,
+                                   FinalProductService finalProductService,
                                    RecipeRepository recipeRepository1){
         //Initialize the repositories
         this.productRepository = productRepository;
+        this.productService = productService;
         this.iTypeRepository = iTypeRepository;
         this.createRepo = createRepo;
         this.moveRepo = moveRepo;
         this.useRepo = useRepo;
         this.IQRepository = IQRepository;
         this.customerOrderRepository = customerOrderRepository;
+        this.customerOrderService = customerOrderService;
         this.finalProductRepository = finalProductRepository;
+        this.finalProductService = finalProductService;
         this.recipeRepository = recipeRepository1;
 
         //Initialize the services
         this.timelineService = new TimelineService(createRepo, moveRepo, useRepo, productRepository);
-        bakingSystemService = new BakingSystemService(productRepository, this.timelineService, iTypeRepository, finalProductRepository, customerOrderRepository);
+        bakingSystemService = new BakingSystemService(productService, this.timelineService, iTypeRepository, finalProductService, customerOrderService);
     }
 
     @BeforeAll

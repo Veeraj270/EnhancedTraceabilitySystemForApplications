@@ -101,29 +101,31 @@ const FinalProductsTable = (props: PropTypes) => {
 
     return (
         <div className={'BSP1-FP-table-1-grid'}>
-            <div className={"BSP1-FP-table-1-search-div"}>
-                <input placeholder={"Search..."} onChange={handleChange} value={searchInput}/>
-            </div>
-            <div className={'BSP1-FP-table-1-header-div'}>
-                <table>
-                    <thead>
-                    {table.getHeaderGroups().map(headerGroup => (
-                        <tr key={headerGroup.id}
-                            className={'BSP1-tr'}
-                            style={{gridTemplateColumns: getTemplateColumns(headerGroup)}}
-                        >
-                            {headerGroup.headers.map(header =>
-                                <th
-                                    className={'BSP1-th'}
-                                    key={header.id}>
-                                    {flexRender(header.column.columnDef.header, header.getContext())}
-                                </th>
-                            )
-                            }
-                        </tr>
-                    ))}
-                    </thead>
-                </table>
+            <div className={'BSP1-upper-wrapper'}>
+                <div className={"BSP1-FP-table-1-search-div"}>
+                    <input placeholder={"Search..."} onChange={handleChange} value={searchInput}/>
+                </div>
+                <div className={'BSP1-FP-table-1-header-div'}>
+                    <table>
+                        <thead>
+                        {table.getHeaderGroups().map(headerGroup => (
+                            <tr key={headerGroup.id}
+                                className={'BSP1-tr'}
+                                style={{gridTemplateColumns: getTemplateColumns(headerGroup)}}
+                            >
+                                {headerGroup.headers.map(header =>
+                                    <th
+                                        className={'BSP1-th'}
+                                        key={header.id}>
+                                        {flexRender(header.column.columnDef.header, header.getContext())}
+                                    </th>
+                                )
+                                }
+                            </tr>
+                        ))}
+                        </thead>
+                    </table>
+                </div>
             </div>
             <div className={"BSP1-FP-table-1-rows-div"}>
                 <table>
@@ -137,7 +139,7 @@ const FinalProductsTable = (props: PropTypes) => {
                             <td className={'BSP1-td'}>{row.original.amount}</td>
                             <td className={'BSP1-td'}>{row.original.associatedCustomerOrderID}</td>
                             <td className={'BSP1-td'}>
-                                <button onClick={(event) => {handleClickPlus(event, row)}}><b>+</b></button>
+                                <button className={'BSP1-table-button'} onClick={(event) => {handleClickPlus(event, row)}}><b>+</b></button>
                             </td>
                         </tr>)
                     )}

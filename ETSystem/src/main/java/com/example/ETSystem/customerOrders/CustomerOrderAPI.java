@@ -46,12 +46,4 @@ public class CustomerOrderAPI {
         return ResponseEntity.ok(editedOrder);
     }
 
-    @PutMapping(path = "edit-final-products")
-    public void editCustomerOrderFinalProducts(@RequestBody List<String> finalProducts){
-       finalProducts.stream().forEach(x -> {
-            String[] elements = x.split(";");
-            customerOrderService.editCustomerOrderFinalProducts(Long.parseLong(elements[0]), Pair.of(Long.parseLong(elements[1]), Integer.parseInt(elements[2])));
-        });
-    }
-
 }

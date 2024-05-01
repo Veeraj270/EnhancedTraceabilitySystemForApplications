@@ -104,7 +104,7 @@ const BakingSystemPage1 = (props : PropTypes) => {
     //Render the page
     return (
         <div className="page-container">
-            <h1 className='BS1-title'>Baking System</h1>
+            <h1 className='BS1-title'>Baking System - Page 1</h1>
             <div className="BS1-grid-container">
                 <div className={"BS1-grid-container-2"}>
                 {<FinalProductsTable

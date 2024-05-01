@@ -149,7 +149,7 @@ const PDPTable = ( props: propType ) => {
                 <table className={'table-style'}>
                     {table.getHeaderGroups().map(headerGroup => (
                         <tr key={headerGroup.id}>
-                            {headerGroup.headers.map(header => <th key={header.id} style={{width: `${header.column.getSize()}%`, maxWidth:`${header.column.getSize}%`}}>
+                            {headerGroup.headers.map(header => <th className={'PDP-th'} key={header.id} style={{width: `${header.column.getSize()}%`, maxWidth:`${header.column.getSize}%`}}>
                                 {flexRender(header.column.columnDef.header, header.getContext())}
                             </th>)}
                         </tr>

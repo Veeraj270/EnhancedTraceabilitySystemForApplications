@@ -118,7 +118,7 @@ const SelectedFinalProductsTable = ( props : PropTypes) => {
                             <td className={'BSP1-td'}>{row.original.amount}</td>
                             <td className={'BSP1-td'}>{row.original.associatedCustomerOrderID}</td>
                             <td className={'BSP1-td'}>
-                                <button onClick={(event) => {handleClickMinus(event, row)}}><b>-</b></button>
+                                <button className={'BSP1-table-button'} onClick={(event) => {handleClickMinus(event, row)}}><b>-</b></button>
                             </td>
                         </tr>)
                     )}

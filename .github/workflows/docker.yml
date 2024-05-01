@@ -3,8 +3,6 @@ name: AWS and Docker CD
 on:
   push:
     branches: [ "dev" ]
-  pull_request:
-    branches: [ "dev" ]
 
 permissions:
   id-token: write
@@ -43,3 +41,11 @@ jobs:
       run: |
         docker push 992382812807.dkr.ecr.eu-west-2.amazonaws.com/ets-frontend:latest
         docker push 992382812807.dkr.ecr.eu-west-2.amazonaws.com/ets-backend:latest
+    - name: Redeploy
+      run: |
+        wget https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest
+        chmod +x ./ecs-cli-linux-amd64-latest
+        ./ecs-cli-linux-amd64-latest configure --cluster cd-cluster --region eu-west-2
+        ./ecs-cli-linux-amd64-latest configure default --config-name default
+        ./ecs-cli-linux-amd64-latest compose up
+      working-directory: "./docker/aws/"
