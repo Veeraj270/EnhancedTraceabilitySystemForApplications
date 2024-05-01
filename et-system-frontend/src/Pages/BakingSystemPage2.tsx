@@ -111,7 +111,7 @@ const BakingSystemPage2 = (props : PropTypes) => {
     //Render table
     return (
         <div className="BS2-page-container">
-            <h1 className="BS2-title">Baking System</h1>
+            <h1 className="BS2-title">Baking System - Page 2</h1>
             <div className={'BSP3-description'}>
                 <p>LHS table shows the ingredients required to bake the selected product. Scan the products you are using as ingredients, then weigh out the amount you are using, and enter the amount used.</p>
             </div>

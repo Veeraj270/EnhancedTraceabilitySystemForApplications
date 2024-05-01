@@ -13,27 +13,12 @@ const CustomerOrdersPage = () => {
     const [table1Data, setTable1Data] = useState<Table1Row[]>([])
     const [table2Data, setTable2Data] = useState<Table2Row[]>([])
     const [table3Data, setTable3Data] = useState<Table3Row[]>([])
-
     const [renderTable, setRenderTable] = useState<number>(1);
-
-    //Debugging
-    useEffect(() => {
-        console.log("table1Data:", table1Data);
-    }, [table1Data]);
-
-    useEffect(() => {
-        console.log("rawOrderData:", rawOrderData);
-    }, [rawOrderData]);
-
-    useEffect(() => {
-        console.log("table2Data:", table2Data);
-    }, [table2Data]);
-    //End-debugging
 
     //UseEffects
     //Fetch customer orders upon initial render
     useEffect(() => {
-        fetchOrders().then((data) => {
+        fetchOrders().then((data: any) => {
             setRawOrderData(data);
             setTable1Data(formatOrders(data));
         }).catch((err) => {console.error("Error fetching customer orders: " + err)});
@@ -45,7 +30,7 @@ const CustomerOrdersPage = () => {
         if (!response.ok) {
             throw new Error("Fetch customerOrders request was not ok");
         }
-        return   await response.json();
+        return await response.json();
     }
 
     const fetchGeneratedOrder = async (order: any) => {
@@ -143,7 +128,6 @@ const CustomerOrdersPage = () => {
     const genIngredientOrder = (orderID : number) => {
         const index = rawOrderData.findIndex((row) => row.id === orderID);
         const order = rawOrderData[index];
-        let items: any[] = [];
         //Fetch the generated order & update table3Data
         fetchGeneratedOrder(order)
             .then((data : any) => {
