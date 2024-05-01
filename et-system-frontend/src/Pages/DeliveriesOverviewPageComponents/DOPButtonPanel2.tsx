@@ -9,7 +9,7 @@ const DOPButtonPanel2 = () => {
 
     return (
         <div className={'DOP-BP-2-grid'}>
-            <button className={'DOP-button'} onClick={handleClick}>DETAILS</button>
+            <button className={'DOP-button'} onClick={handleClick}>Details</button>
         </div>
     )
 }

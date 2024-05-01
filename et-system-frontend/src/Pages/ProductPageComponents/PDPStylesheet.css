@@ -191,6 +191,10 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.PDP-table tbody td{
+    font-size: 14px;
+}
+
 .PDP-table th, td{
     padding: 12px;
     border-bottom: 1px solid #ddd;

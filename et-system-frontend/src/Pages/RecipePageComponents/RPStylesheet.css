@@ -1,7 +1,7 @@
 
 .RP-grid-container{
     display: grid;
-    grid-template-columns: 4fr 6fr;
+    grid-template-columns: 4fr 6fr 2fr;
     width: 100%;
     height: 100%;
     column-gap: 60px;
@@ -12,12 +12,12 @@
     box-sizing: border-box;
 }
 
-.RP-grid-column{
+.RP-grid-column-2{
     height: 100%;
     width: 100%;
     display: grid;
+    grid-template-rows: 1fr 2fr;
     row-gap: 20px;
-    align-items: center;
 
     min-height: 0px;
     min-width: 0px;
@@ -222,11 +222,15 @@
     row-gap: 10px;
     padding: 10px;
     width: 100%;
-    height: 280px;
-    background-color: ghostwhite;
+    height: 100%;
+
+    background-color: var(--azure);
     box-shadow: 1px 1px 3px var(--shadow-color);
     border-radius: 0.5rem;
-    border: var(--border-color) solid 1px
+    border: var(--light-grey) solid 2px;
+
+    min-height: 0;
+    min-width: 0;
 }
 
 .RPSummary-name{
@@ -237,8 +241,8 @@
 
 .RPSummary-item{
     border-radius: 0.5rem;
-    border: var(--border-color) solid 1px;
-    background-color: #efeeee;
+    border: var(--light-grey) solid 2px;
+    background-color: var(--white);
 }
 
 .RPSummary-item p {
