@@ -6,34 +6,13 @@ import GeneratedCustomerOrdersTable from "./ContractsPageComponents/GeneratedCus
 import DatesTable from "./ContractsPageComponents/DatesTable";
 import {Contract, CustomerOrder, Table1Row, Table2Row, Table3Row} from "./ContractsPageComponents/ContractsInterfaces";
 
-
-
 const ContractsPage = () => {
     //State variables
     const [rawContractData, setRawContractData] = useState<any[]>([]);
     const [table1Data, setTable1Data] = useState<Table1Row[]>([])
     const [table2Data, setTable2Data] = useState<Table2Row[]>([])
     const [table3Data, setTable3Data] = useState<Table3Row[]>([])
-
     const [renderTable, setRenderTable] = useState<number>(1);
-
-    //Debugging
-    useEffect(() => {
-        console.log("rawContractData:", rawContractData);
-    }, [rawContractData]);
-
-    useEffect(() => {
-        console.log("table1Data:", table1Data);
-    }, [table1Data]);
-
-    useEffect(() => {
-        console.log("table2Data:", table2Data);
-    }, [table2Data]);
-
-    useEffect(() => {
-        console.log("table3Data:", table2Data);
-    }, [table3Data]);
-    //End-debugging
 
     //UseEffects
     //Fetch contracts upon initial render
@@ -45,7 +24,6 @@ const ContractsPage = () => {
     }, []);
 
     const addCustomerOrder = async (customerOrder : CustomerOrder): Promise<void> => {
-        console.log(JSON.stringify(customerOrder));
         try {
             const response = await fetch('/api/customerorders/add', {
                 method: 'POST',
@@ -62,7 +40,6 @@ const ContractsPage = () => {
     }
 
     const addContract = async (contract : Contract): Promise<void> => {
-        console.log(JSON.stringify(contract));
         try {
             const response = await fetch('/api/contracts/add', {
                 method: 'POST',
@@ -72,7 +49,6 @@ const ContractsPage = () => {
                 body: JSON.stringify(contract),
             });
             if (!response.ok) throw new Error('Failed update contract');
-            console.log('Contract updated');
         } catch (error) {
             console.error(error);
         }
@@ -81,7 +57,6 @@ const ContractsPage = () => {
 
     const removeDateAndAddOrder = async (contract : Contract, date : String) => {
         const updatedDates = contract.dates.filter(d => convertTimestamp(d) !== date);
-
 
         const customerOrder: CustomerOrder = {
             id: 0,
@@ -102,8 +77,6 @@ const ContractsPage = () => {
 
         await addCustomerOrder(customerOrder)
         await addContract(contractWithoutDate)
-
-
     };
 
     //Fetches raw contracts data

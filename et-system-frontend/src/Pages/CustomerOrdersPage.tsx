@@ -144,7 +144,6 @@ const CustomerOrdersPage = () => {
 
     const formatIngredientOrder = (order: any): Table3Row[] => {
         let temp : Table3Row[] = [];
-        console.log("order: ", order);
         order.forEach((row: any) => {
             let index = temp.findIndex((x) => x.gtin === row.gtin);
             if (index === -1){
@@ -158,9 +157,6 @@ const CustomerOrdersPage = () => {
                 temp[index].quantity += 1;
             }
         });
-
-        console.log("temp: ", temp);
-
         return temp;
     }
     const formatFinalProducts = (fPList : any[]): Table2Row[] => {

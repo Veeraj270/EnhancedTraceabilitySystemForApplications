@@ -14,6 +14,8 @@ body {
   --black: #353535;
   --dark-blue: #284B63;
   --light-grey: #D9D9D9;
+  --azure: azure;
+  --orange: orange;
 }
 
 code {
@@ -26,11 +28,13 @@ code {
   padding-right: 180px;
   padding-bottom: 50px;
   background-color: ghostwhite;
-  height: 100vh;
+  height: 100%;
   display: grid;
   grid-template-rows: 80px ;
-
   --shadow-color: rgb(0,0,0,0.4);
+
+  min-width: 0;
+  min-height: 0;
 }
 
 .container {

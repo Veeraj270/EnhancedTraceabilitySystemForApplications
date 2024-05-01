@@ -58,31 +58,19 @@ const DOPTable1 = ( {setSelected, selected, rawData} ) => {
         {
             header: 'ID',
             accessorKey: 'id',
-            maxSize: 10,
             size: 10,
-            minSize: 10,
         },
         {
             header: 'Name',
             accessorKey: 'name',
-            maxSize: 30,
-            size: 30,
-            minSize: 30,
+            size: 45,
         },
         {
             header: 'Date Due',
             accessorKey: 'dateDue',
-            maxSize: 30,
-            size: 30,
-            minSize: 30,
-        },
-        {
-            header: 'Status',
-            accessorKey: 'status',
-            maxSize: 30,
-            size: 30,
-            minSize: 30,
-        }], [])
+            size: 45,
+        }
+        ], [])
 
     //Instantiates the tanstack table
     const table = useReactTable({
@@ -90,6 +78,17 @@ const DOPTable1 = ( {setSelected, selected, rawData} ) => {
         columns: columns,
         getCoreRowModel: getCoreRowModel(),
     })
+
+    //For table column formatting
+    const getTemplateColumns = (headerGroup : any): string => {
+        let output  = "";
+        headerGroup.headers.forEach((header : any)  => {
+            output += `${header.column.getSize()}fr `
+        })
+        return output;
+    }
+
+    const templateColumnStyle = getTemplateColumns(table.getHeaderGroups()[0]);
 
     //Implements selectable rows
     const handleClick = (event: React.MouseEvent, id : number) => {
@@ -111,12 +110,13 @@ const DOPTable1 = ( {setSelected, selected, rawData} ) => {
                 <label>Search scheduled deliveries</label>
                 <input placeholder={"Search... "} onChange={handleChange} value={searchInput}/>
             </div>
-
             <div className={'DOP-T-headers-div'}>
                 <table>
                 {table.getHeaderGroups().map(headerGroup => (
-                    <tr key={headerGroup.id} >
-                        {headerGroup.headers.map(header => <th key={header.id} style = {{width: `${header.column.getSize()}%`, textAlign: "center"}}>
+                    <tr key={headerGroup.id} className={'DOP-tr'}
+                        style={{gridTemplateColumns: getTemplateColumns(headerGroup)}}
+                    >
+                        {headerGroup.headers.map(header => <th key={header.id} className={'DOP-th'}>
                             {flexRender(header.column.columnDef.header, header.getContext())}
                         </th>)}
                     </tr>
@@ -129,9 +129,11 @@ const DOPTable1 = ( {setSelected, selected, rawData} ) => {
                 {table.getRowModel().rows.map(row => (<tr
                     key={row.id}
                     onClick={(event) => {handleClick(event, row.original.id)}}
-                    className={(row.original.id === selected) ? 'DOP-selected-row' : 'DOP-unselected-row'}>
+                    className={(row.original.id === selected) ? 'DOP-tr-selected' : 'DOP-tr'}
+                    style={{gridTemplateColumns: templateColumnStyle}}
+                >
                     {row.getVisibleCells().map(cell => (
-                        <td style = {{width: `${cell.column.getSize()}%`,textAlign:"center"}}>
+                        <td className={'DOP-td'}>
                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                         </td>
                     ))}

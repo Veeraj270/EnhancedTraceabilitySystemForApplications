@@ -64,8 +64,6 @@ const PDPRecentEventsView = ( props: PropType ) =>{
         let Y = 10;
         let gap = 20;
 
-        console.log(events);
-
         if (trimmedEvents.length > 0){
             //Add a node for each event
             trimmedEvents.forEach((event) => {
@@ -99,7 +97,6 @@ const PDPRecentEventsView = ( props: PropType ) =>{
                 let date = timestamp.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/)?.at(0);
                 let time = timestamp.match(/[0-9]{2}:[0-9]{2}:[0-9]{2}/)?.at(0);
                 let eventType = event.type;
-                console.log(`${date}  ${time}  ${eventType}`)
             })
 
             setNodes(localNodes);
@@ -125,6 +122,7 @@ const PDPRecentEventsView = ( props: PropType ) =>{
                         cy={`${n.y}`}
                         r={`${n.r}`}
                         fill={"lightblue"}
+                        stroke={"black"}
                     />
             ))
         )

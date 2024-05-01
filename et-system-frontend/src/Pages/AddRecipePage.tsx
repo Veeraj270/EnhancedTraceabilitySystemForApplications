@@ -94,8 +94,8 @@ const AddRecipePage = () => {
     }
 
     return(
-        <div className={'add-recipe-page'}>
-            <h1 className={'ARP-title'}> Add recipe </h1>
+        <div className={'page-container'}>
+            <h1> Add recipe </h1>
             <div className={'ARP-grid-container'}>
                 <div className={'ARP-grid-column'}>
                     <IngredientQuantityPanel

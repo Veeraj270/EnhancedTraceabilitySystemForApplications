@@ -3,6 +3,7 @@ import {
     getCoreRowModel,
     flexRender,
 } from '@tanstack/react-table';
+import React from 'react';
 import { useEffect, useMemo, useState } from "react";
 import { useParams} from "react-router-dom";
 const FinalProductTable = () => {

@@ -39,26 +39,13 @@ function App() {
                     </Route>
                     <Route path={"/add-recipe"} element={<AddRecipePage/>}>
                     </Route>
-                    <Route path={"/add"} element={<AddProductsPage/>}>
-                    </Route>
-                    <Route path={"/edit-product/:id"} element={<EditProductPage/>}>
-                    </Route>
                     <Route path={"/customer-orders"} element={<CustomerOrdersPage/>}>
                     </Route>
                     <Route path={"/customerorderdetails/:orderId"} element={<FinalProductPage/>}>
                     </Route>
-                    <Route path={"/baking-system-page-3"} element={<BakingSystemPage3/>}>
-                    </Route>
-                    <Route path={"baking-system-1"} element={<BakingSystemPage1/>}>
-                    </Route>
-                    <Route path={"baking-system-page-2"} element={<BakingSystemPage2/>}>
-                    </Route>
                     <Route path={"/baking-system"} element={<BakingSystem/>}></Route>
                     <Route path={"/contracts"} element={<ContractsPage/>}>
                     </Route>
-
-
-
                 </Routes>
             </div>
         </Router>

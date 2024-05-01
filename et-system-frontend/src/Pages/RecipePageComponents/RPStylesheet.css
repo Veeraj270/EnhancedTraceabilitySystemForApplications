@@ -1,81 +1,80 @@
-.recipe-page{
-    width: 100%;
-    height: 100%;
-    padding-left:  50px;
-    padding-right: 150px;
-    padding-top: 20px;
-    display: flex;
-    flex-direction: column;
-    background-color: ghostwhite;
-    row-gap: 20px;
-
-    --border-color: powderblue;
-    --button-color: lightcyan;
-    --shadow-color: rgb(0,0,0,0.4);
-}
-
-.recipe-page *{
-    font-family: "Roboto";
-    color: black;
-}
-
-.RP-title{
-    margin: 0px;
-    padding: 0px 0px 4px 0px;
-}
 
 .RP-grid-container{
     display: grid;
-    grid-template-columns: 0.4fr 0.6fr;
+    grid-template-columns: 4fr 6fr 2fr;
     width: 100%;
-    height: 600px;
+    height: 100%;
     column-gap: 60px;
+
 }
 
 .RP-grid-container * {
     box-sizing: border-box;
 }
 
-.RP-grid-column{
+.RP-grid-column-2{
     height: 100%;
     width: 100%;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: 1fr 2fr;
     row-gap: 20px;
-    align-items: center;
+
+    min-height: 0px;
+    min-width: 0px;
 }
+
+.RP-grid-column-1{
+    height: 100%;
+    width: 100%;
+    display: grid;
+    row-gap: 20px;
+    min-height: 0px;
+    min-width: 0px;
+
+    grid-template-rows: 10fr 1fr;
+}
+
 
 .RPTable-grid{
     display: grid;
-    grid-template-rows: 70px 60px;
+    grid-template-rows: 70px 1fr;
     box-shadow: 1px 1px 3px var(--shadow-color);
     width: 100%;
-    height: 510px;
+    height: 100%;
     border-radius: 0.5rem;
-    background-color: ghostwhite;
-    border: solid var(--border-color)  2px;
+    border: solid var(--light-grey)  2px;
+
+    min-height: 0;
+    min-width: 0;
 }
 
-.RPTable-grid *{
-    box-sizing: border-box;
+.RPTable-grid table{
+    display: grid;
+    height: 100%;
+    width: 100%;
+    min-height: 0px;
+    min-width: 0px;
 }
 
-.RPTable-grid th, td{
-    padding: 12px;
+.RPTable-grid tbdoy{
+    display: grid;
+    height: fit-content;
+    width: 100%;
+    min-height: 0px;
+    min-width: 0px;
 }
-
 .RPTable-search-container{
     display: flex;
     flex-direction: column;
     padding: 10px;
-    border-radius: 0.2rem;
-    border-bottom: var(--border-color)  solid 4px;
-    background-color: powderblue;
+    border-radius: 0.25rem 0.25rem 0 0;
+    background-color: var(--turqoise);
     justify-content: center;
+    color: var(--white)
 }
 
 .RPTable-search-container input{
-    background-color: ghostwhite;
+    background-color: var(--white);
     height: 35px;
     width: 100%;
 
@@ -98,9 +97,77 @@
 }
 
 .RPTable-content-div{
-    height: 438px;
-    overflow-y: auto;
+    display: grid;
+    height: 100%;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+
+    overflow-y: scroll;
     overflow-x: hidden;
+
+    scrollbar-width: thin;
+    scrollbar-color: #d9d9d9 rgba(248, 248, 255, 0);
+    scrollbar-arrow-color: rgba(221, 221, 221, 0);
+
+    background-color: var(--white);
+}
+
+.RP-tr{
+    background-color: inherit;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    min-width: 0;
+    min-height: 0;
+    font-size: 16px;
+    overflow: hidden;
+}
+
+.RP-tr-selected{
+    background-color: orange;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    min-width: 0;
+    min-height: 0;
+    font-size: 16px;
+    overflow: hidden;
+}
+
+.RP-th{
+    height: 100%;
+    width: 100%;
+
+    background-color: inherit;
+    border-radius: 0.25rem 0.25rem 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+
+    min-width: 0;
+    min-height: 0;
+    font-size: 14px;
+    padding: 0;
+    margin: 0;
+
+    overflow: hidden;
+}
+
+.RP-td{
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+
+    min-width: 0;
+    min-height: 0;
+
+    overflow: hidden;
 }
 
 .RPTable-content-div td{
@@ -121,7 +188,6 @@
     width: 100%;
     text-align: left;
     border-collapse: collapse ;
-    background-color: ghostwhite;
     border-spacing: unset;
     box-shadow: none;
 }
@@ -140,15 +206,14 @@
 }
 
 .add-recipe-button{
-    font-size: 24px;
-    font-weight: bolder;
-    background-color: powderblue;
-    color: darkslategray;
-    width: 250px;
+    font-size: 16px;
+    font-weight: bold;
+    width: 40%;
+    height: 100%;
     padding: 10px;
     border: solid black 1px;
-    border-radius: 1rem;
     border-radius: 0.5rem;
+    border: 2px solid var(--light-grey);
 }
 
 .RPSummary-grid{
@@ -157,11 +222,15 @@
     row-gap: 10px;
     padding: 10px;
     width: 100%;
-    height: 280px;
-    background-color: ghostwhite;
+    height: 100%;
+
+    background-color: var(--azure);
     box-shadow: 1px 1px 3px var(--shadow-color);
     border-radius: 0.5rem;
-    border: var(--border-color) solid 1px
+    border: var(--light-grey) solid 2px;
+
+    min-height: 0;
+    min-width: 0;
 }
 
 .RPSummary-name{
@@ -172,8 +241,8 @@
 
 .RPSummary-item{
     border-radius: 0.5rem;
-    border: var(--border-color) solid 1px;
-    background-color: #efeeee;
+    border: var(--light-grey) solid 2px;
+    background-color: var(--white);
 }
 
 .RPSummary-item p {

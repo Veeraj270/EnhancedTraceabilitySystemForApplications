@@ -1,5 +1,4 @@
 
-
 .menu-bar{
     margin-left: 2rem;
     font-size: 2rem;
@@ -7,7 +6,7 @@
 }
 
 .side-bar-menu{
-    background-color: grey;
+    background-color: var(--dark-blue);
     width: 250px;
     height: 100%;
     display: flex;
@@ -53,3 +52,23 @@
     background-color: steelblue;
 }
 
+.SB-title-div{
+    display: flex;
+    flex-direction: column;
+    color: white;
+    width: 100%;
+}
+
+.SB-title-div h2{
+    margin: 0;
+    padding-left: 10px;
+}
+
+.SB-title-div p{
+    margin: 0;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    font-weight: bolder;
+    font-size: 30px;
+}

@@ -2,14 +2,19 @@ import { FaWarehouse } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
 import { FaBookOpen } from "react-icons/fa";
 import { PiTreeStructure } from "react-icons/pi";
-import { FaBirthdayCake } from "react-icons/fa";
 import {GiWoodenCrate} from "react-icons/gi";
-import {MdBakeryDining} from "react-icons/md";
 import React from "react";
 import { FaFileContract } from "react-icons/fa";
+import { GrNotes } from "react-icons/gr";
 
 
 export const SideBarData = [
+    {
+        title: 'Contracts',
+        path: '/contracts',
+        icon: <FaFileContract/>,
+        cName: 'nav-text'
+    },
     {
         title: 'Customer Orders',
         path: '/customer-orders',
@@ -31,7 +36,7 @@ export const SideBarData = [
     {
         title: 'Recipes',
         path: '/recipes',
-        icon: <FaBirthdayCake/>,
+        icon: <GrNotes/>,
         cName: 'nav-text'
     },
     {
@@ -44,12 +49,6 @@ export const SideBarData = [
         title: 'Baking System',
         path: '/baking-system',
         icon: <FaPlus/>,
-        cName: 'nav-text'
-    },
-    {
-        title: 'Contracts',
-        path: '/contracts',
-        icon: <FaFileContract/>,
         cName: 'nav-text'
     }
 ]
