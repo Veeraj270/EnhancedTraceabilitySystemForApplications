@@ -10,7 +10,6 @@ import {useLocation} from "react-router-dom"
 import TDPPopUp from "./TakeDeliveryPageComponents/TDPPopUp";
 import React from 'react';
 
-
 const TakeDelivery = () => {
     interface Delivery {
         name: string,
@@ -189,16 +188,18 @@ const TakeDelivery = () => {
 
     //Render
     return (
-        <div className='take-delivery-page'>
-            <TDPPopUp state={popUpVisible}
-                      missingItems={expectedTData}
-                      scannedItems={scannedTData}
-                      unexpectedItems={unexpectedTData}
-                      cancel={onClick_CancelSubmission}
-                      confirm={onClick_ConfirmSubmit}
-                      startTime={startTime}
-            />
-            <h1 className={'TDP-title'}>Process Delivery</h1>
+        <div className= 'page-container'>
+            <div>
+                <TDPPopUp state={popUpVisible}
+                          missingItems={expectedTData}
+                          scannedItems={scannedTData}
+                          unexpectedItems={unexpectedTData}
+                          cancel={onClick_CancelSubmission}
+                          confirm={onClick_ConfirmSubmit}
+                          startTime={startTime}
+                />
+                <h1>Process Delivery</h1>
+            </div>
             <div className={'TDP-grid-container'}>
                 <div className={'TDP-grid-column'}>
                     <TDPMetaDataWindow {...metadata}/>

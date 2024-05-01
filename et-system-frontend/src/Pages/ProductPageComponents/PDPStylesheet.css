@@ -43,6 +43,7 @@
 .PDP-search-bar-input{
     padding: 10px;
     border-radius: 0.5rem;
+    background-color: var(--white);
 }
 
 .PDP-search-bar-p{
@@ -111,6 +112,7 @@
     margin: auto;
     padding: 0px 10px 10px;
     border: var(--light-grey) solid 2px;
+    background-color: var(--white);
 }
 
 .PDP-progress-bar-wrapper{
@@ -134,6 +136,7 @@
 }
 
 .PDP-details {
+    color: var(--black)
 }
 
 .PDP-recent-events-view{
@@ -189,6 +192,7 @@
 
 .PDP-row{
     cursor: pointer;
+    background-color: var(--white);
 }
 
 

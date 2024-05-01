@@ -160,6 +160,8 @@
     scrollbar-width: thin;
     scrollbar-color: #d9d9d9 rgba(248, 248, 255, 0);
     scrollbar-arrow-color: rgba(221, 221, 221, 0);
+
+    background-color: var(--white);
 }
 
 .BSP3-products-table-rows table{

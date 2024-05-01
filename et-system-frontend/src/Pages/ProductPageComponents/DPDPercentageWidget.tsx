@@ -16,7 +16,7 @@ const DPDPercentageWidget = ( props: propType) => {
                     text={props.fraction}
                     strokeWidth={6}
                     styles={buildStyles({
-                            pathColor: "#284B63",
+                            pathColor: "#FFA500",
                             textColor: "#284B63",
                             strokeLinecap: 'butt'
                     }

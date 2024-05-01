@@ -63,7 +63,7 @@
     padding: 10px;
     width: 100%;
     height: 280px;
-    background-color: ghostwhite;
+    background-color: var(--azure);
     box-shadow: 1px 1px 3px var(--shadow-color);
     border-radius: 0.5rem;
     border: var(--light-grey) solid 2px
@@ -99,7 +99,7 @@
     padding: 10px;
     width: 100%;
     height: 100%;
-    background-color: ghostwhite;
+    background-color: var(--azure);
     box-shadow: 1px 1px 3px var(--shadow-color);
     border-radius: 0.5rem;
     border: var(--border-color) solid 1px;
@@ -280,7 +280,9 @@
     scrollbar-color: #d9d9d9 rgba(248, 248, 255, 0);
     scrollbar-arrow-color: rgba(221, 221, 221, 0);
 
+    background-color: var(--white);
 }
+
 
 .DOP-SP-item p{
     font-size: 14px;

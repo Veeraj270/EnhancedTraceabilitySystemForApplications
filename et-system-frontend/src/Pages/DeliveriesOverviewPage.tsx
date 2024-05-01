@@ -114,7 +114,6 @@ const DeliveriesOverviewPage = () => {
         }).catch((error) => console.log(error))
     }
 
-
     return (
         <div className='page-container'>
             <h1>Deliveries Overview</h1>

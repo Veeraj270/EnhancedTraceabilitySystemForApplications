@@ -14,7 +14,7 @@ const TDPSubmitDeliveryButton : React.FC<Props> = ({submit} ) => {
     }
     return(
         <div>
-            <button className={'TDP-submit-delivery-button'} onClick={handleClick}>SUBMIT DELIVERY</button>
+            <button className={'TDP-submit-delivery-button'} onClick={handleClick}>Submit Delivery</button>
         </div>
     )
 }
