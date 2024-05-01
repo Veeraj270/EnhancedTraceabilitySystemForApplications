@@ -4,7 +4,6 @@ import {flexRender, getCoreRowModel, HeaderGroup, useReactTable} from "@tanstack
 
 interface PropTypes{
     table3Data: Table3Row[],
-    orderDates: () => void
 }
 
 const DatesTable = (props : PropTypes) => {
@@ -24,7 +23,7 @@ const DatesTable = (props : PropTypes) => {
 
     const handleGenClick = (event: React.MouseEvent, row: any) => {
         const original = row.original as Table1Row;
-        props.orderDates();
+        //props.orderDates();
     }
 
     //Table definition

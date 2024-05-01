@@ -23,7 +23,7 @@ type Contract = {
 
     finalProducts: FinalProduct[];
 
-    dates: Date[];
+    dates: string[];
 
 };
 

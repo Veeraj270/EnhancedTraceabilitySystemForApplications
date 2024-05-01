@@ -10,8 +10,7 @@ import {Table1Row} from "./ContractsInterfaces";
 interface PropTypes {
     table1Data: Table1Row[]
     genOrder: (orderID: number) => void
-
-    orderDates: () => void
+    genDates: (contractID: number) => void
 }
 
 const ContractsTable = (props : PropTypes) => {
@@ -51,6 +50,11 @@ const ContractsTable = (props : PropTypes) => {
     const handleGenClick = (event: React.MouseEvent, row: any) => {
         const original = row.original as Table1Row;
         props.genOrder(original.id);
+    }
+
+    const handleDatesClick = (event: React.MouseEvent, row: any) => {
+        const original = row.original as Table1Row;
+        props.genDates(original.id)
     }
 
     //Table definition
@@ -109,6 +113,12 @@ const ContractsTable = (props : PropTypes) => {
                             <td className={'Contracts-td'}>
                                 <button
                                     onClick={(event) => {handleGenClick(event, row)}}
+                                    className={'Contracts-button-2'}
+                                ><b>See Products</b></button>
+                            </td>
+                            <td className={'Contracts-td'}>
+                                <button
+                                    onClick={(event) => {handleDatesClick(event, row)}}
                                     className={'Contracts-button-2'}
                                 ><b>See Dates</b></button>
                             </td>
