@@ -1,7 +1,4 @@
-type ModalProps = {
-    contract: Contract;
-    onClose: () => void;
-}
+
 
 type FinalProduct = {
     id: number;
@@ -33,14 +30,13 @@ type Contract = {
 export interface Table1Row {
     id: number
     client: string
-    date: string
     duration: string
+    frequency: string
 }
 
 export interface Table2Row{
     id: number
     label: string
-    cost: number
     quantity: number
 }
 

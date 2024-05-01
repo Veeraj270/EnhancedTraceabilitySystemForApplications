@@ -21,13 +21,13 @@ const ContractsTable = (props : PropTypes) => {
             size: 20
         },
         {
-            header: "Date",
-            accessorKey: "date",
+            header: "Duration",
+            accessorKey: "duration",
             size: 20
         },
         {
-            header: "Duration",
-            accessorKey: "duration",
+            header: "Frequency",
+            accessorKey: "frequency",
             size: 20
         },
         {
@@ -97,13 +97,13 @@ const ContractsTable = (props : PropTypes) => {
                             style={{gridTemplateColumns: templateColumnStyle}}
                         >
                             <td className={'Contracts-td'}>{row.original.client}</td>
-                            <td className={'Contracts-td'}>{row.original.date}</td>
-                            <td className={'Contracts-td'}>{row.original.dueDate}</td>
+                            <td className={'Contracts-td'}>{row.original.duration}</td>
+                            <td className={'Contracts-td'}>{row.original.frequency}</td>
                             <td className={'Contracts-td'}>
                                 <button
                                     onClick={(event) => {handleGenClick(event, row)}}
                                     className={'Contracts-button-2'}
-                                ><b>Gen Ingredient Order</b></button>
+                                ><b>See Dates</b></button>
                             </td>
                         </tr>)
                     )}

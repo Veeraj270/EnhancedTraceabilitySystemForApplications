@@ -14,11 +14,6 @@ const GeneratedCustomerOrdersTable = (props : PropTypes) => {
             size: 20
         },
         {
-            header: "Cost",
-            accessorKey: "cost",
-            size: 20
-        },
-        {
             header: "Quantity",
             accessorKey: "quantity",
             size: 20
