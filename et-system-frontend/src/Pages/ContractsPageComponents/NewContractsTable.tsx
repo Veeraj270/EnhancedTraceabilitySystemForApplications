@@ -3,13 +3,13 @@ import {
     getCoreRowModel,
     flexRender, HeaderGroup,
 } from '@tanstack/react-table';
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, } from "react";
 import React from 'react';
 import {Table1Row} from "./ContractsInterfaces";
 
 interface PropTypes {
     table1Data: Table1Row[]
-    genOrder: (orderID: number) => void
+    showOrder: (orderID: number) => void
     genDates: (contractID: number) => void
 }
 
@@ -47,9 +47,9 @@ const ContractsTable = (props : PropTypes) => {
 
     //Click handlers
 
-    const handleGenClick = (event: React.MouseEvent, row: any) => {
+    const handleShowOrderClick = (event: React.MouseEvent, row: any) => {
         const original = row.original as Table1Row;
-        props.genOrder(original.id);
+        props.showOrder(original.id);
     }
 
     const handleDatesClick = (event: React.MouseEvent, row: any) => {
@@ -112,7 +112,7 @@ const ContractsTable = (props : PropTypes) => {
                             <td className={'Contracts-td'}>{row.original.frequency}</td>
                             <td className={'Contracts-td'}>
                                 <button
-                                    onClick={(event) => {handleGenClick(event, row)}}
+                                    onClick={(event) => {handleShowOrderClick(event, row)}}
                                     className={'Contracts-button-2'}
                                 ><b>See Products</b></button>
                             </td>

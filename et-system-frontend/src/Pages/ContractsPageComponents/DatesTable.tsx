@@ -1,14 +1,17 @@
-import React, {useMemo} from "react";
-import {Table1Row, Table3Row} from "./COPInterfaces";
+import React, {useMemo, useState} from "react";
+import {Table1Row, Table3Row} from "./ContractsInterfaces";
 import {flexRender, getCoreRowModel, HeaderGroup, useReactTable} from "@tanstack/react-table";
 import {Contract} from "./ContractsInterfaces";
 
 interface PropTypes{
     table3Data: Table3Row[],
-    order: (contract : Contract, date : String) => Promise<void>
+    makeOrder: (contract : Contract, date : String) => Promise<void>
 }
 
 const DatesTable = (props : PropTypes) => {
+
+    const [tableData, setTableData] = useState<Table3Row[]>(props.table3Data);
+
     const columns = useMemo(() => [
         {
             header: "Date",
@@ -25,7 +28,9 @@ const DatesTable = (props : PropTypes) => {
 
     const handleOrderClick = (event: React.MouseEvent, row: any) => {
         const original = row.original as Table3Row;
-        props.order(original.contract, original.date);
+        props.makeOrder(original.contract, original.date);
+
+        setTableData(data => data.filter(dataRow => dataRow !== original));
 
     }
 
@@ -35,7 +40,7 @@ const DatesTable = (props : PropTypes) => {
 
     //Table definition
     const table = useReactTable({
-        data: props.table3Data,
+        data: tableData,
         columns: columns,
         getCoreRowModel: getCoreRowModel(),
     });

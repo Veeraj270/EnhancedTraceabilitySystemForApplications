@@ -1,5 +1,5 @@
 import React, {useMemo} from "react";
-import {Table1Row, Table2Row} from "./COPInterfaces";
+import {Table1Row, Table2Row} from "./ContractsInterfaces";
 import {flexRender, getCoreRowModel, HeaderGroup, useReactTable} from "@tanstack/react-table";
 
 interface PropTypes{
