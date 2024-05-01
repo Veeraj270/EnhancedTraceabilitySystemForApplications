@@ -1,12 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
-import {EventDetails} from "./Interfaces";
-
-interface Event{
-    id: number;
-    timestamp: string;
-    owner: string;
-    type: string;
-}
+import Event from "../Interfaces/Event";
 
 interface CustomNode{
     id: any;
@@ -31,7 +24,7 @@ interface Chain{
 }
 
 interface PropTypes{
-    setEventDetails: (details: EventDetails) => void;
+    setEventDetails: (details: Event) => void;
     selectedProductID: number | null;
 }
 
@@ -93,26 +86,20 @@ const EventHistoryWidget = (props : PropTypes) => {
             }
 
             if (events.current[0]){
-                updateEventDetails(events.current[0]);
+                setEventDetails(events.current[0]);
             }
         }).catch((err) => {
             console.log(err);
         })
     }, [productID]);
 
-    const updateEventDetails = (event: Event) => {
-        setEventDetails({
-            timestamp: event.timestamp,
-            type: event.type
-        })
-    }
     const genNodeLinkChain = (events: Event[], gridHeight: number) => {
         let newNodes: CustomNode[] = []
         let newLinks = []
 
         //Create a node for each event
         for (let i = 0; i < events.length; i ++){
-            let date = events[i].timestamp.match(/\d{4}-\d{2}-\d{2}/)?.at(0)?.split("-").reverse().join("/"); //Likely inefficient
+            let date = (events[i].timestamp ?? "").match(/\d{4}-\d{2}-\d{2}/)?.at(0)?.split("-").reverse().join("/"); //Likely inefficient
             newNodes.push({
                 id: i,
                 x: 20,
@@ -120,12 +107,7 @@ const EventHistoryWidget = (props : PropTypes) => {
                 r: 6,
                 date: date ? date : "N/A",
                 onClick: () => {
-                    setEventDetails(
-                        {
-                            timestamp: events[i].timestamp,
-                            type: events[i].type,
-                        }
-                    )
+                    setEventDetails(events[i])
                     setSelectedNode(i);
                 }
             });

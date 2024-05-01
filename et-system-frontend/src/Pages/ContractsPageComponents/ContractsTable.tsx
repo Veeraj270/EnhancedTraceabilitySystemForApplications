@@ -1,140 +1,134 @@
-import {useEffect, useMemo, useState} from "react";
-import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
-import React from "react";
-import ContractsModal from "./ContractsModal";
-import "./ContractsTable.css";
+import {
+    useReactTable,
+    getCoreRowModel,
+    flexRender, HeaderGroup,
+} from '@tanstack/react-table';
+import { useMemo, } from "react";
+import React from 'react';
+import {Table1Row} from "./ContractsInterfaces";
 
-type Contract = {
-    id: number;
-    client: string;
-    duration: string;
-    frequency: string;
-    finalProducts: FinalProduct[];
-    dates: Date[];
+interface PropTypes {
+    table1Data: Table1Row[]
+    showOrder: (orderID: number) => void
+    genDates: (contractID: number) => void
+}
 
-};
-
-type FinalProduct = {
-    id: number;
-    label: string;
-    cost: number;
-    quantity: number;
-};
-
-const ContractsTable = () => {
-    const [data, setData] = useState<Contract[]>([]);
-    const [showModal, setShowModal] = useState<boolean>(false);
-    const [currentContract, setCurrentContract] = useState<Contract | null>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-
+const ContractsTable = (props : PropTypes) => {
+    //Column definitions
     const columns = useMemo(() => [
         {
-            header: 'ID',
-            accessorKey: 'id',
+            header: "Client",
+            accessorKey: "client",
+            size: 20
         },
         {
-            header: 'Client',
-            accessorKey: 'client',
+            header: "Duration",
+            accessorKey: "duration",
+            size: 20
         },
         {
-            header:'Duration',
-            accessorKey: 'duration',
+            header: "Frequency",
+            accessorKey: "frequency",
+            size: 20
         },
         {
-            header: 'Frequency',
-            accessorKey: 'frequency',
+            header: "",
+            accessorKey: "products",
+            size: 20
         },
         {
-            header: 'Dates',
-            id: 'dates',
-            cell: ({row}) => (
-                isLoading
-                    ? <p>Loading...</p>
-                    : <button onClick={() => handleGenerateClick(row.original)}> Handle Orders </button>
-            ),
+            header:"",
+            accessorKey: "dates",
+            size: 20
+        }
 
-        },
     ], [])
 
-    const handleGenerateClick = async (contract: Contract) => {
-        setCurrentContract(contract);
-        setIsLoading(true);
 
-        try {
-            setCurrentContract(contract);
-            setShowModal(true);
-        } catch (error) {
-            console.error(error);
-        } finally{
-            setIsLoading(false);
-        }
-    };
+    //Click handlers
 
-    const fetchData = async () => {
-        setIsLoading(true);
-        try{
-            const response = await fetch('/api/contracts/fetch');
-            if (!response.ok) {
-                throw new Error("Fetch Contracts not ok");
-            }
-            const contracts = await response.json();
-            setData(contracts);
-        } catch (error) {
-            console.error("Error fetching contracts: ", error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    const handleShowOrderClick = (event: React.MouseEvent, row: any) => {
+        const original = row.original as Table1Row;
+        props.showOrder(original.id);
+    }
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+    const handleDatesClick = (event: React.MouseEvent, row: any) => {
+        const original = row.original as Table1Row;
+        props.genDates(original.id)
+    }
 
+    //Table definition
     const table = useReactTable({
-        data,
-        columns,
+        data: props.table1Data,
+        columns: columns,
         getCoreRowModel: getCoreRowModel(),
     });
 
+    //For table column formatting
+    const getTemplateColumns = (headerGroup : HeaderGroup<Table1Row>): string => {
+        let output  = "";
+        headerGroup.headers.forEach(header  => {
+            output += `${header.column.getSize()}fr `
+        })
+        return output;
+    }
+
+    const templateColumnStyle = getTemplateColumns(table.getHeaderGroups()[0]);
+
+    //Render the table
     return (
-        <div className="contracts-table-container">
-            {isLoading? (
-                <p>Loading...</p>
-            ) : data.length > 0 ? (
-                <table className="contracts-table">
+        <div className={'Contracts-table-grid'}>
+            <div className={'Contracts-table-header-div'}>
+                <table>
                     <thead>
                     {table.getHeaderGroups().map(headerGroup => (
-                        <tr key={headerGroup.id}>
-                            {headerGroup.headers.map(header => (
-                                <th key={header.id}>
+                        <tr key={headerGroup.id}
+                            className={'Contracts-tr'}
+                            style={{gridTemplateColumns: getTemplateColumns(headerGroup)}}
+                        >
+                            {headerGroup.headers.map(header =>
+                                <th
+                                    className={'Contracts-th'}
+                                    key={header.id}>
                                     {flexRender(header.column.columnDef.header, header.getContext())}
                                 </th>
-                            ))}
+                            )
+                            }
                         </tr>
                     ))}
                     </thead>
+                </table>
+            </div>
+            <div className={'Contracts-table-rows-div'}>
+                <table>
                     <tbody>
-                    {table.getRowModel().rows.map(row => (
-                        <tr key={row.id}>
-                            {row.getVisibleCells().map(cell => (
-                                <td key={cell.id}>
-                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                </td>
-                            ))}
-                        </tr>
-                    ))}
+                    {table.getCoreRowModel().rows.map(row => (
+                        <tr key={row.id}
+                            className={'Contracts-tr'}
+                            style={{gridTemplateColumns: templateColumnStyle}}
+                        >
+                            <td className={'Contracts-td'}>{row.original.client}</td>
+                            <td className={'Contracts-td'}>{row.original.duration}</td>
+                            <td className={'Contracts-td'}>{row.original.frequency}</td>
+                            <td className={'Contracts-td'}>
+                                <button
+                                    onClick={(event) => {handleShowOrderClick(event, row)}}
+                                    className={'Contracts-button-2'}
+                                ><b>See Products</b></button>
+                            </td>
+                            <td className={'Contracts-td'}>
+                                <button
+                                    onClick={(event) => {handleDatesClick(event, row)}}
+                                    className={'Contracts-button-2'}
+                                ><b>See Dates</b></button>
+                            </td>
+                        </tr>)
+                    )}
                     </tbody>
                 </table>
-            ) : (
-                <p>No contracts found</p>
-            )}
-            {showModal && currentContract && (
-                <ContractsModal
-                    contract = {currentContract}
-                    onClose = {() => setShowModal(false)}
-                />
-            )}
+            </div>
         </div>
-    )
+    );
 };
+
 export default ContractsTable;
