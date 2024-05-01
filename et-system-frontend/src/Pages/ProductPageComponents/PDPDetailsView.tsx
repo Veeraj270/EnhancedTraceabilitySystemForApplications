@@ -27,9 +27,6 @@ const PDPDetailsView = ( props: propsType) => {
         }
     }, [props.product]);
 
-    useEffect(() => {
-        console.log(type);
-    }, [type]);
     return (
         <div className={"PDP-details-view"}>
             <p className={"PDP-product-name"}>{props.product ? props.product.label : "N/A"}</p>
@@ -40,8 +37,6 @@ const PDPDetailsView = ( props: propsType) => {
             <div className={"PDP-details"}>
                 <p><b>Product Type: </b>&nbsp;{type}</p>
                 <p><b>{type === "Composite" ? "Allergens:" : "Allergen: "}&nbsp;</b>{props.product && props.product.ingredientType ? props.product.ingredientType.allergens.join(", ") : "N/A"}</p>
-                <p><b>Vegan: &nbsp;</b>N/A</p>
-                <p><b>Vegetarian: &nbsp;</b>N/A</p>
             </div>
             <PDPRecentEventsView
                 selectedId={props.product?.id}
