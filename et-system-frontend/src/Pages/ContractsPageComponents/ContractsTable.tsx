@@ -3,23 +3,7 @@ import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table"
 import React from "react";
 import ContractsModal from "./ContractsModal";
 import "./ContractsTable.css";
-
-type Contract = {
-    id: number;
-    client: string;
-    duration: string;
-    frequency: string;
-    finalProducts: FinalProduct[];
-    dates: Date[];
-
-};
-
-type FinalProduct = {
-    id: number;
-    label: string;
-    cost: number;
-    quantity: number;
-};
+import "./ContractsInterfaces";
 
 const ContractsTable = () => {
     const [data, setData] = useState<Contract[]>([]);
