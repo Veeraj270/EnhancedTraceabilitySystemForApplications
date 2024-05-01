@@ -10,6 +10,7 @@ const TDPPercentageWidget = ({ percentage, fraction }) => {
             <CircularProgressbar
                 value={percentage}
                 text={fraction}
+
             />
         </div>
     )

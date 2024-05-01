@@ -30,6 +30,9 @@
     font-size: 18px;
     border: 2px solid var(--light-grey)
 }
+.TDP-input-box:focus{
+    border: 2px solid var(--orange);
+}
 
 .TDP-submit-barcode{
     height: 100%;
@@ -153,9 +156,7 @@
     min-height: 0;
 }
 
-.TDP-T-grid table{
 
-}
 
 .TDP-tr{
     background-color: inherit;
@@ -229,6 +230,7 @@
     border: var(--light-grey) solid 2px;
     min-width: 0;
     min-height: 0;
+    overflow: hidden;
 }
 
 .TDP-MD-item p {
@@ -274,16 +276,16 @@
     height: 800px;
     border-radius: 0.5rem;
     background-color: ghostwhite;
-    border: #bda9a9 solid 2px;
+    border: var(--light-grey)solid 2px;
 
     display: grid;
     grid-template-rows: 1fr 2fr 0.3fr;
     grid-row-gap: 10px;
+
+    min-height: 0;
+    min-width: 0;
 }
 
-.TDP-pop-up-inner *{
-    box-sizing: border-box;
-}
 
 /*Upper Section*/
 .TDP-pop-up-upper{
@@ -291,10 +293,14 @@
     grid-template-columns: 0.4fr 1fr 0.2fr;
     grid-column-gap: 20px;
     grid-row-gap: 20px;
+
+    min-height: 0;
+    min-width: 0;
 }
 
 .TDP-percentage-widget {
-    background-color: #f3f3ff;
+    background-color: var(--white);
+    border: 2px solid var(--light-grey);
     height: 100%;
     width: 100%;
     display: flex;
@@ -312,7 +318,8 @@
 
 }
 .TDP-meta-data-widget{
-    background-color: #f3f3ff;
+    background-color: var(--white);
+    border: 2px solid var(--light-grey);
     border-radius: 0.5rem;
     padding-top: 26px;
 }
@@ -321,13 +328,12 @@
     padding-left: 10px;
     margin: 0px;
     padding-bottom: 10px;
-
 }
 
 .TDP-cancel-button{
     height: 20%;
-    font-weight: bolder;
-    background-color: lightgrey;
+    font-weight: bold;
+    border: 2px solid var(--light-grey);
     border-radius: 0.5rem;
 }
 
@@ -342,16 +348,38 @@
     grid-template-columns: 1fr 1fr;
     grid-column-gap: 20px;
     padding: 10px 10px 10px 10px;
+
+    min-height: 0;
+    min-width: 0;
 }
 
-.TDP-pop-up-table{
-    display: flex;
+.TDP-T-popup-grid{
+    display: grid;
     width: 100%;
     height: 100%;
-    max-height: 450px;
-    background-color: #f3f3ff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    flex-direction: column;
+
+    background-color: var(--white);
+    border: 2px solid var(--light-grey);
+
+    grid-template-rows: 50px 1fr;
+    min-width: 0px;
+    min-height: 0px;
+}
+
+.TDP-T-popup-grid table{
+    display: grid;
+    height: 100%;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+}
+
+.TDP-T-popup-grid tbody{
+    display: grid;
+    height: fit-content;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
 }
 
 .TDP-pop-up-table td, th{
@@ -367,41 +395,21 @@
     border-top: 1px #cfcfd0 solid;
 }
 
-
-.TDP-pop-up-table table{
-    table-layout: fixed;
-    width: 100%;
-    text-align: left;
-    border-collapse: collapse ;
-    background-color: ghostwhite;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    box-shadow: none;
-}
 .TDP-pop-up-table-header-div{
-   height: 50px;
-}
-.TDP-pop-up-table-header-div th{
+    display: grid;
+    background-color: var(--turqoise);
     height: 100%;
-}
-
-
-.TDP-pop-up-table-content-div{
-    overflow-x: hidden;
-    overflow-y: scroll;
-    height: calc(100% - 50px);
-}
-
-.TDP-pop-up-table-tbody td, p{
-    display: flex;
-    flex-direction: row;
-    margin: 0px;
+    width: 100%;
+    min-height: 0;
+    min-width: 0;
 }
 
 .TDP-symbol{
     margin-left: auto;
+    margin-top: 0;
+    margin-bottom: 0;
     font-size: 20px;
     padding-bottom: 1px;
-    font-size: bold;
 }
 
 
@@ -415,10 +423,10 @@
 .TDP-confirm-button{
     width: 40%;
     height: 80%;
-    border-radius: 0.5rem;
-    background-color: lightsteelblue;
     font-weight: bold;
     font-size: 18px;
+    border-radius: 0.5rem;
+    border: 2px solid var(--light-grey)
 }
 
 .TDP-confirm-button:hover{
