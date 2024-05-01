@@ -14,9 +14,9 @@ const DOPButtonPanel = ( {edit, cancel, process} ) => {
     }
     return (
         <div className={'DOP-BP-grid'}>
-            <button onClick={handleClick1}>EDIT</button>
-            <button onClick={handleClick2}>CANCEL</button>
-            <button onClick={handleClick3}>PROCESS</button>
+            <button className={'DOP-button'} onClick={handleClick1}>EDIT</button>
+            <button className={'DOP-button'} onClick={handleClick2}>CANCEL</button>
+            <button className={'DOP-button'} onClick={handleClick3}>PROCESS</button>
         </div>
     )
 }

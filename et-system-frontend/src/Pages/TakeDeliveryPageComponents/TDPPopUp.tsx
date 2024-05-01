@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import TDPPopUpTable from "./TDPPopUpTable";
 import TDPPercentageWidget from "./TDPPercentageWidget";
 import TDPMetaDataWidget from "./TDPMetaDataWidget";
+import React from "react";
 
 // @ts-ignore
 const TDPPopUp = ( {state, missingItems, unexpectedItems, scannedItems, cancel, confirm, startTime} ) => {

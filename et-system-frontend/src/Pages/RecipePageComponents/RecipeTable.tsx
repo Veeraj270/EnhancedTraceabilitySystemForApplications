@@ -2,6 +2,7 @@ import React, {ChangeEvent, useEffect, useMemo, useState} from "react";
 import {getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import "../AddRecipePageComponents/ARPStylesheet.css"
 
+// @ts-ignore
 const RecipeTable = ({setSelectedRow, selectedRow, rawData}) => {
 
     const [tableData, setTableData] = useState([])

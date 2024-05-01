@@ -58,9 +58,9 @@ const IngredientQuantitiesTableARP = ({ingredientQuantities, recipe, setRecipe, 
         <div className={'table-container'}>
             <table className={'IGTable'}>
                 <thead>
-                        {table.getHeaderGroups().map((headerGroup: HeaderGroup) => (
+                        {table.getHeaderGroups().map((headerGroup: HeaderGroup<any>) => (
                             <tr key={headerGroup.id}>
-                                {headerGroup.headers.map((header: Header) => <th key={header.id} style = {{width: `${header.column.getSize()}%`, textAlign: "center"}}>
+                                {headerGroup.headers.map((header: any) => <th key={header.id} style = {{width: `${header.column.getSize()}%`, textAlign: "center"}}>
                                     {flexRender(header.column.columnDef.header, header.getContext())}
                                 </th>)}
                             </tr>

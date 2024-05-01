@@ -1,7 +1,6 @@
 import React, {useState, useMemo, useEffect} from "react";
 import "./DOPStylesheet.css"
-import Item from "../Interfaces/DeliveryItem";
-import {flexRender, getCoreRowModel,  useReactTable} from "@tanstack/react-table";
+import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 
 
 // @ts-ignore
@@ -50,7 +49,6 @@ const DOPTable2 = ( {setSelected, selected, rawData} ) => {
         if (rawData.length > 0){
             generateTableData().then()
         }
-        console.log(rawData)
     }, [rawData]);
 
     //Column Definitions
@@ -58,24 +56,17 @@ const DOPTable2 = ( {setSelected, selected, rawData} ) => {
         {
             header: 'ID',
             accessorKey: 'id',
-            maxSize: 10,
             size: 10,
-            minSize: 10,
-
         },
         {
             header: "Name",
             accessorKey: 'name',
-            maxSize: 45,
             size: 45,
-            minSize: 45,
         },
         {
             header: 'Delivery Date',
             accessorKey: 'recordDate',
-            maxSize: 45,
             size: 45,
-            minSize: 45,
         },
     ], [])
 
@@ -86,14 +77,21 @@ const DOPTable2 = ( {setSelected, selected, rawData} ) => {
         getCoreRowModel: getCoreRowModel(),
     })
 
+    //For table column formatting
+    const getTemplateColumns = (headerGroup : any): string => {
+        let output  = "";
+        headerGroup.headers.forEach((header : any)  => {
+            output += `${header.column.getSize()}fr `
+        })
+        return output;
+    }
+
+    const templateColumnStyle = getTemplateColumns(table.getHeaderGroups()[0]);
+
     //Implements selectable rows
     const handleClick = (event: React.MouseEvent, id : number) => {
         if (id !== undefined){
             setSelected(id)
-            console.log("Selected Delivery: " + id);
-        }
-        else{
-            console.log("Empty row clicked");
         }
     }
 
@@ -107,15 +105,18 @@ const DOPTable2 = ( {setSelected, selected, rawData} ) => {
     return (
         <div className={'DOP-T-grid'}>
             <div className={"DOP-T-search-container"}>
-                <label>Search Past Deliveries</label>
+                <label>Search past deliveries</label>
                 <input placeholder={"Search... "} onChange={handleChange} value={searchInput}/>
             </div>
-
             <div className={'DOP-T-headers-div'}>
                 <table>
                     {table.getHeaderGroups().map(headerGroup => (
-                        <tr key={headerGroup.id}>
-                            {headerGroup.headers.map(header => <th key={header.id} style = {{width: `${header.column.getSize()}%`, textAlign: "center"}}>
+                        <tr key={headerGroup.id}
+                            className={'DOP-tr'}
+                            style={{gridTemplateColumns: getTemplateColumns(headerGroup)}}
+
+                        >
+                            {headerGroup.headers.map(header => <th key={header.id} className={'DOP-th'}>
                                 {flexRender(header.column.columnDef.header, header.getContext())}
                             </th>)}
                         </tr>
@@ -128,9 +129,11 @@ const DOPTable2 = ( {setSelected, selected, rawData} ) => {
                     {table.getRowModel().rows.map(row => (<tr
                         key={row.id}
                         onClick={(event: React.MouseEvent) => {handleClick(event, row.original.id)}}
-                        className={(row.original.id === selected) ? 'DOP-selected-row' : 'DOP-unselected-row'}>
+                        className={(row.original.id === selected) ? 'DOP-tr-selected' : 'DOP-tr'}
+                        style={{gridTemplateColumns: templateColumnStyle}}
+                    >
                         {row.getVisibleCells().map(cell => (
-                            <td style = {{width: `${cell.column.getSize()}%`,textAlign:"center"}}>
+                            <td className={'DOP-td'}>
                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
                             </td>
                         ))}

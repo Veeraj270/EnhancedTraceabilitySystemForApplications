@@ -1,3 +1,5 @@
+import React from "react"
+
 const HelpPage = () => {
     return (
         <div className='page'>

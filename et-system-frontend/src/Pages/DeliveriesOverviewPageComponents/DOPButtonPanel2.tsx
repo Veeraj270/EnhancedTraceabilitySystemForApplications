@@ -1,15 +1,15 @@
 import React from "react";
 
 // @ts-ignore
-const DOPButtonPanel2 = ( {details} ) => {
+const DOPButtonPanel2 = () => {
     //Event Handlers
     const handleClick = (event: React.MouseEvent) => {
-        details()
+        console.log('DETAILS')
     }
 
     return (
         <div className={'DOP-BP-2-grid'}>
-            <button onClick={handleClick}>DETAILS</button>
+            <button className={'DOP-button'} onClick={handleClick}>DETAILS</button>
         </div>
     )
 }

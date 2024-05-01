@@ -114,20 +114,17 @@ const DeliveriesOverviewPage = () => {
         }).catch((error) => console.log(error))
     }
 
-    const showDetails = () => {
-        console.log("showDetails()");
-    }
 
     return (
-        <div className='deliveries-overview-page'>
-            <h1 className={'DOP-title'}>Deliveries Overview</h1>
-            <div className={'DOP-grid-container'}>
-                <div className={'dop-grid-column'}>
+        <div className='page-container'>
+            <h1>Deliveries Overview</h1>
+            <div className={'DOP-page-content'}>
+                <div className={'DOP-grid-column'}>
                     <DOPTable1  setSelected={setSelectedPDelivery}
                                 selected={selectedPDelivery}
                                 rawData={rawScheduledData}/>
                 </div>
-                <div className={'DOP-grid-column'}>
+                <div className={'DOP-grid-column-2'}>
                     <DOPSummaryPanel1 props={panelOneProps}/>
                     <DOPButtonPanel edit={editDelivery} cancel={cancelDelivery} process={processDelivery}/>
                 </div>
@@ -136,9 +133,9 @@ const DeliveriesOverviewPage = () => {
                                 selected={selectedRDelivery}
                                 rawData={rawRecordedData}/>
                 </div>
-                <div className={'DOP-grid-column'}>
+                <div className={'DOP-grid-column-4'}>
                     <DOPSummaryPanel2 props={panelTwoProps}/>
-                    <DOPButtonPanel2 details={showDetails}/>
+                    <DOPButtonPanel2/>
                 </div>
             </div>
         </div>

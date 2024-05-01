@@ -1,6 +1,7 @@
 import FinalProductComponent from "./FinalProductPageComponents/FinalProductComponent";
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
+import React from "react";
 
 
 const FinalProductPage = () => {

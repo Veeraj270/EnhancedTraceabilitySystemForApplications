@@ -1,21 +1,4 @@
 
-.deliveries-overview-page{
-    /*Take into account padding*/
-    width: 100%;
-    height: 100%;
-    padding-left:  50px;
-    padding-right: 50px;
-    padding-top: 20px;
-    display: flex;
-    flex-direction: column;
-    background-color: ghostwhite;
-    row-gap: 20px;
-
-    --border-color: powderblue;
-    --button-color: lightcyan;
-    --shadow-color: rgb(0,0,0,0.4);
-}
-
 .deliveries-overview-page button {
     border-radius: 0.5rem;
     border-color: var(--border-color);
@@ -24,37 +7,15 @@
     cursor: pointer;
 }
 
-.deliveries-overview-page *{
-    font-family: "Roboto";
-    color: black;
-}
-
-.DOP-title{
-    margin: 0px;
-    padding: 0px 0px 4px 0px;
-}
-
-
-/*Upper Panel*/
-.DOP-upper{
-    width: 100%;
-    height: 140px;
-    background-color: ghostwhite;
-    display: grid;
-    gap: 10px;
-    grid-template-columns: 140px 140px 300px;
-    box-shadow: 1px 1px 3px var(--shadow-color);
-    padding: 10px;
-    border-radius: 0.5rem;
-    border: var(--border-color) solid 1px;
-}
-
-.DOP-grid-container{
+.DOP-page-content{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     width: 100%;
     height: 100%;
     column-gap: 40px;
+
+    min-width: 0;
+    min-height: 0;
 }
 
 .DOP-grid-container * {
@@ -64,9 +25,32 @@
 .DOP-grid-column{
     height: 100%;
     width: 100%;
-    display: flex;
-    flex-direction: column;
+    display: grid;
     row-gap: 20px;
+
+    min-width: 0;
+    min-height: 0
+}
+
+.DOP-grid-column-2{
+    height: 100%;
+    width: 100%;
+    grid-template-rows: 1fr 1fr 1fr;
+    display: grid;
+    row-gap: 20px;
+
+    min-width: 0;
+    min-height: 0
+}
+.DOP-grid-column-4{
+    height: 100%;
+    width: 100%;
+    grid-template-rows: 2fr 1fr 1fr;
+    display: grid;
+    row-gap: 20px;
+
+    min-width: 0;
+    min-height: 0
 }
 
 
@@ -74,7 +58,7 @@
 /*Summary Panel*/
 .DOP-SP-1-grid{
     display: grid;
-    grid-template-rows: 0.5fr 0.5fr 1fr 0.5fr;
+    grid-template-rows: 0.5fr 0.5fr 1fr;
     row-gap: 10px;
     padding: 10px;
     width: 100%;
@@ -82,7 +66,7 @@
     background-color: ghostwhite;
     box-shadow: 1px 1px 3px var(--shadow-color);
     border-radius: 0.5rem;
-    border: var(--border-color) solid 1px
+    border: var(--light-grey) solid 2px
 }
 
 .DOP-SP-due-date{
@@ -92,9 +76,12 @@
 }
 
 .DOP-SP-item{
+    display: grid;
     border-radius: 0.5rem;
-    border: var(--border-color) solid 1px;
-    background-color: #efeeee;
+    border: var(--light-grey) solid 2px;
+    background-color: var(--white);
+    min-width: 0;
+    min-height: 0;
 }
 
 .DOP-SP-item p {
@@ -107,15 +94,18 @@
 
 .DOP-SP-2-grid{
     display: grid;
-    grid-template-rows: 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr;
+    grid-template-rows: 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr 0.5fr;
     row-gap: 10px;
     padding: 10px;
     width: 100%;
-    height: 340px;
+    height: 100%;
     background-color: ghostwhite;
     box-shadow: 1px 1px 3px var(--shadow-color);
     border-radius: 0.5rem;
-    border: var(--border-color) solid 1px
+    border: var(--border-color) solid 1px;
+
+    min-width: 0;
+    min-height: 0;
 }
 
 /*Button Panel 1*/
@@ -126,6 +116,12 @@
     height: 100px;
     width: 100%;
     gap: 10px;
+}
+
+.DOP-button{
+    border-radius: 0.5rem;
+    border: var(--light-grey) solid 2px;
+    font-weight: bold;
 }
 
 /*Button Panel 2*/
@@ -140,31 +136,46 @@
 /*TDPTable 1*/
 .DOP-T-grid{
     display: grid;
-    grid-template-rows: 70px 60px;
-    box-shadow: 1px 1px 3px var(--shadow-color);
+    grid-template-rows: 70px 60px 1fr;
+
     width: 100%;
-    height: 660px;
+    height: 100%;
+
     border-radius: 0.5rem;
     background-color: ghostwhite;
-    border: solid var(--border-color)  2px;
+    border: solid var(--light-grey) 2px;
+
+    min-width: 0;
+    min-height: 0;
 }
 
-.DOP-T-grid *{
-    box-sizing: border-box;
+.DOP-T-grid table{
+    display: grid;
+    height: 100%;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
 }
 
-.DOP-T-grid th, td{
-    padding: 12px;
+.DOP-T-grid tbody{
+    display: grid;
+    height: fit-content;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
 }
 
 
 .DOP-T-search-container{
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
     padding: 10px;
-    border-radius: 0.2rem;
-    border-bottom: var(--border-color)  solid 2px;
-    background-color: powderblue;
+    border-radius: 0.25rem 0.25rem 0 0;
+    background-color: var(--turqoise);
+    color: var(--white);
+
+    min-width: 0;
+    min-height: 0;
 }
 
 .DOP-T-search-container label{
@@ -190,61 +201,85 @@
 
 /*Stores table headers*/
 .DOP-T-headers-div{
-    background-color: ghostwhite;
+    display: grid;
+    background-color: var(--turqoise);
     font-size: 16px;
-    border-bottom: 1px var(--border-color)  solid;
+    min-height: 0;
+    min-width: 0;
 }
 
-.DOP-T-headers-div table{
-    width: 100%;
+.DOP-tr{
+    background-color: inherit;
     height: 100%;
-    border-collapse: collapse;
-    box-shadow: none !important;
-    border-bottom: 1px solid #ddd;
+    width: 100%;
+    display: grid;
+    min-width: 0;
+    min-height: 0;
+    font-size: 16px;
+    overflow: hidden;
+}
+
+.DOP-tr-selected{
+    background-color: orange;
+    height: 100%;
+    width: 100%;
+    display: grid;
+    min-width: 0;
+    min-height: 0;
+    font-size: 16px;
+    overflow: hidden;
+}
+
+.DOP-th{
+    height: 100%;
+    width: 100%;
+
+    background-color: inherit;
+    border-radius: 0.25rem 0.25rem 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+
+    min-width: 0;
+    min-height: 0;
+    font-size: 14px;
+    padding: 0;
+    margin: 0;
+
+    overflow: hidden;
+}
+
+.DOP-td{
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+
+    min-width: 0;
+    min-height: 0;
+
+    overflow: hidden;
 }
 
 
-/*Stores table rows*/
 .DOP-T-content-div{
+    display: grid;
+    height: 100%;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+
     overflow-y: scroll;
     overflow-x: hidden;
-}
 
-.DOP-T-content-div td{
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-    height: 40px;
-    max-height: 40px;
-    font-size: 14px;
-}
+    scrollbar-width: thin;
+    scrollbar-color: #d9d9d9 rgba(248, 248, 255, 0);
+    scrollbar-arrow-color: rgba(221, 221, 221, 0);
 
-.DOP-T-content-div tr{
-    width: 100%;
-    max-height: 40px;
-    cursor: pointer;
-}
-
-.DOP-T-content-div table{
-    width: 100%;
-    text-align: left;
-    border-collapse: collapse ;
-    background-color: ghostwhite;
-    border-spacing: unset;
-    box-shadow: none;
-}
-
-.DOP-T-content-div th, td {
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-}
-
-
-.DOP-unselected-row:hover{
-    background-color: lightgrey;
-}
-
-.DOP-selected-row{
-    background-color: orange;
 }
 
 .DOP-SP-item p{

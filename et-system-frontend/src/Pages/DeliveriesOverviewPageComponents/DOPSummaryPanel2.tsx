@@ -1,3 +1,4 @@
+import React from "react";
 import {useEffect, useState} from "react";
 
 interface Props {
@@ -38,10 +39,6 @@ const DOPSummaryPanel2 = ( props ) => {
             <div className={'DOP-SP-item'}>
                 <p><b>Actual Item Count:&nbsp;</b> {data.props.actualItemCount} </p>
             </div>
-            <div className={'DOP-SP-item'}>
-                <p><b>Suppliers:&nbsp;</b> {data.props.suppliers}</p>
-            </div>
-
         </div>
     )
 }

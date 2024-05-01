@@ -1,4 +1,4 @@
-
+import React from "react";
 import {useEffect, useState} from "react";
 
 
@@ -48,7 +48,7 @@ const TDPMetaDataWidget = ( {startTime, visible, totalWeight} )=> {
     //Render
     return (
         <div className={"TDP-meta-data-widget"}>
-            <p ><b>Start Time: &nbsp;</b>{startTimeText}</p>
+            <p><b>Start Time: &nbsp;</b>{startTimeText}</p>
             <p><b>Time Elapsed: &nbsp;</b>  {timeElapsedText}</p>
             <p><b>Total Weight (Scanned): &nbsp;</b> {totalWeight + "kg"}</p>
         </div>
