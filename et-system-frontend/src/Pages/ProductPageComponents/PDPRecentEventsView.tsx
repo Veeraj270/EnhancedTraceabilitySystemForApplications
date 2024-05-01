@@ -43,10 +43,9 @@ const PDPRecentEventsView = ( props: PropType ) =>{
             fetchHistory(props.selectedId).then((JSON: any) => {
                 console.log(JSON);
                 genGraph(JSON); //Generate node-link graph based of events data
-            }
-            ).catch((err: Error) => console.log(err))
+            }).catch((err: Error) => console.log(err))
         }
-    }, [ props.selectedId]);
+    }, [props.selectedId]);
 
     //Fetch timeline history
     const fetchHistory = async (id: number): Promise<any> => {
@@ -115,7 +114,7 @@ const PDPRecentEventsView = ( props: PropType ) =>{
         let date = event.timestamp.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/)?.at(0);
         let time = event.timestamp.match(/[0-9]{2}:[0-9]{2}:[0-9]{2}/)?.at(0);
         let eventType = event.type;
-        return `${date}  ${time}  ${eventType}`;
+        return `${eventType} at ${date}, ${time}`;
     }
 
     const renderNodes = () => {
