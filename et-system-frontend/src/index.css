@@ -7,6 +7,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
   min-width: 0;
   min-height: 0;
+
+  /*Defining colors accessible across the board*/
+  --white: #FFFFFF;
+  --turqoise: #3C6E71;
+  --black: #353535;
+  --dark-blue: #284B63;
+  --light-grey: #D9D9D9;
 }
 
 code {

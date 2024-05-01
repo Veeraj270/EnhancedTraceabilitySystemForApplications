@@ -74,27 +74,29 @@ const UpdatedProductsTable = (props : PropTypes) => {
 
     return (
         <div className={'BSP3-products-table-grid'}>
-            <div className={'BSP3-table-title'}>
-                <p>Updated Items</p>
-            </div>
-            <div className={'BSP3-products-table-headers'}>
-                <table>
-                    {table.getHeaderGroups().map(headerGroup => (
-                        <tr key={headerGroup.id}
-                            className={'BSP3-tr'}
-                            style={{gridTemplateColumns: getTemplateColumns(headerGroup)}}
-                        >
-                            {headerGroup.headers.map(header =>
-                                <th
-                                    className={'BSP3-th'}
-                                    key={header.id}>
-                                    {flexRender(header.column.columnDef.header, header.getContext())}
-                                </th>
-                            )
-                            }
-                        </tr>
-                    ))}
-                </table>
+            <div className={'BSP3-upper-wrapper'}>
+                <div className={'BSP3-table-title'}>
+                    <p>Updated Items</p>
+                </div>
+                <div className={'BSP3-products-table-headers'}>
+                    <table>
+                        {table.getHeaderGroups().map(headerGroup => (
+                            <tr key={headerGroup.id}
+                                className={'BSP3-tr'}
+                                style={{gridTemplateColumns: getTemplateColumns(headerGroup)}}
+                            >
+                                {headerGroup.headers.map(header =>
+                                    <th
+                                        className={'BSP3-th'}
+                                        key={header.id}>
+                                        {flexRender(header.column.columnDef.header, header.getContext())}
+                                    </th>
+                                )
+                                }
+                            </tr>
+                        ))}
+                    </table>
+                </div>
             </div>
             <div className={'BSP3-products-table-rows'}>
                 <table>

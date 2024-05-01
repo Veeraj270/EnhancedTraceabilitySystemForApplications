@@ -19,20 +19,19 @@
 }
 
 .PDP-upper-container{
-
     height: fit-content;
+
     display: flex;
     flex-direction: row;
     column-gap: 10px;
-
-    }
+}
 
 .PDP-search-bar-container{
     display: flex;
     flex-direction: row;
     align-items: center;
     height: 50px;
-    background-color: orange;
+    background-color: var(--turqoise);
     padding: 4px;
     width: fit-content;
     border-radius: 0.5rem;
@@ -56,17 +55,20 @@
     min-width: 50px;
     margin-right: 2px;
     border-radius: 0.25rem;
-    border: 1px white solid;
+    border: 2px var(--white) solid;
     cursor: pointer;
+    font-weight: bold;
+    background-color: var(--light-grey);
 }
 
 .PDP-button-selected{
     height: calc(100% - 5px);
+    font-weight: bold;
     min-width: 50px;
     margin-right: 2px;
-    background-color: whitesmoke;
+    background-color: var(--light-grey);
     border-radius: 0.25rem;
-    border: 1px black solid;
+    border: 2px var(--black) solid;
     cursor: pointer;
 }
 
@@ -85,7 +87,7 @@
 
 .PDP-details-view{
     position: absolute;
-    background-color: ghostwhite;
+    background-color: var(--white);
     top: 0;
     height: fit-content;
     max-height: 80vh;
@@ -96,8 +98,7 @@
 
     display: grid;
     row-gap: 8px;
-    border: lightgrey solid 1px;
-
+    border: 2px var(--light-grey) solid ;
 }
 
 .PDP-percentage-widget{
@@ -109,7 +110,7 @@
     border-radius: 0.5rem;
     margin: auto;
     padding: 0px 10px 10px;
-    border: lightgrey solid 1px;
+    border: var(--light-grey) solid 2px;
 }
 
 .PDP-progress-bar-wrapper{
@@ -122,12 +123,14 @@
     font-size: 14px;
     padding: 10px 0;
     justify-content: center;
+    color: var(--black);
 }
 
 .PDP-product-name{
     font-weight: bold;
     font-size: 16px;
     padding-top: 0px;
+    color: var(--black)
 }
 
 .PDP-details {
@@ -147,8 +150,8 @@
     padding: 10px;
     display: flex;
     flex-direction: column;
-    background-color: ghostwhite;
-    border: solid lightgrey 1px;
+    background-color: var(--white);
+    border: solid var(--light-grey) 2px;
     border-radius: 0.5rem;
 }
 
@@ -188,7 +191,8 @@
     cursor: pointer;
 }
 
-.PDP-table thead{
-    background-color: powderblue;
 
+.PDP-th{
+    background-color: var(--turqoise);
+    color: var(--white);
 }
