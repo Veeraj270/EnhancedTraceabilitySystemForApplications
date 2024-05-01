@@ -1,3 +1,4 @@
+/*
 import React from "react";
 import ContractsTable from "./ContractsPageComponents/ContractsTable";
 
@@ -11,3 +12,4 @@ const ContractsPage = () => {
 }
 
 export default ContractsPage
+*/

@@ -1,8 +1,10 @@
+/*
+
 import {useEffect, useMemo, useState} from "react";
 import {flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import React from "react";
 import ContractsModal from "./ContractsModal";
-import "./ContractsTable.css";
+import "./ContractsStyleSheet.css";
 import "./ContractsInterfaces";
 
 const ContractsTable = () => {
@@ -121,4 +123,5 @@ const ContractsTable = () => {
         </div>
     )
 };
-export default ContractsTable;
+*/
+//export default ContractsTable;

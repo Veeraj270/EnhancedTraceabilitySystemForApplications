@@ -1,0 +1,196 @@
+.Contracts-page-content{
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    column-gap: 20px;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    min-width: 0;
+}
+
+.Contracts-column-1{
+    display: grid;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    min-width: 0;
+}
+
+.Contracts-column-2{
+    display: grid;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    min-width: 0;
+}
+
+/*Orders table styling*/
+
+.Contracts-table-grid{
+    display: grid;
+    grid-template-rows: 60px 1fr;
+
+    height: 100%;
+    width: 100%;
+
+    background-color: ghostwhite;
+    box-shadow: 1px 1px 3px var(--shadow-color);
+    border: 2px solid #eae7e7;
+
+    border-radius: 0.5rem;
+    min-width: 0;
+    min-height: 0;
+}
+
+.Contracts-table-grid tbody{
+    display: grid;
+    height: 100%;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+}
+
+.Contracts-table-grid table{
+    display: grid;
+    height: 100%;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+}
+
+
+.Contracts-table-grid tbody{
+    display: grid;
+    height: fit-content;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+}
+
+.Contracts-tr{
+    height: 100%;
+    width: 100%;
+    display: grid;
+    min-width: 0;
+    min-height: 0;
+    font-size: 16px;
+    overflow: hidden;
+}
+
+.Contracts-th{
+    height: 100%;
+    width: 100%;
+
+    background-color: #f3f3ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 0;
+    min-height: 0;
+    font-size: 14px;
+    padding: 0;
+    margin: 0;
+
+    overflow: hidden;
+}
+
+.Contracts-td{
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+
+    min-width: 0;
+    min-height: 0;
+
+    overflow: hidden;
+}
+
+.Contracts-table-header-div{
+    display: grid;
+    height: 100%;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+}
+
+.Contracts-table-rows-div{
+    display: grid;
+    height: 100%;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    scrollbar-width: thin;
+    scrollbar-color: #d9d9d9 rgba(248, 248, 255, 0);
+    scrollbar-arrow-color: rgba(221, 221, 221, 0);
+}
+
+.Contracts-IO-column{
+    display: grid;
+    grid-template-rows: 50px 1fr 0.1fr;
+    column-gap: 10px;
+    height: 100%;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+}
+
+.Contracts-OI-column{
+    display: grid;
+    grid-template-rows: 50px 1fr;
+    column-gap: 10px;
+    height: 100%;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+}
+
+
+.Contracts-IO-button-div{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 10px;
+    height: 100%;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    padding: 10px;
+}
+
+.Contracts-button{
+    font-size: 18px;
+    border: 2px solid #d7d5d5;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.Contracts-button-2{
+    font-size: 13px;
+    border: 2px solid #d7d5d5;
+    border-radius: 0.5rem;
+    width: 100%;
+    height: 100%;
+    padding: 4px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.Contracts-header-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}

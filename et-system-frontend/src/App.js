@@ -19,7 +19,7 @@ import BakingSystemPage2 from "./Pages/BakingSystemPage2";
 import TracePage from "./Pages/TracePage";
 import BakingSystemPage3 from "./Pages/BakingSystemPage3";
 import BakingSystem from "./Pages/BakingSystem";
-import ContractsPage from "./Pages/ContractsPage";
+import ContractsPage from "./Pages/NewContractsPage";
 
 function App() {
     return (

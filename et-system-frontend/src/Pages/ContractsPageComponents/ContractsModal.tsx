@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
 
+/*
+import React, { useState } from 'react';
+import {ModalProps} from "reactstrap";
 import "./ContractsInterfaces"
+
 
 const ContractsModal: React.FC<ModalProps> = ({ contract, onClose }) => {
     const [dates, setDates] = useState(contract.dates);
@@ -95,5 +98,5 @@ const ContractsModal: React.FC<ModalProps> = ({ contract, onClose }) => {
         </div>
     );
 };
-
-export default ContractsModal;
+*/
+//export default ContractsModal;

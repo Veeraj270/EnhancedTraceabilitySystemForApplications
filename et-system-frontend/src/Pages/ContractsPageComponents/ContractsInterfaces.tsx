@@ -30,5 +30,17 @@ type Contract = {
 
 };
 
+export interface Table1Row {
+    id: number
+    client: string
+    date: string
+    duration: string
+}
 
+export interface Table2Row{
+    id: number
+    label: string
+    cost: number
+    quantity: number
+}
 
