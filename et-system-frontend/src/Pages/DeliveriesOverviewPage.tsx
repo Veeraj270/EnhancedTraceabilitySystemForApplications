@@ -118,29 +118,11 @@ const DeliveriesOverviewPage = () => {
         console.log("showDetails()");
     }
 
-    //EVENT HANDLERS
-    //Schedule New Delivery Button
-    const handleClick1 = (event: React.MouseEvent) => {
-        console.log("SCHEDULE NEW DELIVERY button clicked")
-    }
 
-    //Approved Suppliers Dashboard Button
-    const handleClick2 = (event: React.MouseEvent) => {
-        console.log("APPROVED SUPPLIERS DASHBOARD button clicked")
-    }
 
     return (
         <div className='deliveries-overview-page'>
             <h1 className={'DOP-title'}>Deliveries Overview</h1>
-            <div className={'DOP-upper'}>
-                <button onClick={handleClick1}>SCHEDULE NEW DELIVERY</button>
-                <button onClick={handleClick2}>APPROVED SUPPLIERS DASHBOARD</button>
-                <div>
-                    <p>Deliveries Due Today:</p>
-                    <p>Deliveries Processed Today:</p>
-                    <p>Processed Delivery Total:</p>
-                </div>
-            </div>
             <div className={'DOP-grid-container'}>
                 <div className={'dop-grid-column'}>
                     <DOPTable1  setSelected={setSelectedPDelivery}

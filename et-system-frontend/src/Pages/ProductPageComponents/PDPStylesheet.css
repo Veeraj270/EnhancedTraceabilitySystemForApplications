@@ -87,7 +87,7 @@
 
 .PDP-details-view{
     position: absolute;
-    background-color: var(--white);
+    background-color: azure;
     top: 0;
     height: fit-content;
     max-height: 80vh;
