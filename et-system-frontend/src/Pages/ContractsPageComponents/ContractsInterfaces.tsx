@@ -1,21 +1,21 @@
 
 
-type FinalProduct = {
+export interface FinalProduct {
     id: number;
     label: string;
     cost: number;
     quantity: number;
-};
+}
 
-type CustomerOrder = {
+export interface CustomerOrder {
     id: number;
     client: string;
     date: string;
     deliveryDate: string;
     finalProducts: FinalProduct[];
-};
+}
 
-type Contract = {
+export interface Contract{
     id: number;
     client: string;
     duration: string;
@@ -25,7 +25,7 @@ type Contract = {
 
     dates: string[];
 
-};
+}
 
 export interface Table1Row {
     id: number
@@ -41,6 +41,7 @@ export interface Table2Row{
 }
 
 export interface Table3Row{
+    contract: Contract
     date: string
 }
 

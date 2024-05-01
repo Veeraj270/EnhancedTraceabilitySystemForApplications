@@ -1,9 +1,11 @@
 import React, {useMemo} from "react";
 import {Table1Row, Table3Row} from "./COPInterfaces";
 import {flexRender, getCoreRowModel, HeaderGroup, useReactTable} from "@tanstack/react-table";
+import {Contract} from "./ContractsInterfaces";
 
 interface PropTypes{
     table3Data: Table3Row[],
+    order: (contract : Contract, date : String) => Promise<void>
 }
 
 const DatesTable = (props : PropTypes) => {
@@ -21,10 +23,15 @@ const DatesTable = (props : PropTypes) => {
 
     ], [])
 
-    const handleGenClick = (event: React.MouseEvent, row: any) => {
-        const original = row.original as Table1Row;
-        //props.orderDates();
+    const handleOrderClick = (event: React.MouseEvent, row: any) => {
+        const original = row.original as Table3Row;
+        props.order(original.contract, original.date);
+
     }
+
+
+
+
 
     //Table definition
     const table = useReactTable({
@@ -76,13 +83,13 @@ const DatesTable = (props : PropTypes) => {
                             className={'Contract-tr'}
                             style={{gridTemplateColumns: templateColumnStyle}}
                         >
-                            {row.getVisibleCells().map(cell => (
-                                <td key={cell.id}
-                                    className={'Contract-td'}
-                                >
-                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                </td>
-                            ))}
+                            <td className={'Contract-td'}>{row.original.date}</td>
+                            <td className={'Contracts-td'}>
+                                <button
+                                    onClick={(event) => handleOrderClick(event, row)}
+                                    className={'Contracts-button-2'}
+                                ><b>Order</b></button>
+                            </td>
                         </tr>)
                     )}
                     </tbody>
