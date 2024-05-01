@@ -267,6 +267,6 @@ To run this on a different AWS account, you will need to:
 | Matthew | [@matthewcudby22896](https://github.com/matthewCudby22896) |
 | Veeraj  | [@Veeraj270](https://github.com/Veeraj270)                 |
 | Luna    | [@l-Luna](https://github.com/l-Luna)                       |
-| Luna    | [@qc22435](https://github.com/qc22435)                     | 
+| Josif   | [@qc22435](https://github.com/qc22435)                     | 
 
 Under the mentorship of Tom Burt-Gray.

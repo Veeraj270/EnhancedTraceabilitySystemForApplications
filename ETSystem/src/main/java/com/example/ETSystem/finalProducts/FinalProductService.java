@@ -9,6 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -27,8 +28,12 @@ public class FinalProductService {
         return finalProductRepository.findAll();
     }
 
-    public void addNewFinalProduct(FinalProduct finalProduct){
-        finalProductRepository.save(finalProduct);
+    public FinalProduct addNewFinalProduct(FinalProduct finalProduct){
+        if(finalProductRepository.findByLabel(finalProduct.getLabel()).isEmpty()) {
+            return finalProductRepository.save(finalProduct);
+        } else {
+            throw new IllegalArgumentException("Final product with the same label already exists");
+        }
     }
 
     public FinalProduct getFinalProductByID(Long id){
@@ -41,8 +46,7 @@ public class FinalProductService {
     }
 
     public FinalProduct editFinalProduct(Long id, FinalProduct finalProduct){
-        FinalProduct existingFinalProduct = finalProductRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+        FinalProduct existingFinalProduct = getFinalProductByID(id);
         existingFinalProduct.setLabel(finalProduct.getLabel());
         existingFinalProduct.setCost(finalProduct.getCost());
         existingFinalProduct.setRecipe(finalProduct.getRecipe());
@@ -51,7 +55,7 @@ public class FinalProductService {
         return finalProductRepository.save(existingFinalProduct);
     }
 
-    public class IQData{
+    public static class IQData{
         public Long ingredientTypeId;
         public String ingredientName;
         public float quantity;
@@ -60,6 +64,14 @@ public class FinalProductService {
             this.ingredientTypeId = ingredientTypeId;
             this.ingredientName = ingredientName;
             this.quantity = quantity;
+        }
+
+        public boolean equals(Object o){
+            return o == this
+                    || o instanceof IQData other
+                    && other.quantity == quantity
+                    && Objects.equals(ingredientTypeId, other.ingredientTypeId)
+                    && Objects.equals(ingredientName, other.ingredientName);
         }
     }
 
@@ -73,9 +85,6 @@ public class FinalProductService {
 
             if (list.size() == 0){
                 throw new ResponseStatusException(NOT_FOUND, "Unable to find product with label" + FPD.finalProductLabel);
-            }
-            if (list.size() > 1){
-                throw new RuntimeException("Multiple finalProducts with the same label found");
             }
 
             FinalProduct finalProduct = list.get(0);

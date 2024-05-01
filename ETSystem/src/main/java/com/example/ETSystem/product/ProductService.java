@@ -27,24 +27,8 @@ public class ProductService{
 		return productRepository.findAll();
 	}
 
-	public void addNewProduct(Product product){
-		productRepository.save(product);
-	}
-
-	public List<Product> getProductIntermediaries(long id){
-		// Return all (transitive) intermediaries of this product
-		List<Product> intermediaries = new ArrayList<>();
-		productRepository.findById(id).ifPresent(product -> recursiveSearch(product, intermediaries, null));
-		return intermediaries;
-	}
-
-	public void recursiveSearch(Product product, List<Product> intermediaries, Product parent){
-		for(long id : product.getIntermediaryIds())
-			productRepository.findById(id).ifPresent(value -> recursiveSearch(value, intermediaries, product));
-
-		intermediaries.add(product);
-		if(parent != null)
-			product.setParentID(parent.getId());
+	public Product addNewProduct(Product product){
+		return productRepository.save(product);
 	}
 
 	public List<TimelineData> getProductHistory(long id){

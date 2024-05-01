@@ -2,12 +2,15 @@ package com.example.ETSystem.bakingSystem;
 
 import com.example.ETSystem.customerOrders.CustomerOrder;
 import com.example.ETSystem.customerOrders.CustomerOrderRepository;
+import com.example.ETSystem.customerOrders.CustomerOrderService;
 import com.example.ETSystem.finalProducts.FinalProduct;
 import com.example.ETSystem.finalProducts.FinalProductRepository;
+import com.example.ETSystem.finalProducts.FinalProductService;
 import com.example.ETSystem.ingredientType.IngredientType;
 import com.example.ETSystem.ingredientType.IngredientTypeRepository;
 import com.example.ETSystem.product.Product;
 import com.example.ETSystem.product.ProductRepository;
+import com.example.ETSystem.product.ProductService;
 import com.example.ETSystem.timeline.CreateEvent;
 import com.example.ETSystem.timeline.TimelineService;
 import com.example.ETSystem.timeline.UseEvent;
@@ -23,22 +26,24 @@ import java.util.Set;
 
 @Component
 public class BakingSystemService {
-    private final ProductRepository productRepository;
+    private final ProductService productService;
     private final TimelineService timelineService;
+    private final FinalProductService finalProductService;
     private final IngredientTypeRepository iTypeRepository;
-    private final FinalProductRepository finalProductRepository;
-    private final CustomerOrderRepository customerOrderRepository;
+    private final CustomerOrderService customerOrderService;
 
     //The iType for baked products that consist of multiple other products
     private IngredientType compositeIType = new IngredientType("composite", false, false, Set.of());
 
     @Autowired
-    public BakingSystemService(ProductRepository productRepository, TimelineService timelineService, IngredientTypeRepository iTypeRepository, FinalProductRepository finalProductRepository, CustomerOrderRepository customerOrderRepository){
-        this.productRepository = productRepository;
+    public BakingSystemService(ProductService productService, TimelineService timelineService, IngredientTypeRepository iTypeRepository,
+                               FinalProductService finalProductService,
+                               CustomerOrderService customerOrderService){
+        this.productService = productService;
         this.timelineService = timelineService;
+        this.finalProductService = finalProductService;
+        this.customerOrderService = customerOrderService;
         this.iTypeRepository = iTypeRepository;
-        this.finalProductRepository = finalProductRepository;
-        this.customerOrderRepository = customerOrderRepository;
 
         //Check if composite iType has been added to the database
         List<IngredientType> res = iTypeRepository.findByName("composite");
@@ -46,20 +51,13 @@ public class BakingSystemService {
         if (res.isEmpty()){
             //If not, add it
             compositeIType = iTypeRepository.save(compositeIType);
-        } else if(res.size() > 1){
-            throw new RuntimeException("Multiple composite ingredient types found in the database.");
         } else {
             compositeIType = res.get(0);
         }
     }
 
     public void useProduct(long id, float newQuantity, List<Product> producedProducts, String location, Float quantityUsed, String userResponsible) throws RuntimeException{
-        Optional<Product> optional = productRepository.findById(id);
-        if (optional.isEmpty()){
-            throw new RuntimeException("Product with id " + id + " not found.");
-        }
-
-        Product eventOwner = optional.get();
+        Product eventOwner = productService.getProductByID(id);
 
         //Create a useEvent for the eventOwner
         UseEvent useEvent = new UseEvent(
@@ -78,7 +76,7 @@ public class BakingSystemService {
         eventOwner.setCurrentQuantity(newQuantity);
 
         //Save the updated product
-        productRepository.save(eventOwner);
+        productService.addNewProduct(eventOwner);
     }
 
     @Transactional
@@ -94,7 +92,7 @@ public class BakingSystemService {
         );
 
         //Save the new product
-        product = productRepository.save(product);
+        product = productService.addNewProduct(product);
 
         //Create the createEvent for the new product
         CreateEvent createEvent = new CreateEvent(
@@ -129,13 +127,8 @@ public class BakingSystemService {
 
         for (BakedProduct bakedProduct : bakedProducts){
             for (int i = 0; i < bakedProduct.amount(); i ++){
-                //Find the associated final product
-                FinalProduct finalProduct = finalProductRepository.findById(bakedProduct.finalProductId())
-                        .orElseThrow(() -> new RuntimeException("Final product with id " + bakedProduct.finalProductId() + " not found."));
-
-                //Check that the associated customerOrder exists
-                CustomerOrder customerOrder = customerOrderRepository.findById(bakedProduct.customerOrderId())
-                        .orElseThrow(() -> new RuntimeException("Customer order with id " + bakedProduct.customerOrderId() + " not found."));
+                FinalProduct finalProduct = finalProductService.getFinalProductByID(bakedProduct.finalProductId);
+                CustomerOrder customerOrder = customerOrderService.getCustomerOrderByID(bakedProduct.customerOrderId);
 
                 //Create the new product based of the finalProduct
                 newlyAddedProducts.add(bakeProduct(finalProduct, ingredientIDs, bpStruct.location(), bpStruct.userResponsible(), customerOrder));

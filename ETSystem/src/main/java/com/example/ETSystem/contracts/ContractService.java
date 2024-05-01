@@ -3,8 +3,11 @@ package com.example.ETSystem.contracts;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 
 @Component
@@ -21,22 +24,21 @@ public class ContractService {
         return contractRepository.findAll();
     }
 
-    public void addNewContract(Contract contract){
-        contractRepository.save(contract);
+    public Contract addNewContract(Contract contract){
+        return contractRepository.save(contract);
     }
 
-    public Contract getContractByID(Long id) throws Exception {
+    public Contract getContractByID(Long id){
         if(contractRepository.findById(id).isPresent()){
             return contractRepository.findById(id).get();
         }
         else{
-            throw new Exception("Unable to find contract");
+            throw new ResponseStatusException(NOT_FOUND, "Unable to find product");
         }
     }
 
     public Contract editContract(Long id, Contract contract){
-        Contract existingContract = contractRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Contract not found with id: " + id));
+        Contract existingContract = getContractByID(id);
         existingContract.setClient(contract.getClient());
         existingContract.setDuration(contract.getDuration());
         existingContract.setFrequency(contract.getFrequency());

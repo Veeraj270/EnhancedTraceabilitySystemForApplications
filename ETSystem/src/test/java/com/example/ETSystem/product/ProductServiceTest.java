@@ -1,5 +1,7 @@
 package com.example.ETSystem.product;
 
+import com.example.ETSystem.customerOrders.CustomerOrder;
+import com.example.ETSystem.customerOrders.CustomerOrderService;
 import com.example.ETSystem.ingredientType.IngredientType;
 import com.example.ETSystem.ingredientType.IngredientTypeRepository;
 import com.example.ETSystem.timeline.TimelineService;
@@ -12,11 +14,16 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -26,14 +33,17 @@ public class ProductServiceTest {
     private ProductService productService;
     private final IngredientTypeRepository ingredientTypeRepository;
 
+    private final CustomerOrderService customerOrderService;
+
     @Mock
     private TimelineService timelineService;
 
     @Autowired
-    public ProductServiceTest(ProductRepository productRepository, IngredientTypeRepository ingredientTypeRepository){
+    public ProductServiceTest(ProductRepository productRepository, IngredientTypeRepository ingredientTypeRepository, final CustomerOrderService customerOrderService){
         this.productRepository = productRepository;
         this.productService = new ProductService(productRepository, timelineService);
         this.ingredientTypeRepository = ingredientTypeRepository;
+        this.customerOrderService = customerOrderService;
     }
 
     @BeforeEach
@@ -116,4 +126,80 @@ public class ProductServiceTest {
         assert(allergens.size() == 2);
         assert(allergens.containsAll(List.of("milk", "egg")));
     }
+
+    @Test
+    @Transactional
+    public void testGetProductByID(){
+        IngredientType flour = new IngredientType("flour", true, true, Set.of());
+
+        Product flourProduct = productService.addNewProduct(new Product("product", flour));
+        Long flourProductID = flourProduct.getId();
+
+        assertEquals(flourProduct, productService.getProductByID(flourProductID));
+        // There is just 1 product so there is no product with id 100
+        assertThrows(ResponseStatusException.class, () -> productService.getProductByID(100L));
+    }
+
+    @Test
+    @Transactional
+    public void testConstructors(){
+
+        IngredientType ing = new IngredientType("ing", true, true, Set.of());
+        ingredientTypeRepository.save(ing);
+
+        CustomerOrder order = new CustomerOrder("Client", ZonedDateTime.now(), ZonedDateTime.now(), List.of());
+        customerOrderService.addNewCustomerOrder(order);
+
+        Product p1 = productService.addNewProduct(new Product("p1"));
+        Product p2 = productService.addNewProduct(new Product("p2"));
+        Product p3 = productService.addNewProduct(new Product("p3", 10F, List.of(p1.getId())));
+        Product p4 = productService.addNewProduct(new Product("p4", 10F, 10F));
+        Product p5 = productService.addNewProduct(new Product("p5", 10F, 10F, ing));
+        Product p6 = productService.addNewProduct(new Product("10011", "p6", 10F, 10F, List.of(p1.getId()), ing));
+        Product p7 = productService.addNewProduct(new Product("p7", 10F, 10F, List.of(p1.getId()), ing, order));
+        Product p8 = productService.addNewProduct(new Product("p8", ing, List.of(p1.getId())));
+        Product p9 = productService.addNewProduct(new Product("p9", ing));
+
+        // Test getProducts()
+        assertEquals(productService.getProducts(), productRepository.findAll());
+        assertEquals(productService.getProducts(), List.of(p1, p2, p3, p4, p5, p6, p7, p8, p9));
+
+    }
+
+    @Test
+    @Transactional
+    public void testEditProduct(){
+
+        Product parentProduct = productService.addNewProduct(new Product("Parent"));
+        Product inter1 = productService.addNewProduct(new Product("Inter1"));
+        Product inter2 = productService.addNewProduct(new Product("Inter2"));
+
+        // Added the product to database
+        Product product = productService.addNewProduct(new Product("Old Product", 50, 50));
+
+        // Changed the Product
+        product.setLabel("New Product");
+        product.setCurrentQuantity(10);
+        product.setMaxQuantity(10);
+        product.setParentID(parentProduct.getId());
+        // Make sure a mutable list is set otherwise it gives an error
+        product.setIntermediaryIds(new ArrayList<>(List.of(inter1.getId(), inter2.getId())));
+
+        productService.editProduct(product.getId(), product);
+        // Check if the Product is changed in the database
+        assertEquals(productService.getProductByID(product.getId()), product);
+
+    }
+
+    @Test
+    @Transactional
+    public void testGetProductIntermediaries(){
+        Product inter1 = productService.addNewProduct(new Product("Inter1"));
+        Product inter2 = productService.addNewProduct(new Product("Inter2", 10, List.of(inter1.getId())));
+        Product inter3 = productService.addNewProduct(new Product("Inter3", 10, List.of(inter1.getId())));
+
+        Product product = productService.addNewProduct(new Product("Product", 10, List.of(inter2.getId(), inter3.getId())));
+
+    }
+
 }

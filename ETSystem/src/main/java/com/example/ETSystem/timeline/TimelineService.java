@@ -32,10 +32,6 @@ public class TimelineService{
 		);
 	}
 	
-	public Stream<TimelineEvent> findAllSorted(){
-		return findAll().sorted(Comparator.comparing(TimelineEvent::getTimestamp));
-	}
-	
 	public Stream<TimelineEvent> findAllByProduct(Product p){
 		return findAll().filter(x -> Objects.equals(x.getOwner(), p));
 	}
