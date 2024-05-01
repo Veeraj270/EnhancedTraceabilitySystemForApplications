@@ -48,7 +48,7 @@ const GeneratedCustomerOrdersTable = (props : PropTypes) => {
                     {table.getHeaderGroups().map(headerGroup => (
                         <tr key={headerGroup.id}
                             className={'Contract-tr'}
-                            style={{gridTemplateColumns: getTemplateColumns(headerGroup)}}
+                            style={{gridTemplateColumns: templateColumnStyle}}
                         >
                             {headerGroup.headers.map(header =>
                                 <th
