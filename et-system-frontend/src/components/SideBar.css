@@ -1,5 +1,4 @@
 
-
 .menu-bar{
     margin-left: 2rem;
     font-size: 2rem;
@@ -53,8 +52,6 @@
     background-color: steelblue;
 }
 
-
-
 .SB-title-div{
     display: flex;
     flex-direction: column;
@@ -74,5 +71,4 @@
     padding-top: 10px;
     font-weight: bolder;
     font-size: 30px;
-
 }

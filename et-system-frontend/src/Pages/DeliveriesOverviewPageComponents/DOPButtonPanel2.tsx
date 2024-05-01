@@ -1,10 +1,9 @@
 import React from "react";
 
-// @ts-ignore
 const DOPButtonPanel2 = () => {
     //Event Handlers
     const handleClick = (event: React.MouseEvent) => {
-        console.log('DETAILS')
+
     }
 
     return (
