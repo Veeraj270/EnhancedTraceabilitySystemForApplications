@@ -40,3 +40,7 @@ export interface Table2Row{
     quantity: number
 }
 
+export interface Table3Row{
+    date: string
+}
+

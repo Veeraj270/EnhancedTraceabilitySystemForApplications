@@ -1,61 +1,35 @@
-import {
-    useReactTable,
-    getCoreRowModel,
-    flexRender, HeaderGroup,
-} from '@tanstack/react-table';
-import { useEffect, useMemo, useState } from "react";
-import React from 'react';
-import {Table1Row} from "./ContractsInterfaces";
+import React, {useMemo} from "react";
+import {Table1Row, Table3Row} from "./COPInterfaces";
+import {flexRender, getCoreRowModel, HeaderGroup, useReactTable} from "@tanstack/react-table";
 
-interface PropTypes {
-    table1Data: Table1Row[]
-    genOrder: (orderID: number) => void
-
+interface PropTypes{
+    table3Data: Table3Row[],
     orderDates: () => void
 }
 
-const ContractsTable = (props : PropTypes) => {
-    //Column definitions
+const DatesTable = (props : PropTypes) => {
     const columns = useMemo(() => [
         {
-            header: "Client",
-            accessorKey: "client",
-            size: 20
-        },
-        {
-            header: "Duration",
-            accessorKey: "duration",
-            size: 20
-        },
-        {
-            header: "Frequency",
-            accessorKey: "frequency",
+            header: "Date",
+            accessorKey: "date",
             size: 20
         },
         {
             header: "",
-            accessorKey: "products",
+            accessorKey: "order",
             size: 20
         },
-        {
-            header:"",
-            accessorKey: "dates",
-            size: 20
-        }
 
     ], [])
 
-
-    //Click handlers
-
     const handleGenClick = (event: React.MouseEvent, row: any) => {
         const original = row.original as Table1Row;
-        props.genOrder(original.id);
+        props.orderDates();
     }
 
     //Table definition
     const table = useReactTable({
-        data: props.table1Data,
+        data: props.table3Data,
         columns: columns,
         getCoreRowModel: getCoreRowModel(),
     });
@@ -71,20 +45,20 @@ const ContractsTable = (props : PropTypes) => {
 
     const templateColumnStyle = getTemplateColumns(table.getHeaderGroups()[0]);
 
-    //Render the table
+    //Render table
     return (
-        <div className={'Contracts-table-grid'}>
-            <div className={'Contracts-table-header-div'}>
+        <div className={'Contract-table-grid'}>
+            <div className={'Contract-table-header-div'}>
                 <table>
                     <thead>
                     {table.getHeaderGroups().map(headerGroup => (
                         <tr key={headerGroup.id}
-                            className={'Contracts-tr'}
+                            className={'Contract-tr'}
                             style={{gridTemplateColumns: getTemplateColumns(headerGroup)}}
                         >
                             {headerGroup.headers.map(header =>
                                 <th
-                                    className={'Contracts-th'}
+                                    className={'Contract-th'}
                                     key={header.id}>
                                     {flexRender(header.column.columnDef.header, header.getContext())}
                                 </th>
@@ -95,30 +69,28 @@ const ContractsTable = (props : PropTypes) => {
                     </thead>
                 </table>
             </div>
-            <div className={'Contracts-table-rows-div'}>
+            <div className={'Contract-table-rows-div'}>
                 <table>
                     <tbody>
                     {table.getCoreRowModel().rows.map(row => (
                         <tr key={row.id}
-                            className={'Contracts-tr'}
+                            className={'Contract-tr'}
                             style={{gridTemplateColumns: templateColumnStyle}}
                         >
-                            <td className={'Contracts-td'}>{row.original.client}</td>
-                            <td className={'Contracts-td'}>{row.original.duration}</td>
-                            <td className={'Contracts-td'}>{row.original.frequency}</td>
-                            <td className={'Contracts-td'}>
-                                <button
-                                    onClick={(event) => {handleGenClick(event, row)}}
-                                    className={'Contracts-button-2'}
-                                ><b>See Dates</b></button>
-                            </td>
+                            {row.getVisibleCells().map(cell => (
+                                <td key={cell.id}
+                                    className={'Contract-td'}
+                                >
+                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                </td>
+                            ))}
                         </tr>)
                     )}
                     </tbody>
                 </table>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default ContractsTable;
+export default DatesTable;
