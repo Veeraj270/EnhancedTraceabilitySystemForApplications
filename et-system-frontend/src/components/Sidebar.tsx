@@ -6,8 +6,9 @@ import React from "react";
 const Sidebar = () => {
     return (
         <nav className='side-bar-menu'>
-            <h2>Cakesmiths</h2>
-            <h3>Enhanced Traceability System</h3>
+            <div className={"SB-title-div"}>
+                <p>ENHANCED TRACEABILITY SYSTEM</p>
+            </div>
 
             {SideBarData.map((item, index) => {
                 return (

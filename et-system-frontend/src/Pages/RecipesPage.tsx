@@ -49,10 +49,10 @@ const RecipesPage = () => {
     }
 
     return (
-        <div className='recipe-page'>
-            <h1 className={'RP-title'}>Recipes</h1>
+        <div className='page-container'>
+            <h1>Recipes</h1>
             <div className={'RP-grid-container'}>
-                <div className={'RP-grid-column'}>
+                <div className={'RP-grid-column-1'}>
                     <RecipeTable
                         setSelectedRow={setSelectedRecipeID}
                         selectedRow={selectedRecipeID}
