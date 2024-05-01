@@ -118,8 +118,6 @@ const DeliveriesOverviewPage = () => {
         console.log("showDetails()");
     }
 
-
-
     return (
         <div className='deliveries-overview-page'>
             <h1 className={'DOP-title'}>Deliveries Overview</h1>
